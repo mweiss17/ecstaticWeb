@@ -24,17 +24,32 @@ def index(request):
     })
     return HttpResponse(template.render(context))
 
-	#conn = S3Connection('<AKIAIC27KBAMV4JLB2CQ>', '<sCJ4UkJ4kBszPymJeLxmeTj6H6UmY8zrL0uvOa9+>')
-	#bucket = conn.create_bucket('mybucket')
-
 def form(request):
     template = loader.get_template('form.html')
     context = {}
     return render(request, 'form.html', context)
 
 def userauth(request):
-#    auth = get_object_or_404(User, pk=1)
     context={'user' : request.user, 'pw' : request.POST}
     return render(request, 'userauth.html/', context)
 
+def future(request):
+    context = {}
+    return render(request, 'index_future.html', context)
+
+def become(request):
+    context = {}
+    return render(request, 'index_join_become.html', context)
+
+def participate(request):
+    context = {}
+    return render(request, 'index_join_participate.html', context)
+
+def jointhesquad(request):
+    context = {}
+    return render(request, 'index_jointhesquad.html', context)
+
+def whatissds(request):
+    context = {}
+    return render(request, 'index_whatissds.html', context)
 

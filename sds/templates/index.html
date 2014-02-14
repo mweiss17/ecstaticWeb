@@ -8,12 +8,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="shortcut icon" href="http://getbootstrap.com/docs-assets/ico/favicon.png">
 <title>SDS</title>
-
 <link href="/static/css/bootstrap.css" rel="stylesheet">
-<link rel="stylesheet" href="/static/css/examples.css" />
-<link rel="stylesheet" type="text/css" href="/static/css/demo.css"/>
+<link rel="stylesheet" href="static/css/styles.css"/>
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
@@ -26,142 +23,159 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
     </div>
     <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="#">What is SDS</a></li>
-        <li><a href="#">Silent Disco Squad</a></li>
-        <li><a href="#">Join the Squad</a></li>
+    <ul class="nav navbar-nav">
+         <li><a href="/whatissds.html">What is SDS</a></li>
+         <li><a href="/" class="logo"></a></li>
+        <li><a href="/jointhesquad.html">Join the Squad</a></li>
       </ul>
     </div>
     <!--/.navbar-collapse --> 
   </div>
 </div>
-
 <br class="clear">
-
- <div class="navbar navbar-fixed-top searchbar">
-      <div class="container">
-       <select class="dropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>
-        <option value="1">Browse city</option>
-        <option value="2">Montreal</option>
-        <option value="3">New-York City</option>
-        <option value="4">Toronto</option>
-      </select>
-      </div>
-    </div>
-
- <div class="top-sep">
- </div>
- 
-
-<div class="jumbotron">
+<div class="navbar navbar-fixed-top searchbar">
   <div class="container">
-{% if latest_poll_list %}
-    {% for poll in latest_poll_list %}
-        <ul>
-    <li>
-
-        <a href="{{ poll.url }}">{{ poll.url }}</a>
-        <br>
-        <img src="{{poll.url}}" alt="some_text" width="500" height="296">
-            </li>
-    </ul>
-
-    {% endfor %}
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
-    <p><a class="btn btn-primary btn-lg" role="button">Learn more »</a></p>
+    <select class="dropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>
+      <option value="1">Browse city</option>
+      <option value="2">Montreal</option>
+      <option value="3">New-York City</option>
+      <option value="4">Toronto</option>
+    </select>
+     <div class="controls">
+      <h3>Filter Controls</h3>
+      <ul>
+        <li class="filter" data-filter="all">Show All</li>
+        <li class="filter" data-filter="category_1">Category 1</li>
+        <li class="filter" data-filter="category_2">Category 2</li>
+        <li class="filter" data-filter="category_3">Category 3</li>
+        <li class="filter" data-filter="category_3 category_1">Category 1 &amp; 3</li>
+      </ul>
+    </div>
+    
   </div>
 </div>
 
-</div>
-<!-- /container --> 
-</div>
 
-<div class="create">
-   Click here to create a Silent Disco Squad
-</div>
-<div id="pointed">
-    PAST SILENT DISCOS
-</div>
 
-<div class="jumbotron">
-  <div class="container">
-    <h1>Hello, world!</h1>
-    <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+<div class="section" id="section1">
+  <div class="slide">
+<div class="top-sep"> </div>
 
+<ul id="Grid">
+  <li class="mix category_1" data-cat="1">
+    <div class="sds-details"><br/>
+      <div id="countbox"></div>
+      <br/>
+      Artic Jamboree<br/>
+      Montreal </div>
+    <a href="index_future.html">
+    <button type="button" class="btn email">Join Now</button>
+    </a> </li>
+    
+  <li class="mix category_3" data-cat="3">
+    <div class="sds-details"><br/>
+      <div id="countbox"></div>
+      <br/>
+      Artic Jamboree<br/>
+      Montreal </div>
+  </li>
+  
+  <li class="mix category_2" data-cat="2">
+    <div class="sds-details"><br/>
+      <div id="countbox"></div>
+      <br/>
+      Artic Jamboree<br/>
+      Montreal </div>
+    <a href="index_past.html">
+    <button type="button" class="btn email">Join Now</button>
+    </a> </li>
+    
+  <li class="mix category_2" data-cat="2">
+    <div class="sds-details"><br/>
+      <div id="countbox"></div>
+      <br/>
+      Artic Jamboree<br/>
+      Montreal </div>
+    <a href="index_past.html">
+    <button type="button" class="btn email">Join Now</button>
+    </a> </li>
+    
+  <li class="mix category_2" data-cat="2">
+    <div class="sds-details"><br/>
+      <div id="countbox"></div>
+      <br/>
+      Artic Jamboree<br/>
+      Montreal </div>
+    <a href="index_past.html">
+    <button type="button" class="btn email">Join Now</button>
+    </a> </li>
+    
+  <li class="gap"></li>
+  <!-- "gap" elements fill in the gaps in justified grid -->
+</ul>
+
+
+<div class="create"> Click here to create a Silent Disco Squad </div>
+<div id="pointed"> PAST SILENT DISCOS </div> 
+  
+</div>
+  </div>
+  
+<div class="section" id="section2">
+<div id="pointed2"></div>
+ 
+  <div class="slide">
+  <div class="top-sep"> </div>
+    <div class="container">
+     <div class="item">Hello</div>
+     <div class="item">Hello</div>
+     <div class="item">Hello</div>
+     <div class="item">Hello</div>
+     <div class="item">Hello</div>
+     <div class="item">Hello</div>
+     <div class="item">Hello</div>
+     <div class="item">Hello</div>
   </div>
 </div>
 
 
 <div class="footer">
   <div class="container">
-   <ul class="nav navbar-nav">
-        <li><a href="#">Organizer's Login</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
+    <ul class="nav navbar-nav">
+      <li><a href="#">Organizer's Login</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
   </div>
- 
-  </div>
-  </div>
-  <footer>
-    © Silent Disco Squad 2013
-  </footer>
-  
+</div>
+</div>
+<footer> © Silent Disco Squad 2013 </footer>
 
-<!--<div id="basic">
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-  
-  </div>-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> 
-<script src="/static/js/jquery.easydropdown.js"></script> 
-<script src="/static/js/bootstrap.min.js"></script> 
-<script src="/static/js/masonry.js"></script> 
-<script src="/static/js/jquery.inview.js"></script>
-<script>
-docReady( function() {
-  var container = document.querySelector('#basic');
-  var msnry = new Masonry( container, {
-    columnWidth: 60
-  });
-});
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script> 
+<script src="static/js/jquery.easydropdown.js"></script> 
+<script src="static/js/bootstrap.min.js"></script> 
+<script src="static/js/jquery.mixitup.js"></script> 
+<script type="text/javascript">
+			$(function(){
+				$('#Grid').mixitup();
+			});	
+			
+			$(document).ready(function() {
+			$.fn.fullpage({
+			});
+		});
 </script>
 
-<script>
-  $(function() {
-    $('img[data-src]').live('inview', function(event, isVisible) {
-      if (!isVisible) { return; }
-      
-      var img = $(this);
-      
-      // Show a smooth animation
-      img.css('opacity', 0);
-      img.load(function() { img.animate({ opacity: 1 }, 500); });
-      
-      // Change src
-      img.attr('src', img.attr('data-src'));
-      
-      // Remove it from live event selector
-      img.removeAttr('data-src');
-    });
-  });
-</script>
+<script type="text/javascript" src="/static/js/jquery.fullPage.js"></script> 
+<script type="text/javascript">
+		
+	</script> 
+
+
 </body>
 </html>
