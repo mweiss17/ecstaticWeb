@@ -1,0 +1,1 @@
+print request.GET['username'] 
