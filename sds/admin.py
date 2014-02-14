@@ -1,4 +1,7 @@
 from django.contrib import admin
-from sds.models import Photos
+from sds.models import Photos, Events
 
-admin.site.register(Photos)
+class PhotosAdmin(admin.ModelAdmin):
+	list_display = ('url', 'user_id')
+
+admin.site.register(Photos, PhotosAdmin)
