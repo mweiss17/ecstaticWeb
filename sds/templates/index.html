@@ -64,54 +64,42 @@
   <div class="slide">
 <div class="top-sep"> </div>
 
+<!--{% if latest_poll_list %}
+    {% for poll in latest_poll_list %}
+        <ul>
+    <li>
+
+        <a href="{{ poll.url }}">{{ poll.url }}</a>
+        <br>
+        <img src="{{poll.url}}" alt="some_text" width="500" height="296">
+            </li>
+    </ul>
+
+    {% endfor %}
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}-->
+
+
 <ul id="Grid">
-  <li class="mix category_1" data-cat="1">
-    <div class="sds-details"><br/>
+
+{% if latest_poll_list %}
+    {% for poll in latest_poll_list %}
+
+  <li class="mix category_1" data-cat="1" style="background: url({{poll.url}}); background-size: cover;">
+    <div class="sds-details">        
+    <br/>
       <div id="countbox"></div>
       <br/>
       Artic Jamboree<br/>
-      Montreal </div>
-    <a href="index_future.html">
+      Montreal       
+</div>
+    <a href="/future.html">
     <button type="button" class="btn email">Join Now</button>
     </a> </li>
-    
-  <li class="mix category_3" data-cat="3">
-    <div class="sds-details"><br/>
-      <div id="countbox"></div>
-      <br/>
-      Artic Jamboree<br/>
-      Montreal </div>
-  </li>
-  
-  <li class="mix category_2" data-cat="2">
-    <div class="sds-details"><br/>
-      <div id="countbox"></div>
-      <br/>
-      Artic Jamboree<br/>
-      Montreal </div>
-    <a href="index_past.html">
-    <button type="button" class="btn email">Join Now</button>
-    </a> </li>
-    
-  <li class="mix category_2" data-cat="2">
-    <div class="sds-details"><br/>
-      <div id="countbox"></div>
-      <br/>
-      Artic Jamboree<br/>
-      Montreal </div>
-    <a href="index_past.html">
-    <button type="button" class="btn email">Join Now</button>
-    </a> </li>
-    
-  <li class="mix category_2" data-cat="2">
-    <div class="sds-details"><br/>
-      <div id="countbox"></div>
-      <br/>
-      Artic Jamboree<br/>
-      Montreal </div>
-    <a href="index_past.html">
-    <button type="button" class="btn email">Join Now</button>
-    </a> </li>
+        {% endfor %}
+{% endif %}
+
     
   <li class="gap"></li>
   <!-- "gap" elements fill in the gaps in justified grid -->
