@@ -1,10 +1,14 @@
 from django.http import HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404
-from sds.models import Photos
+from django.shortcuts import *
+from sds.models import Photos, Music, Events
 from django.template import RequestContext, loader
 from boto.s3.connection import S3Connection
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.views.generic import FormView
+from django.core.urlresolvers import reverse
+from django.forms.models import modelformset_factory
+import pprint 
 
 
 def test(request):
@@ -33,9 +37,20 @@ def userauth(request):
     context={'user' : request.user, 'pw' : request.POST}
     return render(request, 'userauth.html/', context)
 
+
 def future(request):
+    MusicFormSet = modelformset_factory(Music)
     context = {}
-    return render(request, 'index_future.html', context)
+    message = "Thanks for submitting your song!"
+    if request.method == 'POST':
+        formset = MusicFormSet(request.POST, request.FILES)
+        if formset.is_valid():
+            context = {'success': message, 'formset': formset}
+            formset.save()
+    else:
+        formset = MusicFormSet()
+        context = {'formset': formset}
+    return render_to_response('index_future.html', context, context_instance=RequestContext(request))
 
 def become(request):
     context = {}
@@ -52,4 +67,13 @@ def jointhesquad(request):
 def whatissds(request):
     context = {}
     return render(request, 'index_whatissds.html', context)
+
+def handle_uploaded_file(f):
+    raise ValueError (pprint.pformat(f.name))
+    with open(f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+
+
 

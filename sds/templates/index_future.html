@@ -1,7 +1,6 @@
 {% include "header.html" %}
 <div class="top-sep"> </div>
 
-HELLO
 <div class="city">
   <div class="container">
   Montreal
@@ -52,20 +51,30 @@ HELLO
     
       <div class="col-md-1"></div>
     <div class="col-md-6"><p></p>
-    <form>
-								
-								<input placeholder="Enter your email" type="text" />
-                                
-                                <input placeholder="Submit a link to a song" class="submit-song" type="text" />  <span class="submit-or">or</span>
-                                
-                                <div class="btn upload" placeholder="Upload a song" type="text"/>Upload a Song</div>
-                                
-                                 <textarea placeholder="What is your intention (optional)?" id="regularTextarea"></textarea>
-										
-								<button type="submit" class="btn sendsong">Submit Form</button>
-							</form></div>
-  </div>
+    {% if success %}
+    {{ success}}
+    {% endif %}
+
+      <form method="post" action=".">
+      {% csrf_token %}
+      {{ formset }}
+      <button type="submit" class="btn sendsong">Submit Form</button>
+      </form>
+
+
+      <!--form method="post" action="/future.html/">
+      {% csrf_token %}
+        <input placeholder="Enter your email" name="email" value="" type="text" />
+        <input placeholder="Submit a link to a song" name='songname'class="submit-song" type="text" />  <span class="submit-or">or</span>
+        <input class="btn upload" name='songfile' placeholder="Upload a song" type="file"/>Upload a Song</div>
+        <textarea name='intention' placeholder="What is your intention (optional)?" id="regularTextarea"></textarea>
+        <button type="submit" class="btn sendsong">Submit Form</button>
+        
+      </form-->
+
 </div>
+</div>
+
 
 
 <div class="container organizer">
