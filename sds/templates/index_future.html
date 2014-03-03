@@ -1,37 +1,64 @@
 {% include "header.html" %}
+<script type="text/javascript">
+
+    var timer;
+    secondsLeft = {{ eta }};
+
+    function showRemaining() {
+        secondsLeft = secondsLeft - 1;
+        var days = Math.floor( secondsLeft / 86400);
+        var hours = Math.floor( (secondsLeft / 3600) % 24);
+        var minutes = Math.floor(( secondsLeft / 60) % 60);
+        var seconds = Math.floor( secondsLeft % 60);
+
+        if (secondsLeft == 1) {
+            //clearInterval(timer);
+            document.getElementById('countdown').innerHTML = 'WOOOOOOOOOOT!';
+            window.location.assign('http://silentdiscosquad.com/stream/stream.php');
+            return;
+        }
+
+        document.getElementById('countdown').innerHTML = days + 'days ';
+        document.getElementById('countdown').innerHTML += hours + 'hrs ';
+        document.getElementById('countdown').innerHTML += minutes + 'mins ';
+        document.getElementById('countdown').innerHTML += seconds + 'secs';
+    }
+    timer = setInterval(showRemaining, 1000);
+</script>
+
+
 <div class="top-sep"> </div>
 
 <div class="city">
   <div class="container">
-  Montreal
+  {{ event.city }}
   </div>  
 </div>
 
 <div class="countdown-banner-img">
   <div class="container">
-  <span class="event-title">Silent Disco on Ice - Artic Jamboree</span><br>
-  <span class="event-countdown">4 Days, 5 hours, 6 min, 5 sec</span>
+  <span class="event-title">{{event.title}}</span><br>
+  <div class="event-countdown" id="countdown">  </div>
   </div>  
 </div>
 
    
     <div class="share-past">
      <p>Share this Silent Disco Squad</p>
-	<button type="button" class="btn fb">Facebook</button>  
-    <button type="button" class="btn twitter">Twitter</button>
-    <button type="button" class="btn email">Email</button>
+    <div class="fb-like" data-href="https://www.facebook.com/SilentDiscoSquad" data-width="400" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>    
+    <a href={{event.fbEvent}}>{{event.title}} FACEBOOK EVENT PAGE</a>
     </div>
 <hr>   
 
 <div class="container new-event">
 	<div class="col-md-6">
        <h2>Details</h2><br>
-       <h3> Friday, December 3rd 2013, 6PM </h3>
-       <h3> Tam-Tams, Metro Mount-Royal</h3>    
+       <h3> {{ event.start_time }} </h3>
+       <h3> {{ event.location}} </h3>    
     </div>
     
 	<div class="col-md-6 google-maps">
-	<iframe width="425" height="150" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.ca/maps?q=parc+lafontaine&amp;ie=UTF8&amp;hq=&amp;hnear=&amp;ll=45.526364,-73.569345&amp;spn=0.006295,0.006295&amp;t=m&amp;iwloc=A&amp;output=embed"></iframe><br /><small><a href="https://maps.google.ca/maps?q=parc+lafontaine&amp;ie=UTF8&amp;hq=&amp;hnear=&amp;ll=45.526364,-73.569345&amp;spn=0.006295,0.006295&amp;t=m&amp;iwloc=A&amp;source=embed" style="color:#0000FF;text-align:left">View Larger Map</a></small>
+  <iframe src={{ event.google_map_link|safe }} width="425" height="150" frameborder="0" style="border:0"></iframe>
 	</div>
 </div>
 
@@ -52,25 +79,14 @@
       <div class="col-md-1"></div>
     <div class="col-md-6"><p></p>
     {% if success %}
-    {{ success}}
+    {{ success }}
     {% endif %}
 
-      <form method="post" action=".">
+      <form method="post" action="." enctype="multipart/form-data">
       {% csrf_token %}
-      {{ formset }}
+      {{ form }}
       <button type="submit" class="btn sendsong">Submit Form</button>
       </form>
-
-
-      <!--form method="post" action="/future.html/">
-      {% csrf_token %}
-        <input placeholder="Enter your email" name="email" value="" type="text" />
-        <input placeholder="Submit a link to a song" name='songname'class="submit-song" type="text" />  <span class="submit-or">or</span>
-        <input class="btn upload" name='songfile' placeholder="Upload a song" type="file"/>Upload a Song</div>
-        <textarea name='intention' placeholder="What is your intention (optional)?" id="regularTextarea"></textarea>
-        <button type="submit" class="btn sendsong">Submit Form</button>
-        
-      </form-->
 
 </div>
 </div>
@@ -79,24 +95,31 @@
 
 <div class="container organizer">
   <div class="col-md-3">
-    <div class="picture"></div>
-    <span class="title"> Organizer</span><br>
-    <span class="name"> David Zangwill</span> </div>
-    
+    <img src="https://silentdiscosquad.s3.amazonaws.com/{{event.organizer1.profilePic.photoFile}}" width=100px height=100px>
+    <span class="title"> {{ event.role1 }}</span><br>
+    <span class="name"> {{ event.organizer1.user}}</span> </div>
+  
+  {% if event.role2 %}
   <div class="col-md-3">
-    <div class="picture"></div>
-    <span class="title"> Organizer</span><br>
-    <span class="name"> David Zangwill</span> </div>
-    
+    <img src="https://silentdiscosquad.s3.amazonaws.com/{{event.organizer1.profilePic.photoFile}}" width=100px height=100px>
+    <span class="title"> {{ event.role2 }}</span><br>
+    <span class="name"> {{ event.organizer2.user}}</span> </div>
+  {% endif %}
+
+  {% if event.role3 %}
   <div class="col-md-3">
-    <div class="picture"></div>
-    <span class="title"> Organizer</span><br>
-    <span class="name"> David Zangwill</span> </div>
+    <img src="https://silentdiscosquad.s3.amazonaws.com/{{event.organizer1.profilePic.photoFile}}" width=100px height=100px>
+    <span class="title"> {{ event.role3 }}</span><br>
+    <span class="name"> {{ event.organizer3.user}}</span> </div>
+  {% endif %}
     
+  {% if event.role4 %}
   <div class="col-md-3">
-    <div class="picture"></div>
-    <span class="title"> Organizer</span><br>
-    <span class="name"> David Zangwill</span> </div>
+    <img src="https://silentdiscosquad.s3.amazonaws.com/{{event.organizer1.profilePic.photoFile}}" width=100px height=100px>
+    <span class="title"> {{ event.role4 }}</span><br>
+    <span class="name"> {{ event.organizer4.user}}</span> </div>
+  {% endif %}
+
 </div><br>
 
 <hr>

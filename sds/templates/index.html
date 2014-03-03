@@ -9,6 +9,36 @@
       });
     });
 </script>
+<script>
+    var timer;
+    secondsLeftArray = {{etaList}};
+    upcomingEventsIDs = {{upcomingEventsList}};
+    console.log(secondsLeftArray);
+    function showRemaining() {
+      for(i=0; i < secondsLeftArray.length; i++)
+      {
+          secondsLeftArray[i] = secondsLeftArray[i] - 1;
+          var days = Math.floor( secondsLeftArray[i] / 86400);
+          var hours = Math.floor( (secondsLeftArray[i] / 3600) % 24);
+          var minutes = Math.floor(( secondsLeftArray[i] / 60) % 60);
+          var seconds = Math.floor( secondsLeftArray[i] % 60);
+
+          if (secondsLeftArray[i] == 1) {
+              //clearInterval(timer);
+              document.getElementById('countdown').innerHTML = 'WOOOOOOOOOOT!';
+              window.location.assign('http://silentdiscosquad.com/stream/stream.php');
+              return;
+          }
+
+          document.getElementById(upcomingEventsIDs[i]).innerHTML = days + 'days ';
+          document.getElementById(upcomingEventsIDs[i]).innerHTML += hours + 'hrs ';
+          document.getElementById(upcomingEventsIDs[i]).innerHTML += minutes + 'mins ';
+          document.getElementById(upcomingEventsIDs[i]).innerHTML += seconds + 'secs';
+      }
+    }
+    timer = setInterval(showRemaining, 1000);
+</script>
+
 
 <div class="section" id="section1">
   <div ="slide">
@@ -17,22 +47,22 @@
 
 <ul id="Grid">
 
-{% if latest_poll_list %}
-    {% for poll in latest_poll_list %}
+{% if upcomingEvents %}
+    {% for event in upcomingEvents %}
 
-  <li class="mix category_1" data-cat="1" style="background: url({{poll.url}}); background-size: cover;">
+  <li class="mix category_1" data-cat="1" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover;">
     <div class="sds-details">        
     <br/>
-      <div id="countbox"></div>
+      <div id="{{event.id}}"></div>
       <br/>
-      Artic Jamboree<br/>
-      Montreal       
+      {{ event.title }}<br/>
+      {{ event.city }}       
 </div>
-    <a href="/future.html">
+    <a href="/future.html?title={{event.title}}">
     <button type="button" class="btn email">Join Now</button>
     </a> </li>
         {% endfor %}
-{% endif %}
+  {% endif %}
 
     
   <li class="gap"></li>

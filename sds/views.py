@@ -7,24 +7,35 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.views.generic import FormView
 from django.core.urlresolvers import reverse
-from django.forms.models import modelformset_factory
+from django.forms import ModelForm
+from django.forms.models import modelform_factory
+from sds.forms import MusicForm
 import pprint 
+import datetime, time
 
 
-def test(request):
-    latest_poll_list = Photos.objects.filter(user_id="martin")
-    template = loader.get_template('test.html')
-    context = {'latest_poll_list': latest_poll_list}
-    return render(request, 'test.html', context)
+
 
 def home(request):
 	return render_to_response('sds.html', {})
 
 def index(request):
-    latest_poll_list = Photos.objects.filter(user_id="martin")
+    upcomingEvents = Events.objects.all()
+    etaList = []
+    upcomingEventsList = []
     template = loader.get_template('index.html')
+    for event in upcomingEvents:
+        now = datetime.datetime.utcnow()
+        now = time.mktime(now.timetuple()) 
+        now = now - 5 * 3600
+
+        eventstart = event.start_time
+        eventstart = time.mktime(eventstart.timetuple())
+        etaList.append(eventstart-now)
+        upcomingEventsList.append(event.id)
+
     context = RequestContext(request, {
-        'latest_poll_list': latest_poll_list,
+        'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList
     })
     return HttpResponse(template.render(context))
 
@@ -39,17 +50,27 @@ def userauth(request):
 
 
 def future(request):
-    MusicFormSet = modelformset_factory(Music)
-    context = {}
-    message = "Thanks for submitting your song!"
+    MusicForm = modelform_factory(Music, fields=("email", "songname", "intention", "uploadedSong"))
+    event = Events.objects.filter(title=request.GET['title'])
+    event = event[0]
     if request.method == 'POST':
-        formset = MusicFormSet(request.POST, request.FILES)
-        if formset.is_valid():
-            context = {'success': message, 'formset': formset}
-            formset.save()
+        form = MusicForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES['uploadedSong'])
+            form.save()
     else:
-        formset = MusicFormSet()
-        context = {'formset': formset}
+        form = MusicForm()
+    message = "Thanks for submitting your song!"
+    
+    now = datetime.datetime.utcnow()
+    now = time.mktime(now.timetuple()) 
+    now = now - 5 * 3600
+
+    eventstart = event.start_time
+    eventstart = time.mktime(eventstart.timetuple())
+    eta = eventstart - now
+
+    context = {'success': message, 'form': form, 'event': event, 'eta': eta}
     return render_to_response('index_future.html', context, context_instance=RequestContext(request))
 
 def become(request):
@@ -69,8 +90,7 @@ def whatissds(request):
     return render(request, 'index_whatissds.html', context)
 
 def handle_uploaded_file(f):
-    raise ValueError (pprint.pformat(f.name))
-    with open(f.name, 'wb+') as destination:
+    with open("/home/ec2-user/sds/media/"+f.name, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 
