@@ -20,7 +20,8 @@ def home(request):
 	return render_to_response('sds.html', {})
 
 def index(request):
-    upcomingEvents = Events.objects.all()
+    upcomingEvents = Events.objects.filter(start_time__gte=datetime.datetime.now())
+    previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now())
     etaList = []
     upcomingEventsList = []
     template = loader.get_template('index.html')
@@ -35,7 +36,7 @@ def index(request):
         upcomingEventsList.append(event.id)
 
     context = RequestContext(request, {
-        'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList
+        'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents
     })
     return HttpResponse(template.render(context))
 
@@ -88,6 +89,24 @@ def jointhesquad(request):
 def whatissds(request):
     context = {}
     return render(request, 'index_whatissds.html', context)
+
+def stream(request):
+    event = Events.objects.filter(title=request.GET['title'])
+    event = event[0]
+
+    now = datetime.datetime.utcnow()
+    now = time.mktime(now.timetuple()) 
+    now = now - 5 * 3600
+
+    eventstart = event.start_time
+    eventstart = time.mktime(eventstart.timetuple())
+    eta = eventstart - now
+    eta = -eta
+    context = {'event': event, 'eta': eta}
+    return render(request, 'stream.html', context)
+
+def past(request):
+    return render(request, 'past.html', context)
 
 def handle_uploaded_file(f):
     with open("/home/ec2-user/sds/media/"+f.name, 'wb+') as destination:

@@ -11,23 +11,17 @@
         var minutes = Math.floor(( secondsLeft / 60) % 60);
         var seconds = Math.floor( secondsLeft % 60);
 
-        if (secondsLeft == 1) {
-            //clearInterval(timer);
-            document.getElementById('countdown').innerHTML = 'WOOOOOOOOOOT!';
-            window.location.assign('http://silentdiscosquad.com/stream/stream.php');
-            return;
-        }
-
         document.getElementById('countdown').innerHTML = days + 'days ';
         document.getElementById('countdown').innerHTML += hours + 'hrs ';
         document.getElementById('countdown').innerHTML += minutes + 'mins ';
         document.getElementById('countdown').innerHTML += seconds + 'secs';
+                  console.log("hi");
+
     }
     timer = setInterval(showRemaining, 1000);
 </script>
 
-
-<div class="top-sep"> </div>
+<div class="top-sep"> 
 
 <div class="city">
   <div class="container">
@@ -42,11 +36,18 @@
   </div>  
 </div>
 
-   
     <div class="share-past">
+
+
      <p>Share this Silent Disco Squad</p>
-    <div class="fb-like" data-href="https://www.facebook.com/SilentDiscoSquad" data-width="400" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>    
+    <div class="fb-like" data-href="https://www.facebook.com/SilentDiscoSquad" data-width="400" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>  
+    <br>  
     <a href={{event.fbEvent}}>{{event.title}} FACEBOOK EVENT PAGE</a>
+    <br>
+    <a href="/stream.html?title={{event.title}}">
+    <button type="button" class="btn email">Join Now</button>
+    </a>
+    <br>
     </div>
 <hr>   
 
@@ -82,7 +83,7 @@
     {{ success }}
     {% endif %}
 
-      <form method="post" action="." enctype="multipart/form-data">
+      <form method="post" action="" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form }}
       <button type="submit" class="btn sendsong">Submit Form</button>
@@ -167,7 +168,8 @@
      <button type="button" class="btn readmore">Read More</button>
   </div>
 </div>
-
 <hr>
+</div>
+
 
 {% include "footer.html" %}

@@ -36,6 +36,7 @@ class Events(models.Model):
     location = models.CharField(max_length=50)
     google_map_link = models.CharField(max_length=1000)
     eventPic = models.ForeignKey(Photos, unique=True)
+    eventMix = models.ForeignKey("Music", unique=False, default=1)
     fbEvent = models.URLField(default="https://www.facebook.com/SilentDiscoSquad")
 
     ORGANIZER = 'organizer'

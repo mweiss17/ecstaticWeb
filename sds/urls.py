@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^participate.html/$', views.participate, name='participate'),
     url(r'^jointhesquad.html/$', views.jointhesquad, name='jointhesquad'),
     url(r'^whatissds.html/$', views.whatissds, name='whatissds'),
+    url(r'^stream.html/$', views.stream, name='stream'),
     url(r'^admin/', include(admin.site.urls)),
 
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
