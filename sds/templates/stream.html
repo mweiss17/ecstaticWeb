@@ -1,0 +1,22 @@
+<html>
+<br>
+<br>
+Don't Panic (at the disco)! <br>
+<ul>
+	<li>Step 1: When there are two minutes left, we will all circle up</li>
+	<li>Step 2: Click the load button to preload the mix</li>
+	<li>Step 3: When there are ten seconds left, we will all count down together</li> 
+	<li>Step 4: Hit play and the disco begins!</li>
+</ul>
+<audio controls>
+<source src="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}" type="audio/mpeg">
+</audio>
+{{event.title}}
+
+<button type="button" id="load" onclick="loadMix()">Load Button</button>
+<button type="button" id="play" onclick="playMix()">Play Button</button>
+<h1 id="countdown"> </h1>
+<script>
+{% include "static/js/stream.js" %}
+</script>
+</html>
