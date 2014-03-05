@@ -14,60 +14,44 @@
     });
 </script>
 
-<div class="section" id="section1">
-  <div ="slide">
-
-<div class="top-sep"> </div>
-
-<ul id="Grid">
+<!--SLIDING DIVS-->
+<ul>
 
 {% if upcomingEvents %}
-    {% for event in upcomingEvents %}
-
-  <li class="mix category_1" data-cat="1" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover;">
+  {% for event in upcomingEvents %}
+  <li id="eventBox" name="eventBox" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover; float:left" >
     <div class="sds-details">        
     <br/>
       <div id="{{event.id}}"></div>
       <br/>
       {{ event.title }}<br/>
-      {{ event.city }}       
-</div>
-    <a id="join" href="/future.html?title={{event.title}}">
+      {{ event.city }}    
+      <a id="join" href="/future.html?title={{event.title}}">
     <button type="button" class="btn email">Join Now</button>
     </a>
+   </li>
+    </div>
+  {% endfor %}
+{% endif %}
 
-        {% endfor %}
-  {% endif %}
+<script>{% include "static/js/eventGrid.js" %}</script>
+</ul>
 
-    
   <li class="gap"></li>
   <!-- "gap" elements fill in the gaps in justified grid -->
-</ul>
 
 
 <div class="create"> Click here to create a Silent Disco Squad </div>
 <div id="pointed"> PAST SILENT DISCOS </div> 
-  
-</div>
-  </div>
-  
-<div class="section" id="section2">
-<div id="pointed2"></div>
- 
-  <div class="slide">
+     
   <div class="top-sep"> </div>
     <div class="container">
     {% if previousEvents %}
     {% for event in previousEvents %}
      <div class="item" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover;">{{event.title}} <br> {{ event.city }} <br> {{ event.start_time}}
-     <a href="/past.html?title={{event.title}}">
-     <button type="button" class="btn email">Join Now</button>
+     <a href="/past.html?title={{event.title}}"><button type="button" class="btn email">Join Now</button></a>
      </div>
      {% endfor %}
-     {% endif%}
-  </div>
-</div>
-
-<script type="text/javascript" src="static/js/jquery.fullPage.js"></script> 
-
+     {% endif %}
+     </div>
 {% include "footer.html" %}
