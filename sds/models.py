@@ -56,7 +56,16 @@ class Events(models.Model):
     role3 = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
     organizer3 = models.ForeignKey(UserProfile, related_name='organizerProfile3', null=True, blank=True)
 
+class potentialOrganizer(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    why = models.CharField(max_length=4095)
 
+class organizerForm(ModelForm):
+    class Meta:
+        model = potentialOrganizer
+        fields = ['name', 'email', 'city', 'why']
 
 
 class Music(models.Model):
@@ -69,3 +78,4 @@ class MusicForm(ModelForm):
     class Meta:
         model = Music
         fields = ['email', 'songname', 'intention', 'uploadedSong']
+

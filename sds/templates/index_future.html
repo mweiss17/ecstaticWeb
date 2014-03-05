@@ -1,55 +1,11 @@
 {% include "header.html" %}
-<script type="text/javascript">
-
-    var timer;
-    secondsLeft = {{ eta }};
-
-    function showRemaining() {
-        secondsLeft = secondsLeft - 1;
-        var days = Math.floor( secondsLeft / 86400);
-        var hours = Math.floor( (secondsLeft / 3600) % 24);
-        var minutes = Math.floor(( secondsLeft / 60) % 60);
-        var seconds = Math.floor( secondsLeft % 60);
-
-        document.getElementById('countdown').innerHTML = days + 'days ';
-        document.getElementById('countdown').innerHTML += hours + 'hrs ';
-        document.getElementById('countdown').innerHTML += minutes + 'mins ';
-        document.getElementById('countdown').innerHTML += seconds + 'secs';
-                  console.log("hi");
-
-    }
-    timer = setInterval(showRemaining, 1000);
+<script>
+{% include "static/js/upcomingEventCountdown.js" %}
 </script>
 
-<div class="top-sep"> 
 
-<div class="city">
-  <div class="container">
-  {{ event.city }}
-  </div>  
-</div>
-
-<div class="countdown-banner-img">
-  <div class="container">
-  <span class="event-title">{{event.title}}</span><br>
-  <div class="event-countdown" id="countdown">  </div>
-  </div>  
-</div>
-
-    <div class="share-past">
-
-
-     <p>Share this Silent Disco Squad</p>
-    <div class="fb-like" data-href="https://www.facebook.com/SilentDiscoSquad" data-width="400" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>  
-    <br>  
-    <a href={{event.fbEvent}}>{{event.title}} FACEBOOK EVENT PAGE</a>
-    <br>
-    <a href="/stream.html?title={{event.title}}">
-    <button type="button" class="btn email">Join Now</button>
-    </a>
-    <br>
-    </div>
-<hr>   
+<div class="top-sep"> </div>
+{% include "eventHeader.html" %}
 
 <div class="container new-event">
 	<div class="col-md-6">
@@ -92,36 +48,7 @@
 </div>
 </div>
 
-
-
-<div class="container organizer">
-  <div class="col-md-3">
-    <img src="https://silentdiscosquad.s3.amazonaws.com/{{event.organizer1.profilePic.photoFile}}" width=100px height=100px>
-    <span class="title"> {{ event.role1 }}</span><br>
-    <span class="name"> {{ event.organizer1.user}}</span> </div>
-  
-  {% if event.role2 %}
-  <div class="col-md-3">
-    <img src="https://silentdiscosquad.s3.amazonaws.com/{{event.organizer1.profilePic.photoFile}}" width=100px height=100px>
-    <span class="title"> {{ event.role2 }}</span><br>
-    <span class="name"> {{ event.organizer2.user}}</span> </div>
-  {% endif %}
-
-  {% if event.role3 %}
-  <div class="col-md-3">
-    <img src="https://silentdiscosquad.s3.amazonaws.com/{{event.organizer1.profilePic.photoFile}}" width=100px height=100px>
-    <span class="title"> {{ event.role3 }}</span><br>
-    <span class="name"> {{ event.organizer3.user}}</span> </div>
-  {% endif %}
-    
-  {% if event.role4 %}
-  <div class="col-md-3">
-    <img src="https://silentdiscosquad.s3.amazonaws.com/{{event.organizer1.profilePic.photoFile}}" width=100px height=100px>
-    <span class="title"> {{ event.role4 }}</span><br>
-    <span class="name"> {{ event.organizer4.user}}</span> </div>
-  {% endif %}
-
-</div><br>
+{% include "eventOrganizers.html" %}
 
 <hr>
 

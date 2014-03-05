@@ -1,66 +1,9 @@
-<!DOCTYPE html>
+{% include "header.html" %}
 
-<html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-
-<title>SDS</title>
-
-
-<link href="/static/css/bootstrap.css" rel="stylesheet">
-<link rel="stylesheet" href="/static/css/examples.css" />
-<link rel="stylesheet" href="/static/css/demo.css"/>
-
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-</head>
-
-<body style="">
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-    </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="#">What is SDS</a></li>
-        <li><a href="#">Silent Disco Squad</a></li>
-        <li><a href="#">Join the Squad</a></li>
-      </ul>
-    </div>
-    <!--/.navbar-collapse --> 
-  </div>
-</div>
-<br class="clear">
-<div class="navbar navbar-fixed-top searchbar">
-  <div class="container">
-    <select class="dropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>
-      <option value="1">Browse city</option>
-      <option value="2">Montreal</option>
-      <option value="3">New-York City</option>
-      <option value="4">Toronto</option>
-    </select>
-  </div>
-</div>
 <div class="top-sep"> </div>
 
 <!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
-  <div class="container">
-    <h1>Hello, world!</h1>
-    <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-    <p><a class="btn btn-primary btn-lg" role="button">Learn more »</a></p>
-  </div>
-</div>
-</div>
+{% include "eventHeader.html" %}
 <!-- /container -->
 </div>
 <div class="jumbotron">
@@ -69,30 +12,22 @@
       <h3>Download the mix and view tracklist</h3>
     </div>
     <div class="col-md-8">
-      <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/127646863&amp;color=25876e&amp;auto_play=false&amp;show_artwork=false"></iframe>
+      <audio controls>
+        <source src="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}" type="audio/mpeg">
+      </audio>
+      {{event.title}}
+        <button type="button" id="play" onclick="playMix()">Play Button</button>
     </div>
+
+    <script>
+      {% include "static/js/stream.js" %}
+    </script>
+
   </div>
 </div>
-<div class="container organizer">
-  <div class="col-md-3">
-    <div class="picture"></div>
-    <span class="title"> Organizer</span><br>
-    <span class="name"> David Zangwill</span> </div>
-  <div class="col-md-3">
-    <div class="picture"></div>
-    <span class="title"> Organizer</span><br>
-    <span class="name"> David Zangwill</span> </div>
-  <div class="col-md-3">
-    <div class="picture"></div>
-    <span class="title"> Organizer</span><br>
-    <span class="name"> David Zangwill</span> </div>
-  <div class="col-md-3">
-    <div class="picture"></div>
-    <span class="title"> Organizer</span><br>
-    <span class="name"> David Zangwill</span> </div>
-</div>
+{% include "eventOrganizers.html" %}
 <hr>
-<div class="container community">
+<!--div class="container community">
   <div class="col-md-4">
     <h2>Your SDS experience</h2>
   </div>
@@ -100,9 +35,9 @@
     <h2>The Squad</h2>
   </div>
 </div>
-<hr>
+<hr-->
 
-<div class="container community">
+<!--div class="container community">
   <div class="col-md-4 experience">
     <h2>Your SDS experience</h2>
   </div>
@@ -117,64 +52,9 @@
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id purus at erat egestas imperdiet. Fusce tempor justo purus, ultricies gravida nisi commodo vel. Nulla condimentum sed orci sit amet faucibus. Sed elementum, libero imperdiet gravida pulvinar, lorem orci rhoncus nunc, vel volutpat mauris nunc non lacus.
     </div>
   </div>
-</div>
-
+</div-->
 <hr>
-<div class="footer">
-  <div class="container">
-    <ul class="nav navbar-nav">
-      <li><a href="#">Organizer's Login</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </div>
 </div>
-</div>
-<footer> © Silent Disco Squad 2013 </footer>
 
-<!--<div id="basic">
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-  
-  </div>--> 
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> 
-<script src="/static/js/jquery.easydropdown.js"></script> 
-<script src="/static/js/bootstrap.min.js"></script> 
-<script src="/static/js/masonry.js"></script> 
-<script src="/static/js/jquery.inview.js"></script> 
-<script>
-docReady( function() {
-  var container = document.querySelector('#basic');
-  var msnry = new Masonry( container, {
-    columnWidth: 60
-  });
-});
-</script> 
-<script>
-  $(function() {
-    $('img[data-src]').live('inview', function(event, isVisible) {
-      if (!isVisible) { return; }
-      
-      var img = $(this);
-      
-      // Show a smooth animation
-      img.css('opacity', 0);
-      img.load(function() { img.animate({ opacity: 1 }, 500); });
-      
-      // Change src
-      img.attr('src', img.attr('data-src'));
-      
-      // Remove it from live event selector
-      img.removeAttr('data-src');
-    });
-  });
-</script>
-</body>
-</html>
+{% include "footer.html" %}

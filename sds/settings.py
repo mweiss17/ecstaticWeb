@@ -104,3 +104,9 @@ MEDIA_ROOT = '/home/ec2-user/sds/media/'
 STATICFILES_DIRS = (
     "/home/ec2-user/sds/sds/templates/static/", "/home/ec2-user/sds/static/",
 )
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'mweiss10'
+EMAIL_HOST_PASSWORD = 'arimtw11'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

@@ -39,16 +39,6 @@
   </div>
 </div>
 <br class="clear">
-<div class="navbar navbar-fixed-top searchbar">
-  <div class="container">
-    <select class="dropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>
-      <option value="1">Browse city</option>
-      <option value="2">Montreal</option>
-      <option value="3">New-York City</option>
-      <option value="4">Toronto</option>
-    </select>
-  </div>
-</div>
 <div class="top-sep"> </div>
 
 </div><br>
@@ -104,16 +94,9 @@
   </div>
   
    <div class="col-md-6">
-      <form>
-      
-      <input placeholder="Your name" type="text" />
-      
-      <input placeholder="Your email" type="text" />  
-      
-      <input placeholder="City you are hosting your SDS" type="text"/>
-      
-      <textarea placeholder="Why do you want to organize?" id="regularTextarea"></textarea>
-      
+      <form method="post" action="">
+      {% csrf_token %}
+      {{form}}
       <button type="submit" class="btn sendsong">Submit Form</button>
       </form>
   </div>
