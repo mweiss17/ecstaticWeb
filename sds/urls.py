@@ -9,8 +9,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-    url(r'^index2.html$', views.index2, name='index2'),
-    url(r'^mobile_index.html$', views.mobile_index, name='mobile_index'),
     url(r'^form.html/$', views.form, name='form'),
     url(r'^userauth.html/$', views.userauth, name='userauth'),
     url(r'^future.html/$', views.future, name='future'),

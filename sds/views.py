@@ -19,26 +19,6 @@ import datetime, time
 def home(request):
 	return render_to_response('sds.html', {})
 
-def mobile_index(request):
-    now = calculateCurrentTime()
-    upcomingEvents = Events.objects.filter(start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*5))
-    previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*5))
-
-    etaList = []
-    upcomingEventsList = []
-    template = loader.get_template('mobile_index.html')
-    for event in upcomingEvents:
-        eventstart = event.start_time
-        eventstart = time.mktime(eventstart.timetuple())
-        etaList.append(eventstart-now)
-        upcomingEventsList.append(event.id)
-
-    context = RequestContext(request, {
-        'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents
-    })
-    return HttpResponse(template.render(context))
-
-
 def index(request):
     now = calculateCurrentTime()
     upcomingEvents = Events.objects.filter(start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*5))
@@ -57,26 +37,6 @@ def index(request):
         'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents
     })
     return HttpResponse(template.render(context))
-
-def index2(request):
-    now = calculateCurrentTime()
-    upcomingEvents = Events.objects.filter(start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*5))
-    previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*5))
-
-    etaList = []
-    upcomingEventsList = []
-    template = loader.get_template('index2.html')
-    for event in upcomingEvents:
-        eventstart = event.start_time
-        eventstart = time.mktime(eventstart.timetuple())
-        etaList.append(eventstart-now)
-        upcomingEventsList.append(event.id)
-
-    context = RequestContext(request, {
-        'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents
-    })
-    return HttpResponse(template.render(context))
-
 
 def future(request):
     MusicForm = modelform_factory(Music, fields=("email", "songname", "intention", "uploadedSong"))
