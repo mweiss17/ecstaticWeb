@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 from django.forms import ModelForm
 from django.forms.models import modelform_factory
 from sds.forms import MusicForm, organizerForm
+from django.core.mail import send_mail
 import pprint 
 import datetime, time
 
@@ -43,6 +44,7 @@ def future(request):
     message = "Upload a song!"
     if request.method == 'POST':
         form = MusicForm(request.POST, request.FILES)
+        send_mail('Thanks for co-creating the mix!', 'Here is the message.', 'us@silentdiscosquad.com', ['martin.clyde.weiss@gmail.com'], fail_silently=False)
         if form.is_valid():
             message = "Thanks for submitting your song!"
             handle_uploaded_file(request.FILES['uploadedSong'])

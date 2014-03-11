@@ -16,7 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
+EMAIL_BACKEND = 'django_ses.SESBackend'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_ACCESS_KEY_ID = 'AKIAIC27KBAMV4JLB2CQ'
 AWS_SECRET_ACCESS_KEY = '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'
@@ -105,8 +105,3 @@ STATICFILES_DIRS = (
     "/home/ec2-user/sds/sds/templates/static/", "/home/ec2-user/sds/static/",
 )
 
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'mweiss10'
-EMAIL_HOST_PASSWORD = 'arimtw11'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
