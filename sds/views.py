@@ -21,8 +21,8 @@ def home(request):
 
 def index(request):
     now = calculateCurrentTime()
-    upcomingEvents = Events.objects.filter(start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*5))
-    previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*5))
+    upcomingEvents = Events.objects.filter(start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*6))
+    previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*6))
 
     etaList = []
     upcomingEventsList = []
@@ -126,6 +126,6 @@ def handle_uploaded_file(f):
 def calculateCurrentTime():
     now = datetime.datetime.utcnow()
     now = time.mktime(now.timetuple()) 
-    now = now - 5 * 3600
+    now = now - 6 * 3600
     return now
 
