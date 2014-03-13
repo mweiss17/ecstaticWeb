@@ -1,80 +1,73 @@
-<!DOCTYPE html>
-
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<title>SDS</title>
-<link href="/static/css/bootstrap.css" rel="stylesheet">
-<link rel="stylesheet" href="/static/css/styles.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Homepage</title>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> 
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<!--HEADER START-->
 
-<script src="/static/js/jquery.easydropdown.js"></script> 
-<script src="/static/js/bootstrap.min.js"></script> 
-<script src="/static/js/jquery.mixitup.js"></script> 
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/styles.css" />
 
+<!--[if IE]>
+    <script type="text/javascript">
+       var console = { log: function() {} };
+    </script>
+<![endif]-->
 
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
+<!--SCRIPTS -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>  
+
+<script type="text/javascript" src="/static/js/jquery.fullPage.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $.fn.fullpage({
+  
+    anchors: ['firstPage', 'secondPage']
+  });
+});
+</script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.mixitup.js"></script>
+<script type="text/javascript" src="/static/js/upcomingEventCountdown.js"></script>
+<script>
+$(function(){
+    $('#Container').mixItUp();  
+});
+</script>
 </head>
-<body style="">
 
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=197778140433462";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+<body>
+  
+   <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+         
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+           <li><a href="/whatissds.html">What is SDS</a></li>
+           <li><a href="/" class="logo"></a></li>
+           <li><a href="/jointhesquad.html">Join the Squad</a></li>
+          </ul>
+        </div><!-- /.nav-collapse -->
+      </div><!-- /.container -->
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-    </div>
-    <div class="navbar-collapse collapse">
-    <ul class="nav navbar-nav">
-         <li><a href="/whatissds.html">What is SDS</a></li>
-         <li><a href="/" class="logo"></a></li>
-        <li><a href="/jointhesquad.html">Join the Squad</a></li>
-      </ul>
-    </div>
-    <!--/.navbar-collapse --> 
-  </div>
+      <div class="searchbar">
+    <button class="filter" data-filter=".category-1">Category 1</button>
+<button class="filter" data-filter=".category-2">Category 2</button>
 </div>
 
 
-<br class="clear">
-<div class="navbar navbar-fixed-top searchbar">
-  <div class="container">
-    <select class="dropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>
-      <option value="1">Browse city</option>
-      <option value="2">Montreal</option>
-      <option value="3">New-York City</option>
-      <option value="4">Toronto</option>
-    </select>
-
-    
-     <!--div class="controls">
-      <h3>Filter Controls</h3>
-      <ul>
-        <li class="filter" data-filter="all">Show All</li>
-        <li class="filter" data-filter="category_1">Category 1</li>
-        <li class="filter" data-filter="category_2">Category 2</li>
-        <li class="filter" data-filter="category_3">Category 3</li>
-        <li class="filter" data-filter="category_3 category_1">Category 1 &amp; 3</li>
-      </ul>
-    </div-->
-    
-  </div>
-</div>
+    </div><!-- /.navbar -->
+  

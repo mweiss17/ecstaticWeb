@@ -16,7 +16,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-EMAIL_BACKEND = 'django_ses.SESBackend'
+EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_HOST = 'email-smtp.us-west-2.amazonaws.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'AKIAJQNKLMGJLI4CHBNQ'
+EMAIL_HOST_PASSWORD = 'AtfCX9kdOOsS4pHqHKMzQG0/eyTmqBrz92L6XbA0oiEB'
+EMAIL_USE_TLS = True
+
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_ACCESS_KEY_ID = 'AKIAIC27KBAMV4JLB2CQ'
 AWS_SECRET_ACCESS_KEY = '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'
