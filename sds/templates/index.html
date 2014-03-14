@@ -4,27 +4,21 @@
 <div class="section active" id="section0">
 
 <div id="Container">
+
   {% if upcomingEvents %}
   {% for event in upcomingEvents %}
-    <div id="{{event.id}}" class="mix category-1" data-my-order="1" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover;"> 
-      <div class="overlay">Countdown</br> 
-     
+
+  <div class="mix category-1" name="eventBox" data-my-order="1" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover;"> 
+    <div class="overlay">Countdown</br> 
+      <div id="eventID{{event.id}}"></div> 
       <span class="event-city">{{ event.city }} </span></br>
-       <span class="event-title">{{ event.title }} </span> </br> 
-
-     <a href="/future.html?title={{event.title}}"><button type="button" class="btn btn-default">Join</button></a></div>
-
-       </div>
+      <span class="event-title">{{ event.title }} </span> </br> 
+      <a href="/future.html?title={{event.title}}"><button type="button" class="btn btn-default">Join</button></a>
+    </div>
+  </div>
+  
   {% endfor %}
-  {% endif %}
-
-   <div class="mix category-1" data-my-order="2"> Countdown</br> Event Title </br> Event City</br>Join button  </div>
-    <div class="mix category-1" data-my-order="2"> Countdown</br> Event Title </br> Event City</br>Join button  </div>
-    <div class="mix category-1" data-my-order="2"> Countdown</br> Event Title </br> Event City</br>Join button  </div>
-    <div class="mix category-1" data-my-order="2"> Countdown</br> Event Title </br> Event City</br>Join button  </div>
-    <div class="mix category-1" data-my-order="2"> Countdown</br> Event Title </br> Event City</br>Join button  </div>
-    
-    
+  {% endif %}    
 </div>
 
 <div class="cta create">Create Your own Silent disco squad</div>
@@ -49,6 +43,9 @@
   </div>
 </div>
 
+    <script>
+    arrangeEvents();
+    </script>
 
 </body>
 </html>
