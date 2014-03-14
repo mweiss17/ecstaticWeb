@@ -21,7 +21,7 @@ html, body {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	background: red;
+	
 
 }
 .tableCell {
@@ -127,7 +127,7 @@ html, body {
 	position: fixed;
 	z-index: 9998;
 	background: #fff;
-	background: blue !important;
+	background: red;
 }
 
 .btn {
