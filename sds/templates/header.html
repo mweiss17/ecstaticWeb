@@ -46,11 +46,23 @@ $(document).ready(function() {
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/static/js/jquery.mixitup.js"></script>
 <script type="text/javascript" src="/static/js/upcomingEventCountdown.js"></script>
+<script type="text/javascript" src="/static/js/eventGrid.js"></script>
+
 <script>
 $(function(){
     $('#Container').mixItUp();  
 });
 </script>
+
+<script>
+console.log({{etaList}});
+console.log({{upcomingEventsList}})
+var secondsLeftArray = {{etaList}};
+var upcomingEventsIDs = {{upcomingEventsList}};
+var timer;
+timer = setInterval(showRemaining, 1000);
+</script>
+
 </head>
 
 <body>
@@ -74,11 +86,6 @@ $(function(){
           </ul>
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
-
-      <div class="searchbar">
-    <button class="filter" data-filter=".category-1">Category 1</button>
-<button class="filter" data-filter=".category-2">Category 2</button>
-</div>
 
 
     </div><!-- /.navbar -->
