@@ -73,7 +73,9 @@ html, body {
 .mix .event-title {
 	font-size: 18px;
 }
-.mix .event-title {
+.mix .event-countdown {
+	padding-bottom: 20px;
+	font-size: 22px;
 }
 .past-event {
 	width: 90% !important;
@@ -96,7 +98,7 @@ html, body {
 }
 .item .event-title {
 }
-.footer {
+.footer{
 	background: none repeat scroll 0 0 #333333;
 	z-index: 9999;
 }
@@ -111,6 +113,14 @@ footer {
 	font-size: 14px;
 	padding: 20px 0;
 }
+
+.copyright {
+	text-align: center;
+	font-size: 14px !important;
+	color: #333 !important;
+	padding: 20px 0;
+	bottom: 0px;
+}
 /*GENERAL*/
 
  /*Navigation*/
@@ -120,9 +130,9 @@ footer {
 .navbar-nav {
 	font-weight: 200;
 	width: 100%;
-	font-size: 20px;
+	font-size: 22px;
 	text-align: center;
-	margin-top: 5px;
+	margin: 5px 0 10px 0;
 }
 .navbar-nav > li {
 	width: 33%;
@@ -130,11 +140,9 @@ footer {
 .navbar-inverse .navbar-nav > li > a {
 	color: #089b8c;
 }
-
 .navbar-inverse .navbar-nav > li > a {
 	color: #089b8c;
 }
-
 .navbar-nav > li:first-child {
 	text-align: left !important;
 }
@@ -143,12 +151,9 @@ footer {
 }
 .navbar-nav > li > a {
 	line-height: normal;
-
 }
-
 .navbar-nav > li > a:hover {
-	color:#fff;
-	
+	color: #fff;
 }
 .footer .nav >li >a:hover, .nav > li > a:focus {
 	background: #333;
@@ -159,15 +164,23 @@ footer {
 	margin-top: 5px;
 	position: relative;
 }
-
-
-
 .searchbar {
 	width: 100%;
-	height: 40px;
+	left: 0;
+	top: 70px;
+	height: 50px;
 	position: fixed;
 	z-index: 9998;
 	background: #fff;
+	border-bottom: 1px solid #ccc;
+}
+.searchbar img {
+	float: right;
+	margin-right: 10px;
+	margin-top:8px;
+}
+.searchbar img:hover {
+	opacity: 0.7;
 }
 /*homepage*/
 
@@ -194,13 +207,19 @@ footer {
 	background: #089b8c;
 	bottom: 0px;
 }
+
+.copyright {
+
+background: none;
+
+}
 #page0, #page1, #page2, #page3, #page4, #page5 {
 	padding-top: 150px !important;
 	font-size: 12px;
 	text-align: center;
 }
 #page0 {
-	background: #fff
+	background: #089b8c;
 }
 #page2 {
 	background: #666;
@@ -290,17 +309,14 @@ footer {
 .jumbotron {
 	padding: 20px;
 	background: #333;
-	color:#fff;
-
+	color: #fff;
 }
-
 .jumbotron h2 {
-	
-	color:#fff;
+	color: #fff;
 }
 .jumbotron p {
 	font-size: 16px;
-	color:#fff;
+	color: #fff;
 }
 .organizer {
 	font-size: 18px;
@@ -337,9 +353,7 @@ footer {
 	float: left;
 	margin-right: 10px;
 	padding-bottom: 32px;
-
 }
-
 .participate {
 	text-align: center;
 }
@@ -348,17 +362,26 @@ footer {
 	font-size: 22px;
 	font-weight: 400;
 }
-
 .become-email input[type="text"], input[type="password"], input[type="email"], textarea, select {
-	float:none;
+	float: none;
 }
-
 .become h3 {
-font-size: 12px;
+	font-size: 12px;
 }
 audio, canvas, progress, video {
 	width: 100%;
 	height: 35px;
+}
+.home-img {
+	width: 100%;
+	height: 100%;
+	display: table;
+	position: relative;
+	background: url(../img/whatissds.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 400px;
 }
 /* #Forms
 ================================================== */
@@ -423,7 +446,7 @@ label span, legend span {
 \*------------------------------------*/
 
 @media only screen and (min-width:320px) {
-img {
+.page img {
 	width: 100% !important;
 }
 }

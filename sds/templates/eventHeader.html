@@ -1,22 +1,13 @@
 <div class="city">
-  <div class="container">
-  {{ event.city }}
-  </div>  
+  <div class="container"> {{ event.city }} </div>
 </div>
-
 <div class="countdown-banner-img" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-position:left; background-size:cover">
-      <div class="overlay">
-  <div class="container">
- <span class="event-title">{{event.title}}</span><br>
-  <div id="eventID{{event.id}}" class="event-countdown"></div>
- 
-
-  </div>  
-</div>
-</div>
-
-    <div class="share-past">
-   
-    <a href={{event.fbEvent}}><div class="btn fb">{{event.title}} Facebook Page Event</div></a>
+  <div class="overlay">
+    <div class="container"> <span class="event-title">{{event.title}}</span><br>
+      <div id="eventID{{event.id}}" class="event-countdown"></div>
     </div>
-
+  </div>
+</div>
+<div class="share-past"> <a href={{event.fbEvent}}>
+  <div class="btn fb">{{event.title}} Facebook Page Event</div>
+  </a> </div>

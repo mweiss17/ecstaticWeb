@@ -1,10 +1,11 @@
 {% include "header.html" %}
+
 <div class="section active" id="section0">
   <div id="Container"> {% if upcomingEvents %}
     {% for event in upcomingEvents %}
     <div class="mix category-1" name="eventBox" data-my-order="1" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover;">
       <div class="overlay">
-        <div id="eventID{{event.id}}"></div>
+        <div id="eventID{{event.id}}" class="event-countdown"></div>
         <span class="event-city">{{ event.city }} </span></br>
         <span class="event-title">{{ event.title }} </span> </br>
         <a href="/future.html?title={{event.title}}">
@@ -17,6 +18,8 @@
   <a href="#secondPage">
   <div class="cta pastevents">Past events</div>
   </a> </div>
+
+
 <div class="section" id="section1">
   <div id="Container" class="container"> {% if previousEvents %}
     {% for event in previousEvents %}
@@ -25,20 +28,21 @@
         <div id="eventID{{event.id}}"></div>
         <span class="event-city">{{ event.city }} </span></br>
         <span class="event-title">{{ event.title }} </span> </br>
-        <span class="event-title">{{ event.start_time}} </span> </br>
+        <span class="event-countdown">{{ event.start_time}} </span> </br>
         <a href="/past.html?title={{event.title}}">
         <button type="button" class="btn email">Join Now</button>
         </a> </div>
     </div>
     {% endfor %}
     {% endif %} </div>
-  <div class="cta create">Create Your own Silent disco squad</div>
-  <div class="cta pastevents">© Silent Disco Squad 2013 </div>
+  <div class="cta create"> </div>
+  <div class="cta copyright">© Silent Disco Squad 2014</div>
 </div>
 </div>
+
 <script>
     arrangeEvents();
-    </script>
-</div>
-</div>
-</body></html>
+</script>
+
+</body>
+</html>

@@ -1,17 +1,17 @@
 {% include "header.html" %}
 
 <div class="top-sep"> </div>
+
 {% include "eventHeader.html" %}
 
 <div class="container new-event">
-	<div class="col-md-6">
-       <h2>Details</h2>
-       <h3> {{ event.location}} </h3>    
-    </div>
-    
-	<div class="col-md-6 google-maps">
-  <iframe src={{ event.google_map_link|safe }} width="425" height="150" frameborder="0" style="border:0"></iframe>
-	</div>
+  <div class="col-md-6">
+    <h2>Details</h2>
+    <h3> {{ event.location}} </h3>
+  </div>
+  <div class="col-md-6 google-maps">
+    <iframe src={{ event.google_map_link|safe }} width="425" height="150" frameborder="0" style="border:0"></iframe>
+  </div>
 </div>
 
 <div class="jumbotron">
@@ -26,8 +26,7 @@
         Check out this page shortly before the event to download the mix.</p>
     </div>
     <div class="col-md-1"></div>
-    <div class="col-md-6">
-      <br>
+    <div class="col-md-6"> <br>
       <form>
         <input placeholder="Enter your email" type="text" />
         <br class="clear">
@@ -37,14 +36,14 @@
         <br class="clear">
         <textarea placeholder="What is your intention (optional)?" id="regularTextarea"></textarea>
         <br class="clear">
-        <button type="submit" class="btn sendsong">Submit song</button>
+        <button type="submit" class="btn">Submit song</button>
       </form>
     </div>
   </div>
 </div>
 
-
 {% include "eventOrganizers.html" %}
+
 <div class="container new-event ">
   <div class="col-md-4 intention">
     <h2>What is your intention</h2>
@@ -63,18 +62,18 @@
     <h3>For a smooth Silent Disco Experience </h3>
     <ol>
       <li>Join you Local SDS party <br>
-       Enter your email address to join and submit a song.</li>
+        Enter your email address to join and submit a song.</li>
       <li>Suggest you currently-favourite superhawt dance track for the mix 
-       The mix is crowdsourced. Choose a song that makes you groove!</li>
+        The mix is crowdsourced. Choose a song that makes you groove!</li>
       <li>BYOD (Bring your own device) <br>
-       Bring your mp3 player, smartphone, walkman with the downloaded mixed uploaded and of course: your headphones!</li>
+        Bring your mp3 player, smartphone, walkman with the downloaded mixed uploaded and of course: your headphones!</li>
       <li> On safety <br>
         Walking as a group all wearing headphones can be dangerous, especially when crossing roads - we are a collective,
         watch out for your SDS brothers and sisters!</li>
       <li> Ethos <span> While there is an SDS organizer, the organizers create (and curates) the space. Everyone is an active participant.</li>
     </ol>
-    <button type="button" class="btn readmore">Read More</button>
-  </br>
+    <button type="button" class="btn">Read More</button>
+    </br>
   </div>
 </div>
 
