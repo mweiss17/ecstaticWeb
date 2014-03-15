@@ -8,7 +8,7 @@
 html, body {
 	margin: 0;
 	padding: 0;
-	overflow: hidden;
+
 }
 #superContainer {
 	height: 100%;
@@ -21,7 +21,7 @@ html, body {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	
+
 
 }
 .tableCell {
@@ -127,7 +127,8 @@ html, body {
 	position: fixed;
 	z-index: 9998;
 	background: #fff;
-	background: red;
+
+
 }
 
 .btn {
@@ -233,6 +234,11 @@ background: #eaa12a;
 	margin-bottom: 10px;
 }
 
+.countdown-banner-img  {
+	color:#fff;
+	text-align: center;
+}
+}
 .countdown-banner-img .event-title {
 	display: inline-block;
 	margin-top: 40px;
@@ -245,6 +251,72 @@ background: #eaa12a;
 	float: left;
 	margin: 0
 }
+
+.organizer .picture {
+	width: 130px;
+	height: 130px;
+	border-radius: 130px;
+	-webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
+	background: url(img/david-profile.png) no-repeat;
+	margin: 20px auto;
+}
+
+
+/* #Forms
+================================================== */
+
+	form {
+		margin-bottom: 20px; }
+	fieldset {
+		margin-bottom: 20px; }
+	input[type="text"],
+	input[type="password"],
+	input[type="email"],
+	textarea,
+	select {
+		border: 1px solid #ccc;
+		padding: 6px 4px;
+		outline: none;
+		-moz-border-radius: 2px;
+		-webkit-border-radius: 2px;
+		border-radius: 2px;
+		font: 13px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		color: #777;
+		margin: 0;
+		width: 210px;
+		max-width: 100%;
+		display: block;
+		margin-bottom: 20px;
+		background: #fff; }
+	select {
+		padding: 0; }
+	input[type="text"]:focus,
+	input[type="password"]:focus,
+	input[type="email"]:focus,
+	textarea:focus {
+		border: 1px solid #aaa;
+ 		color: #444;
+ 		-moz-box-shadow: 0 0 3px rgba(0,0,0,.2);
+		-webkit-box-shadow: 0 0 3px rgba(0,0,0,.2);
+		box-shadow:  0 0 3px rgba(0,0,0,.2); }
+	textarea {
+		min-height: 60px; }
+	label,
+	legend {
+		display: block;
+		font-weight: bold;
+		font-size: 13px;  }
+	select {
+		width: 220px; }
+	input[type="checkbox"] {
+		display: inline; }
+	label span,
+	legend span {
+		font-weight: normal;
+		font-size: 13px;
+		color: #444; }
+
 
 /*------------------------------------*\
     RESPONSIVE
