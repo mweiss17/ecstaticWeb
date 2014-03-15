@@ -101,6 +101,8 @@ html, body {
 .footer{
 	background: none repeat scroll 0 0 #333333;
 	z-index: 9999;
+	
+
 }
 .footer a {
 	color: #089B8C;
@@ -112,6 +114,7 @@ footer {
 	text-align: center;
 	font-size: 14px;
 	padding: 20px 0;
+
 }
 
 .copyright {
@@ -302,6 +305,11 @@ background: none;
 	background: #6CF !important;
 }
 
+.submit {
+
+	margin:20px 0;
+}
+
 .contact .btn {
 	margin:20px auto;
 }
@@ -428,7 +436,7 @@ input[type="text"], input[type="password"], input[type="email"], textarea, selec
 	display: block;
 	margin-bottom: 20px;
 	background: #fff;
-	float: left;
+	
 	margin-right: 10px
 }
 select {
