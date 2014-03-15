@@ -1,8 +1,9 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Homepage</title>
+<title>Silent Disco Squad</title>
 
 <!--HEADER START-->
 
@@ -17,18 +18,32 @@
 <![endif]-->
 
 <!--SCRIPTS -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48932505-1', 'silentdiscosquad.com');
+  ga('send', 'pageview');
+
+</script>
+
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>  
 
+
 <script type="text/javascript" src="/static/js/jquery.fullPage.js"></script>
-<!--!<script type="text/javascript">
+<script type="text/javascript">
 $(document).ready(function() {
   $.fn.fullpage({
   
     anchors: ['firstPage', 'secondPage']
   });
 });
-</script>-->
+</script>
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
@@ -43,13 +58,15 @@ $(function(){
 </script>
 
 <script>
-console.log({{etaList}});
-console.log({{upcomingEventsList}})
-var secondsLeftArray = {{etaList}};
-var upcomingEventsIDs = {{upcomingEventsList}};
+console.log([1306300.0]);
+console.log([13])
+var secondsLeftArray = [1306300.0];
+var upcomingEventsIDs = [13];
 var timer;
 timer = setInterval(showRemaining, 1000);
 </script>
+
+
 
 </head>
 

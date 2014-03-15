@@ -9,14 +9,14 @@
 <div class="jumbotron">
   <div class="container">
     <div class="col-md-4">
-      <h3>Download the mix and view tracklist</h3>
+      <h4>Download the mix and view tracklist</h4>
     </div>
     <div class="col-md-8">
       <audio controls>
         <source src="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}" type="audio/mpeg">
       </audio>
-      {{event.title}}
-        <button type="button" id="play" onclick="playMix()">Play Button</button>
+      
+        <!--<button class="btn" type="button" id="play" onclick="playMix()">Play Button</button>-->
     </div>
 
     <script>
@@ -26,7 +26,7 @@
   </div>
 </div>
 {% include "eventOrganizers.html" %}
-<hr>
+
 <!--div class="container community">
   <div class="col-md-4">
     <h2>Your SDS experience</h2>
@@ -53,7 +53,6 @@
     </div>
   </div>
 </div-->
-<hr>
 </div>
 
 
