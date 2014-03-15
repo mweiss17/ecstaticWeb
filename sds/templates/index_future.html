@@ -25,21 +25,21 @@
         <br>
         Check out this page shortly before the event to download the mix.</p>
     </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-6"> <br>
-      <form>
-        <input placeholder="Enter your email" type="text" />
-        <br class="clear">
-        <input placeholder="Submit a link to a song" class="submit-song" type="text" />
-        <span class="submit-or">or</span>
-        <input placeholder="Upload a song" type="text"/>
-        <br class="clear">
-        <textarea placeholder="What is your intention (optional)?" id="regularTextarea"></textarea>
-        <br class="clear">
-        <button type="submit" class="btn sendsong">Submit song</button>
+     <div class="col-md-1"></div>
+    <div class="col-md-6"><p></p>
+    {% if success %}
+    {{ success }}
+    {% endif %}
+
+      <form method="post" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form }}
+      <button type="submit" class="btn submit">Submit Song</button>
       </form>
-    </div>
-  </div>
+
+</div>
+</div>
+
 </div>
 
 {% include "eventOrganizers.html" %}
