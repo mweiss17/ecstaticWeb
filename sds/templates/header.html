@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Homepage</title>
+<title>Silent Disco Squad</title>
 
 <!--HEADER START-->
 
@@ -17,9 +17,19 @@
 <![endif]-->
 
 <!--SCRIPTS -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>  
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48932505-1', 'silentdiscosquad.com');
+  ga('send', 'pageview');
+
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/static/js/jquery.fullPage.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -27,6 +37,9 @@ $(document).ready(function() {
   
     anchors: ['firstPage', 'secondPage']
   });
+  $('.home-img').click(function(){
+var video = '<iframe width="100%" height="400" src="'+ $(this).attr('data-video') +'"></iframe>';
+$(this).replaceWith(video); });
 });
 </script>
 
@@ -35,46 +48,44 @@ $(document).ready(function() {
 <script type="text/javascript" src="/static/js/jquery.mixitup.js"></script>
 <script type="text/javascript" src="/static/js/upcomingEventCountdown.js"></script>
 <script type="text/javascript" src="/static/js/eventGrid.js"></script>
-
 <script>
 $(function(){
     $('#Container').mixItUp();  
 });
 </script>
-
 <script>
-console.log({{etaList}});
-console.log({{upcomingEventsList}})
-var secondsLeftArray = {{etaList}};
-var upcomingEventsIDs = {{upcomingEventsList}};
+console.log([1306300.0]);
+console.log([13])
+var secondsLeftArray = [1306300.0];
+var upcomingEventsIDs = [13];
 var timer;
 timer = setInterval(showRemaining, 1000);
 </script>
-
 </head>
 
 <body>
-  
-   <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-         
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-           <li><a href="/whatissds.html">What is SDS</a></li>
-           <li><a href="/" class="logo"></a></li>
-           <li><a href="/jointhesquad.html">Join the Squad</a></li>
-          </ul>
-        </div><!-- /.nav-collapse -->
-      </div><!-- /.container -->
-
-
-    </div><!-- /.navbar -->
-  
+<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/whatissds.html">What is SDS</a></li>
+        <li><a href="/" class="logo"></a></li>
+        <li><a href="/jointhesquad.html">Join the Squad</a></li>
+      </ul>
+    </div>
+    <!-- /.nav-collapse -->
+    
+    <div class="searchbar">
+      <div class="container"> 
+      <a href="http://www.youtube.com/channel/UCErk7W6KJ0ZABDnLJk1maQA" target="_blank"><img src="/static/img/youtube.png"></a> 
+      <a href="https://soundcloud.com/silent-disco-squad" target="_blank"><img src="/static/img/soundcloud.png"> </a>
+      <a href="https://www.facebook.com/SilentDiscoSquad" target="_blank"><img src="/static/img/facebook.png"> </a>
+      </div>
+    </div>
+  </div>
+  <!-- /.container --> 
+</div>
+<!-- /.navbar --> 
