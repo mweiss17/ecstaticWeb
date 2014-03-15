@@ -73,6 +73,14 @@ def past(request):
     context = {'event': event}
     return render(request, 'index_past.html', context)
 
+def contact(request):
+    context = {}
+    return render(request, 'contact.html', context)
+
+def mission(request):
+    context = {}
+    return render(request, 'mission.html', context)
+
 def become(request):
     OrganizerForm = modelform_factory(potentialOrganizer, fields=("name", "email", "city", "why"))
     if request.method == 'POST':
