@@ -1,32 +1,27 @@
 {% include "header.html" %}
-
 <div class="top-sep"> </div>
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
 {% include "eventHeader.html" %}
-<!-- /container -->
-</div>
+
 <div class="jumbotron">
   <div class="container">
     <div class="col-md-4">
-      <h3>Download the mix and view tracklist</h3>
+      <h4>Download the mix and view tracklist</h4>
     </div>
     <div class="col-md-8">
       <audio controls>
         <source src="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}" type="audio/mpeg">
       </audio>
-      {{event.title}}
-        <button type="button" id="play" onclick="playMix()">Play Button</button>
     </div>
 
     <script>
       {% include "static/js/stream.js" %}
-    </script>
-
+    </script> 
   </div>
 </div>
-{% include "eventOrganizers.html" %}
-<hr>
+
+{% include "eventOrganizers.html" %} 
+
 <!--div class="container community">
   <div class="col-md-4">
     <h2>Your SDS experience</h2>
@@ -35,7 +30,7 @@
     <h2>The Squad</h2>
   </div>
 </div>
-<hr-->
+<hr--> 
 
 <!--div class="container community">
   <div class="col-md-4 experience">
@@ -53,8 +48,5 @@
     </div>
   </div>
 </div-->
-<hr>
 </div>
-
-
-{% include "footer.html" %}
+{% include "footer.html" %} 

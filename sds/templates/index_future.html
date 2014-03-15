@@ -1,18 +1,17 @@
 {% include "header.html" %}
 
 <div class="top-sep"> </div>
+
 {% include "eventHeader.html" %}
 
 <div class="container new-event">
-	<div class="col-md-6">
-       <h2>Details</h2><br>
-       <h3> </h3>
-       <h3> {{ event.location}} </h3>    
-    </div>
-    
-	<div class="col-md-6 google-maps">
-  <iframe src={{ event.google_map_link|safe }} width="425" height="150" frameborder="0" style="border:0"></iframe>
-	</div>
+  <div class="col-md-6">
+    <h2>Details</h2>
+    <h3> {{ event.location}} </h3>
+  </div>
+  <div class="col-md-6 google-maps">
+    <iframe src={{ event.google_map_link|safe }} width="425" height="150" frameborder="0" style="border:0"></iframe>
+  </div>
 </div>
 
 <div class="jumbotron">
@@ -21,78 +20,61 @@
       <h2>Submit a song</h2>
       <h3>The mix is crowdsouced!</h3>
       <p>Join the party and submit your favorite song!<br>
-      After entering your email, you will be able to submit your song
-      by uploading or sending us a link.
-		<br>
-		<br>
-      
-      Check out this page shortly before the event to download the mix.</p>
+        After entering your email, you will be able to submit your song
+        by uploading or sending us a link. <br>
+        <br>
+        Check out this page shortly before the event to download the mix.</p>
     </div>
-    
-      <div class="col-md-1"></div>
-    <div class="col-md-6"><p></p>
-    {% if success %}
-    {{ success }}
-    {% endif %}
-
-      <form method="post" action="" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ form }}
-      <button type="submit" class="btn sendsong">Submit Form</button>
+    <div class="col-md-1"></div>
+    <div class="col-md-6"> <br>
+      <form>
+        <input placeholder="Enter your email" type="text" />
+        <br class="clear">
+        <input placeholder="Submit a link to a song" class="submit-song" type="text" />
+        <span class="submit-or">or</span>
+        <input placeholder="Upload a song" type="text"/>
+        <br class="clear">
+        <textarea placeholder="What is your intention (optional)?" id="regularTextarea"></textarea>
+        <br class="clear">
+        <button type="submit" class="btn">Submit song</button>
       </form>
-
-</div>
+    </div>
+  </div>
 </div>
 
 {% include "eventOrganizers.html" %}
 
-<hr>
-
 <div class="container new-event ">
   <div class="col-md-4 intention">
     <h2>What is your intention</h2>
-    <h3>for participating?</h3><br>
-    
+    <h3>for participating?</h3>
+    <br>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu eros a metus posuere ornare. Sed rhoncus quis dui at interdum.
     Suspendisse id tempus nisi, id facilisis neque. Donec eu ullamcorper nibh, in facilisis mauris. Maecenas congue nec velit quis suscipit. 
     Sed luctus elit a neque consectetur, et congue lectus volutpat. Vivamus tempor hendrerit tortor, sit amet interdum arcu consectetur ac. 
     Curabitur vel ullamcorper ligula, et tincidunt justo. Cras fringilla gravida magna id ullamcorper. Cras sem nisl, 
     placerat vitae felis vel, sollicitudin pulvinar enim. Sed egestas sapien vulputate libero egestas sodales. 
     Vestibulum nec est vel dolor rhoncus adipiscing. Nam elementum 
-    tellus id bibendum bibendum. Vivamus aliquet velit dictum, condimentum nibh ac, molestie libero.
-   
-  </div>
-  
- <div class="col-md-1"></div>
-  
+    tellus id bibendum bibendum. Vivamus aliquet velit dictum, condimentum nibh ac, molestie libero. </div>
+  <div class="col-md-1"></div>
   <div class="col-md-7">
     <h2>Participant's Guide</h2>
     <h3>For a smooth Silent Disco Experience </h3>
-    
-    <ul>
-    <li> 1. Join you Local SDS party <br>
-	<span>Enter your email address to join and submit a song.</span></li>
-    
-    <li> 2. Suggest you currently-favourite superhawt dance track for the mix <br>
-	<span>The mix is crowdsourced. Choose a song that makes you groove!</span></li>
-    
-    <li> 3. BYOD (Bring your own device) <br>
-	<span>Bring your mp3 player, smartphone, walkman with the downloaded mixed uploaded and of course: your headphones!</span></li>
-    
-    <li> 4. On safety <br>
- 	<span>Walking as a group all wearing headphones can be dangerous, especially when crossing roads - we are a collective,
-    watch out for your SDS brothers and sisters!</span></li>
-    
-    <li> 5. Ethos 
-   <span> While there is an SDS organizer, the organizers create (and curates) the space. Everyone is an active participant.</span></li>
-    
-    </ul>
-    
-     <button type="button" class="btn readmore">Read More</button>
+    <ol>
+      <li>Join you Local SDS party <br>
+        Enter your email address to join and submit a song.</li>
+      <li>Suggest you currently-favourite superhawt dance track for the mix 
+        The mix is crowdsourced. Choose a song that makes you groove!</li>
+      <li>BYOD (Bring your own device) <br>
+        Bring your mp3 player, smartphone, walkman with the downloaded mixed uploaded and of course: your headphones!</li>
+      <li> On safety <br>
+        Walking as a group all wearing headphones can be dangerous, especially when crossing roads - we are a collective,
+        watch out for your SDS brothers and sisters!</li>
+      <li> Ethos <span> While there is an SDS organizer, the organizers create (and curates) the space. Everyone is an active participant.</li>
+    </ol>
+    <button type="button" class="btn">Read More</button>
+    </br>
   </div>
 </div>
-<hr>
-</div>
-
 
 {% include "footer.html" %}
