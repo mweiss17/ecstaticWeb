@@ -28,7 +28,7 @@
 			'loopTop': false,
 			'loopHorizontal': true,
 			'autoScrolling': false,
-			'scrollOverflow': true,
+			'scrollOverflow': false,
 			'css3': false,
 			'paddingTop': '120px',
 			'paddingBottom': '120px',
