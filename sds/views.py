@@ -44,7 +44,8 @@ def future(request):
     message = "Upload a song!"
     if request.method == 'POST':
         form = MusicForm(request.POST, request.FILES)
-        send_mail('Thanks for co-creating the mix!', 'Here is the message.', 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)
+        if request.POST['songname'] != '':
+            send_mail('Thanks for co-creating the mix!', 'Thanks for suggesting'request.POST['songname']+'! Looking forward to seeing you at the danceparty ~:)', 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)
         if form.is_valid():
             message = "Thanks for submitting your song!"
             handle_uploaded_file(request.FILES['uploadedSong'])
