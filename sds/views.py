@@ -40,15 +40,22 @@ def index(request):
     return HttpResponse(template.render(context))
 
 def future(request):
-    MusicForm = modelform_factory(Music, fields=("email", "songname", "intention", "uploadedSong"))
+    MusicForm = modelform_factory(Music, fields=("email", "song_name_or_link", "intention", "uploadedSong"))
     message = "Upload a song!"
     if request.method == 'POST':
         form = MusicForm(request.POST, request.FILES)
-        if request.POST['songname'] != '':
-            send_mail('You are a co-creator for the mix!', 'Thanks for suggesting'+request.POST['songname']+'! Looking forward to seeing you at the danceparty ~:)', 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)
+        songName = " "
+        uploadedSong = " "
+        if request.POST['song_name_or_link'] != '':
+            songName = "songname: "+request.POST['song_name_or_link']
+        send_mail('Dancetrack Received', "We got your track! Thanks for your contribution to the Dancemix!" + "See you at the danceparty ~:)" + "With Love," +"- The SDS Team", 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
+        send_mail("Song Submission from: "+ request.POST['email'], "songname: "+ songName + " intention: "+ request.POST['intention'],'contact@silentdiscosquad.com', ['david@silentdiscosquad.com'], fail_silently=False)       # else if request.FILES['uploadedSong']:
+
+
         if form.is_valid():
             message = "Thanks for submitting your song!"
-            handle_uploaded_file(request.FILES['uploadedSong'])
+            if 'uploadedSong' in request.FILES:
+                handle_uploaded_file(request.FILES['uploadedSong'])
             form.save()
     else:
         form = MusicForm()
@@ -71,11 +78,13 @@ def future(request):
 def past(request):
     event = Events.objects.filter(title=request.GET['title'])
     event = event[0]
-    context = {'event': event}
+    context = {'event': event, 'start_time': event.start_time, 'past':True}
     return render(request, 'index_past.html', context)
 
 def contact(request):
     context = {}
+    if request.method == 'POST':
+            send_mail("From: "+request.POST['email']+" "+request.POST['subject'], request.POST['message'], "contact@silentdiscosquad.com" , ['martin@silentdiscosquad.com', 'david@silentdiscosquad.com'])
     return render(request, 'contact.html', context)
 
 def mission(request):
