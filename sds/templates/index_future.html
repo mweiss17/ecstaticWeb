@@ -1,9 +1,6 @@
 {% include "header.html" %}
-
 <div class="top-sep"> </div>
-
 {% include "eventHeader.html" %}
-
 <div class="container new-event">
   <div class="col-md-6">
     <h2>Details</h2>
@@ -13,9 +10,8 @@
     <iframe src={{ event.google_map_link|safe }} width="425" height="150" frameborder="0" style="border:0"></iframe>
   </div>
 </div>
-
-<div class="jumbotron">
-  <div class="container new-event">
+<div class="jumbotron new-event">
+  <div class="container ">
     <div class="col-md-5">
       <h2>Submit a song</h2>
       <h3>The mix is crowdsouced!</h3>
@@ -25,38 +21,22 @@
         <br>
         Check out this page shortly before the event to download the mix.</p>
     </div>
-     <div class="col-md-1"></div>
-    <div class="col-md-6"><p></p>
-    {% if success %}
-    {{ success }}
-    {% endif %}
-
+    <div class="col-md-1"></div>
+    <div class="col-md-6">
+      <p></p>
+      {% if success %}
+      {{ success }}
+      {% endif %}
       <form method="post" action="" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ form }}
-      <button type="submit" class="btn submit">Submit Song</button>
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="btn submit">Submit Song</button>
       </form>
-
+    </div>
+  </div>
 </div>
-</div>
-
-</div>
-
 {% include "eventOrganizers.html" %}
-
 <div class="container new-event ">
-  <div class="col-md-4 intention">
-    <h2>What is your intention</h2>
-    <h3>for participating?</h3>
-    <br>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu eros a metus posuere ornare. Sed rhoncus quis dui at interdum.
-    Suspendisse id tempus nisi, id facilisis neque. Donec eu ullamcorper nibh, in facilisis mauris. Maecenas congue nec velit quis suscipit. 
-    Sed luctus elit a neque consectetur, et congue lectus volutpat. Vivamus tempor hendrerit tortor, sit amet interdum arcu consectetur ac. 
-    Curabitur vel ullamcorper ligula, et tincidunt justo. Cras fringilla gravida magna id ullamcorper. Cras sem nisl, 
-    placerat vitae felis vel, sollicitudin pulvinar enim. Sed egestas sapien vulputate libero egestas sodales. 
-    Vestibulum nec est vel dolor rhoncus adipiscing. Nam elementum 
-    tellus id bibendum bibendum. Vivamus aliquet velit dictum, condimentum nibh ac, molestie libero. </div>
-  <div class="col-md-1"></div>
   <div class="col-md-7">
     <h2>Participant's Guide</h2>
     <h3>For a smooth Silent Disco Experience </h3>
@@ -72,7 +52,7 @@
         watch out for your SDS brothers and sisters!</li>
       <li> Ethos <span> While there is an SDS organizer, the organizers create (and curates) the space. Everyone is an active participant.</li>
     </ol>
-    <button type="button" class="btn readmore">Read More</button>
+    <button type="button" class="btn submit">Read More</button>
     </br>
   </div>
 </div>

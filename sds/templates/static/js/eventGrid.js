@@ -4,6 +4,8 @@ function arrangeEvents(){
     doneTheStuff = true;
     var events = document.getElementsByName('eventBox');
 
+    
+
       if(events.length==1){
         events[0].style.height = "100%";
         events[0].style.width="100%";
