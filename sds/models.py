@@ -71,6 +71,7 @@ class organizerForm(ModelForm):
 class Music(models.Model):
     uploadedSong = models.FileField(upload_to='uploadedSongs/%Y/%m/%d', default='uploadedSongs', blank=True)
     email = models.CharField(max_length=255)
+    songname = models.CharField(max_length=255)
     song_name_or_link = models.CharField(max_length=255)
     intention = models.CharField(max_length=255, blank=True)
 
