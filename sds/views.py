@@ -45,7 +45,7 @@ def future(request):
     if request.method == 'POST':
         form = MusicForm(request.POST, request.FILES)
         if request.POST['songname'] != '':
-            send_mail('Thanks for co-creating the mix!', 'Thanks for suggesting'request.POST['songname']+'! Looking forward to seeing you at the danceparty ~:)', 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)
+            send_mail('You are a co-creator for the mix!', 'Thanks for suggesting'+jrequest.POST['songname']+'! Looking forward to seeing you at the danceparty ~:)', 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)
         if form.is_valid():
             message = "Thanks for submitting your song!"
             handle_uploaded_file(request.FILES['uploadedSong'])
@@ -76,6 +76,8 @@ def past(request):
 
 def contact(request):
     context = {}
+    if request.method == 'POST':
+            send_mail("From: "+request.POST['email']+" "+request.POST['subject'], request.POST['message'], "contact@silentdiscosquad.com" , ['martin@silentdiscosquad.com', 'david@silentdiscosquad.com'])
     return render(request, 'contact.html', context)
 
 def mission(request):
