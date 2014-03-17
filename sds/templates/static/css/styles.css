@@ -104,8 +104,6 @@ html, body {
 .footer {
 	background: none repeat scroll 0 0 #333333;
 	z-index: 9999;
-	
-
 }
 .footer a {
 	color: #089B8C;
@@ -117,7 +115,6 @@ footer {
 	text-align: center;
 	font-size: 14px;
 	padding: 20px 0;
-
 }
 .copyright {
 	text-align: center;
@@ -291,18 +288,9 @@ footer {
 .twitter {
 	background: #6CF !important;
 }
-<<<<<<< HEAD
 .submit {
 	margin: 20px 0;
 }
-=======
-
-.submit {
-
-	margin:20px 0;
-}
-
->>>>>>> 33b48e16af9fc3fcc6b498e4ab4409d29372db80
 .contact .btn {
 	margin: 20px auto;
 }
@@ -469,10 +457,6 @@ input[type="text"], input[type="password"], input[type="email"], textarea, selec
 	display: block;
 	margin-bottom: 20px;
 	background: #fff;
-<<<<<<< HEAD
-=======
-	
->>>>>>> 33b48e16af9fc3fcc6b498e4ab4409d29372db80
 	margin-right: 10px
 }
 select {

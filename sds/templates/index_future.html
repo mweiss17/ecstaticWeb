@@ -5,6 +5,7 @@
   <div class="col-md-6">
     <h2>Details</h2>
     <h3> {{ event.location}} </h3>
+    <h3> {{ event.start_time}} </h3>
   </div>
   <div class="col-md-6 google-maps">
     <iframe src={{ event.google_map_link|safe }} width="425" height="150" frameborder="0" style="border:0"></iframe>
@@ -21,18 +22,6 @@
         <br>
         Check out this page shortly before the event to download the mix.</p>
     </div>
-<<<<<<< HEAD
-    <div class="col-md-1"></div>
-    <div class="col-md-6">
-      <p></p>
-      {% if success %}
-      {{ success }}
-      {% endif %}
-      <form method="post" action="" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit" class="btn submit">Submit Song</button>
-=======
      <div class="col-md-1"></div>
     <div class="col-md-6"><p></p>
     {% if success %}
@@ -43,12 +32,9 @@
       {% csrf_token %}
       {{ form }}
       <button type="submit" class="btn submit">Submit Song</button>
->>>>>>> 33b48e16af9fc3fcc6b498e4ab4409d29372db80
       </form>
-
-</div>
-</div>
-
+    </div>
+  </div>
 </div>
 {% include "eventOrganizers.html" %}
 <div class="container new-event ">

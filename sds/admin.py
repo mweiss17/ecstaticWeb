@@ -5,7 +5,7 @@ class PhotosAdmin(admin.ModelAdmin):
 	list_display = ('photographer', 'pictureType', 'photoFile')
 
 class MusicAdmin(admin.ModelAdmin):
-	list_display = ('songname', 'email', 'intention')
+	list_display = ('song_name_or_link', 'songname', 'email', 'intention')
 
 class EventsAdmin(admin.ModelAdmin):
 	list_display = ('title', 'start_time', 'eventPic', 'google_map_link', 'location', 'fbEvent')
