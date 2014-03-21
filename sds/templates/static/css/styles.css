@@ -9,6 +9,7 @@ html, body {
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
+
 }
 #superContainer {
 	height: 100%;
@@ -203,6 +204,11 @@ footer {
 #page0 {
 	background: #089b8c;
 }
+
+#page1 {
+	padding-top: 20px !important;
+}
+
 #page2 {
 	background: #666;
 	color: #fff;
@@ -225,6 +231,11 @@ footer {
 
 .sep {
 	height: 120px;
+	position: relative;
+}
+
+.sep-half {
+	height: 80px;
 	position: relative;
 }
 /*Future Event*/
@@ -290,6 +301,10 @@ footer {
 }
 .submit {
 	margin: 20px 0;
+}
+.streaming {
+	padding:20px;
+	font-size: 18px !important;
 }
 .contact .btn {
 	margin: 20px auto;
@@ -506,12 +521,17 @@ img {
 .section .img-responsive {
 	margin: 0 auto !important;
 }
+#page1 {
+	padding-top:20px !important;
+}
 }
 @media only screen and (min-width:768px) {
 #page0, #page1, #page2, #page3, #page4, #page5 {
 	font-size: 12px;
 	text-align: left;
 }
+
+
 .navbar-collapse {
 	background: none;
 }
@@ -600,8 +620,12 @@ img {
 .item .event-title {
 	font-size: 18px;
 }
-.item .event-title {
+
+#page0 {
+	padding-top: 160px !important;
 }
+
+
 }
 @media only screen and (min-width:1140px) {
 }
