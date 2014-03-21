@@ -23,8 +23,8 @@ def home(request):
 
 def index(request):
     now = calculateCurrentTime()
-    upcomingEvents = Events.objects.filter(start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*5))
-    previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*5))
+    upcomingEvents = Events.objects.filter(start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
+    previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
 
     etaList = []
     upcomingEventsList = []
