@@ -35,28 +35,35 @@ class Migration(SchemaMigration):
             ('location', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('google_map_link', self.gf('django.db.models.fields.CharField')(max_length=1000)),
             ('eventPic', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Photos'], unique=True)),
-            ('role1', self.gf('django.db.models.fields.CharField')(default='organizer', max_length=255)),
-            ('organizer1', self.gf('django.db.models.fields.related.ForeignKey')(related_name='organizerProfile1', null=True, to=orm['sds.UserProfile'])),
-            ('role2', self.gf('django.db.models.fields.CharField')(default='organizer', max_length=255)),
-            ('organizer2', self.gf('django.db.models.fields.related.ForeignKey')(related_name='organizerProfile2', null=True, to=orm['sds.UserProfile'])),
-            ('role3', self.gf('django.db.models.fields.CharField')(default='organizer', max_length=255)),
-            ('organizer3', self.gf('django.db.models.fields.related.ForeignKey')(related_name='organizerProfile3', null=True, to=orm['sds.UserProfile'])),
-            ('role4', self.gf('django.db.models.fields.CharField')(default='organizer', max_length=255)),
-            ('organizer4', self.gf('django.db.models.fields.related.ForeignKey')(related_name='organizerProfile4', null=True, to=orm['sds.UserProfile'])),
-            ('role5', self.gf('django.db.models.fields.CharField')(default='organizer', max_length=255)),
-            ('organizer5', self.gf('django.db.models.fields.related.ForeignKey')(related_name='organizerProfile5', null=True, to=orm['sds.UserProfile'])),
-            ('role6', self.gf('django.db.models.fields.CharField')(default='organizer', max_length=255)),
-            ('organizer6', self.gf('django.db.models.fields.related.ForeignKey')(related_name='organizerProfile6', null=True, to=orm['sds.UserProfile'])),
+            ('eventMix', self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['sds.Music'])),
+            ('fbEvent', self.gf('django.db.models.fields.URLField')(default='https://www.facebook.com/SilentDiscoSquad', max_length=200)),
+            ('role1', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
+            ('organizer1', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile1', null=True, to=orm['sds.UserProfile'])),
+            ('role2', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
+            ('organizer2', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile2', null=True, to=orm['sds.UserProfile'])),
+            ('role3', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
+            ('organizer3', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile3', null=True, to=orm['sds.UserProfile'])),
         ))
         db.send_create_signal(u'sds', ['Events'])
+
+        # Adding model 'potentialOrganizer'
+        db.create_table(u'sds_potentialorganizer', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('email', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('city', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('why', self.gf('django.db.models.fields.CharField')(max_length=4095)),
+        ))
+        db.send_create_signal(u'sds', ['potentialOrganizer'])
 
         # Adding model 'Music'
         db.create_table(u'sds_music', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('uploadedSong', self.gf('django.db.models.fields.files.FileField')(default='uploadedSongs', max_length=100)),
+            ('uploadedSong', self.gf('django.db.models.fields.files.FileField')(default='uploadedSongs', max_length=100, blank=True)),
             ('email', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('songname', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('intention', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('song_name_or_link', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('intention', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
         ))
         db.send_create_signal(u'sds', ['Music'])
 
@@ -70,6 +77,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Events'
         db.delete_table(u'sds_events')
+
+        # Deleting model 'potentialOrganizer'
+        db.delete_table(u'sds_potentialorganizer')
 
         # Deleting model 'Music'
         db.delete_table(u'sds_music')
@@ -115,22 +125,18 @@ class Migration(SchemaMigration):
         u'sds.events': {
             'Meta': {'object_name': 'Events'},
             'city': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'eventMix': ('django.db.models.fields.related.ForeignKey', [], {'default': '1', 'to': u"orm['sds.Music']"}),
             'eventPic': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Photos']", 'unique': 'True'}),
+            'fbEvent': ('django.db.models.fields.URLField', [], {'default': "'https://www.facebook.com/SilentDiscoSquad'", 'max_length': '200'}),
             'google_map_link': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'location': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'organizer1': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'organizerProfile1'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
-            'organizer2': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'organizerProfile2'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
-            'organizer3': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'organizerProfile3'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
-            'organizer4': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'organizerProfile4'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
-            'organizer5': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'organizerProfile5'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
-            'organizer6': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'organizerProfile6'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
-            'role1': ('django.db.models.fields.CharField', [], {'default': "'organizer'", 'max_length': '255'}),
-            'role2': ('django.db.models.fields.CharField', [], {'default': "'organizer'", 'max_length': '255'}),
-            'role3': ('django.db.models.fields.CharField', [], {'default': "'organizer'", 'max_length': '255'}),
-            'role4': ('django.db.models.fields.CharField', [], {'default': "'organizer'", 'max_length': '255'}),
-            'role5': ('django.db.models.fields.CharField', [], {'default': "'organizer'", 'max_length': '255'}),
-            'role6': ('django.db.models.fields.CharField', [], {'default': "'organizer'", 'max_length': '255'}),
+            'organizer1': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile1'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
+            'organizer2': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile2'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
+            'organizer3': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile3'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
+            'role1': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'role2': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'role3': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'start_time': ('django.db.models.fields.DateTimeField', [], {}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
@@ -138,9 +144,10 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Music'},
             'email': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'intention': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'intention': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
+            'song_name_or_link': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'songname': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'uploadedSong': ('django.db.models.fields.files.FileField', [], {'default': "'uploadedSongs'", 'max_length': '100'})
+            'uploadedSong': ('django.db.models.fields.files.FileField', [], {'default': "'uploadedSongs'", 'max_length': '100', 'blank': 'True'})
         },
         u'sds.photos': {
             'Meta': {'object_name': 'Photos'},
@@ -148,6 +155,14 @@ class Migration(SchemaMigration):
             'photoFile': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
             'photographer': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
             'pictureType': ('django.db.models.fields.CharField', [], {'default': "'pp'", 'max_length': '2'})
+        },
+        u'sds.potentialorganizer': {
+            'Meta': {'object_name': 'potentialOrganizer'},
+            'city': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'email': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'why': ('django.db.models.fields.CharField', [], {'max_length': '4095'})
         },
         u'sds.userprofile': {
             'Meta': {'object_name': 'UserProfile'},
