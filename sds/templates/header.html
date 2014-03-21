@@ -55,10 +55,12 @@ $(function(){
 });
 </script>
 <script>
-console.log([1306300.0]);
-console.log([13])
-var secondsLeftArray = [1306300.0];
-var upcomingEventsIDs = [13];
+console.log({{etaList}});
+console.log({{upcomingEventsList}})
+var secondsLeftArray = {{etaList}};
+var upcomingEventsIDs = {{upcomingEventsList}};
+var future = '{{future}}';
+var eventTitle = '{{eventTitle}}';
 var timer;
 timer = setInterval(showRemaining, 1000);
 </script>

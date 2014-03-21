@@ -11,6 +11,7 @@ from django.forms import ModelForm
 from django.forms.models import modelform_factory
 from sds.forms import MusicForm, organizerForm
 from django.core.mail import send_mail
+from django.http import HttpResponseRedirect
 import pprint 
 import datetime, time
 
@@ -40,6 +41,17 @@ def index(request):
     return HttpResponse(template.render(context))
 
 def future(request):
+    ###Time Calculations###
+    now = calculateCurrentTime()
+    event = Events.objects.filter(title=request.GET['title'])
+    event = event[0]
+    eventstart = event.start_time
+    eventstart = time.mktime(eventstart.timetuple())
+    upcomingEventsList = []
+    upcomingEventsList.append(event.id)
+    etaList = []
+    etaList.append(eventstart - now)
+
     MusicForm = modelform_factory(Music, fields=("email", "song_name_or_link", "intention", "uploadedSong"))
     message = "Upload a song!"
     if request.method == 'POST':
@@ -51,7 +63,6 @@ def future(request):
         send_mail('Dancetrack Received', "We got your track! Thanks for your contribution to the Dancemix!" + "See you at the danceparty ~:)" + "With Love," +"- The SDS Team", 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
         send_mail("Song Submission from: "+ request.POST['email'], "songname: "+ songName + " intention: "+ request.POST['intention'],'contact@silentdiscosquad.com', ['david@silentdiscosquad.com'], fail_silently=False)       # else if request.FILES['uploadedSong']:
 
-
         if form.is_valid():
             message = "Thanks for submitting your song!"
             if 'uploadedSong' in request.FILES:
@@ -59,20 +70,8 @@ def future(request):
             form.save()
     else:
         form = MusicForm()
-    
-    now = calculateCurrentTime()
 
-    event = Events.objects.filter(title=request.GET['title'])
-    event = event[0]
-    eventstart = event.start_time
-    eventstart = time.mktime(eventstart.timetuple())
-    upcomingEventsList = []
-    upcomingEventsList.append(event.id)
-
-    etaList = []
-    etaList.append(eventstart - now)
-
-    context = {'success': message, 'form': form, 'event': event, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList}
+    context = {'future':'True', 'eventTitle': event.title, 'success': message, 'form': form, 'event': event, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList}
     return render_to_response('index_future.html', context, context_instance=RequestContext(request))
 
 def past(request):

@@ -74,10 +74,10 @@ WSGI_APPLICATION = 'sds.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sdsdb',
-        'USER': 'martin',
+        'NAME': 'sdsdev',
+        'USER': 'rdsuser',
         'PASSWORD': 'dancefloor04',
-        'HOST': 'sds.c1u3oij6dqlo.us-west-2.rds.amazonaws.com',
+        'HOST': 'sdsdev.c1u3oij6dqlo.us-west-2.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
