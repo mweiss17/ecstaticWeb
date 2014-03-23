@@ -1,6 +1,8 @@
 <div class="city">
 <script>
-
+function streamRedirect(){
+  window.location.assign('/stream.html/?title='+eventTitle);
+}
 </script>
   <div class="container"> {{ event.city }} </div>
 </div>
@@ -16,4 +18,8 @@
 </div>
 <div class="share-past"> <a href={{event.fbEvent}}>
   <div class="btn fb">{{event.title}} Facebook Page Event</div>
-  </a> </div>
+  </a> 
+    <button class="btn" onclick="streamRedirect()">Stream The Mix</button>
+</div>
+
+
