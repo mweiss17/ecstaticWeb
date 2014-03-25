@@ -31,7 +31,7 @@ loadbutton.addEventListener('click',hideshow,false);
 function showRemaining() {
 	document.getElementById('countdown').innerHTML = playtime;
 	playtime = playtime + 1;
-	if(playtime > -10){
+	if(playtime > -300){
 		makeLoadButtonVisible();
 	}
 	if(playtime >= 0){
@@ -57,6 +57,6 @@ function makePlayButtonVisible(){
 }
 // hides the load button after you click it (if you reclick the load button, you move the mix forward by 10 millis)
 function hideshow() {
-    document.getElementById('load').style.display = 'block'; 
-    document.getElementById('load').style.backgroundColor = '#B0B0B0'; 
+    document.getElementById('load').style.display = 'none'; 
+    //document.getElementById('load').style.backgroundColor = '#B0B0B0'; 
 }  

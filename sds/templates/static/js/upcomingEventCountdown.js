@@ -1,9 +1,9 @@
 function showRemaining() {
   for(i=0; i < secondsLeftArray.length; i++)
   {
-    if(future=='True' && secondsLeftArray[i] <= 0){
+    /*if(future=='True' && secondsLeftArray[i] <= 300){
       window.location.assign('/stream.html/?title='+eventTitle);
-    }
+    }*/
     if(future!='True' && secondsLeftArray[i] <= 0 && secondsLeftArray[i] >= -7200)
     {
       document.getElementById("eventID"+upcomingEventsIDs[i]).innerHTML = "IN PROGRESS!";
