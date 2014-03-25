@@ -27,6 +27,7 @@ def index(request):
     upcomingEvents = Events.objects.filter(start_time__gte=datetimeNow-TimeZone)
     previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
 
+    future = 'False'
     etaList = []
     upcomingEventsList = []
     template = loader.get_template('index.html')
@@ -37,7 +38,7 @@ def index(request):
         upcomingEventsList.append(event.id)
 
     context = RequestContext(request, {
-        'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents
+        'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents
     })
     return HttpResponse(template.render(context))
 
