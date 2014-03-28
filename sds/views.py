@@ -135,6 +135,7 @@ def stream(request):
     eventstart = event.start_time
     eventstart = time.mktime(eventstart.timetuple())
     eta = eventstart - now
+    eta = -eta
     context = {'event': event, 'eta': eta}
     return render(request, 'stream.html', context)
 
