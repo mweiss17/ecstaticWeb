@@ -303,8 +303,12 @@ footer {
 	margin: 20px 0;
 }
 .streaming {
+	background: none repeat scroll 0 0 #089B8C;
 	padding:20px;
 	font-size: 18px !important;
+	color: #fff;
+	font-size: 16px;
+	display: none;
 }
 .contact .btn {
 	margin: 20px auto;
