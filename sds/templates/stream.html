@@ -30,9 +30,7 @@
 
 </script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
 
 <body>
 <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
@@ -60,6 +58,7 @@
 
 <h2>{{event.title}}</h2>
 <h4>Don't Panic (at the disco)!</h4> <br>
+
 <ul>
 	<li><strong>Step 1:</strong> When there are two minutes left, we will all circle up</li>
 	<li><strong>Step 2:</strong> Click the LOAD MIX button to preload the mix</li>
@@ -70,12 +69,12 @@
 <source src="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}" type="audio/mpeg">
 </audio>
 
-
 <br class="clear">
 
 <button class="btn streaming" type="button" id="load" onclick="loadMix()">Load Mix</button>
 <button class="btn streaming" type="button" id="play" onclick="playMix()">Play Mix</button>
 <h1 id="countdown"> </h1>
+
 <script>
 {% include "static/js/stream.js" %}
 </script>
