@@ -20,6 +20,6 @@ function streamRedirect(){
   <div class="btn fb">{{event.title}} Facebook Page Event</div>
   </a> 
     <button class="btn" onclick="streamRedirect()">Stream The Mix</button>
+    <a class="btn" href="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}?header=content-disposition:attachment;filename:{{event.eventMix.songname}}" >Download Song</a>
 </div>
-
 
