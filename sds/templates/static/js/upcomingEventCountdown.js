@@ -6,6 +6,7 @@ function showRemaining() {
       document.getElementById("eventID"+upcomingEventsIDs[i]).innerHTML = "IN PROGRESS!";
       continue;
     }
+      console.log(upcomingEventsIDs[i]);
       secondsLeftArray[i] = secondsLeftArray[i] - 1;
       var days = Math.floor( secondsLeftArray[i] / 86400);
       var hours = Math.floor( (secondsLeftArray[i] / 3600) % 24);

@@ -3,12 +3,11 @@ var firstClick = true;
 this.loadMix = function(){
 	try{
 		this.mAudioPlayer.play();
-		setTimeout("this.mAudioPlayer.pause()", 10)
+		setTimeout("mAudioPlayer.pause()", 10)
 	}
 	catch(err){
 		console.log( err );
 	}
-	this.mAudioPlayer.pause();
 }
 
 this.playMix = function(){
@@ -36,23 +35,7 @@ loadbutton.addEventListener('click',hideshow,false);
 
 
 function showRemaining() {
-	playtime = playtime - 1;
-	if(playtime < 300){
-		makeLoadButtonVisible();
-	}
-	if(playtime <= 0){
-		makePlayButtonVisible();
-	}
-	if(playtime <= 0){
-	var tempPlayTime = -playtime;
-	var hours = Math.floor(( tempPlayTime / 3600) % 24);
-	var minutes = Math.floor(( tempPlayTime / 60) % 60);
-	var seconds = Math.floor( tempPlayTime % 60);
-	document.getElementById("countdown").innerHTML = hours + 'hrs ';
-	document.getElementById("countdown").innerHTML += minutes + 'mins ';
-	document.getElementById("countdown").innerHTML += seconds + 'secs';
-	}
-	if(playtime > 0){
+	document.getElementById('countdown').innerHTML = playtime;
 	var days = Math.floor( playtime / 86400);
 	var hours = Math.floor(( playtime / 3600) % 24);
 	var minutes = Math.floor(( playtime / 60) % 60);
@@ -61,7 +44,15 @@ function showRemaining() {
 	document.getElementById("countdown").innerHTML += hours + 'hrs ';
 	document.getElementById("countdown").innerHTML += minutes + 'mins ';
 	document.getElementById("countdown").innerHTML += seconds + 'secs';
+
+	playtime = playtime - 1;
+	if(playtime < 300){
+		makeLoadButtonVisible();
 	}
+	if(playtime <= 0){
+		makePlayButtonVisible();
+	}
+
 }
 
 function makeLoadButtonVisible(){
