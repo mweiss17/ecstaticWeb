@@ -6,7 +6,8 @@ this.loadMix = function(){
 		setTimeout("this.mAudioPlayer.pause()", 10)
 	}
 	catch(err){
-		console.log( err );
+		
+console.log( err );
 	}
 	this.mAudioPlayer.pause();
 }
