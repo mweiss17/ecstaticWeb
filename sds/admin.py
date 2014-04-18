@@ -8,7 +8,9 @@ class MusicAdmin(admin.ModelAdmin):
 	list_display = ('song_name_or_link', 'songname', 'email', 'intention')
 
 class EventsAdmin(admin.ModelAdmin):
-	list_display = ('title', 'start_time', 'eventPic', 'google_map_link', 'location', 'fbEvent')
+	list_display = ('title', 'start_time', 'event_pic', 'google_map_link', 'location', 'fbEvent')
+	def event_pic(self, obj):
+		return obj.eventPic.photoFile
 
 class UserProfileAdmin(admin.ModelAdmin):
 	list_display = ('user', 'profilePic', 'signupDate')

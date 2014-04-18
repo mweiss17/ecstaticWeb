@@ -14,8 +14,7 @@ console.log( err );
 
 this.playMix = function(){
 	try{
-		console.log(playtime);
-		this.mAudioPlayer.currentTime = -playtime;
+		this.mAudioPlayer.currentTime = playtime;
 		this.mAudioPlayer.play();
 		if(firstClick){
 			document.getElementById('play').innerHTML = "Re-Sync";
@@ -37,27 +36,28 @@ loadbutton.addEventListener('click',hideshow,false);
 
 
 function showRemaining() {
-	playtime = playtime - 1;
-	if(playtime < 300){
+	console.log(playtime);
+	playtime = playtime + 1;
+	console.log(playtime);
+	if(playtime > -300){
 		makeLoadButtonVisible();
 	}
-	if(playtime <= 0){
+	if(playtime >= 0){
 		makePlayButtonVisible();
 	}
-	if(playtime <= 0){
-	var tempPlayTime = -playtime;
-	var hours = Math.floor(( tempPlayTime / 3600) % 24);
-	var minutes = Math.floor(( tempPlayTime / 60) % 60);
-	var seconds = Math.floor( tempPlayTime % 60);
+	if(playtime >= 0){
+	var hours = Math.floor(( playtime/ 3600) % 24);
+	var minutes = Math.floor(( playtime / 60) % 60);
+	var seconds = Math.floor( playtime % 60);
 	document.getElementById("countdown").innerHTML = hours + 'hrs ';
 	document.getElementById("countdown").innerHTML += minutes + 'mins ';
 	document.getElementById("countdown").innerHTML += seconds + 'secs';
 	}
-	if(playtime > 0){
-	var days = Math.floor( playtime / 86400);
-	var hours = Math.floor(( playtime / 3600) % 24);
-	var minutes = Math.floor(( playtime / 60) % 60);
-	var seconds = Math.floor( playtime % 60);
+	if(playtime <= 0){
+	var days = Math.floor( -playtime / 86400);
+	var hours = Math.floor(( -playtime / 3600) % 24);
+	var minutes = Math.floor(( -playtime / 60) % 60);
+	var seconds = Math.floor( -playtime % 60);
 	document.getElementById("countdown").innerHTML = days + 'days ';
 	document.getElementById("countdown").innerHTML += hours + 'hrs ';
 	document.getElementById("countdown").innerHTML += minutes + 'mins ';

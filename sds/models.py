@@ -23,11 +23,15 @@ class Photos(models.Model):
     def create(cls, url, photographer):
         image = cls(url=url, photographer=photographer)
         return image
+    def __unicode__(self):
+        return self.photoFile 
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
     profilePic = models.ForeignKey(Photos)
     signupDate = models.DateTimeField("signupDate", auto_now=True)
+    def __unicode__(self):
+        return self.user.username
 
 class Events(models.Model):
     title = models.CharField(max_length=100)
@@ -56,6 +60,9 @@ class Events(models.Model):
     role3 = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
     organizer3 = models.ForeignKey(UserProfile, related_name='organizerProfile3', null=True, blank=True)
 
+    def __unicode__(self):
+        return self.title
+
 class potentialOrganizer(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=255)
@@ -74,6 +81,9 @@ class Music(models.Model):
     songname = models.CharField(max_length=255)
     song_name_or_link = models.CharField(max_length=255)
     intention = models.CharField(max_length=255, blank=True)
+    
+    def __unicode__(self):
+        return self.uploadedSong
 
 class MusicForm(ModelForm):
     class Meta:
