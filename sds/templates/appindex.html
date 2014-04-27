@@ -1,0 +1,82 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/styles.css" />
+
+<!--[if IE]>
+    <script type="text/javascript">
+       var console = { log: function() {} };
+    </script>
+<![endif]-->
+
+<!--SCRIPTS -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48932505-1', 'silentdiscosquad.com');
+  ga('send', 'pageview');
+
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.fullPage.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $.fn.fullpage({
+  
+    anchors: ['firstPage', 'secondPage']
+  });
+  $('.home-img').click(function(){
+var video = '<iframe width="100%" height="400" src="'+ $(this).attr('data-video') +'"></iframe>';
+$(this).replaceWith(video); });
+});
+</script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.mixitup.js"></script>
+<script type="text/javascript" src="/static/js/upcomingEventCountdown.js"></script>
+<script type="text/javascript" src="/static/js/eventGrid.js"></script>
+<script>
+$(function(){
+    $('#Container').mixItUp();  
+});
+</script>
+<script>
+console.log({{etaList}});
+console.log({{upcomingEventsList}});
+var secondsLeftArray = {{etaList}};
+var upcomingEventsIDs = {{upcomingEventsList}};
+var eventTitle = "{{event.title}}";
+var future = "{{future}}";
+
+var timer;
+timer = setInterval(showRemaining, 1000);
+</script>
+</head>
+
+<body>
+
+<div class="section active" id="section0">
+  <div id="Container"> 
+    {% if upcomingEvents %}
+    {% for event in upcomingEvents %}
+    <div class="mix category-1" name="eventBox" data-my-order="1" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover;">
+      <div class="overlay">
+        <div id="eventID{{event.id}}" class="event-countdown"></div>
+        <span class="event-city">{{ event.city }} </span></br>
+        <span class="event-title">{{ event.title }} </span> </br>
+        <a href="/future.html?title={{event.title}}">
+        </a> </div>
+    </div>
+    {% endfor %}
+    {% endif %} 
+  </div>
+</div>
+
+
+</body>
+</html>

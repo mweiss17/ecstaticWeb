@@ -11,6 +11,7 @@ from django.forms import ModelForm
 from django.forms.models import modelform_factory
 from sds.forms import MusicForm, organizerForm
 from django.core.mail import send_mail
+import json
 import pprint 
 import datetime, time
 
@@ -144,6 +145,31 @@ def handle_uploaded_file(f):
         for chunk in f.chunks():
             destination.write(chunk)
 
+def appindex(request):
+    now = calculateCurrentTime()
+    datetimeNow = datetime.datetime.now()
+    TimeZone = datetime.timedelta(seconds=3600*6)
+    upcomingEvents = Events.objects.filter(start_time__gte=datetimeNow-TimeZone)
+    previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
+
+    future = 'False'
+    etaList = []
+    upcomingEventsList = []
+
+    some_data_to_dump = []
+    for event in upcomingEvents:
+        eventstart = event.start_time
+        eventstart = time.mktime(eventstart.timetuple())
+        etaList.append(eventstart-now)
+        upcomingEventsList.append(event.id)
+        some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.city, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent})
+
+    data = json.dumps(some_data_to_dump)
+
+    context = RequestContext(request, {
+        'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents
+    })
+    return HttpResponse(data, mimetype='application/json')
 
 
 def calculateCurrentTime():
