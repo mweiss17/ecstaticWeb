@@ -24,7 +24,7 @@ class Photos(models.Model):
         image = cls(url=url, photographer=photographer)
         return image
     def __unicode__(self):
-        return self.photoFile 
+        return self.photoFile.url
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
@@ -33,6 +33,16 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.user.username
 
+class Music(models.Model):
+    uploadedSong = models.FileField(upload_to='uploadedSongs/%Y/%m/%d', default='uploadedSongs', blank=True)
+    email = models.CharField(max_length=255)
+    songname = models.CharField(max_length=255)
+    song_name_or_link = models.CharField(max_length=255)
+    intention = models.CharField(max_length=255, blank=True)
+    
+    def __unicode__(self):
+        return self.uploadedSong.url
+
 class Events(models.Model):
     title = models.CharField(max_length=100)
     start_time = models.DateTimeField("Event Time")
@@ -40,7 +50,7 @@ class Events(models.Model):
     location = models.CharField(max_length=50)
     google_map_link = models.CharField(max_length=1000)
     eventPic = models.ForeignKey(Photos, unique=True)
-    eventMix = models.ForeignKey("Music", blank=True, null=True)
+    eventMix = models.ForeignKey(Music, blank=True, null=True)
     fbEvent = models.URLField(default="https://www.facebook.com/SilentDiscoSquad")
 
     ORGANIZER = 'organizer'
@@ -75,15 +85,6 @@ class organizerForm(ModelForm):
         fields = ['name', 'email', 'city', 'why']
 
 
-class Music(models.Model):
-    uploadedSong = models.FileField(upload_to='uploadedSongs/%Y/%m/%d', default='uploadedSongs', blank=True)
-    email = models.CharField(max_length=255)
-    songname = models.CharField(max_length=255)
-    song_name_or_link = models.CharField(max_length=255)
-    intention = models.CharField(max_length=255, blank=True)
-    
-    def __unicode__(self):
-        return self.uploadedSong
 
 class MusicForm(ModelForm):
     class Meta:
