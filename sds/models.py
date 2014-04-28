@@ -7,24 +7,14 @@ import datetime
 
 
 class Photos(models.Model):
-    PROFILEPIC = 'pp'
-    EVENTPIC = 'ep'
-    PICCHOICES = (
-        (PROFILEPIC, 'profilePic'),
-        (EVENTPIC, 'eventPic'),
-    )
-    pictureType = models.CharField(max_length=2,
-                                      choices=PICCHOICES,
-                                      default=PROFILEPIC)
+    user = models.ForeignKey(User)
     photoFile = models.FileField(upload_to='Photos/%Y/%m/%d')
-    photographer = models.CharField(max_length=30)
-    
-    @classmethod
-    def create(cls, url, photographer):
-        image = cls(url=url, photographer=photographer)
-        return image
+    photographer = models.CharField(max_length=30, blank=True)
+    title = models.CharField(max_length=100, blank=True)
+    photoUploadDate = models.DateTimeField("photoUploadDate", auto_now=True, blank=True, null=True)
+
     def __unicode__(self):
-        return self.photoFile.url
+        return self.title + " : " + self.user.username + " : " + str(self.photoUploadDate)
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
@@ -39,9 +29,10 @@ class Music(models.Model):
     songname = models.CharField(max_length=255)
     song_name_or_link = models.CharField(max_length=255)
     intention = models.CharField(max_length=255, blank=True)
-    
+    musicUploadDate = models.DateTimeField("musicUploadDate", auto_now=True, blank=True, null=True)
+
     def __unicode__(self):
-        return self.uploadedSong.url
+        return self.song_name_or_link+ " : " + self.email + " : " + str(self.musicUploadDate)
 
 class Events(models.Model):
     title = models.CharField(max_length=100)

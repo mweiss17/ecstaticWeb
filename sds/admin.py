@@ -2,7 +2,7 @@ from django.contrib import admin
 from sds.models import Photos, Music, Events, UserProfile, potentialOrganizer
 
 class PhotosAdmin(admin.ModelAdmin):
-	list_display = ('photographer', 'pictureType', 'photoFile')
+	list_display = ('user', 'photoFile')
 
 class MusicAdmin(admin.ModelAdmin):
 	list_display = ('song_name_or_link', 'songname', 'email', 'intention')
