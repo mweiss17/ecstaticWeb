@@ -3,6 +3,9 @@ from django.contrib import admin
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.conf import settings
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
 import datetime
 
 

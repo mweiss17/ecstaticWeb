@@ -3,6 +3,7 @@ from django.shortcuts import *
 from sds.models import Photos, Music, Events, potentialOrganizer
 from django.template import RequestContext, loader
 from boto.s3.connection import S3Connection
+from boto.s3.key import Key
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.views.generic import FormView
@@ -11,6 +12,7 @@ from django.forms import ModelForm
 from django.forms.models import modelform_factory
 from sds.forms import MusicForm, organizerForm
 from django.core.mail import send_mail
+from django.conf import settings
 import json
 import pprint 
 import datetime, time
@@ -53,20 +55,17 @@ def future(request):
         if request.POST['song_name_or_link'] != '':
             songName = "songname: "+request.POST['song_name_or_link']
         send_mail('Dancetrack Received', "We got your track! Thanks for your contribution to the Dancemix!" + "See you at the danceparty ~:)" + "With Love," +"- The SDS Team", 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
-        send_mail("Song Submission from: "+ request.POST['email'], "songname: "+ songName + " intention: "+ request.POST['intention'],'contact@silentdiscosquad.com', ['david@silentdiscosquad.com'], fail_silently=False)       # else if request.FILES['uploadedSong']:
-
-
+        send_mail("Song Submission from: "+ request.POST['email'], "songname: "+ songName + " intention: "+ request.POST['intention'],'contact@silentdiscosquad.com', ['david@silentdiscosquad.com'], fail_silently=False)       
         if form.is_valid():
             message = "Thanks for submitting your song!"
             if 'uploadedSong' in request.FILES:
-                handle_uploaded_file(request.FILES['uploadedSong'])
-            form.save()
+                form.save()
     else:
         form = MusicForm()
     
     now = calculateCurrentTime()
 
-    event = Events.objects.filter(title=request.GET['title'])
+    event = Events.objects.filter(id=request.GET['id'])
     event = event[0]
     eventstart = event.start_time
     eventstart = time.mktime(eventstart.timetuple())
