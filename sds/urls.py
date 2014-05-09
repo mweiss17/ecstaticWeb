@@ -21,6 +21,11 @@ urlpatterns = patterns('',
     url(r'^whatissds.html/$', views.whatissds, name='whatissds'),
     url(r'^stream.html/$', views.stream, name='stream'),
     url(r'^appindex.html/$', views.appindex, name='contact'),
+    url(r'^accounts/login/$',  'sds.views.login'),
+    url(r'^accounts/auth/$',  'sds.views.auth_view'),    
+    url(r'^accounts/logout/$', 'sds.views.logout'),
+    url(r'^accounts/loggedin/$', 'sds.views.loggedin'),
+    url(r'^accounts/invalid/$', 'sds.views.invalid_login'),    
     url(r'^admin/', include(admin.site.urls))
 
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
