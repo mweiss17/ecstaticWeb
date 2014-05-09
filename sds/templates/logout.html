@@ -1,18 +1,8 @@
-{% include "header.html" %}
-<div class="top-sep"> </div>
-</br>
+{% extends "registration/base.html" %}
 
-<div class="container join">
- 
+{% block title %}Logged out{% endblock %}
+
 {% block content %}
-
-  <h2>Logged out!</h2>
-  <p>Click <a href="/accounts/login/">here</a> to login again</p>
-
-{% endblock %}
- 
-</div>
-
-<div class="sep"> </div>
-{% include "footer.html" %}
+<h1>You've been logged out.</h1>
+<p>Thanks for stopping by; when you come back, don't forget to <a href="/accounts/login/">log in</a> again.</p>
 {% endblock %}
