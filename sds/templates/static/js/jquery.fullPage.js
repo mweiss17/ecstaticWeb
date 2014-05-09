@@ -14,7 +14,7 @@
 			'resize' : true,
 			'slidesColor' : [],
 			'anchors':[],
-			'scrollingSpeed': 500,
+			'scrollingSpeed': 700,
 			'easing': 'easeInQuart',
 			'menu': false,
 			'navigation': false,
@@ -35,9 +35,10 @@
 			'fixedElements': null,
 			'normalScrollElements': null, 
 			'keyboardScrolling': true,
-			'touchSensitivity': 1,
-			'continuousVertical': true,
+			'touchSensitivity': 5,
+			'continuousVertical': false,
 			'animateAnchor': true,
+			'normalScrollElementTouchThreshold': 5,
 
 			//events
 			'afterLoad': null,
