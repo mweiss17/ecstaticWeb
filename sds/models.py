@@ -1,16 +1,22 @@
+from django import forms
 from django.db import models
 from django.contrib import admin
 from django.forms import ModelForm
 from django.contrib.auth.models import User
-from datetime import datetime
 from django.conf import settings
+from django.utils import timezone
+from django.utils.http import urlquote
+from django.utils.translation import ugettext_lazy as _
+from django.core.mail import send_mail
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from sds.perm import perm
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 import datetime
 
 
 class Photos(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     photoFile = models.FileField(upload_to='Photos/%Y/%m/%d')
     photographer = models.CharField(max_length=30, blank=True)
     title = models.CharField(max_length=100, blank=True)
@@ -18,13 +24,6 @@ class Photos(models.Model):
 
     def __unicode__(self):
         return self.title + " : " + self.user.username + " : " + str(self.photoUploadDate)
-
-class UserProfile(models.Model):
-    user = models.ForeignKey(User, unique=True)
-    profilePic = models.ForeignKey(Photos)
-    signupDate = models.DateTimeField("signupDate", auto_now=True)
-    def __unicode__(self):
-        return self.user.username
 
 class Music(models.Model):
     uploadedSong = models.FileField(upload_to='uploadedSongs/%Y/%m/%d', default='uploadedSongs', blank=True)
@@ -58,14 +57,24 @@ class Events(models.Model):
         (PHOTOGRAPHER, 'photographer'),
     )
     role1 = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
-    organizer1 = models.ForeignKey(UserProfile, related_name='organizerProfile1', null=True, blank=True)
+    organizer1 = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='organizerProfile1', null=True, blank=True)
     role2 = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
-    organizer2 = models.ForeignKey(UserProfile, related_name='organizerProfile2', null=True, blank=True)
+    organizer2 = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='organizerProfile2', null=True, blank=True)
     role3 = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
-    organizer3 = models.ForeignKey(UserProfile, related_name='organizerProfile3', null=True, blank=True)
+    organizer3 = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='organizerProfile3', null=True, blank=True)
 
     def __unicode__(self):
         return self.title
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True)
+    test = models.CharField(max_length=255, blank=True, null=True)
+    profilePic = models.ForeignKey(Photos)
+    signupDate = models.DateTimeField("signupDate", auto_now=True)
+    def __unicode__(self):
+        return self.user.username
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
 
 class potentialOrganizer(models.Model):
     name = models.CharField(max_length=100)

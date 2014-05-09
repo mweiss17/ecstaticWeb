@@ -272,6 +272,11 @@ footer {
 .share-past .btn {
 	margin: 10px auto;
 }
+
+.streaming-off {
+	background:#ccc !important;
+	color:#999 !important;
+}
 .section .btn {
 	margin-top: 20px;
 	border: 0px;
@@ -435,6 +440,12 @@ color: #888;
 	font-size: 12px;
 
 }
+
+.user-login {
+float:left;
+display: inline-block !important ;
+}
+
 audio, canvas, progress, video {
 	width: 100%;
 	height: 35px;
@@ -509,6 +520,17 @@ label span, legend span {
 }
 
 
+/*FancyBox*/
+.fancybox-title-float-wrap .child {
+	border-radius: 0px !important;
+}
+
+.fancybox-title-float-wrap {
+	margin-bottom: 0px !important;
+	font-size: 20px !important;
+	top:0!important;
+
+}
 /*------------------------------------*\
     RESPONSIVE
 \*------------------------------------*/
@@ -586,6 +608,7 @@ img {
 .pastevents {
 	background: #089b8c;
 	bottom: 0px;
+	padding:0 !important;
 }
 .section {
 	padding-bottom: 120px !important;

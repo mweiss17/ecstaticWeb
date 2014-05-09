@@ -36,7 +36,7 @@
 			'normalScrollElements': null, 
 			'keyboardScrolling': true,
 			'touchSensitivity': 1,
-			'continuousVertical': false,
+			'continuousVertical': true,
 			'animateAnchor': true,
 
 			//events
@@ -86,7 +86,6 @@
 				//scrolling the page to the section with no animation
 				$('html, body').scrollTop(element.position().top);
 			}
-			
 		};
 
 		/**
