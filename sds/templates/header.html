@@ -77,7 +77,8 @@ timer = setInterval(showRemaining, 1000);
 
       $('.fancybox-media')
         .attr('rel', 'media-gallery')
-        .fancybox({
+        .fancybox(
+        {
           openEffect : 'fade',
           closeEffect : 'none',
           prevEffect : 'none',
@@ -90,12 +91,11 @@ timer = setInterval(showRemaining, 1000);
           }
         });
     });
-
   </script>
 
 </head>
 
-<body>
+<body onload="$('.fancybox-media').trigger('click');">
 <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -110,13 +110,7 @@ timer = setInterval(showRemaining, 1000);
     </div>
     <!-- /.nav-collapse -->
 
-  
-  <form method="post" action="/add_email_to_mailing_list/" class="wide">
-  {% csrf_token %}
-    email: <input type="text" name="email"><br>
-    <button type="submit" class="btn submit">Submit Email</button>
-  </form>
-  
+    
 <!--End mc_embed_signup-->
 
 
