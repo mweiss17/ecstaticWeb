@@ -89,7 +89,7 @@ html, body {
 }
 .item {
 	width: 25%;
-	height: 50%;
+	height: 300px;
 	float: left;
 	text-align: center;
 	color: #fff;
@@ -272,6 +272,11 @@ footer {
 .share-past .btn {
 	margin: 10px auto;
 }
+
+.streaming-off {
+	background:#ccc !important;
+	color:#999 !important;
+}
 .section .btn {
 	margin-top: 20px;
 	border: 0px;
@@ -435,6 +440,12 @@ color: #888;
 	font-size: 12px;
 
 }
+
+.user-login {
+float:left;
+display: inline-block !important ;
+}
+
 audio, canvas, progress, video {
 	width: 100%;
 	height: 35px;
@@ -508,6 +519,85 @@ label span, legend span {
 	color: #444;
 }
 
+
+/*FancyBox*/
+.fancybox-title-float-wrap .child {
+	border-radius: 0px !important;
+}
+
+.fancybox-title-float-wrap {
+	margin-bottom: 0px !important;
+	font-size: 20px !important;
+	top:0!important;
+
+}
+
+
+/*Tabs*/
+
+ .tabs input[type=radio] {
+	          position: absolute;
+	          top: -9999px;
+	          left: -9999px;
+	      }
+	      .tabs {
+	        width: 100%;
+	        float: none;
+	        list-style: none;
+	        position: relative;
+	     
+	      }
+	      .tabs li{
+	        float: left;
+	      }
+	      .tabs label {
+	          display: block;
+	          padding: 10px 20px;
+	          color: #08C;
+	          font-size: 24px;
+	          background: rgba(255,255,255,0.2);
+	          cursor: pointer;
+	          position: relative;
+	           width: 50%;
+	          -webkit-transition: all 0.2s ease-in-out;
+	          -moz-transition: all 0.2s ease-in-out;
+	          -o-transition: all 0.2s ease-in-out;
+	          transition: all 0.2s ease-in-out;
+	      }
+	      .tabs label:hover {
+	        background: rgba(255,255,255,0.5);
+	        top: 0;
+	      }
+	      
+	      [id^=tab]:checked + label {
+	        background: #08C;
+	        color: white;
+	        top: 0;
+	      }
+	      
+	      [id^=tab]:checked ~ [id^=tab-content] {
+	          display: block;
+	      }
+	      .tab-content{
+	        z-index: 2;
+	        display: none;
+	        text-align: left;
+	        width: 100%;
+	        font-size: 20px;
+	        line-height: 140%;
+	        padding-top: 10px;
+	        background: #08C;
+	        padding: 15px;
+	        color: white;
+	        position: absolute;
+	        top: 53px;
+	        left: 0;
+	        box-sizing: border-box;
+	        -webkit-animation-duration: 0.5s;
+	        -o-animation-duration: 0.5s;
+	        -moz-animation-duration: 0.5s;
+	        animation-duration: 0.5s;
+	      }
 
 /*------------------------------------*\
     RESPONSIVE
@@ -586,6 +676,7 @@ img {
 .pastevents {
 	background: #089b8c;
 	bottom: 0px;
+	padding:0 !important;
 }
 .section {
 	padding-bottom: 120px !important;
