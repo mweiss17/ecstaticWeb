@@ -31,6 +31,10 @@ def index(request):
     TimeZone = datetime.timedelta(seconds=3600*6)
     upcomingEvents = Events.objects.filter(start_time__gte=datetimeNow-TimeZone)
     previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
+    
+    invalid_login = False
+    #if request.GET["invalid_login"] is not None:
+     #   invalid_login = True
 
     future = 'False'
     etaList = []
@@ -43,13 +47,13 @@ def index(request):
         upcomingEventsList.append(event.id)
 
     context = RequestContext(request, {
-        'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents
+        'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents, 'invalid_login': invalid_login,
     })
     return HttpResponse(template.render(context))
 
 def future(request):
     MusicForm = modelform_factory(Music, fields=("email", "song_name_or_link", "intention", "uploadedSong"))
-    message = "Upload a song!"
+    message = ""
     if request.method == 'POST':
         form = MusicForm(request.POST, request.FILES)
         songName = " "
@@ -181,22 +185,24 @@ def auth_view(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
     user = auth.authenticate(username=username, password=password)
-    
+    context = {}
     if user is not None:
         auth.login(request, user)
-        return HttpResponseRedirect('/accounts/loggedin')
+        return HttpResponseRedirect('/', context)
     else:
-
+        context = {'invalid_login': True}
+        return HttpResponseRedirect('/?invalid_login=true', context)
+    
 def loggedin(request):
-    return render_to_response('loggedin.html', 
-                              {'full_name': request.user.username})
+    context = {'full_name': request.user.username}
+    return render(request, 'index', context)
 
 def invalid_login(request):
     return render_to_response('invalid_login.html')
 
 def logout(request):
     auth.logout(request)
-    return render_to_response('logout.html')
+    return HttpResponseRedirect('/')
 
 
 def calculateCurrentTime():
