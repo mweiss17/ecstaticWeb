@@ -19,12 +19,14 @@ function streamRedirect(){
 <div class="share-past"> <a href={{event.fbEvent}}>
   <div class="btn fb">{{event.title}} Facebook Page Event</div>
   </a> 
-{% if event.eventMix.uploadedSong %}
+{% if event.eventMix.uploadedSong and user.is_authenticated %}
     <button class="btn" onclick="streamRedirect()">Stream The Mix</button>
 
     <a class="btn" href="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}" >Download Mix!</a>
-{% else %}
-<b>No Mixes Have Been Uploaded Yet!</b>
+{% elif event.eventMix.uploadedSong and not user.is_authenticated %}
+<b>Please Login To Download The Mix!</b>
+{% elif not event.eventMix.uploadedSong and user.is_authenticated %}
+<b>Sorry, No Mixes Have Been Uploaded Yet! Please Check Back Later.</b>
 {% endif %}
 </div>
 

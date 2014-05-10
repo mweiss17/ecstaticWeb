@@ -53,7 +53,7 @@ def index(request):
 
 def future(request):
     MusicForm = modelform_factory(Music, fields=("email", "song_name_or_link", "intention", "uploadedSong"))
-    message = "Upload a song!"
+    message = ""
     if request.method == 'POST':
         form = MusicForm(request.POST, request.FILES)
         songName = " "
