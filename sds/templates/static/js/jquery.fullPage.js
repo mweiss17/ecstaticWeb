@@ -30,7 +30,7 @@
 			'autoScrolling': false,
 			'scrollOverflow': false,
 			'css3': false,
-			'paddingTop': '120px',
+			'paddingTop': '140px',
 			'paddingBottom': '120px',
 			'fixedElements': null,
 			'normalScrollElements': null, 

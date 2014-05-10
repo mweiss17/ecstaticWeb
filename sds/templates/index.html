@@ -1,53 +1,57 @@
 {% include "header.html" %}
-
 <div class="section active" id="section0">
-  <div id="Container"> 
-<div class="main">
-            <ul class="tabs">
-              <li>
-                <input type="radio" checked name="tabs" id="tab1">
-                <label for="tab1">tab 1</label>
-                <div id="tab-content1" class="tab-content animated fadeIn">
-                  "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                </div>
-              </li>
-              <li>
-                <input type="radio" name="tabs" id="tab2">
-                <label for="tab2">tab 2</label>
-                <div id="tab-content2" class="tab-content animated fadeIn">
-                  "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-                </div>
-              </li>
-         
-          </ul>
-          </div>
+  <div id="Container">
 
+  <ul class="tabs">
+    <li>
+      <input type="radio" checked name="tabs" id="tab1">
+      <label for="tab1" >Global SDS</label>
+      {% if upcomingEvents %}
+        {% for event in upcomingEvents %}
+      <div id="tab-content1" class="tab-content animated fadeIn" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover";> 
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </br>
+      Quisque scelerisque est vel enim hendrerit, a feugiat metus aliquet. </br>
+      Vivamus arcu risus, volutpat in tellus pharetra, faucibus auctor lectus. </p>
+      <a href="http://www.youtube.com/watch?v=Tlq9mye4mZA" class="fancybox-media"> YOUTUBE </a>
+      </br>
+       <div class="mix category-1" name="eventBox" data-my-order="1"</div>
+      <div id="eventID{{event.id}}" class="event-countdown"></div>
+      <span class="event-city">{{ event.city }} </span></br>
+      <span class="event-title">{{ event.title }} </span> </br>
+      <a href="/future.html?id={{event.id}}">
+      <button type="button" class="btn btn-default">Join</button>
+      </a> 
     </div>
-  <a href="/become.html"><div class="cta create">Create Your own Silent Disco Squad</div></a>
-  <a href="#section1">
-  <div class="cta pastevents">Past events</div>
-  </a> </div>
+    {% endfor %}
+      {% endif %}
+    </li>
 
-
-<div class="section" id="section0">
-  <div id="Container" class="container pastevents"> 
-
-    {% if previousEvents %}
-      {% for event in previousEvents %}
-          <a class="fancybox" data-fancybox-title="{{event.title}} // {{ event.city }} // {{ event.start_time}}" href="https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}">
-          <div class="item" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover;">
-          <div class="overlay">
-            <div id="eventID{{event.id}}"></div>        
-          </div>
-          </a>
-        </div>
-      {% endfor %}
-    {% endif %} 
-        <br class="clear">
-  </div>
-
-  {% include "footer.html" %}
+    <li>
+      <input type="radio" name="tabs" id="tab2">
+      <label for="tab2">Unique Local SDS</label>
+      <div id="tab-content2" class="tab-content animated fadeIn"> Local Unique SDS </div>
+    </li>
+  </ul>
 </div>
+
+<a href="/become.html">
+<div class="cta create">Create Your own Silent Disco Squad</div>
+</a> <a href="#section1">
+<div class="cta pastevents-banner">Past events</div>
+</a>
+</div>
+
+
+<div id="Container" class="container pastevents"> {% if previousEvents %}
+  {% for event in previousEvents %} <a class="fancybox" data-fancybox-title="{{event.title}} // {{ event.city }} // {{ event.start_time}}" href="https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}">
+  <div class="item" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover;">
+    <div class="overlay">
+      <div id="eventID{{event.id}}"></div>
+    </div>
+    </a> </div>
+  {% endfor %}
+  {% endif %} <br class="clear">
+</div>
+{% include "footer.html" %} 
 <script>arrangeEvents();</script>
-</body>
-</html>
+</body></html>
