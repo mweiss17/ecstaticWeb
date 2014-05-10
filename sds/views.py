@@ -15,6 +15,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import auth
 from django.core.context_processors import csrf
+from mailchimp import utils
 import json
 import pprint
 import datetime, time
@@ -203,6 +204,18 @@ def invalid_login(request):
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/')
+
+
+MAILCHIMP_LIST_ID = '4d0c4db173' # DRY :)
+REDIRECT_URL_NAME = '/?email_added=success'
+def add_email_to_mailing_list(request):
+    if request.POST['email']:
+        email_address = request.POST['email']
+        list = utils.get_connection().get_list_by_id(MAILCHIMP_LIST_ID)
+        list.subscribe(email_address, {'EMAIL': email_address})
+        return HttpResponseRedirect('/?email_added=success')
+    else:
+        return HttpResponseRedirect('/?email_added=failure')
 
 
 def calculateCurrentTime():

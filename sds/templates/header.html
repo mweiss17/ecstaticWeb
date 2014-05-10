@@ -109,6 +109,17 @@ timer = setInterval(showRemaining, 1000);
       </ul>
     </div>
     <!-- /.nav-collapse -->
+
+  
+  <form method="post" action="/add_email_to_mailing_list/" class="wide">
+  {% csrf_token %}
+    email: <input type="text" name="email"><br>
+    <button type="submit" class="btn submit">Submit Email</button>
+  </form>
+  
+<!--End mc_embed_signup-->
+
+
     {% if not user.is_authenticated %}
     {% include "login.html" %}
       <p>Click <a href="/accounts/signup/">here</a> to sign up.</p>
