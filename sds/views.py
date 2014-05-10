@@ -13,8 +13,11 @@ from django.forms.models import modelform_factory
 from sds.forms import MusicForm, organizerForm
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib import auth
+from django.core.context_processors import csrf
+from mailchimp import utils
 import json
-import pprint 
+import pprint
 import datetime, time
 
 
@@ -29,6 +32,10 @@ def index(request):
     TimeZone = datetime.timedelta(seconds=3600*6)
     upcomingEvents = Events.objects.filter(start_time__gte=datetimeNow-TimeZone)
     previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
+    
+    invalid_login = False
+    #if request.GET["invalid_login"] is not None:
+     #   invalid_login = True
 
     future = 'False'
     etaList = []
@@ -41,13 +48,13 @@ def index(request):
         upcomingEventsList.append(event.id)
 
     context = RequestContext(request, {
-        'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents
+        'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents, 'invalid_login': invalid_login,
     })
     return HttpResponse(template.render(context))
 
 def future(request):
     MusicForm = modelform_factory(Music, fields=("email", "song_name_or_link", "intention", "uploadedSong"))
-    message = "Upload a song!"
+    message = ""
     if request.method == 'POST':
         form = MusicForm(request.POST, request.FILES)
         songName = " "
@@ -111,7 +118,7 @@ def form(request):
     return render(request, 'form.html', context)
 
 def userauth(request):
-    context={'user' : request.user, 'pw' : request.POST}
+    context={'user' : request.user, 'pw' : request.user.is_authenticated()}
     return render(request, 'userauth.html/', context)
 
 def participate(request):
@@ -169,6 +176,46 @@ def appindex(request):
         'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents
     })
     return HttpResponse(data, mimetype='application/json')
+
+def login(request):
+    c = {}
+    c.update(csrf(request))    
+    return render_to_response('login.html', c)
+    
+def auth_view(request):
+    username = request.POST.get('username', '')
+    password = request.POST.get('password', '')
+    user = auth.authenticate(username=username, password=password)
+    context = {}
+    if user is not None:
+        auth.login(request, user)
+        return HttpResponseRedirect('/', context)
+    else:
+        context = {'invalid_login': True}
+        return HttpResponseRedirect('/?invalid_login=true', context)
+    
+def loggedin(request):
+    context = {'full_name': request.user.username}
+    return render(request, 'index', context)
+
+def invalid_login(request):
+    return render_to_response('invalid_login.html')
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect('/')
+
+
+MAILCHIMP_LIST_ID = '4d0c4db173' # DRY :)
+REDIRECT_URL_NAME = '/?email_added=success'
+def add_email_to_mailing_list(request):
+    if request.POST['email']:
+        email_address = request.POST['email']
+        list = utils.get_connection().get_list_by_id(MAILCHIMP_LIST_ID)
+        list.subscribe(email_address, {'EMAIL': email_address})
+        return HttpResponseRedirect('/?email_added=success')
+    else:
+        return HttpResponseRedirect('/?email_added=failure')
 
 
 def calculateCurrentTime():

@@ -1,6 +1,11 @@
 from django import forms
 from django.forms import ModelForm
-from sds.models import Music, potentialOrganizer
+from sds.models import Music, potentialOrganizer, UserProfile
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile 
+        fields = ('test',)
 
 class MusicForm(forms.Form):
     uploadedSong = forms.FileField(required=False)

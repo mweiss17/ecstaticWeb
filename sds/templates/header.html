@@ -77,7 +77,8 @@ timer = setInterval(showRemaining, 1000);
 
       $('.fancybox-media')
         .attr('rel', 'media-gallery')
-        .fancybox({
+        .fancybox(
+        {
           openEffect : 'fade',
           closeEffect : 'none',
           prevEffect : 'none',
@@ -90,12 +91,11 @@ timer = setInterval(showRemaining, 1000);
           }
         });
     });
-
   </script>
 
 </head>
 
-<body>
+<body onload="$('.fancybox-media').trigger('click');">
 <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -109,10 +109,23 @@ timer = setInterval(showRemaining, 1000);
       </ul>
     </div>
     <!-- /.nav-collapse -->
-    {% include "login.html" %}  
-    {% if user.is_authenticated %}
-   <!--  What's up {{user}}? -->
+    
+<!--End mc_embed_signup-->
+
+
+    {% if not user.is_authenticated %}
+    <p class="signup"> Login or <a href="/accounts/signup/">Sign Up</a>
+<!--       <p>Click <a href="/accounts/password/reset/">here</a> to reset your Password.</p> -->
+    {% include "login.html" %}
+      
+      {% if invalid_login %}
+      Login failed, please try again.
+      {% endif %}
+
+    {% else %}
+    </br>Hi, {{user}}.    <p>Click <a href="/accounts/logout/">here</a> to logout.</p>
     {% endif %}
+
 
     <div class="searchbar">
       <div class="container"> 
