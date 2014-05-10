@@ -121,15 +121,16 @@ timer = setInterval(showRemaining, 1000);
 
 
     {% if not user.is_authenticated %}
+    <p class="signup"> Login or <a href="/accounts/signup/">Sign Up</a>
+<!--       <p>Click <a href="/accounts/password/reset/">here</a> to reset your Password.</p> -->
     {% include "login.html" %}
-      <p>Click <a href="/accounts/signup/">here</a> to sign up.</p>
-      <p>Click <a href="/accounts/password/reset/">here</a> to reset your Password.</p>
+      
       {% if invalid_login %}
       Login failed, please try again.
       {% endif %}
 
     {% else %}
-    Hi, {{user}}.    <p>Click <a href="/accounts/logout/">here</a> to logout.</p>
+    </br>Hi, {{user}}.    <p>Click <a href="/accounts/logout/">here</a> to logout.</p>
     {% endif %}
 
 

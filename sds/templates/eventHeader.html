@@ -24,7 +24,9 @@ function streamRedirect(){
 
     <a class="btn" href="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}" >Download Mix!</a>
 {% elif event.eventMix.uploadedSong and not user.is_authenticated %}
-<b>Please Login To Download The Mix!</b>
+
+
+<button class="btn streaming-off" >Please Login To Download The Mix! </button>
 {% elif not event.eventMix.uploadedSong and user.is_authenticated %}
 <b>Sorry, No Mixes Have Been Uploaded Yet! Please Check Back Later.</b>
 {% endif %}
