@@ -34,8 +34,7 @@ def index(request):
     previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
     
     invalid_login = False
-    #if request.GET["invalid_login"] is not None:
-     #   invalid_login = True
+
 
     future = 'False'
     etaList = []
@@ -47,10 +46,18 @@ def index(request):
         etaList.append(eventstart-now)
         upcomingEventsList.append(event.id)
 
+    showLightbox = True
+    if 'visited' in request.COOKIES:
+        showLightbox = False
+
+
     context = RequestContext(request, {
-        'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents, 'invalid_login': invalid_login,
+        'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents, 'invalid_login': invalid_login, 'showLightbox': showLightbox,
     })
-    return HttpResponse(template.render(context))
+
+    resp = HttpResponse(template.render(context))
+    resp.set_cookie('visited', True)
+    return resp
 
 def future(request):
     MusicForm = modelform_factory(Music, fields=("email", "song_name_or_link", "intention", "uploadedSong"))

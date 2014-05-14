@@ -13,17 +13,22 @@
       Quisque scelerisque est vel enim hendrerit, a feugiat metus aliquet. </br>
       Vivamus arcu risus, volutpat in tellus pharetra, faucibus auctor lectus. </p>
 
-      <a href="#inline" class="fancybox-media"> </a>
-      <div id="inline" style="display:none;width:500px; height:500px">
-      <iframe width="100%" height="300" src="//www.youtube.com/embed/Tlq9mye4mZA" frameborder="0" allowfullscreen></iframe>
-      <br>
-              </ br>
-        <form method="post" action="/add_email_to_mailing_list/" class="wide">
-        {% csrf_token %}
-        <input type="text" class="user-mailchimp" placeholder="Enter your email" name="email">
-        <button type="submit" class="btn user-mailchimp-submit">Join the Disco Mailing List</button>
-        </form>
-      </div>
+      {% if showLightbox %}
+        <a href="#inline" class="fancybox-media"> </a>
+        <div id="inline" style="display:none;width:500px; height:500px">
+        <iframe width="100%" height="300" src="//www.youtube.com/embed/Tlq9mye4mZA" frameborder="0" allowfullscreen></iframe>
+        <br>
+          </br>
+          <form method="post" action="/add_email_to_mailing_list/" class="wide">
+          {% csrf_token %}
+          <input type="text" class="user-mailchimp" placeholder="Enter your email" name="email">
+          <button type="submit" class="btn user-mailchimp-submit">Join the Disco Mailing List</button>
+          <p class="user-mailchimp">
+          <input type="checkbox" name="lightbox" value="lightbox">
+          </p>
+          </form>
+        </div>
+        {% endif %}
 
       </br>
        <div class="mix category-1" name="eventBox" data-my-order="1"</div>

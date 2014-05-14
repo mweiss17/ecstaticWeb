@@ -114,7 +114,7 @@ timer = setInterval(showRemaining, 1000);
 
 
     {% if not user.is_authenticated %}
-    <p class="signup"> Login or <a href="/accounts/signup/">Sign Up</a>
+    <p class="signup"> Login or <a href="/accounts/signup/">Sign Up</a></p>
 <!--       <p>Click <a href="/accounts/password/reset/">here</a> to reset your Password.</p> -->
     {% include "login.html" %}
       
@@ -123,9 +123,8 @@ timer = setInterval(showRemaining, 1000);
       {% endif %}
 
     {% else %}
-    </br>Hi, {{user}}.    <p>Click <a href="/accounts/logout/">here</a> to logout.</p>
+    </br>Hi, {{user}}.    Click <a href="/accounts/logout/">here</a> to logout.
     {% endif %}
-
 
     <div class="searchbar">
       <div class="container"> 

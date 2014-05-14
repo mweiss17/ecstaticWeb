@@ -241,6 +241,7 @@ footer {
 .signup {
 	font-size: 12px;
 	padding-top: 5px;
+	width: 100px;
 }
 /*Future Event*/
 
@@ -447,7 +448,7 @@ color: #888;
 
 .user-login {
 float:left;
-display: inline-block !important ;
+display: inline-block !important;
 }
 
 .user-mailchimp {
