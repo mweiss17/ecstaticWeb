@@ -7,16 +7,16 @@ function arrangeEvents(){
     
 
       if(events.length==1){
-        events[0].style.height = "100%";
+        // events[0].style.height = "100%";
         events[0].style.width="100%";
         events[0].style.background = "cover";
 
       }
       if(events.length==2){
         events[0].style.width="50%";
-        events[0].style.height = "100%";
+        // events[0].style.height = "100%";
         events[1].style.width="50%";
-        events[1].style.height = "100%";
+        // events[1].style.height = "100%";
         events[1].style.left = "50%";
       }
       if(events.length==3){

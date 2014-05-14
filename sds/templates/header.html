@@ -108,20 +108,14 @@ timer = setInterval(showRemaining, 1000);
         <li><a href="/jointhesquad.html">Join the Squad</a></li>
       </ul>
     </div>
-    <!-- /.nav-collapse -->
-    {% if not user.is_authenticated %}
-    <p class="signup"> Login or <a href="/accounts/signup/">Sign Up</a>
-<!--       <p>Click <a href="/accounts/password/reset/">here</a> to reset your Password.</p> -->
-    {% include "login.html" %}
-      
-      {% if invalid_login %}
-      Login failed, please try again.
-      {% endif %}
+   <!-- /.nav-collapse -->
+   
+    <p class="signup">Get the latest SDS news!</p>
+      <label for="username"></label>
+      <input class="user-login" type="text" name="username" value="" 
+      placeholder="Your E-mail" id="username">
 
-    {% else %}
-    </br>Hi, {{user}}.    <p>Click <a href="/accounts/logout/">here</a> to logout.</p>
-    {% endif %}
-
+      <input type="submit" class="btn" value="Subscribe" />   
 
     <div class="searchbar">
       <div class="container"> 
