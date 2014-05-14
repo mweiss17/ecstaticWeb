@@ -19,15 +19,6 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'sds', ['Photos'])
 
-        # Adding model 'UserProfile'
-        db.create_table(u'sds_userprofile', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], unique=True)),
-            ('profilePic', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Photos'])),
-            ('signupDate', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal(u'sds', ['UserProfile'])
-
         # Adding model 'Music'
         db.create_table(u'sds_music', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -52,13 +43,23 @@ class Migration(SchemaMigration):
             ('eventMix', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Music'], null=True, blank=True)),
             ('fbEvent', self.gf('django.db.models.fields.URLField')(default='https://www.facebook.com/SilentDiscoSquad', max_length=200)),
             ('role1', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('organizer1', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile1', null=True, to=orm['sds.UserProfile'])),
+            ('organizer1', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile1', null=True, to=orm['auth.User'])),
             ('role2', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('organizer2', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile2', null=True, to=orm['sds.UserProfile'])),
+            ('organizer2', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile2', null=True, to=orm['auth.User'])),
             ('role3', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('organizer3', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile3', null=True, to=orm['sds.UserProfile'])),
+            ('organizer3', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile3', null=True, to=orm['auth.User'])),
         ))
         db.send_create_signal(u'sds', ['Events'])
+
+        # Adding model 'UserProfile'
+        db.create_table(u'sds_userprofile', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], unique=True)),
+            ('test', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
+            ('profilePic', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Photos'])),
+            ('signupDate', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+        ))
+        db.send_create_signal(u'sds', ['UserProfile'])
 
         # Adding model 'potentialOrganizer'
         db.create_table(u'sds_potentialorganizer', (
@@ -75,14 +76,14 @@ class Migration(SchemaMigration):
         # Deleting model 'Photos'
         db.delete_table(u'sds_photos')
 
-        # Deleting model 'UserProfile'
-        db.delete_table(u'sds_userprofile')
-
         # Deleting model 'Music'
         db.delete_table(u'sds_music')
 
         # Deleting model 'Events'
         db.delete_table(u'sds_events')
+
+        # Deleting model 'UserProfile'
+        db.delete_table(u'sds_userprofile')
 
         # Deleting model 'potentialOrganizer'
         db.delete_table(u'sds_potentialorganizer')
@@ -134,9 +135,9 @@ class Migration(SchemaMigration):
             'google_map_link': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'location': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'organizer1': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile1'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
-            'organizer2': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile2'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
-            'organizer3': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile3'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
+            'organizer1': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile1'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'organizer2': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile2'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'organizer3': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile3'", 'null': 'True', 'to': u"orm['auth.User']"}),
             'role1': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'role2': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'role3': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
@@ -175,6 +176,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'profilePic': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Photos']"}),
             'signupDate': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'test': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'unique': 'True'})
         }
     }

@@ -5,7 +5,6 @@ from sds.models import Music, potentialOrganizer, UserProfile
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile 
-        fields = ('test',)
 
 class MusicForm(forms.Form):
     uploadedSong = forms.FileField(required=False)

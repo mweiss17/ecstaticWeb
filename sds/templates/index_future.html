@@ -28,7 +28,7 @@
     {{ success }}
     {% endif %}
       {% if user.is_authenticated %}
-        <form method="post" action="" enctype="multipart/form-data">
+        <form method="post" action="add_email_to_mailing_list" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form }}
         <button type="submit" class="btn submit">Submit Song</button>

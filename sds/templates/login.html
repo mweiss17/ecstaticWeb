@@ -4,11 +4,12 @@
     <p class="error">Sorry, that's not a valid username or password</p>
   {% endif %}
 
-  <form action="/accounts/auth/" method="post" style='margin: 0; padding: 0'>{% csrf_token %}
-  <p>
-    <label for="username"></label><input class="user-login" type="text" name="username" value="" placeholder="Username" id="username"><label for="password"></label>
+  <form action="/accounts/auth/" method="post">
+  {% csrf_token %}
+  <p style='width: 300;'>
+    <label for="username"></label><input class="user-login" type="text" name="username" value="" placeholder="Username" id="username" /><label for="password"></label>
 
-    <input class="user-login" type="password" name="password" value="" placeholder="Password" id="password">
+    <input class="user-login" type="password" name="password" value="" placeholder="Password" id="password" />
     <input type="submit" class="btn" value="login" />   
   </p>
   </form>

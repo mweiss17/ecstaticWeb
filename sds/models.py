@@ -57,18 +57,17 @@ class Events(models.Model):
         (PHOTOGRAPHER, 'photographer'),
     )
     role1 = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
-    organizer1 = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='organizerProfile1', null=True, blank=True)
+    organizer1 = models.ForeignKey("UserProfile", related_name='organizerProfile1', null=True, blank=True)
     role2 = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
-    organizer2 = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='organizerProfile2', null=True, blank=True)
+    organizer2 = models.ForeignKey("UserProfile", related_name='organizerProfile2', null=True, blank=True)
     role3 = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
-    organizer3 = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='organizerProfile3', null=True, blank=True)
+    organizer3 = models.ForeignKey("UserProfile", related_name='organizerProfile3', null=True, blank=True)
 
     def __unicode__(self):
         return self.title
 
 class UserProfile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True)
-    test = models.CharField(max_length=255, blank=True, null=True)
     profilePic = models.ForeignKey(Photos)
     signupDate = models.DateTimeField("signupDate", auto_now=True)
     def __unicode__(self):

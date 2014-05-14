@@ -1,30 +1,37 @@
 {% include "header.html" %}
 <div class="section active" id="section0">
-<div id="Container">
-<ul class="tabs">
-  <li>
-    <input type="radio" checked name="tabs" id="tab1">
-    <label for="tab1" >Global SDS</label>
-    {% if upcomingEvents %}
-    {% for event in upcomingEvents %}
-    <div id="tab-content1" class="tab-content animated fadeIn" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover";>
-      <div class="overlay">
-        <h3>On the last sunday of every month,</br>
-          we organize a worldwide silent disco.</br>
-          The World World is invited! </h3>
+  <div id="Container">
+
+  <ul class="tabs">
+    <li>
+      <input type="radio" checked name="tabs" id="tab1">
+      <label for="tab1" >Global SDS</label>
+      {% if upcomingEvents %}
+        {% for event in upcomingEvents %}
+      <div id="tab-content1" class="tab-content animated fadeIn" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover";> 
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </br>
+      Quisque scelerisque est vel enim hendrerit, a feugiat metus aliquet. </br>
+      Vivamus arcu risus, volutpat in tellus pharetra, faucibus auctor lectus. </p>
+
+      {% if showLightbox %}
         <a href="#inline" class="fancybox-media"> </a>
         <div id="inline" style="display:none;width:500px; height:500px">
-          <iframe width="100%" height="300" src="//www.youtube.com/embed/Tlq9mye4mZA" frameborder="0" allowfullscreen></iframe>
-          <br>
-          </ br>
+        <iframe width="100%" height="300" src="//www.youtube.com/embed/Tlq9mye4mZA" frameborder="0" allowfullscreen></iframe>
+        <br>
+          </br>
           <form method="post" action="/add_email_to_mailing_list/" class="wide">
-            {% csrf_token %}
-            <input type="text" class="user-mailchimp" placeholder="Enter your email" name="email">
-            <button type="submit" class="btn user-mailchimp-submit">Join the Disco Mailing List</button>
+          {% csrf_token %}
+          <input type="text" class="user-mailchimp" placeholder="Enter your email" name="email">
+          <button type="submit" class="btn user-mailchimp-submit">Join the Disco Mailing List</button>
+          <p class="user-mailchimp">
+          <input type="checkbox" name="lightbox" value="lightbox">
+          </p>
           </form>
         </div>
-        <div class="mix category-1" name="eventBox" data-my-order="1"</div>
-      <hr>
+        {% endif %}
+
+      </br>
+       <div class="mix category-1" name="eventBox" data-my-order="1"</div>
       <div id="eventID{{event.id}}" class="event-countdown"></div>
       <span class="event-city">{{ event.city }} </span></br>
       <span class="event-title">{{ event.title }} </span> </br>
