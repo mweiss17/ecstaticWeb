@@ -9,12 +9,12 @@
       {% if upcomingEvents %}
         {% for event in upcomingEvents %}
       <div id="tab-content1" class="tab-content animated fadeIn" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover";> 
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </br>
-      Quisque scelerisque est vel enim hendrerit, a feugiat metus aliquet. </br>
-      Vivamus arcu risus, volutpat in tellus pharetra, faucibus auctor lectus. </p>
+      <div class="overlay">
+      <h3>On June 7th, Silent Disco Squad is </br> partnering with  100in1Day - </br> We are throwing a synchronized </br> Silent Disco across Canada! Everyone is Invited!</h3>
 
       {% if showLightbox %}
         <a href="#inline" class="fancybox-media"> </a>
+        <hr>
         <div id="inline" style="display:none;width:500px; height:500px">
         <iframe width="100%" height="300" src="//www.youtube.com/embed/Tlq9mye4mZA" frameborder="0" allowfullscreen></iframe>
         <br>
@@ -25,29 +25,32 @@
           <button type="submit" class="btn user-mailchimp-submit">Join the Disco Mailing List</button>
           </form>
         </div>
-        {% endif %}
-
-      </br>
+      {% endif %}
        <div class="mix category-1" name="eventBox" data-my-order="1"</div>
+      <hr>
       <div id="eventID{{event.id}}" class="event-countdown"></div>
+      
       <span class="event-city">{{ event.city }} </span></br>
       <span class="event-title">{{ event.title }} </span> </br>
       <hr>
       <h3>Join the party in 4 locations</h3>
+      <div class="container">
       <div class="row">
-        <div class="col-md-3"> <a href="/future.html?id={{event.id}}">
+      
+      <a href="/future.html?id={{event.id}}">
           <button type="button" class="btn btn-default join-button">Montreal</button>
-          </a> </div>
-        <div class="col-md-3"> <a href="/future.html?id={{event.id}}">
+          </a> 
+         <a href="/future.html?id={{event.id}}">
           <button type="button" class="btn btn-default join-button">Toronto</button>
-          </a> </div>
-        <div class="col-md-3"> <a href="/future.html?id={{event.id}}">
+          </a> 
+        <a href="/future.html?id={{event.id}}">
           <button type="button" class="btn btn-default join-button">Vancouver</button>
-          </a> </div>
-        <div class="col-md-3"> <a href="/future.html?id={{event.id}}">
+          </a> 
+       <a href="/future.html?id={{event.id}}">
           <button type="button" class="btn btn-default join-button">Halifax</button>
-          </a> </div>
+          </a> 
       </div>
+    </div>
     </div>
   </div>
   {% endfor %}
@@ -90,7 +93,7 @@
     </div>
     </a> </div>
   {% endfor %}
-  {% endif %} <br class="clear">
+  {% endif %} 
 </div>
 {% include "footer.html" %} 
 <script>arrangeEvents();</script>

@@ -80,11 +80,12 @@ html, body {
 }
 
 .mix .event-city {
-	font-size: 12px;
+	font-size: 16px;
 	margin-bottom: 20px !important;
 }
 .mix .event-title {
-	font-size: 12px;
+	font-size: 16px;
+	line-height: 1;
 }
 .mix .event-countdown {
 	padding-bottom: 20px;
@@ -172,6 +173,10 @@ footer {
 	margin-top: 5px;
 	position: relative;
 }
+
+.social {
+	padding-top:15px;
+}
 .searchbar {
 	width: 100%;
 	left: 0;
@@ -249,7 +254,7 @@ footer {
 .signup {
 	font-size: 12px;
 	padding-top: 5px;
-	width: 100px;
+	
 }
 /*Future Event*/
 
@@ -502,7 +507,7 @@ fieldset {
 }
 input[type="text"], input[type="password"], input[type="email"], textarea, select {
 	border: 1px solid #ccc;
-	padding: 6px 4px;
+	padding: 7px 4px;
 	outline: none;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
@@ -590,7 +595,7 @@ label span, legend span {
 	          cursor: pointer;
 	          position: relative;
 	          margin-bottom: 0px !important;
-	           width: 50%;
+	           width: 100%;
 	          -webkit-transition: all 0.2s ease-in-out;
 	          -moz-transition: all 0.2s ease-in-out;
 	          -o-transition: all 0.2s ease-in-out;
@@ -678,8 +683,8 @@ img {
 .overlay {
 	width: 100%;
 	height: 100% !important;
-	padding: 30px;
-	background: rgba(0,0,0,0.8) !important;
+	padding: 30px !important;
+	background: rgba(0,0,0,0.4) !important;
 	z-index: 9999;
 }
 
