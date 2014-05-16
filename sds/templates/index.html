@@ -1,83 +1,71 @@
 {% include "header.html" %}
+{% if showLightbox %}
+  <a href="#inline" class="fancybox-media"> </a>
+  <div id="inline" style="display:none;width:500px; height:500px">
+    <iframe width="100%" height="300" src="//www.youtube.com/embed/Tlq9mye4mZA" frameborder="0" allowfullscreen></iframe>
+    <br></br>
+    <form method="post" action="/add_email_to_mailing_list/" class="wide">
+      {% csrf_token %}
+      <input type="text" class="user-mailchimp" placeholder="Enter your email" name="email">
+      <button type="submit" class="btn user-mailchimp-submit">Join the Disco Mailing List</button>
+    </form>
+  </div>
+{% endif %}
+
 <div class="section active" id="section0">
   <div id="Container">
+    <ul class="tabs">
+      <li>
+        <input type="radio" checked name="tabs" id="tab1">
+        <label for="tab1" >Global SDS</label>
+        {% if upcomingGlobalEvent %}
+          <div id="tab-content1" class="tab-content animated fadeIn" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{upcomingGlobalEvent.eventPic.photoFile}}); background-size: cover";> 
+          <h3>On the last sunday of every month,</br>
+            we organize a worldwide silent disco.</br>
+            The Whole World is invited! </h3>
 
-  <ul class="tabs">
-    <li>
-      <input type="radio" checked name="tabs" id="tab1">
-      <label for="tab1" >Global SDS</label>
-      {% if upcomingEvents %}
-        {% for event in upcomingEvents %}
-      <div id="tab-content1" class="tab-content animated fadeIn" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover";> 
-      <div class="overlay">
-      <h3>On June 7th, Silent Disco Squad is </br> partnering with  100in1Day - </br> We are throwing a synchronized </br> Silent Disco across Canada! Everyone is Invited!</h3>
-
-      {% if showLightbox %}
-        <a href="#inline" class="fancybox-media"> </a>
-        <hr>
-        <div id="inline" style="display:none;width:500px; height:500px">
-        <iframe width="100%" height="300" src="//www.youtube.com/embed/Tlq9mye4mZA" frameborder="0" allowfullscreen></iframe>
-        <br>
-          </br>
-          <form method="post" action="/add_email_to_mailing_list/" class="wide">
-          {% csrf_token %}
-          <input type="text" class="user-mailchimp" placeholder="Enter your email" name="email">
-          <button type="submit" class="btn user-mailchimp-submit">Join the Disco Mailing List</button>
-          </form>
-        </div>
-      {% endif %}
-       <div class="mix category-1" name="eventBox" data-my-order="1"</div>
-      <hr>
-      <div id="eventID{{event.id}}" class="event-countdown"></div>
-      
-      <span class="event-city">{{ event.city }} </span></br>
-      <span class="event-title">{{ event.title }} </span> </br>
-      <hr>
-      <h3>Join the party in 4 locations</h3>
-      <div class="container">
-      <div class="row">
-      
-      <a href="/future.html?id={{event.id}}">
-          <button type="button" class="btn btn-default join-button">Montreal</button>
-          </a> 
-         <a href="/future.html?id={{event.id}}">
-          <button type="button" class="btn btn-default join-button">Toronto</button>
-          </a> 
-        <a href="/future.html?id={{event.id}}">
-          <button type="button" class="btn btn-default join-button">Vancouver</button>
-          </a> 
-       <a href="/future.html?id={{event.id}}">
-          <button type="button" class="btn btn-default join-button">Halifax</button>
-          </a> 
+          <div class="mix category-1" name="eventBox" data-my-order="1"</div>
+          {{ upcomingGlobalEvent.start_time }}<br>
+          <span class="event-title">{{ upcomingGlobalEvent.title }} </span> </br>
+          <hr>
+          <h3>Join the party in any location!</h3>
+          {% for event in upcomingEvents %}
+            {% if event.globalEvent %}
+              <div class="row">
+                <div class="col-md-3"> <a href="/future.html?id={{event.id}}">
+                <button type="button" class="btn btn-default join-button">{{event.city}}</button></a> 
+              </div>
+            {% endif %}
+          {% endfor %}
       </div>
     </div>
-    </div>
-  </div>
-  {% endfor %}
   {% endif %}
   </li>
+
   <li>
-    <input type="radio" name="tabs" id="tab2">
+    <input type="radio" name="tabs" id="tab2"/>
     <label for="tab2" >Weekly local SDS</label>
-    {% if upcomingEvents %}
-    {% for event in upcomingEvents %}
-    <div id="tab-content2" class="tab-content animated fadeIn" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover";>
-      <div class="overlay">
-        <h3>On the last sunday of every month,</br>
-          we organize a worldwide silent disco.</br>
-          The World World is invited! </h3>
-       
-        <div class="mix category-1" name="eventBox" data-my-order="1"</div>
-      <hr>
-      <div id="eventID{{event.id}}" class="event-countdown"></div>
-      <span class="event-city">{{ event.city }} </span></br>
-      <span class="event-title">{{ event.title }} </span> </br>
-    </div>
-  </div>
-  {% endfor %}
-  {% endif %}
+      {% for event in upcomingEvents %}
+        {% if not event.globalEvent %}
+          <div id="tab-content2" class="tab-content animated fadeIn" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover";>
+            <div class="overlay">
+              <h3>On the last sunday of every month,</br>
+                we organize a worldwide silent disco.</br>
+                The Whole World is invited! </h3>
+           
+              <div class="mix category-1" name="eventBox" data-my-order="1"</div>
+              <hr>
+              <div id="eventID{{event.id}}" class="event-countdown"></div>
+              <span class="event-city">{{ event.city }} </span></br>
+              <button type="button" class="btn btn-default join-button">{{event.city}}</button></a> 
+            </div>
+          </div>
+        {% endif %}
+    {% endfor %}
   </li>
 </ul>
+
+
 </div>
 <a href="/become.html">
 <div class="cta create">Create Your own Silent Disco Squad</div>
@@ -93,7 +81,7 @@
     </div>
     </a> </div>
   {% endfor %}
-  {% endif %} 
+  {% endif %} <br class="clear">
 </div>
 {% include "footer.html" %} 
 <script>arrangeEvents();</script>

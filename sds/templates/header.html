@@ -88,7 +88,13 @@ timer = setInterval(showRemaining, 1000);
         });
     });
   </script>
-  </head>
+</head>
+
+{% if email_added %}
+  <script>
+    alert("Success! Please check your email to confirm your subscription." )
+  </script> 
+{% endif %}
 
   <body onload="$('.fancybox-media').trigger('click');">
 <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
@@ -105,18 +111,6 @@ timer = setInterval(showRemaining, 1000);
     </div>
    <!-- /.nav-collapse -->
    
-    <p class="signup">Get the latest SDS news!</p>
-      <!--label for="username"></label>
-      <input class="user-login" type="text" name="username" value="" 
-      placeholder="Your E-mail" id="username">
-
-      <input type="submit" class="btn" value="Subscribe" /-->  
-
-          <form method="post" action="/add_email_to_mailing_list/" class="wide">
-          {% csrf_token %}
-          <input type="text" class="user-mailchimp" placeholder="Enter your email" name="email">
-          <button type="submit" class="btn">Subscribe</button>
-          </form>
  
 
 <!--    {% if not user.is_authenticated %}
@@ -134,14 +128,14 @@ timer = setInterval(showRemaining, 1000);
 -->
     <div class="searchbar">
         <div class="container">
-        <div class="col-md-9">
+          <div class="col-md-9"> 
             <p class="signup">Get the latest SDS news!</p>
-            <label for="username"></label>
-            <input class="user-login" type="text" name="username" value="" 
-      placeholder="Your E-mail" id="username">
-            <input type="submit" class="btn" value="Subscribe" />
-          </div>
-        <div class="col-md-3"> 
+          <form method="post" action="/add_email_to_mailing_list/" class="wide">
+          {% csrf_token %}
+          <input type="text" class="user-mailchimp" placeholder="Enter your email" name="email">
+          <button type="submit" class="btn">Subscribe</button>
+          </form>
+        </div>
         <a class="social" href="http://www.youtube.com/channel/UCErk7W6KJ0ZABDnLJk1maQA" target="_blank"><img src="/static/img/youtube.png"></a> 
         <a href="https://soundcloud.com/silent-disco-squad" target="_blank"><img src="/static/img/soundcloud.png"> </a> 
         <a href="https://www.facebook.com/SilentDiscoSquad" target="_blank"><img src="/static/img/facebook.png"> </a> </div>

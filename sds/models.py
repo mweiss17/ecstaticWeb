@@ -38,6 +38,8 @@ class Music(models.Model):
 
 class globalEvent(models.Model):
     title = models.CharField(max_length=255)
+    eventPic = models.ForeignKey(Photos, unique=True)
+    start_time = models.DateTimeField("Event Time")
 
 class Events(models.Model):
     title = models.CharField(max_length=100)

@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import *
-from sds.models import Photos, Music, Events, potentialOrganizer
+from sds.models import Photos, Music, Events, potentialOrganizer, globalEvent
 from django.template import RequestContext, loader
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
@@ -32,9 +32,14 @@ def index(request):
     TimeZone = datetime.timedelta(seconds=3600*6)
     upcomingEvents = Events.objects.filter(start_time__gte=datetimeNow-TimeZone)
     previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
-    
+    upcomingGlobalEvent = globalEvent.objects.filter(start_time__gte=datetimeNow-TimeZone)
+    upcomingGlobalEvent = upcomingGlobalEvent[0]
     invalid_login = False
-
+    email_added = ""
+    try:
+        email_added = request.GET['email_added']
+    except Exception, e:
+        pass
 
     future = 'False'
     etaList = []
@@ -46,13 +51,14 @@ def index(request):
         etaList.append(eventstart-now)
         upcomingEventsList.append(event.id)
 
+
     showLightbox = True
     if 'visited' in request.COOKIES:
         showLightbox = False
 
 
     context = RequestContext(request, {
-        'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents, 'invalid_login': invalid_login, 'showLightbox': showLightbox,
+        'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents, 'invalid_login': invalid_login, 'showLightbox': showLightbox, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added
     })
 
     resp = HttpResponse(template.render(context))

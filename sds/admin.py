@@ -4,7 +4,6 @@ from sds.models import Photos, Music, Events, UserProfile, potentialOrganizer, g
 class PhotosAdmin(admin.ModelAdmin):
 	list_display = ('user', 'photoFile')
 
-
 class EventsAdmin(admin.ModelAdmin):
 	list_display = ('title', 'start_time', 'event_pic', 'google_map_link', 'location', 'fbEvent')
 	def event_pic(self, obj):
@@ -21,7 +20,9 @@ class MusicAdmin(admin.ModelAdmin):
 	list_display = ('song_name_or_link', 'songname', 'email', 'intention')
 
 class globalEventAdmin(admin.ModelAdmin):
-	list_display = ('title',)
+	list_display = ('title', 'global_event_pic',)
+	def global_event_pic(self, obj):
+		return obj.eventPic.photoFile
 
 admin.site.register(globalEvent, globalEventAdmin)
 admin.site.register(Music, MusicAdmin)
