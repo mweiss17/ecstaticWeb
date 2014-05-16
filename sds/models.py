@@ -36,6 +36,9 @@ class Music(models.Model):
     def __unicode__(self):
         return self.song_name_or_link+ " : " + self.email + " : " + str(self.musicUploadDate)
 
+class globalEvent(models.Model):
+    title = models.CharField(max_length=255)
+
 class Events(models.Model):
     title = models.CharField(max_length=100)
     start_time = models.DateTimeField("Event Time")
@@ -45,6 +48,7 @@ class Events(models.Model):
     eventPic = models.ForeignKey(Photos, unique=True)
     eventMix = models.ForeignKey(Music, blank=True, null=True)
     fbEvent = models.URLField(default="https://www.facebook.com/SilentDiscoSquad")
+    globalEvent = models.ForeignKey(globalEvent, blank=True, null=True)
 
     ORGANIZER = 'organizer'
     DJ = 'dj'

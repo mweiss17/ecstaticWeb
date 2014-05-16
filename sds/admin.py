@@ -1,5 +1,5 @@
 from django.contrib import admin
-from sds.models import Photos, Music, Events, UserProfile, potentialOrganizer
+from sds.models import Photos, Music, Events, UserProfile, potentialOrganizer, globalEvent
 
 class PhotosAdmin(admin.ModelAdmin):
 	list_display = ('user', 'photoFile')
@@ -20,6 +20,10 @@ class potentialOrganizerAdmin(admin.ModelAdmin):
 class MusicAdmin(admin.ModelAdmin):
 	list_display = ('song_name_or_link', 'songname', 'email', 'intention')
 
+class globalEventAdmin(admin.ModelAdmin):
+	list_display = ('title',)
+
+admin.site.register(globalEvent, globalEventAdmin)
 admin.site.register(Music, MusicAdmin)
 admin.site.register(Photos, PhotosAdmin)
 admin.site.register(Events, EventsAdmin)
