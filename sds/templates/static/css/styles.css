@@ -9,8 +9,9 @@ html, body {
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-
 }
+
+
 #superContainer {
 	height: 100%;
 	position: relative;
@@ -58,7 +59,6 @@ html, body {
 	float: left;
 	height: 50%;
 	display: none;
-	
 	color: #fff;
 	text-transform: uppercase;
 	font-weight: bold;
@@ -71,14 +71,12 @@ html, body {
 	background: rgba(0,0,0,0.8);
 	z-index: 9999;
 }
-
-.item-past{
+.item-past {
 	width: 100%;
 	height: 100%;
 	padding: 30px;
 	z-index: 9999;
 }
-
 .mix .event-city {
 	font-size: 16px;
 	margin-bottom: 20px !important;
@@ -111,6 +109,7 @@ html, body {
 	font-size: 14px;
 }
 .footer {
+	display: none;
 	background: none repeat scroll 0 0 #333333;
 	z-index: 9999;
 }
@@ -121,6 +120,7 @@ html, body {
 	background: #333;
 }
 footer {
+	display: none;
 	text-align: center;
 	font-size: 14px;
 	padding: 20px 0;
@@ -173,9 +173,8 @@ footer {
 	margin-top: 5px;
 	position: relative;
 }
-
 .social {
-	padding-top:15px;
+	padding-top: 15px !important;
 }
 .searchbar {
 	width: 100%;
@@ -188,9 +187,7 @@ footer {
 	border-bottom: 1px solid #eee;
 }
 .searchbar img {
-	float: right;
-	margin-right: 10px;
-	margin-top: 8px;
+	display: none;
 }
 .searchbar img:hover {
 	opacity: 0.7;
@@ -216,11 +213,9 @@ footer {
 #page0 {
 	background: #089b8c;
 }
-
 #page1 {
 	padding-top: 20px !important;
 }
-
 #page2 {
 	background: #666;
 	color: #fff;
@@ -240,21 +235,17 @@ footer {
 	height: 140px;
 	position: relative;
 }
-
 .sep {
 	height: 140px;
 	position: relative;
 }
-
 .sep-half {
 	height: 80px;
 	position: relative;
 }
-
 .signup {
 	font-size: 12px;
 	padding-top: 5px;
-	
 }
 /*Future Event*/
 
@@ -290,10 +281,9 @@ footer {
 .share-past .btn {
 	margin: 10px auto;
 }
-
 .streaming-off {
-	background:#ccc !important;
-	color:#999 !important;
+	background: #ccc !important;
+	color: #999 !important;
 }
 .section .btn {
 	margin-top: 20px;
@@ -327,7 +317,7 @@ footer {
 }
 .streaming {
 	background: none repeat scroll 0 0 #089B8C;
-	padding:20px;
+	padding: 20px;
 	font-size: 18px !important;
 	color: #fff;
 	font-size: 16px;
@@ -366,6 +356,10 @@ footer {
 	font-size: 16px;
 	color: #fff;
 }
+
+.searchbar {
+	display: none;
+}
 .organizer {
 	font-size: 18px;
 	text-align: center;
@@ -394,42 +388,38 @@ footer {
 	color: #089B8C;
 }
 .guide .title {
-
-color: #089b8c;
+	color: #089b8c;
 }
 .guide h2 {
-
 	font-size: 22px;
 }
-
 .guide h3 {
-color: #888;
+	color: #888;
 	font-weight: normal;
-	font-size:18px;
-	margin-top:0 !important;
-
+	font-size: 18px;
+	margin-top: 0 !important;
 }
-.contact h3, 3{
+
+.pastevents {
+	display: none;
+}
+.contact h3, 3 {
+ color: #888;
+ font-weight: normal;
+ font-size: 20px;
+ margin-top:0 !important;
+}
+.contact h3, guide h3 {
 	color: #888;
 	font-weight: normal;
 	font-size: 20px;
-	margin-top:0 !important;
+	margin-top: 0 !important;
 }
-
-
-.contact h3, guide h3{
-	color: #888;
-	font-weight: normal;
-	font-size: 20px;
-	margin-top:0 !important;
-}
-
 .new-event h3 {
 	color: #888;
 	font-weight: normal;
 	font-size: 20px;
 }
-
 .submit-or {
 	float: left;
 	margin-right: 10px;
@@ -443,7 +433,6 @@ color: #888;
 	font-size: 22px;
 	font-weight: 400;
 }
-
 .join h3 {
 	font-size: 12px;
 	color: #888;
@@ -451,9 +440,8 @@ color: #888;
 	font-size: 20px;
 	margin-top: 0;
 }
-
 .join-button {
-	padding:15px !important;
+	padding: 15px !important;
 	font-size: 16px !important;
 }
 .become-email input[type="text"], input[type="password"], input[type="email"], textarea, select {
@@ -461,24 +449,19 @@ color: #888;
 }
 .become h3 {
 	font-size: 12px;
-
 }
-
 .user-login {
-float:left;
-display: inline-block !important;
+	float: left;
+	display: inline-block !important;
 }
-
 .user-mailchimp {
-float:left !important;
-display: inline-block !important;
-width: 300px !important;
+	float: left !important;
+	display: inline-block !important;
+	width: 300px !important;
 }
-
 .user-mailchimp-submit {
-	float:right !important;
+	float: right !important;
 }
-
 audio, canvas, progress, video {
 	width: 100%;
 	height: 35px;
@@ -551,92 +534,83 @@ label span, legend span {
 	font-size: 13px;
 	color: #444;
 }
-
-
 /*FancyBox*/
 .fancybox-title-float-wrap .child {
 	border-radius: 0px !important;
 }
-
 .fancybox-title-float-wrap {
 	margin-bottom: 0px !important;
 	font-size: 20px !important;
-	top:0!important;
-
+	top: 0!important;
 }
-
 /*Tabs*/
 
- .tabs input[type=radio] {
-	          position: absolute;
-	          top: -9999px;
-	          left: -9999px;
-	      }
-	      .tabs {
-	        width: 100%;
-	        float: none;
-	        list-style: none;
-	        position: relative;
-	        padding: 0;
-	        height: 100%;
-	        background: #333;
-	     
-	      }
-	      .tabs li{
-	        float: left;
-	        width: 50%;
-	        background:#fff;
-	      }
-	      .tabs label {
-	          display: block;
-	          padding: 12px 30px;
-	          font-size: 24px;
-	          background: rgba(255,255,255,0.2);
-	          cursor: pointer;
-	          position: relative;
-	          margin-bottom: 0px !important;
-	           width: 100%;
-	          -webkit-transition: all 0.2s ease-in-out;
-	          -moz-transition: all 0.2s ease-in-out;
-	          -o-transition: all 0.2s ease-in-out;
-	          transition: all 0.2s ease-in-out;
-	      }
-	      .tabs label:hover {
-	        background: rgba(255,255,255,0.5);
-	        top: 0;
-	      }
-	      
-	      [id^=tab]:checked + label {
-	        background: #222;
-	        color: white;
-	        top: 0;
-	        
-	      }
-	      
-	      [id^=tab]:checked ~ [id^=tab-content] {
-	          display: block;
-	      }
-	      .tab-content{
-	        z-index: 2;
-	        display: none;
-	        text-align: left;
-	        width: 100%;
-	        font-size: 20px;
-	        line-height: 140%;
-	        /*padding-top: 10px;*/
-	        background: #333;
-	        /*padding: 15px;*/
-	        color: white;
-	        position: absolute;
-	        top: 53px;
-	        left: 0;
-	        height:100%;
-	        box-sizing: border-box;
-	        -webkit-animation-duration: 0.5s;
-	        -o-animation-duration: 0.5s;
-	        -moz-animation-duration: 0.5s;
-	        animation-duration: 0.5s;
-	      }
+.tabs input[type=radio] {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+}
+.tabs {
+	width: 100%;
+	float: none;
+	list-style: none;
+	position: relative;
+	padding: 0;
+	height: 100%;
+	background: #333;
+}
+.tabs li {
+	float: left;
+	width: 50%;
+	background: #fff;
+}
+.tabs label {
+	display: block;
+	padding: 12px 30px;
+	font-size: 24px;
+	background: rgba(255,255,255,0.2);
+	cursor: pointer;
+	position: relative;
+	margin-bottom: 0px !important;
+	width: 100%;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
+.tabs label:hover {
+	background: rgba(255,255,255,0.5);
+	top: 0;
+}
+[id^=tab]:checked + label {
+	background: #222;
+	color: white;
+	top: 0;
+}
+ [id^=tab]:checked ~ [id^=tab-content] {
+ display: block;
+}
+.tab-content {
+	z-index: 2;
+	display: none;
+	text-align: left;
+	width: 100%;
+	font-size: 20px;
+	line-height: 140%;
+	/*padding-top: 10px;*/
+	background: #333;
+	/*padding: 15px;*/
+	color: white;
+	position: absolute;
+	top: 53px;
+	left: 0;
+	height: 100%;
+	box-sizing: border-box;
+	-webkit-animation-duration: 0.5s;
+	-o-animation-duration: 0.5s;
+	-moz-animation-duration: 0.5s;
+	animation-duration: 0.5s;
+}
 
 /*------------------------------------*\
     RESPONSIVE
@@ -655,18 +629,39 @@ img {
 	margin: 0 auto !important;
 }
 #page1 {
-	padding-top:20px !important;
+	padding-top: 20px !important;
 }
+
 }
 @media only screen and (min-width:768px) {
+
 #page0, #page1, #page2, #page3, #page4, #page5 {
 	font-size: 12px;
 	text-align: left;
 }
-
-
+.pastevents {
+	display: inline !important;
+}
 .navbar-collapse {
 	background: none;
+}
+
+.footer {
+	display: inline;
+	background: none repeat scroll 0 0 #333333;
+	z-index: 9999;
+}
+.footer a {
+	color: #089B8C;
+}
+.footer a:hover {
+	background: #333;
+}
+footer {
+	display: inline;
+	text-align: center;
+	font-size: 14px;
+	padding: 20px 0;
 }
 #Container .mix {
 	background-size: cover;
@@ -674,7 +669,6 @@ img {
 	float: left;
 	height: 50%;
 	display: none;
-	
 	color: #fff;
 	text-transform: uppercase;
 	font-weight: bold;
@@ -687,12 +681,9 @@ img {
 	background: rgba(0,0,0,0.4) !important;
 	z-index: 9999;
 }
-
-.tab-content{
-	     
-	        height:91%;
-	        
-	      }
+.tab-content {
+	height: 91%;
+}
 .mix .event-city {
 	font-size: 22px;
 }
@@ -702,7 +693,7 @@ img {
 .mix .event-countdown {
 	padding-bottom: 20px;
 	font-size: 37px;
-	line-height:1;
+	line-height: 1;
 }
 .cta {
 	text-align: center;
@@ -719,13 +710,12 @@ img {
 	bottom: 60px;
 }
 .pastevents {
-	padding:0 !important;
+	padding: 0 !important;
 }
-
 .pastevents-banner {
 	background: #089b8c;
 	bottom: 0px;
-	padding:0 !important;
+	padding: 0 !important;
 }
 .section {
 	padding-bottom: 120px !important;
@@ -752,11 +742,21 @@ img {
 .organizer {
 	display: inline;
 }
+.searchbar {
+	display: inline;
+}
 }
 @media only screen and (min-width:1024px) {
 #page0, #page1, #page2, #page3, #page4, #page5 {
 	padding-top: 230px !important;
 	font-size: 14px;
+}
+
+.searchbar img {
+	display: inline-block;
+	float: right;
+	margin-right: 10px;
+	margin-top: 18px;
 }
 .item .event-city {
 	font-size: 22px;
@@ -768,8 +768,6 @@ img {
 #page0 {
 	padding-top: 160px !important;
 }
-
-
 }
 @media only screen and (min-width:1140px) {
 }
