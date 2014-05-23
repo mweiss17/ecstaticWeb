@@ -181,7 +181,7 @@ def appindex(request):
         eventstart = time.mktime(eventstart.timetuple())
         etaList.append(eventstart-now)
         upcomingEventsList.append(event.id)
-        some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.city, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent})
+        some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.city, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent, 'latitude':event.latitude, 'longitude':event.longitude})
 
     data = json.dumps(some_data_to_dump)
 
