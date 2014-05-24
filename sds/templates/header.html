@@ -13,126 +13,124 @@
   <link rel="stylesheet" type="text/css" href="/static/js/jquery.fullPage.css" />
   <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
   <link rel="stylesheet" type="text/css" href="/static/css/jquery.fancybox.css" media="screen" />
- 
+
   <!--[if IE]>
     <script type="text/javascript">
        var console = { log: function() {} };
     </script>
     <![endif]-->
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>  
-  <script type="text/javascript" src="/static/js/jquery.slimscroll.min.js"></script>
-  <script type="text/javascript" src="/static/js/jquery.fullPage.js"></script>
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/static/js/upcomingEventCountdown.js"></script>
-  <script type="text/javascript" src="/static/js/jquery.fancybox.js?v=2.1.5"></script>
-  <script type="text/javascript" src="/static/js/jquery.fancybox-media.js?v=1.0.6"></script>
-
-
-   <script type="text/javascript">
-    $(document).ready(function() {
-      $.fn.fullpage({
-        'slidesColor': ['#4A6FB1', '#939FAA', '#323539'],
-        'scrollOverflow': false,
-         'autoScrolling': false,
-         'paddingTop' : '120px',
-         'paddingBottom' : '120px',
-      });
-    });
- 
-  </script>
-
-  <script type="text/javascript">
-   $(document).ready(function() {
-    $('.home-img').click(function(){
-      var video = '<iframe width="100%" height="400" src="'+ $(this).attr('data-video') +'"></iframe>';
-      $(this).replaceWith(video); });
-  });
-</script>
-
-    <script>
-      console.log({{etaList}});
-      console.log({{upcomingEventsList}});
-      var secondsLeftArray = {{etaList}};
-      var upcomingEventsIDs = {{upcomingEventsList}};
-      var eventTitle = "{{event.title}}";
-      var future = "{{future}}";
-
-      var timer;
-      timer = setInterval(showRemaining, 1000);
-    </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>  
+    <script type="text/javascript" src="/static/js/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.fullPage.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/upcomingEventCountdown.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.fancybox.js?v=2.1.5"></script>
+    <script type="text/javascript" src="/static/js/jquery.fancybox-media.js?v=1.0.6"></script>
 
 
     <script type="text/javascript">
       $(document).ready(function() {
-
-        $('.fancybox').fancybox();
-
-        $('.fancybox-media')
-        .attr('rel', 'media-gallery')
-        .fancybox(
-        {
-          openEffect : 'fade',
-          closeEffect : 'none',
-          prevEffect : 'none',
-          nextEffect : 'none',
-
-          arrows : false,
-          helpers : {
-            media : {},
-            buttons : {}
-          }
+        $.fn.fullpage({
+          'scrollOverflow': false,
+          'autoScrolling': false,
+          'paddingTop' : '140px',
+          'paddingBottom' : '140px',
         });
+      });
+
+    </script>
+
+    <script type="text/javascript">
+     $(document).ready(function() {
+      $('.home-img').click(function(){
+        var video = '<iframe width="100%" height="400" src="'+ $(this).attr('data-video') +'"></iframe>';
+        $(this).replaceWith(video); });
+    });
+   </script>
+
+   <script>
+    console.log({{etaList}});
+    console.log({{upcomingEventsList}});
+    var secondsLeftArray = {{etaList}};
+    var upcomingEventsIDs = {{upcomingEventsList}};
+    var eventTitle = "{{event.title}}";
+    var future = "{{future}}";
+
+    var timer;
+    timer = setInterval(showRemaining, 1000);
+  </script>
+
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+
+      $('.fancybox').fancybox();
+
+      $('.fancybox-media')
+      .attr('rel', 'media-gallery')
+      .fancybox(
+      {
+        openEffect : 'fade',
+        closeEffect : 'none',
+        prevEffect : 'none',
+        nextEffect : 'none',
+
+        arrows : false,
+        helpers : {
+         
+          media : {},
+          buttons : {}
+
+        }
+      });
     });
   </script>
 </head>
 
 {% if email_added %}
-  <script>
-    alert("Success! Please check your email to confirm your subscription." )
-  </script> 
+<script>
+  alert("Success! Please check your email to confirm your subscription." )
+</script> 
 {% endif %}
 
-  <body onload="$('.fancybox-media').trigger('click');">
-   <!-- HEADER START -->
-   <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-      </div>
-      <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li><a href="/whatissds.html">What is SDS</a></li>
-          <li><a href="/" class="logo"></a></li>
-          <li><a href="/jointhesquad.html">Join the Squad</a></li>
-        </ul>
-      </div>
-    </div> 
-  </div>
+<body onload="$('.fancybox-media').trigger('click');">
 
-  <div class="sec-menu">
-    <div class="container">
-     <div class="row">
-      <div class="col-md-9">
-       <p class="signup">Get the latest SDS news!</p>
-       <label for="username"></label>
-       <input class="user-login" type="text" name="username" value="" 
-       placeholder="Your E-mail" id="username">
-       <input type="submit" class="btn" value="Subscribe" />
-     </div>
-
-    <!--  <div class="col-md-3 socialmedia">
-      <a class="social" href="http://www.youtube.com/channel/UCErk7W6KJ0ZABDnLJk1maQA" target="_blank"><img src="/static/img/youtube.png"></a> 
-      <a href="https://soundcloud.com/silent-disco-squad" target="_blank"><img src="/static/img/soundcloud.png"> </a> 
-      <a href="https://www.facebook.com/SilentDiscoSquad" target="_blank"><img src="/static/img/facebook.png"> </a> 
-    </div> -->
+ <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
     </div>
-  </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/whatissds.html">What is SDS</a></li>
+        <li><a href="/" class="logo"></a></li>
+        <li><a href="/jointhesquad.html">Join the Squad</a></li>
+      </ul>
+    </div>
+  </div> 
 </div>
 
-<!-- HEADER END -->
+<div class="sec-menu">
+  <div class="container">
+   <div class="row">
+    <div class="col-md-9">
+     <p class="signup">Get the latest SDS news!</p>
+     <label for="username"></label>
+     <input class="user-login" type="text" name="username" value="" 
+     placeholder="Your E-mail" id="username">
+     <input type="submit" class="btn" value="Subscribe" />
 
+   </div>
+   <div class="col-md-3 socialmedia">
+    <a class="social" href="http://www.youtube.com/channel/UCErk7W6KJ0ZABDnLJk1maQA" target="_blank"><img src="/static/img/youtube.png"></a> 
+    <a href="https://soundcloud.com/silent-disco-squad" target="_blank"><img src="/static/img/soundcloud.png"> </a> 
+    <a href="https://www.facebook.com/SilentDiscoSquad" target="_blank"><img src="/static/img/facebook.png"> </a> 
+  </div>
+</div>
+</div>
+</div>
 
 {% if showLightbox %}
 <a href="#inline" class="fancybox-media"> </a>

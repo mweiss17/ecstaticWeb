@@ -1,7 +1,3 @@
-
-/*PLUGINS STYLES*/
-
-
 /*Tabs*/
 
 .tabs input[type=radio] {
@@ -17,6 +13,8 @@
 	padding: 0;
 	height: 100%;
 	background: #333;
+	margin: 0;
+	border-top: 1px solid #ccc;
 }
 .tabs li {
 	float: left;
@@ -25,10 +23,10 @@
 }
 .tabs label {
 	display: block;
-	padding: 12px 20px;
-	font-size: 14px;
+	font-size: 18px;
 	background: rgba(255,255,255,0.2);
 	cursor: pointer;
+	text-align: center;
 	position: relative;
 	margin-bottom: 0px !important;
 	width: 100%;
@@ -50,12 +48,13 @@
  display: block;
 }
 .tab-content {
-	z-index: 0;
+	z-index: 2;
 	display: none;
 	text-align: left;
 	width: 100%;
 	font-size: 20px;
-	/*padding-top: 10px;*/
+	padding-top: 0px;
+	padding-bottom: 5px;
 	background: #333;
 	/*padding: 15px;*/
 	color: white;
@@ -68,9 +67,6 @@
 	-moz-animation-duration: 0.5s;
 	animation-duration: 0.5s;
 }
-.tab-content-wrapper {
-	padding-top: 30px;
-}
 /*General*/
 
 html {
@@ -78,71 +74,42 @@ html {
 	-webkit-text-size-adjust: auto !important;
 }
 html, body {
-	font-size: 14px !important;
-	/*padding-top: 120px;*/
-}
-.main-menu {
-	position: fixed;
-	background: #fff;
-	width: 100%;
-	top: 0;
-	z-index: 9999;
+	font-size: 14px !important;/*padding-top: 120px;*/
 }
 .sec-menu {
 	position: fixed;
 	background: white;
 	width: 100%;
-	height: 70px;
+	height: 80px;
 	top: 50px;
 	z-index: 5;
 }
-
 .logo {
 	display: none;
 	background: url(../img/logo.png) no-repeat scroll center center / contain rgba(0, 0, 0, 0);
-	height: 55px;
-	margin-top: 5px;
+	height: 50px;
+	/*margin-top: 5px;*/
 	position: relative;
 }
-
-.overlay-home {
-	width: 100%;
-	height: 100% !important;
-	background: rgba(0,0,0,0.4) !important;
-	z-index: -1;
-	position: absolute;
+.left {
+	float: left;
 }
-
-.overlay {
-	width: 100%;
-	height: 100% !important;
-	background: rgba(0,0,0,0.4) !important;
-	z-index: -1;
+.copyright {
 	padding: 20px;
+	text-align: center;
 }
-
-
+.table {
+	margin-bottom: 0px !important;
+}
 .navbar-nav {
 	float: none !important;
 	padding-top: 5px;
 	padding-bottom: 5px;
-		font-size: 22px;
-		font-weight: 200;
-			margin-top: 5px;
+	font-size: 22px;
+	font-weight: 200;
+	margin-top: 5px;
 }
-
-.navbar-inverse .navbar-nav > li > a {
-	color: #089b8c;
-}
-.pastevents, .cta, footer {
-	display: none !important;
-}
-
-footer {
-	text-align: center !important;
-
-}
-.footer-wrapper{
+.footer-wrapper {
 	width: 100%;
 	background: #333;
 }
@@ -151,70 +118,85 @@ footer {
 }
 .footer a:hover {
 	background: #333 !important;
+	color: #fff !important;
 }
-
-.table {
-    margin-bottom: 0px !important;
+.socialmedia {
+	text-align: right;
+	display: none;
 }
-
+.social {
+	margin-top: 20px;
+	display: inline-block;
+}
+.signup {
+	margin: 0;
+	margin-top: 10px;
+}
 .top-sep {
-	height: 120px;
+	height: 125px;
 	position: relative;
 }
+/*Homepage*/
+.overlay-home {
+	background: rgba(0,0,0,0.4);
+	position: absolute;
+	z-index: -1;
+	width: 100%;
+	height: 100%;
 
-.left{
-	float:left;
 }
-.copyright {
+.overlay {
+	width: 100%;
+	height: 100% !important;
+	background: rgba(0,0,0,0.4) !important;
+	z-index: -1;
 	padding: 20px;
 }
-
-/*Homepage*/
-
-#section0 {
-	padding-bottom: 0 !important;
-}
 .item {
-	height: 200px !important;
+	height: 300px !important;
 }
 .wrapper {
 	box-sizing: border-box;
-	
 	padding-top: 50px !important;
-	padding-bottom: 50px !important
+	padding-bottom: 50px !important;
+	/*position: absolute;*/
+	z-index: 9999;
 }
-.event-countdown{
+.event-countdown {
 	font-size: 1.6em;
 	font-weight: bold;
-	text-transform:uppercase;
+	text-transform: uppercase;
 }
-
 .cta {
 	text-align: center;
 	color: #FFF;
 	font-size: 22px;
 	position: absolute;
 	width: 100%;
-	height: 60px;
 	line-height: 2.5;
-	display: inline;
-	z-index: 10;
+	display: none;
 }
-.create {
+.pastevents, footer {
+	display: none;
+}
+#section0 {
+	padding-bottom: 0px !important
+}
+
+.create-banner {
+	height: 55px;
 	background: #333;
-	bottom: 60px;
-}
-.pastevents {
-	padding: 0 !important;
-	position: relative;
+	width: 100%;
+	position: absolute;
+	bottom: 51px;
 }
 .pastevents-banner {
+	height: 53px;
 	background: #089b8c;
-	bottom: 0px;
-	padding: 0 !important;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
 }
-
-
 /*What is SDS*/
 #page0, #page1, #page2, #page3, #page4, #page5 {
 	font-size: 16px;
@@ -226,8 +208,6 @@ footer {
 	background: #089b8c;
 }
 #page1 {
-	
-
 }
 #page2 {
 	background: #666;
@@ -244,7 +224,6 @@ footer {
 #page5 {
 	background: #eaa12a;
 }
-
 /*Future Event*/
 
 .city {
@@ -262,7 +241,6 @@ footer {
 	padding-bottom: 20%;
 	height: 300px;
 	overflow: hidden;
-
 }
 .google-maps iframe {
 	position: absolute;
@@ -355,7 +333,6 @@ footer {
 	font-size: 16px;
 	color: #fff;
 }
-
 .searchbar {
 	display: none;
 }
@@ -398,9 +375,7 @@ footer {
 	font-size: 18px;
 	margin-top: 0 !important;
 }
-
-
-.contact h3, 3 {
+ .contact h3, 3 {
  color: #888;
  font-weight: normal;
  font-size: 20px;
@@ -412,7 +387,6 @@ footer {
 	font-size: 20px;
 	margin-top: 0 !important;
 }
-
 .new-event {
 	padding: 20px;
 }
@@ -481,7 +455,6 @@ audio, canvas, progress, video {
 	border-bottom: 1px solid #555;
 	margin-top: 120px
 }
-
 /* #Forms*/
 
 form {
@@ -507,8 +480,6 @@ input[type="text"], input[type="password"], input[type="email"], textarea, selec
 	background: #fff;
 	margin-right: 10px
 }
-
-
 select {
 	padding: 0;
 }
@@ -538,10 +509,14 @@ label span, legend span {
 	font-size: 13px;
 	color: #444;
 }
-
-@media (min-width:768px) {
+ @media (min-width:768px) {
 input[type="text"], input[type="password"], input[type="email"], textarea, select {
 	width: 210px;
+}
+
+.sec-menu {
+	height: 75px;
+	top: 65px;
 }
 
 .navbar-nav > li:first-child {
@@ -550,36 +525,34 @@ input[type="text"], input[type="password"], input[type="email"], textarea, selec
 .navbar-nav > li:last-child {
 	text-align: right !important;
 }
-
 .navbar-nav > li {
 	width: 33%;
 	text-align: center;
+	color: #089B8C !important;
 }
-
+.navbar-nav > li > a {
+	color: #089B8C !important;
+}
 #page0, #page1, #page2, #page3, #page4, #page5 {
 	font-size: 16px;
 	text-align: left;
 }
-
 .tabs label {
-
 	font-size: 24px;
 	text-align: center;
-
-.tab-content {
-	
-	height: 80%;
-	
+}
+#section0 {
+	padding-bottom: 140px !important
+}
+.pastevents, footer {
+	display: inline;
+}
+.cta {
+	display: table;
 }
 
+ @media (min-width:992px) {
+.socialmedia {
+	display: inline;
 }
-
-@media (min-width: 992px){
-.pastevents, .cta,  footer {
-	display: inline !important;
-}
-}
-
-@media (min-width: 1200px) {
-
 }
