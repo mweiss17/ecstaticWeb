@@ -49,7 +49,6 @@
       var video = '<iframe width="100%" height="400" src="'+ $(this).attr('data-video') +'"></iframe>';
       $(this).replaceWith(video); });
   });
- }
 </script>
 
     <script>
@@ -85,9 +84,15 @@
             buttons : {}
           }
         });
-      });
-    </script>
-  </head>
+    });
+  </script>
+</head>
+
+{% if email_added %}
+  <script>
+    alert("Success! Please check your email to confirm your subscription." )
+  </script> 
+{% endif %}
 
   <body onload="$('.fancybox-media').trigger('click');">
    <!-- HEADER START -->
