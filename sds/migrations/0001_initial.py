@@ -31,6 +31,15 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'sds', ['Music'])
 
+        # Adding model 'globalEvent'
+        db.create_table(u'sds_globalevent', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('eventPic', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Photos'], unique=True)),
+            ('start_time', self.gf('django.db.models.fields.DateTimeField')()),
+        ))
+        db.send_create_signal(u'sds', ['globalEvent'])
+
         # Adding model 'Events'
         db.create_table(u'sds_events', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -39,15 +48,18 @@ class Migration(SchemaMigration):
             ('city', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('location', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('google_map_link', self.gf('django.db.models.fields.CharField')(max_length=1000)),
+            ('latitude', self.gf('django.db.models.fields.FloatField')(default=40.744810000000001)),
+            ('longitude', self.gf('django.db.models.fields.FloatField')(default=-119.2223)),
             ('eventPic', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Photos'], unique=True)),
             ('eventMix', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Music'], null=True, blank=True)),
             ('fbEvent', self.gf('django.db.models.fields.URLField')(default='https://www.facebook.com/SilentDiscoSquad', max_length=200)),
+            ('globalEvent', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.globalEvent'], null=True, blank=True)),
             ('role1', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('organizer1', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile1', null=True, to=orm['auth.User'])),
+            ('organizer1', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile1', null=True, to=orm['sds.UserProfile'])),
             ('role2', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('organizer2', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile2', null=True, to=orm['auth.User'])),
+            ('organizer2', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile2', null=True, to=orm['sds.UserProfile'])),
             ('role3', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('organizer3', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile3', null=True, to=orm['auth.User'])),
+            ('organizer3', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile3', null=True, to=orm['sds.UserProfile'])),
         ))
         db.send_create_signal(u'sds', ['Events'])
 
@@ -55,7 +67,6 @@ class Migration(SchemaMigration):
         db.create_table(u'sds_userprofile', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], unique=True)),
-            ('test', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
             ('profilePic', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Photos'])),
             ('signupDate', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
         ))
@@ -78,6 +89,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Music'
         db.delete_table(u'sds_music')
+
+        # Deleting model 'globalEvent'
+        db.delete_table(u'sds_globalevent')
 
         # Deleting model 'Events'
         db.delete_table(u'sds_events')
@@ -132,17 +146,27 @@ class Migration(SchemaMigration):
             'eventMix': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Music']", 'null': 'True', 'blank': 'True'}),
             'eventPic': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Photos']", 'unique': 'True'}),
             'fbEvent': ('django.db.models.fields.URLField', [], {'default': "'https://www.facebook.com/SilentDiscoSquad'", 'max_length': '200'}),
+            'globalEvent': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.globalEvent']", 'null': 'True', 'blank': 'True'}),
             'google_map_link': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'latitude': ('django.db.models.fields.FloatField', [], {'default': '40.744810000000001'}),
             'location': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'organizer1': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile1'", 'null': 'True', 'to': u"orm['auth.User']"}),
-            'organizer2': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile2'", 'null': 'True', 'to': u"orm['auth.User']"}),
-            'organizer3': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile3'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'longitude': ('django.db.models.fields.FloatField', [], {'default': '-119.2223'}),
+            'organizer1': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile1'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
+            'organizer2': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile2'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
+            'organizer3': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'organizerProfile3'", 'null': 'True', 'to': u"orm['sds.UserProfile']"}),
             'role1': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'role2': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'role3': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'start_time': ('django.db.models.fields.DateTimeField', [], {}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        u'sds.globalevent': {
+            'Meta': {'object_name': 'globalEvent'},
+            'eventPic': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Photos']", 'unique': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'start_time': ('django.db.models.fields.DateTimeField', [], {}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         u'sds.music': {
             'Meta': {'object_name': 'Music'},
@@ -176,7 +200,6 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'profilePic': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Photos']"}),
             'signupDate': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'test': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'unique': 'True'})
         }
     }
