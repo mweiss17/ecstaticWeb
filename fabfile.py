@@ -11,7 +11,6 @@ def prepare_deploy(branch_name):
     commit()
     local('git checkout master && git merge ' + branch_name)
     local('git pull')
-    local('python manage.py migrate sds')
 
 def deploy():
     with cd('/home/ec2-user/sds'):
