@@ -10,7 +10,6 @@ def commit():
 def prepare_deploy(branch_name):
     commit()
     local('git checkout master && git merge ' + branch_name)
-    local('git pull')
 
 def deploy():
     with cd('/home/ec2-user/sds'):
