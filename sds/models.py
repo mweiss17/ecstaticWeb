@@ -31,6 +31,7 @@ class Music(models.Model):
     song_name_or_link = models.CharField(max_length=255, blank=True)
     intention = models.CharField(max_length=255, blank=True)
     musicUploadDate = models.DateTimeField("musicUploadDate", auto_now=True, blank=True, null=True)
+    event = models.ForeignKey("Events", blank=True, null=True)
 
     def __unicode__(self):
         return self.song_name_or_link+ " : " + self.email + " : " + str(self.musicUploadDate)

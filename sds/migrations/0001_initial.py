@@ -24,10 +24,10 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('uploadedSong', self.gf('django.db.models.fields.files.FileField')(default='uploadedSongs', max_length=100, blank=True)),
             ('email', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('songname', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('song_name_or_link', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('song_name_or_link', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
             ('intention', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
             ('musicUploadDate', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
+            ('event', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Events'], null=True, blank=True)),
         ))
         db.send_create_signal(u'sds', ['Music'])
 
@@ -171,11 +171,11 @@ class Migration(SchemaMigration):
         u'sds.music': {
             'Meta': {'object_name': 'Music'},
             'email': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'event': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Events']", 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'intention': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'musicUploadDate': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
-            'song_name_or_link': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'songname': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'song_name_or_link': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'uploadedSong': ('django.db.models.fields.files.FileField', [], {'default': "'uploadedSongs'", 'max_length': '100', 'blank': 'True'})
         },
         u'sds.photos': {
