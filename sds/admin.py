@@ -17,7 +17,7 @@ class potentialOrganizerAdmin(admin.ModelAdmin):
 
 #I'm not letting users upload music from the backend while it will have the incorrect MIME type
 class MusicAdmin(admin.ModelAdmin):
-	list_display = ('song_name_or_link', 'email', 'intention')
+	list_display = ('uploadedSong', 'event', 'song_name_or_link', 'email', 'intention')
 
 class globalEventAdmin(admin.ModelAdmin):
 	list_display = ('title', 'global_event_pic',)
