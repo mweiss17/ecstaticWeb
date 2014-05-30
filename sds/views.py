@@ -20,12 +20,6 @@ import json
 import pprint
 import datetime, time
 
-
-
-
-def home(request):
-	return render_to_response('sds.html', {})
-
 def index(request):
     now = calculateCurrentTime()
     datetimeNow = datetime.datetime.now()
@@ -33,13 +27,18 @@ def index(request):
     upcomingEvents = Events.objects.filter(start_time__gte=datetimeNow-TimeZone)
     previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
     upcomingGlobalEvent = globalEvent.objects.filter(start_time__gte=datetimeNow-TimeZone)
-    upcomingGlobalEvent = upcomingGlobalEvent[0]
     invalid_login = False
     email_added = ""
     try:
         email_added = request.GET['email_added']
     except Exception, e:
         pass
+    try:
+        upcomingGlobalEvent = upcomingGlobalEvent[0]
+    except Exception, e:
+        pass
+
+
 
     future = 'False'
     etaList = []
