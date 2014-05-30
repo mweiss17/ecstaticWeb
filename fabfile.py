@@ -5,7 +5,7 @@ env.key_filename = '~/.ssh/martin.pem'
 env.hosts = ['ec2-user@silentdiscosquad.com:22']
 
 def commit():
-    local("git add -p -A * && git commit")
+    local("git add -p && git commit")
 
 def prepare_deploy(branch_name):
     commit()
