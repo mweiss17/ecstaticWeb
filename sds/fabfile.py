@@ -13,6 +13,7 @@ def prepare_deploy(branch_name):
 
 def deploy():
     with cd('/home/ec2-user/sds'):
+    	local('git push')
         run('git pull')
         run('python manage.py migrate sds')
         run('sudo /etc/init.d/httpd restart')
