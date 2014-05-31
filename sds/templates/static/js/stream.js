@@ -17,7 +17,7 @@ this.playMix = function(){
 		this.mAudioPlayer.currentTime = playtime;
 		this.mAudioPlayer.play();
 		if(firstClick){
-			document.getElementById('play').innerHTML = "Re-Sync";
+			document.getElementById("resync").innerHTML = "If you get out of sync just reload this page";
 			firstClick = false;
 		}
 	}
@@ -36,14 +36,13 @@ loadbutton.addEventListener('click',hideshow,false);
 
 
 function showRemaining() {
-	console.log(playtime);
 	playtime = playtime + 1;
-	console.log(playtime);
 	if(playtime > -300){
 		makeLoadButtonVisible();
 	}
 	if(playtime >= 0){
 		makePlayButtonVisible();
+		makeLoadButtonInvisible();
 	}
 	if(playtime >= 0){
 	var hours = Math.floor(( playtime/ 3600) % 24);
@@ -58,9 +57,10 @@ function showRemaining() {
 	var hours = Math.floor(( -playtime / 3600) % 24);
 	var minutes = Math.floor(( -playtime / 60) % 60);
 	var seconds = Math.floor( -playtime % 60);
-	document.getElementById("countdown").innerHTML = days + 'days ';
+	document.getElementById("countdown").innerHTML = "Broadcast starts in ";
+	document.getElementById("countdown").innerHTML += days + 'days ';
 	document.getElementById("countdown").innerHTML += hours + 'hrs ';
-	document.getElementById("countdown").innerHTML += minutes + 'mins ';
+	document.getElementById("countdown").innerHTML += minutes + 'mins and ';
 	document.getElementById("countdown").innerHTML += seconds + 'secs';
 	}
 }
@@ -72,6 +72,14 @@ function makeLoadButtonVisible(){
 	count++;
 	document.getElementById('load').style.display = 'block';
 }
+function makeLoadButtonInvisible(){
+	if(count == 2){
+		return;
+	}
+	count++;
+	document.getElementById('load').style.display = 'none';
+}
+
 
 function makePlayButtonVisible(){
 	if(count2 == 1){
