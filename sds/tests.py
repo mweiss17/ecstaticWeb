@@ -44,8 +44,7 @@ class SongUploadTestCase(TestCase):
         # code) and test if result page have 'My Article' text in
         # it's body.
         assert 'My Article' in index.click('Blog')
-
-"""
+exceptions"""
 #Test Song downloads
 
 
