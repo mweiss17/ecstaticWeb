@@ -16,10 +16,8 @@ this.playMix = function(){
 	try{
 		this.mAudioPlayer.currentTime = playtime;
 		this.mAudioPlayer.play();
-		if(firstClick){
-			document.getElementById("resync").innerHTML = "If you get out of sync just reload this page";
-			firstClick = false;
-		}
+		document.getElementById("resync").innerHTML = "If you get out of sync just reload this page";
+		firstClick = false;
 	}
 	catch(err){
 		console.log( err );
@@ -57,10 +55,10 @@ function showRemaining() {
 	var hours = Math.floor(( -playtime / 3600) % 24);
 	var minutes = Math.floor(( -playtime / 60) % 60);
 	var seconds = Math.floor( -playtime % 60);
-	document.getElementById("countdown").innerHTML = "Broadcast starts in ";
+	document.getElementById("countdown").innerHTML = "Disco Begins: ";
 	document.getElementById("countdown").innerHTML += days + 'days ';
 	document.getElementById("countdown").innerHTML += hours + 'hrs ';
-	document.getElementById("countdown").innerHTML += minutes + 'mins and ';
+	document.getElementById("countdown").innerHTML += minutes + 'mins ';
 	document.getElementById("countdown").innerHTML += seconds + 'secs';
 	}
 }
