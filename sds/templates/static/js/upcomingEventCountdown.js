@@ -14,7 +14,8 @@ function showRemaining() {
       var hours = Math.floor( (secondsLeftArray[i] / 3600) % 24);
       var minutes = Math.floor(( secondsLeftArray[i] / 60) % 60);
       var seconds = Math.floor( secondsLeftArray[i] % 60);
-      document.getElementById("eventID"+upcomingEventsIDs[i]).innerHTML = days + 'days ';
+      document.getElementById("eventID"+upcomingEventsIDs[i]).innerHTML = 'Disco Begins: ';
+      document.getElementById("eventID"+upcomingEventsIDs[i]).innerHTML += days + 'days ';
       document.getElementById("eventID"+upcomingEventsIDs[i]).innerHTML += hours + 'hrs ';
       document.getElementById("eventID"+upcomingEventsIDs[i]).innerHTML += minutes + 'mins ';
       document.getElementById("eventID"+upcomingEventsIDs[i]).innerHTML += seconds + 'secs';
