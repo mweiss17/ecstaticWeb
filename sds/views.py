@@ -20,8 +20,13 @@ import json
 import pprint
 import datetime, time
 
+def calculateCurrentTime():
+    now = datetime.datetime.utcnow()
+    now = time.mktime(now.timetuple()) 
+    now = now - 4 * 3600
+    return now
+
 def index(request):
-    now = calculateCurrentTime()
     datetimeNow = datetime.datetime.now()
     TimeZone = datetime.timedelta(seconds=3600*6)
     upcomingEvents = Events.objects.filter(start_time__gte=datetimeNow-TimeZone)
@@ -47,7 +52,7 @@ def index(request):
     for event in upcomingEvents:
         eventstart = event.start_time
         eventstart = time.mktime(eventstart.timetuple())
-        etaList.append(eventstart-now)
+        etaList.append(eventstart-calculateCurrentTime())
         upcomingEventsList.append(event.id)
 
 
@@ -79,8 +84,6 @@ def future(request):
     else:
         form = MusicForm()
     
-    now = calculateCurrentTime()
-
     event = Events.objects.filter(id=request.GET['id'])
     event = event[0]
     eventstart = event.start_time
@@ -89,7 +92,7 @@ def future(request):
     upcomingEventsList.append(event.id)
 
     etaList = []
-    etaList.append(eventstart - now)
+    etaList.append(eventstart - calculateCurrentTime())
 
     context = {'success': message, 'form': form, 'event': event, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList}
     return render_to_response('index_future.html', context, context_instance=RequestContext(request))
@@ -143,17 +146,22 @@ def whatissds(request):
     return render(request, 'index_whatissds.html', context)
 
 def stream(request):
-    event = Events.objects.filter(title=request.GET['title'])
+    event = Events.objects.filter(id=request.GET['id'])
     event = event[0]
-
-    now = calculateCurrentTime()
 
     eventstart = event.start_time
     eventstart = time.mktime(eventstart.timetuple())
-    eta = eventstart - now
+    eta = eventstart - calculateCurrentTime()
     eta = -eta
     context = {'event': event, 'eta': eta}
+    try:
+        if(request.GET['async']):
+            return HttpResponse(eta)
+    except Exception, e:
+        pass
     return render(request, 'stream.html', context)
+
+
 
 def handle_uploaded_file(f):
     with open("/home/ec2-user/sds/media/"+f.name, 'wb+') as destination:
@@ -161,7 +169,6 @@ def handle_uploaded_file(f):
             destination.write(chunk)
 
 def appindex(request):
-    now = calculateCurrentTime()
     datetimeNow = datetime.datetime.now()
     TimeZone = datetime.timedelta(seconds=3600*6)
     upcomingEvents = Events.objects.filter(start_time__gte=datetimeNow-TimeZone)
@@ -175,9 +182,9 @@ def appindex(request):
     for event in upcomingEvents:
         eventstart = event.start_time
         eventstart = time.mktime(eventstart.timetuple())
-        etaList.append(eventstart-now)
+        etaList.append(eventstart-calculateCurrentTime())
         upcomingEventsList.append(event.id)
-        some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.city, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent, 'latitude':event.latitude, 'longitude':event.longitude})
+        some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.city, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent, 'latitude':event.latitude, 'longitude':event.longitude, 'songTitle':event.eventMix.uploadedSong.url})
 
     data = json.dumps(some_data_to_dump)
 
@@ -226,10 +233,4 @@ def add_email_to_mailing_list(request):
     else:
         return HttpResponseRedirect('/?email_added=failure')
 
-
-def calculateCurrentTime():
-    now = datetime.datetime.utcnow()
-    now = time.mktime(now.timetuple()) 
-    now = now - 4 * 3600
-    return now
 

@@ -197,6 +197,21 @@ html, body {
 	position: absolute;
 	bottom: 0;
 }
+
+/*
+prog bar
+#progBar { 
+	border:1px solid #aaa !important;
+	color:#fff; 
+	width:295px; 
+	height:20px; 
+} 
+#prog { 
+	background-color:#ff0000 !important;
+	height:20px !important; 
+	display:inline-block !important; 
+}*/
+
 /*What is SDS*/
 #page0, #page1, #page2, #page3, #page4, #page5 {
 	font-size: 16px;
