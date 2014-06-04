@@ -28,10 +28,11 @@ def calculateCurrentTime():
 
 def index(request):
     datetimeNow = datetime.datetime.now()
-    TimeZone = datetime.timedelta(seconds=3600*6)
-    upcomingEvents = Events.objects.filter(start_time__gte=datetimeNow-TimeZone)
-    previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
-    upcomingGlobalEvent = globalEvent.objects.filter(start_time__gte=datetimeNow-TimeZone)
+    TimeZone = datetime.timedelta(seconds=3600*7) #adjustment for EST (4 hrs) + 
+                                                  #adjustment for inprogress events (3 hours)
+    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
+    previousEvents = Events.objects.filter(arrive_start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
+    upcomingGlobalEvent = globalEvent.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
     invalid_login = False
     email_added = ""
     try:
@@ -50,7 +51,7 @@ def index(request):
     upcomingEventsList = []
     template = loader.get_template('index.html')
     for event in upcomingEvents:
-        eventstart = event.start_time
+        eventstart = event.arrive_start_time
         eventstart = time.mktime(eventstart.timetuple())
         etaList.append(eventstart-calculateCurrentTime())
         upcomingEventsList.append(event.id)
@@ -86,7 +87,7 @@ def future(request):
     
     event = Events.objects.filter(id=request.GET['id'])
     event = event[0]
-    eventstart = event.start_time
+    eventstart = event.arrive_start_time
     eventstart = time.mktime(eventstart.timetuple())
     upcomingEventsList = []
     upcomingEventsList.append(event.id)
@@ -96,12 +97,6 @@ def future(request):
 
     context = {'success': message, 'form': form, 'event': event, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList}
     return render_to_response('index_future.html', context, context_instance=RequestContext(request))
-
-def past(request):
-    event = Events.objects.filter(title=request.GET['title'])
-    event = event[0]
-    context = {'event': event, 'start_time': event.start_time, 'past':True}
-    return render(request, 'index_past.html', context)
 
 def contact(request):
     context = {}
@@ -149,7 +144,7 @@ def stream(request):
     event = Events.objects.filter(id=request.GET['id'])
     event = event[0]
 
-    eventstart = event.start_time
+    eventstart = event.music_start_time
     eventstart = time.mktime(eventstart.timetuple())
     eta = eventstart - calculateCurrentTime()
     eta = -eta
@@ -170,9 +165,11 @@ def handle_uploaded_file(f):
 
 def appindex(request):
     datetimeNow = datetime.datetime.now()
-    TimeZone = datetime.timedelta(seconds=3600*6)
-    upcomingEvents = Events.objects.filter(start_time__gte=datetimeNow-TimeZone)
-    previousEvents = Events.objects.filter(start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
+    TimeZone = datetime.timedelta(seconds=3600*7) #adjustment for EST (4 hrs) + 
+                                                  #adjustment for inprogress events (3 hours)
+    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
+    previousEvents = Events.objects.filter(arrive_start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
+    upcomingGlobalEvent = globalEvent.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
 
     future = 'False'
     etaList = []
@@ -180,7 +177,7 @@ def appindex(request):
 
     some_data_to_dump = []
     for event in upcomingEvents:
-        eventstart = event.start_time
+        eventstart = event.music_start_time
         eventstart = time.mktime(eventstart.timetuple())
         etaList.append(eventstart-calculateCurrentTime())
         upcomingEventsList.append(event.id)
