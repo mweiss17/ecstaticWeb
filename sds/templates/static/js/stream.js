@@ -1,17 +1,13 @@
-var firstClick = true;
-var playButton = document.getElementById('play');
-var count = 0;
 var playtime = {{eta}};
-var xmlhttp;
-xmlhttp=new XMLHttpRequest();
-setInterval(incrementPlaytime, 1000);
-setInterval(showRemaining, 1000);
-
+var xmlhttp = new XMLHttpRequest();
 var lastSyncSleepRecovery = 0;
 var syncIntervalSleepRecovery = 30000; 
 var mAudioPlayer = document.getElementsByTagName("audio")[0];
-mAudioPlayer.addEventListener('play', setPlayerTime, false);
+setInterval(incrementPlaytime, 1000);
+setInterval(showRemaining, 1000);
 
+/**** Recovers after phone is closed, makes 1 ajax request every 30 seconds.*****
+***** Checks if phone was closed every 5 seconds. 							****/
 function updateLastSyncSleepRecovery() {
   lastSyncSleepRecovery = new Date().getTime(); //set last sync to be now
   sync();
@@ -26,11 +22,8 @@ setInterval(function() {
 
 
 function incrementPlaytime(){
-	console.log("playtime="+playtime);
-	console.log("currentTime="+mAudioPlayer.currentTime);
 	playtime = playtime + 1;
 }
-
 
 function sync(){
 	try{
@@ -49,15 +42,23 @@ function sync(){
 }
 
 function playMix() {
-	try{
-		console.log("playPressed");
+	console.log("playPressed");
+	this.mAudioPlayer.play();
+	setInterval(tryToJump, 100);
+}
+
+function tryToJump() {
+	if(Math.abs(mAudioPlayer.currentTime - playtime) > 5){
+		mAudioPlayer.currentTime = playtime;
 		this.mAudioPlayer.play();
-	}
-	catch(err){
-		console.log( err );
+		console.log("playtime="+playtime);
+		console.log("currentTime="+mAudioPlayer.currentTime);
 	}
 }
 
+
+
+//Update the countdown clock, handle making the play button appear.
 function showRemaining() {
 	if(playtime >= 0){
 		makePlayButtonVisible();
@@ -82,11 +83,9 @@ function showRemaining() {
 	}
 }
 
+
+//Makes the html for the play button visible at 0 seconds
 function makePlayButtonVisible(){
-	if(count == 1){
-		return;
-	}
-	count++;
 	document.getElementById('play').style.display = 'block';
 }
 
@@ -104,8 +103,3 @@ function updateProgress() {
 	progress.style.width = value + "%"; 
 }*/
 
-function setPlayerTime(){
-	console.log("setPlayerTime");
-	mAudioPlayer.currentTime = playtime;
-  	mAudioPlayer.removeEventListener('progress', setPlayerTime, false);
-}
