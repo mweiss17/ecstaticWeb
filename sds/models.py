@@ -40,10 +40,15 @@ class globalEvent(models.Model):
     title = models.CharField(max_length=255)
     eventPic = models.ForeignKey(Photos, unique=True)
     start_time = models.DateTimeField("Event Time")
+    arrive_start_time = models.DateTimeField("Event Start Time")
+    music_start_time = models.DateTimeField("Music Start Time")
+
 
 class Events(models.Model):
     title = models.CharField(max_length=100)
     start_time = models.DateTimeField("Event Time")
+    arrive_start_time = models.DateTimeField("Event Start Time")
+    music_start_time = models.DateTimeField("Music Start Time")
     city = models.CharField(max_length=50)
     location = models.CharField(max_length=50)
     google_map_link = models.CharField(max_length=1000)

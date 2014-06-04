@@ -1,9 +1,4 @@
 <div class="city">
-<script>
-function streamRedirect(){
-  window.location.assign('/stream.html/?title='+eventTitle);
-}
-</script>
   <div class="container"> {{ event.city }} </div>
 </div>
 <div class="countdown-banner-img" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-position:left; background-size:cover">
@@ -16,12 +11,14 @@ function streamRedirect(){
     </div>
   </div>
 </div>
-<div class="share-past"> <a href={{event.fbEvent}}>
-  <div class="btn fb">{{event.title}}'s Facebook Event</div>
+<div class="share-past"> 
+  <a href={{event.fbEvent}}>
+    <div class="btn fb">{{event.title}}'s Facebook Event</div>
   </a> 
-{% if event.eventMix.uploadedSong %}
-    <button class="btn" onclick="streamRedirect()">Stream The Mix</button>
-
+  {% if event.eventMix.uploadedSong %}
+    <a href="/stream.html?id={{event.id}}">
+      <button class="btn" onclick="id={{event.id}}">Stream The Mix</button>
+    </a>
     <a class="btn" href="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}" >Download Mix!</a>
 {% else %}
 <b>Sorry, No Mixes Have Been Uploaded Yet! Please Check Back Later.</b>

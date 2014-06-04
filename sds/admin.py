@@ -5,7 +5,7 @@ class PhotosAdmin(admin.ModelAdmin):
 	list_display = ('user', 'photoFile')
 
 class EventsAdmin(admin.ModelAdmin):
-	list_display = ('title', 'start_time', 'event_pic', 'google_map_link', 'location', 'fbEvent')
+	list_display = ('title', 'arrive_start_time','music_start_time', 'event_pic', 'google_map_link', 'location', 'fbEvent')
 	def event_pic(self, obj):
 		return obj.eventPic.photoFile
 

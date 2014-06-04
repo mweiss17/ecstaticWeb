@@ -12,15 +12,13 @@
         <div class="container">
           <div class="row">
             <div class="col-md-6 wrapper">
-              <h2>On June 7th, Silent Disco Squad is  partnering with  100in1Day - We are throwing a synchronized  Silent Disco across Canada! Everyone is Invited!</h2>
+              <h2>On June 7th, Silent Disco Squad is partnering with 100in1Day and throwing a Cross Canada Silent Disco Danceparty! </h2>
 
               <div name="eventBox" data-my-order="1"></div>
               <hr>
-              <h2>{{ upcomingGlobalEvent.start_time }}</h2>
+              <h2>{{ upcomingGlobalEvent.start_time }} EST.</h2>
               <h3>{{ upcomingGlobalEvent.title }} </h3> 
               <hr>
-
-              <h3>Join the party in any location!</h3>
               {% for event in upcomingEvents %}
               {% if event.globalEvent %}
               <div class="row">
@@ -53,7 +51,7 @@
                   <div name="eventBox" data-my-order="1"></div>
                   <hr>
                   <!--div id="eventID{{event.id}}" class="event-countdown"></div-->
-                  <h3>{{ event.start_time }} </h3> 
+                  <h3>{{ event.arrive_start_time }} </h3> 
                   <h3>{{ event.title }} </h3> 
                   <a href="/future.html?id={{event.id}}">
                     <button type="button" class="btn btn-default join-button">{{event.city}}</button></a> 
@@ -78,7 +76,7 @@
           {% if previousEvents %}
           {% for event in previousEvents %} 
 
-          <a class="fancybox" data-fancybox-title="{{event.title}} // {{ event.city }} // {{ event.start_time}}" href="https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}">
+          <a class="fancybox" data-fancybox-title="{{event.title}} // {{ event.city }} // {{ event.arrive_start_time}}" href="https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}">
            <div class="col-md-3 item"  style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover;">
             <div class="item">
               <div class="item-past">

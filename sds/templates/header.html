@@ -97,6 +97,7 @@
   ga('send', 'pageview');
 
 </script>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
 
 {% if email_added %}
@@ -105,8 +106,11 @@
 </script> 
 {% endif %}
 
-<body onload="$('.fancybox-media').trigger('click');">
+<script>
+{% include "static/js/mobilecheck.js" %}
+</script>
 
+<body>
  <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
   <div class="container">
     <div class="navbar-header">
