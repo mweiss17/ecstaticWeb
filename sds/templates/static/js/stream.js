@@ -3,6 +3,8 @@ var xmlhttp = new XMLHttpRequest();
 var lastSyncSleepRecovery = 0;
 var syncIntervalSleepRecovery = 30000; 
 var mAudioPlayer = document.getElementsByTagName("audio")[0];
+var tryToJumpInterval;
+var updateProgressInterval;
 setInterval(incrementPlaytime, 1000);
 setInterval(showRemaining, 1000);
 
@@ -42,17 +44,21 @@ function sync(){
 }
 
 function playMix() {
-	console.log("playPressed");
 	this.mAudioPlayer.play();
-	setInterval(tryToJump, 100);
+	this.mAudioPlayer.pause();
+	tryToJumpInterval = setInterval(tryToJump, 50);
+	updateProgressInterval = setInterval(updateProgress, 1000);
 }
 
 function tryToJump() {
+	//Try to jump if the current time is more than 5 seconds off playtime
 	if(Math.abs(mAudioPlayer.currentTime - playtime) > 5){
 		mAudioPlayer.currentTime = playtime;
 		this.mAudioPlayer.play();
-		console.log("playtime="+playtime);
-		console.log("currentTime="+mAudioPlayer.currentTime);
+	}
+	//Clear the interval if the it's within 5 seconds, and the player is playing
+	else if(!mAudioPlayer.paused){
+		clearInterval(tryToJumpInterval);
 	}
 }
 
@@ -64,22 +70,22 @@ function showRemaining() {
 		makePlayButtonVisible();
 	}
 	if(playtime >= 0){
-	var hours = Math.floor(( playtime/ 3600) % 24);
-	var minutes = Math.floor(( playtime / 60) % 60);
-	var seconds = Math.floor( playtime % 60);
-	document.getElementById("countdown").innerHTML = hours + 'hrs ';
-	document.getElementById("countdown").innerHTML += minutes + 'mins ';
-	document.getElementById("countdown").innerHTML += seconds + 'secs';
+		var hours = Math.floor(( playtime/ 3600) % 24);
+		var minutes = Math.floor(( playtime / 60) % 60);
+		var seconds = Math.floor( playtime % 60);
+		document.getElementById("countdown").innerHTML = hours + 'hrs ';
+		document.getElementById("countdown").innerHTML += minutes + 'mins ';
+		document.getElementById("countdown").innerHTML += seconds + 'secs';
 	}
 	if(playtime <= 0){
-	var days = Math.floor( -playtime / 86400);
-	var hours = Math.floor(( -playtime / 3600) % 24);
-	var minutes = Math.floor(( -playtime / 60) % 60);
-	var seconds = Math.floor( -playtime % 60);
-	document.getElementById("countdown").innerHTML = days + 'days ';
-	document.getElementById("countdown").innerHTML += hours + 'hrs ';
-	document.getElementById("countdown").innerHTML += minutes + 'mins ';
-	document.getElementById("countdown").innerHTML += seconds + 'secs';
+		var days = Math.floor( -playtime / 86400);
+		var hours = Math.floor(( -playtime / 3600) % 24);
+		var minutes = Math.floor(( -playtime / 60) % 60);
+		var seconds = Math.floor( -playtime % 60);
+		document.getElementById("countdown").innerHTML = days + 'days ';
+		document.getElementById("countdown").innerHTML += hours + 'hrs ';
+		document.getElementById("countdown").innerHTML += minutes + 'mins ';
+		document.getElementById("countdown").innerHTML += seconds + 'secs';
 	}
 }
 
@@ -89,17 +95,15 @@ function makePlayButtonVisible(){
 	document.getElementById('play').style.display = 'block';
 }
 
-/* prog bar
+//Progress through Mix
 function updateProgress() { 
+	document.getElementById('progDiv').style.display = 'block';
+	document.getElementById('smile').style.display = 'none';
 	var progress = document.getElementById("prog");
 	var value = 0; 
-	console.log("currentTime="+mAudioPlayer.currentTime);
 	if (mAudioPlayer.currentTime > 0) { 
-		console.log("duration="+mAudioPlayer.duration);
-
 		value = Math.floor((100 / mAudioPlayer.duration) * mAudioPlayer.currentTime);
-		console.log("value="+mAudioPlayer.currentTime);
 	} 
-	progress.style.width = value + "%"; 
-}*/
+	progress.value = value; 
+}
 
