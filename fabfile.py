@@ -18,8 +18,16 @@ def deploy():
         run('python manage.py migrate sds')
         run('sudo /etc/init.d/httpd restart')
 
-def restart_live():
-    sudo('/etc/init.d/httpd restart')
-
-def restart_local():
+def reset_migrations():
+    #navigate into the production database and run:  'drop table south_migrationhistory;'
+    local('rm -r sds/migrations')
+    local('python manage.py schemamigration sds --initial')
+    local('python manage.py syncdb')
+    local('python manage.py migrate sds 0001 --fake --delete-ghost-migrations')
     local('sudo /etc/init.d/httpd restart')
+    with cd('/home/ec2-user/sds'):
+        run('rm -r sds/migrations')
+        run('python manage.py schemamigration sds --initial')
+        run('python manage.py syncdb')
+        run('python manage.py migrate sds 0001 --fake --delete-ghost-migrations')
+        sudo('/etc/init.d/httpd restart')
