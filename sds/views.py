@@ -51,7 +51,7 @@ def index(request):
     upcomingEventsList = []
     template = loader.get_template('index.html')
     for event in upcomingEvents:
-        eventstart = event.arrive_start_time
+        eventstart = event.music_start_time
         eventstart = time.mktime(eventstart.timetuple())
         etaList.append(eventstart-calculateCurrentTime())
         upcomingEventsList.append(event.id)
@@ -87,7 +87,7 @@ def future(request):
     
     event = Events.objects.filter(id=request.GET['id'])
     event = event[0]
-    eventstart = event.arrive_start_time
+    eventstart = event.music_start_time
     eventstart = time.mktime(eventstart.timetuple())
     upcomingEventsList = []
     upcomingEventsList.append(event.id)

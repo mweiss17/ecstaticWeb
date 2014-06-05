@@ -1,4 +1,5 @@
 var playtime = {{eta}};
+var eventID = {{event.id}};
 var xmlhttp = new XMLHttpRequest();
 var lastSyncSleepRecovery = 0;
 var syncIntervalSleepRecovery = 30000; 
@@ -35,7 +36,7 @@ function sync(){
 				playtime = Number(xmlhttp.responseText);
 			}
 		}
-		xmlhttp.open("GET","/stream.html/?id=31&async=2",true);
+		xmlhttp.open("GET","/stream.html/?id="+eventID+"&async=2",true);
 		xmlhttp.send();
 	}
 	catch(err){

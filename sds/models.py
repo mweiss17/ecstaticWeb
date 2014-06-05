@@ -21,6 +21,7 @@ class Photos(models.Model):
     photographer = models.CharField(max_length=30, blank=True)
     title = models.CharField(max_length=100, blank=True)
     photoUploadDate = models.DateTimeField("photoUploadDate", auto_now=True, blank=True, null=True)
+    test = models.CharField(max_length=100, blank=True)
 
     def __unicode__(self):
         return self.title + " : " + self.user.username + " : " + str(self.photoUploadDate)
@@ -39,7 +40,7 @@ class Music(models.Model):
 class globalEvent(models.Model):
     title = models.CharField(max_length=255)
     eventPic = models.ForeignKey(Photos, unique=True)
-    start_time = models.DateTimeField("Event Time")
+    #start_time = models.DateTimeField("Event Time")
     arrive_start_time = models.DateTimeField("Event Start Time")
     music_start_time = models.DateTimeField("Music Start Time")
 
