@@ -22,6 +22,7 @@ class Photos(models.Model):
     title = models.CharField(max_length=100, blank=True)
     photoUploadDate = models.DateTimeField("photoUploadDate", auto_now=True, blank=True, null=True)
     test = models.CharField(max_length=100, blank=True)
+    test2 = models.CharField(max_length=100, blank=True)
 
     def __unicode__(self):
         return self.title + " : " + self.user.username + " : " + str(self.photoUploadDate)
