@@ -74,19 +74,19 @@ function showRemaining() {
 		var hours = Math.floor(( playtime/ 3600) % 24);
 		var minutes = Math.floor(( playtime / 60) % 60);
 		var seconds = Math.floor( playtime % 60);
-		document.getElementById("countdown").innerHTML = hours + 'hrs ';
-		document.getElementById("countdown").innerHTML += minutes + 'mins ';
-		document.getElementById("countdown").innerHTML += seconds + 'secs';
+		document.getElementById("countdown").innerHTML = hours + 'h ';
+		document.getElementById("countdown").innerHTML += minutes + 'm ';
+		document.getElementById("countdown").innerHTML += seconds + 's';
 	}
 	if(playtime <= 0){
 		var days = Math.floor( -playtime / 86400);
 		var hours = Math.floor(( -playtime / 3600) % 24);
 		var minutes = Math.floor(( -playtime / 60) % 60);
 		var seconds = Math.floor( -playtime % 60);
-		document.getElementById("countdown").innerHTML = days + 'days ';
-		document.getElementById("countdown").innerHTML += hours + 'hrs ';
-		document.getElementById("countdown").innerHTML += minutes + 'mins ';
-		document.getElementById("countdown").innerHTML += seconds + 'secs';
+		document.getElementById("countdown").innerHTML = days + 'd ';
+		document.getElementById("countdown").innerHTML += hours + 'h ';
+		document.getElementById("countdown").innerHTML += minutes + 'm ';
+		document.getElementById("countdown").innerHTML += seconds + 's';
 	}
 }
 

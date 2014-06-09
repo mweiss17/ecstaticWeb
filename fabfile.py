@@ -5,10 +5,11 @@ env.key_filename = '~/.ssh/martin.pem'
 env.hosts = ['ec2-user@silentdiscosquad.com:22']
 
 def prepare_deploy(branch_name):
-    local('python manage.py schemamigration sds --auto')
-    local('python manage.py migrate sds')
-    local("git add -p -A * && git commit")
-    local('git checkout master && git merge ' + branch_name)
+    with settings(warn_only=True):
+        local('python manage.py schemamigration sds --auto')
+        local('python manage.py migrate sds')
+        local("git add -p -A * && git commit")
+        local('git checkout master && git merge ' + branch_name)
 
 def deploy():
     with cd('/home/ec2-user/sds'):
@@ -20,6 +21,9 @@ def deploy():
 
 def reset_migrations():
     #navigate into the production database and run:  'drop table south_migrationhistory;'
+    #Make sure that the Django Models.py schema is identical to the database. Check with "\d+ TABLENAME"
+    #ALTER TABLE sds_photos DROP COLUMN test;
+
     local('rm -r sds/migrations')
     local('python manage.py schemamigration sds --initial')
     local('python manage.py syncdb')

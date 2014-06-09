@@ -8,47 +8,43 @@
   <meta name="author" content="Silent Disco Squad" />
   <meta name="description" content="Turning the world into a dancefloor" />
   <meta name="keywords"  content="Silent Disco Squad, Music" />
-
+  
+  {% load compress %}
+  {% compress css %}
   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="/static/js/jquery.fullPage.css" />
   <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
   <link rel="stylesheet" type="text/css" href="/static/css/jquery.fancybox.css" media="screen" />
+  {% endcompress %}
 
-  <!--[if IE]>
-    <script type="text/javascript">
-       var console = { log: function() {} };
-    </script>
-    <![endif]-->
+  {% compress js %}
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>  
+  <script type="text/javascript" src="/static/js/jquery.slimscroll.min.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.fullPage.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/static/js/upcomingEventCountdown.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.fancybox.js?v=2.1.5"></script>
+  <script type="text/javascript" src="/static/js/jquery.fancybox-media.js?v=1.0.6"></script>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>  
-    <script type="text/javascript" src="/static/js/jquery.slimscroll.min.js"></script>
-    <script type="text/javascript" src="/static/js/jquery.fullPage.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/static/js/upcomingEventCountdown.js"></script>
-    <script type="text/javascript" src="/static/js/jquery.fancybox.js?v=2.1.5"></script>
-    <script type="text/javascript" src="/static/js/jquery.fancybox-media.js?v=1.0.6"></script>
-
-
-    <script type="text/javascript">
-      $(document).ready(function() {
-        $.fn.fullpage({
-          'scrollOverflow': false,
-          'autoScrolling': false,
-          'paddingTop' : '140px',
-          'paddingBottom' : '140px',
-        });
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $.fn.fullpage({
+        'scrollOverflow': false,
+        'autoScrolling': false,
+        'paddingTop' : '140px',
+        'paddingBottom' : '140px',
       });
-
-    </script>
-
-    <script type="text/javascript">
-     $(document).ready(function() {
-      $('.home-img').click(function(){
-        var video = '<iframe width="100%" height="400" src="'+ $(this).attr('data-video') +'"></iframe>';
-        $(this).replaceWith(video); });
     });
-   </script>
+  </script>
+
+  <script type="text/javascript">
+   $(document).ready(function() {
+    $('.home-img').click(function(){
+      var video = '<iframe width="100%" height="500" src="'+ $(this).attr('data-video') +'"></iframe>';
+      $(this).replaceWith(video); });
+  });
+ </script>
+  {% endcompress %}
 
    <script>
     console.log({{etaList}});
