@@ -23,7 +23,7 @@ class MusicAdmin(admin.ModelAdmin):
 	list_display = ('uploadedSong', 'event', 'song_name_or_link', 'email', 'intention')
 
 class MusicLinkAdmin(admin.ModelAdmin):
-	list_display = ('uploadedSong', 'event', 'song_name_or_link', 'email', 'intention')
+	list_display = ('event', 'song_name_or_link', 'email', 'intention')
 
 class globalEventAdmin(admin.ModelAdmin):
 	list_display = ('title', 'global_event_pic',)
