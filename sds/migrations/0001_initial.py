@@ -11,13 +11,22 @@ class Migration(SchemaMigration):
         # Adding model 'Photos'
         db.create_table(u'sds_photos', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], blank=True)),
             ('photoFile', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
             ('photographer', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('photoUploadDate', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
         ))
         db.send_create_signal(u'sds', ['Photos'])
+
+        # Adding model 'ProfilePicture'
+        db.create_table(u'sds_profilepicture', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('photoFile', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
+            ('photoUploadDate', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
+        ))
+        db.send_create_signal(u'sds', ['ProfilePicture'])
 
         # Adding model 'Music'
         db.create_table(u'sds_music', (
@@ -31,11 +40,22 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'sds', ['Music'])
 
+        # Adding model 'MusicLink'
+        db.create_table(u'sds_musiclink', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('song_name_or_link', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('email', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('intention', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
+            ('musicUploadDate', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
+            ('event', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Events'], null=True, blank=True)),
+        ))
+        db.send_create_signal(u'sds', ['MusicLink'])
+
         # Adding model 'globalEvent'
         db.create_table(u'sds_globalevent', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('eventPic', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Photos'], unique=True)),
+            ('eventPic', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Photos'])),
             ('arrive_start_time', self.gf('django.db.models.fields.DateTimeField')()),
             ('music_start_time', self.gf('django.db.models.fields.DateTimeField')()),
         ))
@@ -45,7 +65,6 @@ class Migration(SchemaMigration):
         db.create_table(u'sds_events', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('start_time', self.gf('django.db.models.fields.DateTimeField')()),
             ('arrive_start_time', self.gf('django.db.models.fields.DateTimeField')()),
             ('music_start_time', self.gf('django.db.models.fields.DateTimeField')()),
             ('city', self.gf('django.db.models.fields.CharField')(max_length=50)),
@@ -53,9 +72,9 @@ class Migration(SchemaMigration):
             ('google_map_link', self.gf('django.db.models.fields.CharField')(max_length=1000)),
             ('latitude', self.gf('django.db.models.fields.FloatField')(default=40.744810000000001)),
             ('longitude', self.gf('django.db.models.fields.FloatField')(default=-119.2223)),
-            ('eventPic', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Photos'], unique=True)),
+            ('eventPic', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Photos'])),
             ('eventMix', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Music'], null=True, blank=True)),
-            ('fbEvent', self.gf('django.db.models.fields.URLField')(default='https://www.facebook.com/SilentDiscoSquad', max_length=200)),
+            ('fbEvent', self.gf('django.db.models.fields.URLField')(max_length=200)),
             ('globalEvent', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.globalEvent'], null=True, blank=True)),
             ('role1', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
             ('organizer1', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='organizerProfile1', null=True, to=orm['sds.UserProfile'])),
@@ -90,8 +109,14 @@ class Migration(SchemaMigration):
         # Deleting model 'Photos'
         db.delete_table(u'sds_photos')
 
+        # Deleting model 'ProfilePicture'
+        db.delete_table(u'sds_profilepicture')
+
         # Deleting model 'Music'
         db.delete_table(u'sds_music')
+
+        # Deleting model 'MusicLink'
+        db.delete_table(u'sds_musiclink')
 
         # Deleting model 'globalEvent'
         db.delete_table(u'sds_globalevent')
@@ -148,8 +173,8 @@ class Migration(SchemaMigration):
             'arrive_start_time': ('django.db.models.fields.DateTimeField', [], {}),
             'city': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'eventMix': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Music']", 'null': 'True', 'blank': 'True'}),
-            'eventPic': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Photos']", 'unique': 'True'}),
-            'fbEvent': ('django.db.models.fields.URLField', [], {'default': "'https://www.facebook.com/SilentDiscoSquad'", 'max_length': '200'}),
+            'eventPic': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Photos']"}),
+            'fbEvent': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
             'globalEvent': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.globalEvent']", 'null': 'True', 'blank': 'True'}),
             'google_map_link': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -163,13 +188,12 @@ class Migration(SchemaMigration):
             'role1': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'role2': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'role3': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'start_time': ('django.db.models.fields.DateTimeField', [], {}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         u'sds.globalevent': {
             'Meta': {'object_name': 'globalEvent'},
             'arrive_start_time': ('django.db.models.fields.DateTimeField', [], {}),
-            'eventPic': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Photos']", 'unique': 'True'}),
+            'eventPic': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Photos']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'music_start_time': ('django.db.models.fields.DateTimeField', [], {}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
@@ -184,14 +208,23 @@ class Migration(SchemaMigration):
             'song_name_or_link': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'uploadedSong': ('django.db.models.fields.files.FileField', [], {'default': "'uploadedSongs'", 'max_length': '100', 'blank': 'True'})
         },
+        u'sds.musiclink': {
+            'Meta': {'object_name': 'MusicLink'},
+            'email': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'event': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Events']", 'null': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'intention': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
+            'musicUploadDate': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
+            'song_name_or_link': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+        },
         u'sds.photos': {
             'Meta': {'object_name': 'Photos'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'photoFile': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
             'photoUploadDate': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
             'photographer': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'blank': 'True'})
         },
         u'sds.potentialorganizer': {
             'Meta': {'object_name': 'potentialOrganizer'},
@@ -200,6 +233,13 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'why': ('django.db.models.fields.CharField', [], {'max_length': '4095'})
+        },
+        u'sds.profilepicture': {
+            'Meta': {'object_name': 'ProfilePicture'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'photoFile': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
+            'photoUploadDate': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
         },
         u'sds.userprofile': {
             'Meta': {'object_name': 'UserProfile'},
