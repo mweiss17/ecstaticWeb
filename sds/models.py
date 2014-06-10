@@ -97,11 +97,6 @@ class UserProfile(models.Model):
         return self.user.username
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
-class organizerForm(ModelForm):
-    class Meta:
-        model = potentialOrganizer
-        fields = ['name', 'email', 'city', 'why']
-
 class MusicForm(ModelForm):
     class Meta:
         model = Music
