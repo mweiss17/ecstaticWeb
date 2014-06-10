@@ -49,10 +49,11 @@ class MusicLink(models.Model):
 
 class globalEvent(models.Model):
     title = models.CharField(max_length=255)
-    eventPic = models.ForeignKey(Photos, unique=True)
+    eventPic = models.ForeignKey(Photos)
     arrive_start_time = models.DateTimeField("Event Start Time")
     music_start_time = models.DateTimeField("Music Start Time")
-
+    def __unicode__(self):
+        return self.title
 
 class Events(models.Model):
     title = models.CharField(max_length=100)
