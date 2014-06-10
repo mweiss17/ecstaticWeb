@@ -10,7 +10,7 @@ from django.views.generic import FormView
 from django.core.urlresolvers import reverse
 from django.forms import ModelForm
 from django.forms.models import modelform_factory
-from sds.forms import MusicForm, organizerForm
+from sds.forms import MusicForm
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import auth
