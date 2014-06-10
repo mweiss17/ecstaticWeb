@@ -1,3 +1,4 @@
 sds/config.json
 media/
+*.pyc
 sds/migrations/*.pyc
