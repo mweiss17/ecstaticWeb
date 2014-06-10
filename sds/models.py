@@ -91,7 +91,7 @@ class Events(models.Model):
 
 class UserProfile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True)
-    profilePic = models.ForeignKey(Photos)
+    profilePic = models.ForeignKey(ProfilePicture)
     signupDate = models.DateTimeField("signupDate", auto_now=True)
     def __unicode__(self):
         return self.user.username
