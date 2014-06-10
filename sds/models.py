@@ -16,13 +16,18 @@ import datetime
 
 
 class Photos(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True)
     photoFile = models.FileField(upload_to='Photos/%Y/%m/%d')
     photographer = models.CharField(max_length=30, blank=True)
-    title = models.CharField(max_length=100, blank=True)
+    title = models.CharField(max_length=100)
     photoUploadDate = models.DateTimeField("photoUploadDate", auto_now=True, blank=True, null=True)
     def __unicode__(self):
         return self.title + " : " + self.user.username + " : " + str(self.photoUploadDate)
+
+class ProfilePicture(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    photoFile = models.FileField(upload_to='Photos/%Y/%m/%d')
+    photoUploadDate = models.DateTimeField("photoUploadDate", auto_now=True, blank=True, null=True)
 
 class Music(models.Model):
     uploadedSong = models.FileField(upload_to='uploadedSongs/%Y/%m/%d', default='uploadedSongs', blank=True)
