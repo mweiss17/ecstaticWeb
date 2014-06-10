@@ -22,7 +22,7 @@ class Photos(models.Model):
     title = models.CharField(max_length=100)
     photoUploadDate = models.DateTimeField("photoUploadDate", auto_now=True, blank=True, null=True)
     def __unicode__(self):
-        return self.photoFile + " : " + self.user.username + " : " + str(self.photoUploadDate)
+        return self.photoFile.url + " : " + self.user.username + " : " + str(self.photoUploadDate)
 
 class ProfilePicture(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
