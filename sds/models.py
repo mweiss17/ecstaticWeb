@@ -32,7 +32,7 @@ class ProfilePicture(models.Model):
 class Music(models.Model):
     uploadedSong = models.FileField(upload_to='uploadedSongs/%Y/%m/%d', default='uploadedSongs', blank=True)
     email = models.CharField(max_length=255)
-    song_name_or_link = models.CharField(max_length=255, blank=True)
+    song_name_or_link = models.CharField(max_length=255, blank=True) #delete after transfer
     intention = models.CharField(max_length=255, blank=True)
     musicUploadDate = models.DateTimeField("musicUploadDate", auto_now=True, blank=True, null=True)
     event = models.ForeignKey("Events", blank=True, null=True)
@@ -40,17 +40,23 @@ class Music(models.Model):
     def __unicode__(self):
         return self.song_name_or_link+ " : " + self.email + " : " + str(self.musicUploadDate)
 
+class MusicLink(models.Model):
+    song_name_or_link = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    intention = models.CharField(max_length=255, blank=True)
+    musicUploadDate = models.DateTimeField("musicUploadDate", auto_now=True, blank=True, null=True)
+    event = models.ForeignKey("Events", blank=True, null=True) #fix up the music upload form
+
 class globalEvent(models.Model):
     title = models.CharField(max_length=255)
     eventPic = models.ForeignKey(Photos, unique=True)
-    #start_time = models.DateTimeField("Event Time")
     arrive_start_time = models.DateTimeField("Event Start Time")
     music_start_time = models.DateTimeField("Music Start Time")
 
 
 class Events(models.Model):
     title = models.CharField(max_length=100)
-    start_time = models.DateTimeField("Event Time")
+    start_time = models.DateTimeField("Event Time") #delete after transfer
     arrive_start_time = models.DateTimeField("Event Start Time")
     music_start_time = models.DateTimeField("Music Start Time")
     city = models.CharField(max_length=50)
