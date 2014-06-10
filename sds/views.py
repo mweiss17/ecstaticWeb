@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import *
-from sds.models import Photos, Music, Events, potentialOrganizer, globalEvent
+from sds.models import Photos, Music, Events, globalEvent
 from django.template import RequestContext, loader
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
