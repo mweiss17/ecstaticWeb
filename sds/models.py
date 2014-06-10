@@ -57,7 +57,6 @@ class globalEvent(models.Model):
 
 class Events(models.Model):
     title = models.CharField(max_length=100)
-    start_time = models.DateTimeField("Event Time") #delete after transfer
     arrive_start_time = models.DateTimeField("Event Start Time")
     music_start_time = models.DateTimeField("Music Start Time")
     city = models.CharField(max_length=50)
@@ -65,9 +64,9 @@ class Events(models.Model):
     google_map_link = models.CharField(max_length=1000)
     latitude = models.FloatField(default=40.74481)
     longitude = models.FloatField(default=-119.22230)
-    eventPic = models.ForeignKey(Photos, unique=True)
+    eventPic = models.ForeignKey(Photos)
     eventMix = models.ForeignKey(Music, blank=True, null=True)
-    fbEvent = models.URLField(default="https://www.facebook.com/SilentDiscoSquad")
+    fbEvent = models.URLField()
     globalEvent = models.ForeignKey(globalEvent, blank=True, null=True)
 
     ORGANIZER = 'organizer'
