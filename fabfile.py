@@ -8,7 +8,8 @@ def prepare_deploy(branch_name):
     with settings(warn_only=True):
         local('python manage.py schemamigration sds --auto')
         local('python manage.py migrate sds')
-        local("git add -p --all && git commit -a")
+        local('git add sds/migrations/')
+	local("git add -p --all && git commit -a")
         local('git checkout master && git merge ' + branch_name)
 
 def deploy():

@@ -8,21 +8,20 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Removing unique constraint on 'Events', fields ['eventPic']
-        db.delete_unique(u'sds_events', ['eventPic_id'])
-
-        # Deleting field 'Events.start_time'
-        db.delete_column(u'sds_events', 'start_time')
+        # Deleting model 'potentialOrganizer'
+        db.delete_table(u'sds_potentialorganizer')
 
 
     def backwards(self, orm):
-        # Adding field 'Events.start_time'
-        db.add_column(u'sds_events', 'start_time',
-                      self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 6, 10, 0, 0)),
-                      keep_default=False)
-
-        # Adding unique constraint on 'Events', fields ['eventPic']
-        db.create_unique(u'sds_events', ['eventPic_id'])
+        # Adding model 'potentialOrganizer'
+        db.create_table(u'sds_potentialorganizer', (
+            ('city', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('email', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('why', self.gf('django.db.models.fields.CharField')(max_length=4095)),
+        ))
+        db.send_create_signal(u'sds', ['potentialOrganizer'])
 
 
     models = {
@@ -119,14 +118,6 @@ class Migration(SchemaMigration):
             'photographer': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'blank': 'True'})
-        },
-        u'sds.potentialorganizer': {
-            'Meta': {'object_name': 'potentialOrganizer'},
-            'city': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'email': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'why': ('django.db.models.fields.CharField', [], {'max_length': '4095'})
         },
         u'sds.profilepicture': {
             'Meta': {'object_name': 'ProfilePicture'},
