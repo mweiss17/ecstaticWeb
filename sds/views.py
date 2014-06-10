@@ -109,14 +109,7 @@ def mission(request):
     return render(request, 'mission.html', context)
 
 def become(request):
-    OrganizerForm = modelform_factory(potentialOrganizer, fields=("name", "email", "city", "why"))
-    if request.method == 'POST':
-        form = OrganizerForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-    else:
-        form = OrganizerForm()
-    context = {'form': form}
+    context = {}
     return render(request, 'index_join_become.html', context)
 
 def form(request):
