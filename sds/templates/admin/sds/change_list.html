@@ -51,7 +51,8 @@
     {% block object-tools %}
       {% if has_add_permission %}
         <ul class="object-tools">
-          {% block object-tools-items %}
+lookylook         
+ {% block object-tools-items %}
             <li>
               {% url cl.opts|admin_urlname:'add' as add_url %}
               <a href="{% add_preserved_filters add_url is_popup %}" class="addlink">
