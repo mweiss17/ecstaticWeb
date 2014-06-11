@@ -40,17 +40,6 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'sds', ['Music'])
 
-        # Adding model 'MusicLink'
-        db.create_table(u'sds_musiclink', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('song_name_or_link', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('email', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('intention', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('musicUploadDate', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('event', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Events'], null=True, blank=True)),
-        ))
-        db.send_create_signal(u'sds', ['MusicLink'])
-
         # Adding model 'globalEvent'
         db.create_table(u'sds_globalevent', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -90,19 +79,10 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], unique=True)),
             ('profilePic', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.Photos'])),
+            ('profilePicture', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sds.ProfilePicture'])),
             ('signupDate', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
         ))
         db.send_create_signal(u'sds', ['UserProfile'])
-
-        # Adding model 'potentialOrganizer'
-        db.create_table(u'sds_potentialorganizer', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('email', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('city', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('why', self.gf('django.db.models.fields.CharField')(max_length=4095)),
-        ))
-        db.send_create_signal(u'sds', ['potentialOrganizer'])
 
 
     def backwards(self, orm):
@@ -115,9 +95,6 @@ class Migration(SchemaMigration):
         # Deleting model 'Music'
         db.delete_table(u'sds_music')
 
-        # Deleting model 'MusicLink'
-        db.delete_table(u'sds_musiclink')
-
         # Deleting model 'globalEvent'
         db.delete_table(u'sds_globalevent')
 
@@ -126,9 +103,6 @@ class Migration(SchemaMigration):
 
         # Deleting model 'UserProfile'
         db.delete_table(u'sds_userprofile')
-
-        # Deleting model 'potentialOrganizer'
-        db.delete_table(u'sds_potentialorganizer')
 
 
     models = {
@@ -208,15 +182,6 @@ class Migration(SchemaMigration):
             'song_name_or_link': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'uploadedSong': ('django.db.models.fields.files.FileField', [], {'default': "'uploadedSongs'", 'max_length': '100', 'blank': 'True'})
         },
-        u'sds.musiclink': {
-            'Meta': {'object_name': 'MusicLink'},
-            'email': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'event': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Events']", 'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'intention': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
-            'musicUploadDate': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
-            'song_name_or_link': ('django.db.models.fields.CharField', [], {'max_length': '255'})
-        },
         u'sds.photos': {
             'Meta': {'object_name': 'Photos'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -225,14 +190,6 @@ class Migration(SchemaMigration):
             'photographer': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'blank': 'True'})
-        },
-        u'sds.potentialorganizer': {
-            'Meta': {'object_name': 'potentialOrganizer'},
-            'city': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'email': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'why': ('django.db.models.fields.CharField', [], {'max_length': '4095'})
         },
         u'sds.profilepicture': {
             'Meta': {'object_name': 'ProfilePicture'},
@@ -245,6 +202,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'UserProfile'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'profilePic': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.Photos']"}),
+            'profilePicture': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sds.ProfilePicture']"}),
             'signupDate': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'unique': 'True'})
         }

@@ -29,7 +29,14 @@
     {% endif %}
         <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form }}
+        {% for field in form %}
+          {% if field.field.required %}
+            <label>*Required{{ field.label_tag }}</label>{{ field }}
+          {% else %}
+            <label>{{ field.label_tag }}</label>{{ field }}
+          {% endif %}
+        {% endfor %}
+
         <button type="submit" class="btn submit">Submit Song</button>
       </form>
     </div>

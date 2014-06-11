@@ -1,5 +1,5 @@
 from django.contrib import admin
-from sds.models import Photos, ProfilePicture, Music, MusicLink, Events, UserProfile, globalEvent
+from sds.models import Photos, ProfilePicture, Music, Events, UserProfile, globalEvent
 
 class PhotosAdmin(admin.ModelAdmin):
 	list_display = ('user', 'photoFile')
@@ -19,9 +19,6 @@ class UserProfileAdmin(admin.ModelAdmin):
 class MusicAdmin(admin.ModelAdmin):
 	list_display = ('uploadedSong', 'event', 'song_name_or_link', 'email', 'intention')
 
-class MusicLinkAdmin(admin.ModelAdmin):
-	list_display = ('event', 'song_name_or_link', 'email', 'intention')
-
 class globalEventAdmin(admin.ModelAdmin):
 	list_display = ('title', 'global_event_pic',)
 	def global_event_pic(self, obj):
@@ -29,7 +26,6 @@ class globalEventAdmin(admin.ModelAdmin):
 
 admin.site.register(globalEvent, globalEventAdmin)
 admin.site.register(Music, MusicAdmin)
-admin.site.register(MusicLink, MusicLinkAdmin)
 admin.site.register(Photos, PhotosAdmin)
 admin.site.register(ProfilePicture, ProfilePictureAdmin)
 admin.site.register(Events, EventsAdmin)

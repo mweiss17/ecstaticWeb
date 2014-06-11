@@ -40,13 +40,6 @@ class Music(models.Model):
     def __unicode__(self):
         return self.song_name_or_link+ " : " + self.email + " : " + str(self.musicUploadDate)
 
-class MusicLink(models.Model):
-    song_name_or_link = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    intention = models.CharField(max_length=255, blank=True)
-    musicUploadDate = models.DateTimeField("musicUploadDate", auto_now=True, blank=True, null=True)
-    event = models.ForeignKey("Events", blank=True, null=True) #fix up the music upload form
-
 class globalEvent(models.Model):
     title = models.CharField(max_length=255)
     eventPic = models.ForeignKey(Photos)
@@ -92,6 +85,7 @@ class Events(models.Model):
 class UserProfile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True)
     profilePic = models.ForeignKey(Photos)
+    profilePicture = models.ForeignKey(ProfilePicture)
     signupDate = models.DateTimeField("signupDate", auto_now=True)
     def __unicode__(self):
         return self.user.username
