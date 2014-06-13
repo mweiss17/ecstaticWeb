@@ -16,9 +16,7 @@ from django.conf import settings
 from django.contrib import auth
 from django.core.context_processors import csrf
 from mailchimp import utils
-import json
-import pprint
-import datetime, time
+import logging, json, pprint, datetime, time
 
 def calculateCurrentTime():
     now = datetime.datetime.utcnow()
@@ -175,6 +173,8 @@ def appindex(request):
         etaList.append(eventstart-calculateCurrentTime())
         upcomingEventsList.append(event.id)
         some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.city, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent, 'latitude':event.latitude, 'longitude':event.longitude, 'songTitle':event.eventMix.uploadedSong.url})
+        logger = logging.getLogger(__name__)
+        logger.debug(eventstart)
 
     data = json.dumps(some_data_to_dump)
 

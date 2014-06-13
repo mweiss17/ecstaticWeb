@@ -3,7 +3,7 @@
   <ul class="tabs">
     <li>
       <input type="radio" checked name="tabs" id="tab1">
-      <label for="tab1" >Global SDS</label>
+      <label for="tab1" >Global Discos</label>
 
       {% if upcomingGlobalEvent %}
       <div id="tab-content1" class="tab-content animated fadeIn"  style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{upcomingGlobalEvent.eventPic.photoFile}}); background-size: cover";> <div class="overlay-home"></div>
@@ -47,7 +47,7 @@
 
       <li>
         <input type="radio" name="tabs" id="tab2">
-        <label for="tab2" >Weekly local SDS</label>
+        <label for="tab2" >City Discos</label>
         {% for event in upcomingEvents %}
         {% if not event.globalEvent %}
         <div id="tab-content2" class="tab-content animated fadeIn" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover";><div class="overlay-home"></div>
