@@ -21,11 +21,11 @@
               <hr>
               {% for event in upcomingEvents %}
               {% if event.globalEvent %}
-              <div class="row">
+              {% if forloop.first %}<div class="row"> {% endif %}
                 <div class="col-md-3"> <a href="/future.html?id={{event.id}}">
                   <button type="button" class="btn btn-default join-button">{{event.city}}</button></a> 
                 </div>
-              </div>
+              {% if forloop.last %}</div> {% endif %}
               {% endif %}
               {% endfor %}          
             </div>
@@ -49,8 +49,6 @@
       <li>
         <input type="radio" name="tabs" id="tab2">
         <label for="tab2" >City Discos</label>
-        {% for event in upcomingEvents %}
-        {% if not event.globalEvent %}
         <div id="tab-content2" class="tab-content animated fadeIn" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover";><div class="overlay-home"></div>
         <div style="overflow:auto;  height:100%">
           <div class="container">
@@ -62,16 +60,20 @@
 
                   <div name="eventBox" data-my-order="1"></div>
                   <hr>
-                  <h3>{{ event.arrive_start_time }} </h3> 
-                  <h3>{{ event.title }} </h3> 
+                  {% for event in upcomingEvents %}
+                  {% if not event.globalEvent %}
+
+                  <!--h3>{{ event.arrive_start_time }} </h3--> 
+                  <!--h3>{{ event.title }} </h3--> 
                   <a href="/future.html?id={{event.id}}">
-                    <button type="button" class="btn btn-default join-button">{{event.city}}</button></a> 
+                    <button type="button" class="btn btn-default join-button">{{ event.title }}</button></a> 
+                  {% endif %}
+                  {% endfor %}
+
                   </div>
                 </div>
               </div>
             </div>
-            {% endif %}
-            {% endfor %}
 
           </li>
         </ul>
