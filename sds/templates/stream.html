@@ -48,10 +48,11 @@ TIME TO DAAAAAAAAANCE!!
 
 
 <br class="clear">
-
-<script>
-{% include "static/js/stream.js" %}
+<script type="text/javascript">
+var playtime = {{eta}};
+var eventID = {{event.id}};
 </script>
+<script type="text/javascript" src="/static/js/stream.js"></script>
 
 <button class="streaming btn" type="button" id="play" onclick="playMix(); ">Play Mix</button>
 
