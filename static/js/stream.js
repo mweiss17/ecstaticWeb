@@ -1,5 +1,3 @@
-var playtime = {{eta}};
-var eventID = {{event.id}};
 var xmlhttp = new XMLHttpRequest();
 var lastSyncSleepRecovery = 0;
 var syncIntervalSleepRecovery = 30000; 
