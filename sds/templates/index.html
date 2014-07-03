@@ -22,9 +22,9 @@
               {% for event in upcomingEvents %}
               {% if event.globalEvent %}
               {% if forloop.first %}<div class="row"> {% endif %}
-                <div class="col-md-3"> <a href="/future.html?id={{event.id}}">
+                 <a href="/future.html?id={{event.id}}">
                   <button type="button" class="btn btn-default join-button">{{event.city}}</button></a> 
-                </div>
+                
               {% if forloop.last %}</div> {% endif %}
               {% endif %}
               {% endfor %}          
