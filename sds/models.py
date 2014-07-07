@@ -16,7 +16,7 @@ import datetime
 
 
 class Photos(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     photoFile = models.FileField(upload_to='Photos/%Y/%m/%d')
     photographer = models.CharField(max_length=30, blank=True)
     title = models.CharField(max_length=100)
