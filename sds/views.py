@@ -93,7 +93,7 @@ def future(request):
     etaList = []
     etaList.append(eventstart - calculateCurrentTime())
 
-    context = {'success': message, 'form': form, 'event': event, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList}
+    context = {'success': message, 'form': form, 'event': event, 'globalEvent': event.globalEvent, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList}
     return render_to_response('index_future.html', context, context_instance=RequestContext(request))
 
 def contact(request):
