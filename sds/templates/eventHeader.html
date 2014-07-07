@@ -21,13 +21,11 @@
     <div class="btn fb">{{event.title}}'s Facebook Event</div>
   </a> 
   {% if event.eventMix.uploadedSong %}
-  not global
     <a href="/stream.html?id={{event.id}}">
       <button class="btn" onclick="id={{event.id}}">Stream The Mix</button>
     </a>
     <a class="btn" href="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}" >Download Mix!</a>
     {% elif event.globalEvent.eventMix.uploadedSong %}
-    global
     <a href="/stream.html?id={{event.id}}">
       <button class="btn" onclick="id={{event.id}}">Stream The Mix</button>
     </a>
