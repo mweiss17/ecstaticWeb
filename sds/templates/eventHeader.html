@@ -1,7 +1,12 @@
 <div class="city">
   <div class="container"> {{ event.city }} </div>
 </div>
+{{ if event.globalEvent }}
 <div class="countdown-banner-img" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{globalEvent.eventPic.photoFile}}); background-position:left; background-size:cover">
+{{ else }}
+<div class="countdown-banner-img" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-position:left; background-size:cover">
+{{ endif }}
+
   <div class="overlay">
     <div class="container"> <span class="event-title">{{event.title}}</span><br>
     {% if past %}

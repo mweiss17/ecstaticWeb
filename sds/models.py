@@ -42,7 +42,8 @@ class Music(models.Model):
 
 class globalEvent(models.Model):
     title = models.CharField(max_length=255)
-    eventPic = models.ForeignKey(Photos)
+    eventPic = models.ForeignKey(Photos, related_name="globalEventEventPic")
+    indexHeaderPic = models.ForeignKey(Photos)
     arrive_start_time = models.DateTimeField("Event Start Time")
     music_start_time = models.DateTimeField("Music Start Time")
     def __unicode__(self):
@@ -57,7 +58,7 @@ class Events(models.Model):
     google_map_link = models.CharField(max_length=1000)
     latitude = models.FloatField(default=40.74481)
     longitude = models.FloatField(default=-119.22230)
-    eventPic = models.ForeignKey(Photos)
+    eventPic = models.ForeignKey(Photos, related_name="eventsEventPic")
     eventMix = models.ForeignKey(Music, blank=True, null=True)
     fbEvent = models.URLField()
     globalEvent = models.ForeignKey(globalEvent, blank=True, null=True)
