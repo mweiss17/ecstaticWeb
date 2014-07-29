@@ -44,6 +44,7 @@ class Music(models.Model):
 class globalEvent(models.Model):
     title = models.CharField(max_length=255)
     eventPic = models.ForeignKey(Photos, related_name="globalEventEventPic")
+    subEventPic = models.ForeignKey(Photos, related_name="eventHeaderPic", default=2)
     eventMix = models.ForeignKey(Music, blank=True, null=True, related_name="globalEventEventMix")
     indexHeaderPic = models.ForeignKey(Photos)
     arrive_start_time = models.DateTimeField("Event Start Time")
