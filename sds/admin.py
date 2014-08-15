@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from django.contrib import admin
-from sds.models import Photos, ProfilePicture, Music, Events, UserProfile, globalEvent
+from sds.models import *
 
 class PhotosAdmin(admin.ModelAdmin):
 	list_display = ('user', 'photoFile')
@@ -20,6 +20,9 @@ class UserProfileAdmin(admin.ModelAdmin):
 class MusicAdmin(admin.ModelAdmin):
 	list_display = ('uploadedSong', 'event', 'song_name_or_link', 'email', 'intention')
 
+class surveySignupsAdmin(admin.ModelAdmin):
+	list_display = ('email', 'event')
+
 class globalEventAdmin(admin.ModelAdmin):
 	list_display = ('title', 'global_event_pic',)
 	def global_event_pic(self, obj):
@@ -31,3 +34,4 @@ admin.site.register(Photos, PhotosAdmin)
 admin.site.register(ProfilePicture, ProfilePictureAdmin)
 admin.site.register(Events, EventsAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(surveySignups, surveySignupsAdmin)

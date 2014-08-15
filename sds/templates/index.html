@@ -1,4 +1,28 @@
 {% include "header.html" %}
+  <script type="text/javascript">
+    $(document).ready(function() {
+
+      $('.fancybox').fancybox();
+
+      $('.fancybox-media')
+      .attr('rel', 'media-gallery')
+      .fancybox(
+      {
+        openEffect : 'fade',
+        closeEffect : 'none',
+        prevEffect : 'none',
+        nextEffect : 'none',
+
+        arrows : false,
+        helpers : {
+         
+          media : {},
+          buttons : {}
+
+        }
+      });
+    });
+  </script>
 <div class="section" id="section0">
   <ul class="tabs">
     <li>

@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import *
-from sds.models import Photos, Music, Events, globalEvent
+from sds.models import Photos, Music, Events, globalEvent, surveySignups
+from sds.forms import surveySignupsForm
 from django.template import RequestContext, loader
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
@@ -11,7 +12,7 @@ from django.core.urlresolvers import reverse
 from django.forms import ModelForm
 from django.forms.models import modelform_factory
 from sds.forms import MusicForm
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from django.contrib import auth
 from django.core.context_processors import csrf
@@ -75,7 +76,8 @@ def future(request):
         form = MusicForm(request.POST, request.FILES)
         uploadedSong = " "
         songName = request.POST['song_name_or_link']
-        send_mail('Dancetrack Received', "We got your track! Thanks for your contribution to the Dancemix!" + "\nSee you at the danceparty ~:)" + "\nWith Love," +"\nThe SDS Team", 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
+
+        send_mail('Dancetrack Received', "We got your track! Thanks for your contribution to the Dancemix!" + "\nLast Favour! From now until October we have a quick Survey (https://jfe.qualtrics.com/form/SV_01G8vvjtNXN6Xt3) that helps us better understand the effects of participating in Silent Disco Squad - Please take 5-10 Mins and fill it out! " + "\nWith Love," +"\nThe SDS Team", 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
         send_mail("Song Submission from: "+ request.POST['email'], "songname: "+ songName + " intention: "+ request.POST['intention'],'contact@silentdiscosquad.com', ['david@silentdiscosquad.com'], fail_silently=False)       
         if form.is_valid():
             message = "Thanks for submitting your song!"
@@ -214,6 +216,42 @@ def logout(request):
 
 MAILCHIMP_LIST_ID = '4d0c4db173' # DRY :)
 REDIRECT_URL_NAME = '/?email_added=success'
+
+def mixMailSignup(request):
+    #newsletter
+    if request.method == 'POST' and 'newsletter' in request.POST and 'email' in request.POST:
+        newsletter = request.POST['newsletter']
+        email = request.POST['email']
+        if newsletter is not None and newsletter != '':
+            if email is not None and email != '':
+                email_address = request.POST['email']
+                list = utils.get_connection().get_list_by_id(MAILCHIMP_LIST_ID)
+                list.subscribe(email_address, {'EMAIL': email_address})
+    #Survey     
+    if request.method == 'POST' and 'survey' in request.POST and 'email' in request.POST:
+        survey = request.POST['survey']
+        email = request.POST['email']
+        if survey is not None and survey != '':
+            if email is not None and email != '':
+                s = surveySignups(email=email, event=Events.objects.get(pk=request.POST['id']))
+                s.save()
+                text_content = "Hello Dancer,"
+                text_content += "\n\nThank you for offering to participate in our survey. Please take 5-10 minutes to fill it out here: https://jfe.qualtrics.com/form/SV_01G8vvjtNXN6Xt3."
+                text_content += "There will also be a 2 minute survey sent immediately following the next disco, and a follow-up survey next week. Thanks for your help!"
+                text_content += "\n\nMuch love from the SDS Team ~:D"
+                send_mail('Silent Disco Squad Survey', text_content, 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
+
+
+    if request.method == 'POST' and 'download' in request.POST:
+        download = request.POST['download']
+        if download is not None and download != '':
+            return HttpResponseRedirect('https://s3.amazonaws.com/silentdiscosquad/'+download)
+    return HttpResponseRedirect('/stream.html/?id='+request.POST['id'])   
+
+    #Neither Checked 
+
+
+
 def add_email_to_mailing_list(request):
     if request.POST['email']:
         email_address = request.POST['email']
@@ -222,5 +260,4 @@ def add_email_to_mailing_list(request):
         return HttpResponseRedirect('/?email_added=success')
     else:
         return HttpResponseRedirect('/?email_added=failure')
-
 
