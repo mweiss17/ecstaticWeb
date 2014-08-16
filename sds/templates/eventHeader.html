@@ -19,12 +19,12 @@ function streamRedirect(){
 <div class="share-past"> <a href={{event.fbEvent}}>
   <div class="btn fb">{{event.title}} Facebook Page Event</div>
   </a> 
-{% if event.eventMix.uploadedSong and user.is_authenticated %}
-    <button class="btn" onclick="streamRedirect()">Stream The Mix</button>
-
-    <a class="btn" href="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}" >Download Mix!</a>
-{% elif event.eventMix.uploadedSong and not user.is_authenticated %}
-
+  {% if event.eventMix.uploadedSong %}
+      <button class="btn" onclick="streamEmailPopup();">Stream The Mix</button>
+    <a class="btn" onclick="downloadEmailPopup();" >Download Mix!</a>
+    {% elif event.globalEvent.eventMix.uploadedSong %}
+      <button class="btn" onclick="streamEmailPopup();">Stream The Mix</button>
+    <a class="btn" onclick="downloadEmailPopup();" >Download Mix!</a>
 
 <button class="btn streaming-off" >Please Login To Download The Mix! </button>
 {% elif not event.eventMix.uploadedSong and user.is_authenticated %}
@@ -32,3 +32,75 @@ function streamRedirect(){
 {% endif %}
 </div>
 
+  <div class="form-content" style="display:none;">
+      <form class="form" role="form">
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Check me out
+          </label>
+        </div>
+      </form>
+    </div>
+  <script src="/static/js/bootbox.min.js"></script>
+<script>
+
+function streamEmailPopup(){
+  var some_html = '<form id="formToFind" method="post" action="/mixMailSignup/" class="wide">';
+  some_html += "{% csrf_token %}";
+  some_html += '<input type="text" class="user-mailchimp" placeholder="email" name="email">';
+  some_html += '<input type="text" name=id value={{event.id}} style="display: none">';
+  some_html += '<input type="text" name="mixAccess" value="stream" style="display: none">';
+  some_html += '<br><br><br>';
+  some_html += '<input type="checkbox" name="newsletter" value="newsletter" checked>I want to receive SDS event updates (only Disco Goodness, we don\'t spam)<br><br>';
+  some_html += '<input type="checkbox" name="survey" value="survey" checked>I want to participate in the SDS survey to study effects of participating in this event<br>';
+  some_html += '</form>';
+
+  bootbox.dialog({
+    message: some_html,
+    title: "Enter your email to Join the Disco",
+    buttons: {
+      success: {
+        label: "Submit!",
+        className: "btn-success",
+        callback: function() {
+         document.getElementById("formToFind").submit();        
+       }
+      }
+    }
+  });
+}
+function downloadEmailPopup(){
+  var some_html = '<form id="formToFind" method="post" action="/mixMailSignup/" class="wide">';
+  some_html += "{% csrf_token %}";
+  some_html += '<input type="text" class="user-mailchimp" placeholder="email" name="email">';
+  some_html += '<input type="text" name=id value={{event.id}} style="display: none">';
+  some_html += '<input type="text" name=download value={{event.eventMix.uploadedSong}} style="display: none">';
+  some_html += '<br><br><br>';
+  some_html += '<input type="checkbox" name="newsletter" value="newsletter" checked>I want to receive SDS event updates (only Disco Goodness, we don\'t spam)<br><br>';
+  some_html += '<input type="checkbox" name="survey" value="survey" checked>I want to participate in the SDS survey to study effects of participating in this event<br>';
+  some_html += '</form>';
+
+  bootbox.dialog({
+    message: some_html,
+    title: "Enter your email to Join the Disco",
+    buttons: {
+      success: {
+        label: "Submit!",
+        className: "btn-success",
+        callback: function() {
+         document.getElementById("formToFind").submit();        
+       }
+      }
+    }
+  });
+}
+
+</script>

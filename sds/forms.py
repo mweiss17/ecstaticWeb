@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from sds.models import Music, UserProfile
+from sds.models import Music, UserProfile, surveySignups
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
@@ -12,3 +12,7 @@ class MusicForm(forms.Form):
     songname = forms.CharField(max_length=255, required=False)
     intention = forms.CharField(max_length=255, required=False)
 
+class surveySignupsForm(ModelForm):
+    class Meta:
+        model = surveySignups
+        fields = ['email', 'event']
