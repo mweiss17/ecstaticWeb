@@ -21,7 +21,7 @@ class MusicAdmin(admin.ModelAdmin):
 	list_display = ('uploadedSong', 'event', 'song_name_or_link', 'email', 'intention')
 
 class surveySignupsAdmin(admin.ModelAdmin):
-	list_display = ('email', 'event')
+	list_display = ('email', 'event', 'mixAccess', 'surveySignupDate')
 
 class globalEventAdmin(admin.ModelAdmin):
 	list_display = ('title', 'global_event_pic',)

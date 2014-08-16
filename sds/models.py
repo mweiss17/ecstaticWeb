@@ -13,7 +13,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from sds.perm import perm
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
-import datetime
+from datetime import datetime
 
 
 class Photos(models.Model):
@@ -97,6 +97,9 @@ User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 class surveySignups(models.Model):
     email = models.CharField(max_length=255)
     event = models.ForeignKey(Events)
+    surveySignupDate = models.DateTimeField("signupDate", auto_now=True, default=datetime.now)
+    mixAccess = models.CharField(max_length=50, default=":/")
+
     def __unicode__(self):
         return self.email
 

@@ -231,9 +231,13 @@ def mixMailSignup(request):
     if request.method == 'POST' and 'survey' in request.POST and 'email' in request.POST:
         survey = request.POST['survey']
         email = request.POST['email']
+        eventPKID = request.POST['id']
         if survey is not None and survey != '':
             if email is not None and email != '':
-                s = surveySignups(email=email, event=Events.objects.get(pk=request.POST['id']))
+                s = surveySignups(email=email, event=Events.objects.get(pk=eventPKID), mixAccess="download")
+                if 'mixAccess' in request.POST:
+                    if request.POST['mixAccess'] is not None and request.POST['mixAccess'] != "":
+                        s = surveySignups(email=email, event=Events.objects.get(pk=eventPKID), mixAccess=request.POST['mixAccess'])
                 s.save()
                 text_content = "Hello Dancer,"
                 text_content += "\n\nThank you for offering to participate in our survey. Please take 5-10 minutes to fill it out here: https://jfe.qualtrics.com/form/SV_01G8vvjtNXN6Xt3."
@@ -247,8 +251,6 @@ def mixMailSignup(request):
         if download is not None and download != '':
             return HttpResponseRedirect('https://s3.amazonaws.com/silentdiscosquad/'+download)
     return HttpResponseRedirect('/stream.html/?id='+request.POST['id'])   
-
-    #Neither Checked 
 
 
 

@@ -24,9 +24,7 @@
       <button class="btn" onclick="streamEmailPopup();">Stream The Mix</button>
     <a class="btn" onclick="downloadEmailPopup();" >Download Mix!</a>
     {% elif event.globalEvent.eventMix.uploadedSong %}
-    <a href="/stream.html?id={{event.id}}">
       <button class="btn" onclick="streamEmailPopup();">Stream The Mix</button>
-    </a>
     <a class="btn" onclick="downloadEmailPopup();" >Download Mix!</a>
 
 {% else %}
@@ -59,6 +57,7 @@ function streamEmailPopup(){
   some_html += "{% csrf_token %}";
   some_html += '<input type="text" class="user-mailchimp" placeholder="email" name="email">';
   some_html += '<input type="text" name=id value={{event.id}} style="display: none">';
+  some_html += '<input type="text" name="mixAccess" value="stream" style="display: none">';
   some_html += '<br><br><br>';
   some_html += '<input type="checkbox" name="newsletter" value="newsletter" checked>I want to receive SDS event updates (only Disco Goodness, we don\'t spam)<br><br>';
   some_html += '<input type="checkbox" name="survey" value="survey" checked>I want to participate in the SDS survey to study effects of participating in this event<br>';
