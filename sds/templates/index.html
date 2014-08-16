@@ -1,106 +1,41 @@
-{% include "header.html" %}
-<div class="section" id="section0">
-  <ul class="tabs">
-    <li>
-      <input type="radio" checked name="tabs" id="tab1">
-      <label for="tab1" >Global Discos</label>
+{% include "header_index.html" %}
 
-      {% if upcomingGlobalEvent %}
-      <div id="tab-content1" class="tab-content animated fadeIn"  style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{upcomingGlobalEvent.indexHeaderPic.photoFile}}); background-size: cover";> <div class="overlay-home"></div>
-      <div style="overflow:auto; overflow-x:hidden; height:100%">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6 wrapper">
-              <h2>We are throwing a global dance party on August 17! <a href="mailto:david@silentdiscosquad.com"><div class="indexemailbtn">Email us</div></a> to add your city! </h2>
+<div class="container-fluid">
+<div class="row">
+<div class="col-sm-3 col-md-2 sidebar">
+  <ul class="nav nav-sidebar">
+    <li><a href="#">FIND YOUR CITY</a></li>
 
-              <div name="eventBox" data-my-order="1"></div>
-              <hr>
-              <h2>{{ upcomingGlobalEvent.arrive_start_time }} EST.</h2>
-              <!--{{ upcomingGlobalEvent.title }}-->
-              <hr>
+     {% if upcomingGlobalEvent %}
               {% for event in upcomingEvents %}
               {% if event.globalEvent %}
-              {% if forloop.first %}<div class="row"> {% endif %}
-                 <a href="/future.html?id={{event.id}}">
-                  <button type="button" class="btn btn-default join-button">{{event.city}}</button></a> 
-                
-              {% if forloop.last %}</div> {% endif %}
+               <li> <a href="/citypage_submitsong.html?id={{event.id}}"> {{event.city}}</a> 
+                </li>
+         
               {% endif %}
               {% endfor %}          
-            </div>
-          </div>
-        </div>
-      {% endif %}
-      {% if not upcomingGlobalEvent %}
-      <div id="tab-content1" class="tab-content animated fadeIn"  style="background-size: cover";> <div class="overlay-home"></div>
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6 wrapper">
-            <br>
-              <h2>The next Global Silent Disco Squad event is being organized! <br>
-              <a href="mailto:david@silentdiscosquad.com"><div class="indexemailbtn">Email us</div></a>if you're interested in turning your city into a dancefloor!  </h2>
-            </div>
-          </div>
-        </div>
-      {% endif %}
-    </li>
+              {% endif %}
+    <li><a href="/organize.html">Create your own </br>
+      Silent Disco Squad in your city </a></li>
+  </ul>
+</div>
 
-      <li>
-        <input type="radio" name="tabs" id="tab2">
-        <label for="tab2" >City Discos</label>
-        <div id="tab-content2" class="tab-content animated fadeIn" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover";><div class="overlay-home"></div>
-        <div style="overflow:auto;  height:100%">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6 wrapper">
-                <h2>Communities around the world create
-                  silent discos every week. Join one or
-                  organize your friends! </h2>
 
-                  <div name="eventBox" data-my-order="1"></div>
-                  <hr>
-                  {% for event in upcomingEvents %}
-                  {% if not event.globalEvent %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+  <div class="main-title">We are turning the World </br>
+    into a dancefloor.
+    <h3 class="yellow"> <a href="#video">Watch a Video</a> </h3>
+  </div>
+  <div class="single-item">
+    <div style="background-image: url(/static/img/sds1.jpg); display:block; height:650px; width:100%;  background-size:cover" >
+      <div class="overlay"></div>
+    </div>
+    <div style="background-image: url(/static/img/sds2.jpg); display:block; height:650px; width:100%;  background-size:cover" >
+      <div class="overlay"></div>
+    </div>
+  </div>
+</div>
+<div class="caption-wrapper"><span class="yellow">MONTREAL</span></br>
+  Upcoming Silent Disco: July 12th</div>
 
-                  <!--h3>{{ event.arrive_start_time }} </h3--> 
-                  <!--h3>{{ event.title }} </h3--> 
-                  <a href="/future.html?id={{event.id}}">
-                    <button type="button" class="btn btn-default join-button">{{ event.title }}</button></a> 
-                  {% endif %}
-                  {% endfor %}
-
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </li>
-        </ul>
-
-         <a href="/become.html">
-        <div class="cta create-banner">Create a Silent Disco Squad</div></a>
-        <div class="cta pastevents-banner">Past Events</div>
-
-      </div>
-
-      <div id="container" class="pastevents">
-        <div class="row" style="margin:0 !important;">
-          {% if previousEvents %}
-          {% for event in previousEvents %} 
-
-          <a class="fancybox" data-fancybox-title="{{event.title}} // {{ event.city }} // {{ event.arrive_start_time}}" href="https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}">
-
-           <div class="col-md-3 item"  style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover;">
-            <div class="item">
-              <div class="item-past">
-                <div id="eventID{{event.id}}"></div>
-              </div>
-            </div>
-          </div></a> 
-
-          {% endfor %}
-          {% endif %} 
-        </div>
-      </div>
-
-      {% include "footer.html" %} 
+{% include "footer.html" %}

@@ -1,37 +1,33 @@
 <div class="city">
+<script>
+function streamRedirect(){
+  window.location.assign('/stream.html/?title='+eventTitle);
+}
+</script>
   <div class="container"> {{ event.city }} </div>
 </div>
-{% if globalEvent %}
-<div class="countdown-banner-img" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.globalEvent.subEventPic.photoFile}}); background-position:left; background-size:cover">
-{% else %}
 <div class="countdown-banner-img" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-position:left; background-size:cover">
-{% endif %}
-
   <div class="overlay">
     <div class="container"> <span class="event-title">{{event.title}}</span><br>
     {% if past %}
-      {{event.music_start_time}}
+    	{{event.start_time}}
     {% endif %}
       <div id="eventID{{event.id}}" class="event-countdown"></div>
     </div>
   </div>
 </div>
-<div class="share-past"> 
-  <a href={{event.fbEvent}}>
-    <div class="btn fb">{{event.title}}'s Facebook Event</div>
+<div class="share-past"> <a href={{event.fbEvent}}>
+  <div class="btn fb">{{event.title}} Facebook Page Event</div>
   </a> 
-  {% if event.eventMix.uploadedSong %}
-    <a href="/stream.html?id={{event.id}}">
-      <button class="btn" onclick="id={{event.id}}">Stream The Mix</button>
-    </a>
-    <a class="btn" href="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}" >Download Mix!</a>
-    {% elif event.globalEvent.eventMix.uploadedSong %}
-    <a href="/stream.html?id={{event.id}}">
-      <button class="btn" onclick="id={{event.id}}">Stream The Mix</button>
-    </a>
-    <a class="btn" href="https://s3.amazonaws.com/silentdiscosquad/{{event.globalEvent.eventMix.uploadedSong}}" >Download Mix!</a>
+{% if event.eventMix.uploadedSong and user.is_authenticated %}
+    <button class="btn" onclick="streamRedirect()">Stream The Mix</button>
 
-{% else %}
+    <a class="btn" href="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}" >Download Mix!</a>
+{% elif event.eventMix.uploadedSong and not user.is_authenticated %}
+
+
+<button class="btn streaming-off" >Please Login To Download The Mix! </button>
+{% elif not event.eventMix.uploadedSong and user.is_authenticated %}
 <b>Sorry, No Mixes Have Been Uploaded Yet! Please Check Back Later.</b>
 {% endif %}
 </div>

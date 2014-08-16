@@ -1,161 +1,55 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-  <title>Silent Disco Squad</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <meta name="author" content="Silent Disco Squad" />
-  <meta name="description" content="Turning the world into a dancefloor" />
-  <meta name="keywords"  content="Silent Disco Squad, Music" />
-  {% load static %}
-  
-  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
-  <link rel="stylesheet" type="text/css" href="/static/css/jquery.fancybox.css" media="screen" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Silent Disco Squad</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link href="/static/css/styles.css" rel="stylesheet">
+<link href="/static/css/jquery.remodal.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>  
-  <script type="text/javascript" src="/static/js/jquery.slimscroll.min.js"></script>
-  <script type="text/javascript" src="/static/js/jquery.fullPage.js"></script>
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/static/js/upcomingEventCountdown.js"></script>
-  <script type="text/javascript" src="/static/js/jquery.fancybox.js?v=2.1.5"></script>
-  <script type="text/javascript" src="/static/js/jquery.fancybox-media.js?v=1.0.6"></script>
-
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $.fn.fullpage({
-        'scrollOverflow': false,
-        'autoScrolling': false,
-        'paddingTop' : '140px',
-        'paddingBottom' : '140px',
-      });
-    });
-  </script>
-
-  <script type="text/javascript">
-   $(document).ready(function() {
-    $('.home-img').click(function(){
-      var video = '<iframe width="100%" height="500" src="'+ $(this).attr('data-video') +'"></iframe>';
-      $(this).replaceWith(video); });
-  });
- </script>
-
-   <script>
-    console.log({{etaList}});
-    console.log({{upcomingEventsList}});
-    var secondsLeftArray = {{etaList}};
-    var upcomingEventsIDs = {{upcomingEventsList}};
-    var eventTitle = "{{event.title}}";
-    var eventID = "{{event.id}}";
-    var future = "{{future}}";
-
-    var timer;
-    timer = setInterval(showRemaining, 1000);
-  </script>
-
-
-  <script type="text/javascript">
-    $(document).ready(function() {
-
-      $('.fancybox').fancybox();
-
-      $('.fancybox-media')
-      .attr('rel', 'media-gallery')
-      .fancybox(
-      {
-        openEffect : 'fade',
-        closeEffect : 'none',
-        prevEffect : 'none',
-        nextEffect : 'none',
-
-        arrows : false,
-        helpers : {
-         
-          media : {},
-          buttons : {}
-
-        }
-      });
-    });
-  </script>
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-48932505-1', 'silentdiscosquad.com');
-  ga('send', 'pageview');
-
-</script>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
 
-{% if email_added %}
-<script>
-  alert("Success! Please check your email to confirm your subscription." )
-</script> 
-{% endif %}
-
-  <script type="text/javascript" src="/static/js/mobilecheck.js"></script>
-
-
 <body>
- <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-    </div>
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="/whatissds.html">What is SDS</a></li>
-        <li><a href="/" class="logo"></a></li>
-        <li><a href="/jointhesquad.html">Join the Squad</a></li>
+      <a class="navbar-brand" href="/"><img src="/static/img/silentdiscosquadlogo.svg" alt="Logo" class="logo-img"></a> </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/organize.html">Organize</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+
+        <li>    
+                <a class="social-icons" href="https://www.facebook.com/SilentDiscoSquad" target="_blank"><img src="/static/img/social_facebook.svg"></a> 
+               
+                <a class="social-icons" href="https://www.youtube.com/channel/UC3GVaVuJM2QBDNHbF9WM0OA" target="_blank"><img src="/static/img/social_youtube.svg"></a>
+                <a class="social-icons last" href="https://soundcloud.com/silent-disco-squad" target="_blank"><img src="/static/img/social_soundcloud.svg"></a>
+
+        </li>
+
+        
+      {% if not user.is_authenticated %}
+        <li><a class="login" href="#login">Login</a></li>
+
+        {% elif user.is_authenticated %}
+        <li> <div  class="login" type="button" id="menu-login" data-toggle="dropdown"> Hello, Dancer! <span class="caret"></span> </div>
+      <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">See Profile</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="/logout.html">Log Out</a></li>
+      </ul>
+    </div></li>
+
+        {% endif %}
       </ul>
     </div>
-  </div> 
-</div>
-
-<div class="sec-menu">
-  <div class="container">
-   <div class="row">
-    <div class="col-md-9">
-     <p class="signup">Get the latest SDS news!</p>
-      <form method="post" action="/add_email_to_mailing_list/" class="wide">
-      {% csrf_token %}
-      <input type="text" class="user-mailchimp" placeholder="Your E-mail" name="email">
-      <button type="submit" class="btn">Subscribe</button>
-      </form>
-
-     <!--label for="username"></label>
-     <input class="user-login" type="text" name="username" value="" 
-     placeholder="Your E-mail" id="username">
-     <input type="submit" class="btn" value="Subscribe" /-->
-
-   </div>
-   <div class="col-md-3 socialmedia">
-    <a class="social" href="http://www.youtube.com/channel/UC3GVaVuJM2QBDNHbF9WM0OA" target="_blank"><img src="/static/img/youtube.png"></a> 
-    <a href="https://soundcloud.com/silent-disco-squad" target="_blank"><img src="/static/img/soundcloud.png"> </a> 
-    <a href="https://www.facebook.com/SilentDiscoSquad" target="_blank"><img src="/static/img/facebook.png"> </a> 
   </div>
 </div>
-</div>
-</div>
-
-{% if showLightbox %}
-<a href="#inline" class="fancybox-media"> </a>
-<hr>
-<div id="inline" style="display:none;width:500px; height:500px">
-  <iframe width="100%" height="300" src="//www.youtube.com/embed/Tlq9mye4mZA" frameborder="0" allowfullscreen></iframe>
-  <br>
-</br>
-
-<form method="post" action="/add_email_to_mailing_list/" class="wide">
-  {% csrf_token %}
-  <input type="text" class="user-mailchimp" placeholder="Enter your email" name="email">
-  <button type="submit" class="btn user-mailchimp-submit">Join the Disco Mailing List</button>
-</form>
-</div>
-{% endif %}

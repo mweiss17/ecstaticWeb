@@ -3,9 +3,9 @@
 {% include "eventHeader.html" %}
 <div class="container new-event">
   <div class="col-md-6">
-    <h2>Meet Up:</h2>
+    <h2>Details</h2>
     <h3> {{ event.location}} </h3>
-    <h3> {{ event.arrive_start_time}} Local Time</h3>
+    <h3> {{ event.start_time}} </h3>
   </div>
   <div class="col-md-6 google-maps">
     <iframe src={{ event.google_map_link|safe }} width="425" height="150" frameborder="0" style="border:0"></iframe>
@@ -27,17 +27,14 @@
     {% if success %}
     {{ success }}
     {% endif %}
-        <form method="post" action="" enctype="multipart/form-data">
+      {% if user.is_authenticated %}
+        <form method="post" action="add_email_to_mailing_list" enctype="multipart/form-data">
         {% csrf_token %}
-        {% for field in form %}
-          {% if field.field.required %}
-            <label>*Required{{ field.label_tag }}</label>{{ field }}
-          {% else %}
-            <label>{{ field.label_tag }}</label>{{ field }}
-          {% endif %}
-        {% endfor %}
-
+        {{ form }}
         <button type="submit" class="btn submit">Submit Song</button>
+      {% else %}
+        Please login to submit songs.
+      {% endif %}
       </form>
     </div>
   </div>

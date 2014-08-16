@@ -4,15 +4,26 @@
     <p class="error">Sorry, that's not a valid username or password</p>
   {% endif %}
 
-  <form action="/accounts/auth/" method="post">
+  <form action="auth_view" method="post">
   {% csrf_token %}
-  <p style='width: 300;'>
-    <label for="username"></label><input class="user-login" type="text" name="username" value="" placeholder="Username" id="username" /><label for="password"></label>
+ <h2>Login into your Silent Disco Account</h2>
+  </br>
+  </br>
+  <div class="input-group">
+    <input type="text" class="submit-track user-login" placeholder="Username" id="username">
+  </div>
+  <br>
+  <div class="input-group">
+    <input type="password" class="submit-track user-login" placeholder="Password" id="password">
+  </div>
+  <br>
+ <input type="submit" class="remodal-confirm btn" value="login" />   </br>
+  </br>
 
-    <input class="user-login" type="password" name="password" value="" placeholder="Password" id="password" />
-    <input type="submit" class="btn" value="login" />   
-  </p>
   </form>
 
+
 {% endblock %}
+
+
 

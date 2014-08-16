@@ -42,8 +42,6 @@ def index(request):
     except Exception, e:
         pass
 
-
-
     future = 'False'
     etaList = []
     upcomingEventsList = []
@@ -68,7 +66,7 @@ def index(request):
     resp.set_cookie('visited', True)
     return resp
 
-def future(request):
+def citypage_submitsong(request):
     MusicForm = modelform_factory(Music, fields=("email", "song_name_or_link", "intention", "uploadedSong"))
     message = ""
     if request.method == 'POST':
@@ -94,7 +92,27 @@ def future(request):
     etaList.append(eventstart - calculateCurrentTime())
 
     context = {'success': message, 'form': form, 'event': event, 'globalEvent': event.globalEvent, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList}
-    return render_to_response('index_future.html', context, context_instance=RequestContext(request))
+    return render_to_response('citypage_submitsong.html', context, context_instance=RequestContext(request))
+
+def organize(request):
+    context = {}
+    return render_to_response('organize.html', context, context_instance=RequestContext(request))
+
+def citypage_getthemix(request):
+    context = {}
+    return render_to_response('citypage_getthemix.html', context, context_instance=RequestContext(request))
+
+"""def citypage_submitsong(request):
+    context = {}
+    return render_to_response('citypage_submitsong.html', context, context_instance=RequestContext(request))
+"""
+def citypage_city(request):
+    context = {}
+    return render_to_response('citypage_city.html', context, context_instance=RequestContext(request))
+
+def profile(request):
+    context = {}
+    return render_to_response('profile.html', context, context_instance=RequestContext(request))
 
 def contact(request):
     context = {}
@@ -195,10 +213,11 @@ def auth_view(request):
     context = {}
     if user is not None:
         auth.login(request, user)
-        return HttpResponseRedirect('/', context)
+        return HttpResponseRedirect('/?loggedin=true', context)
     else:
         context = {'invalid_login': True}
         return HttpResponseRedirect('/?invalid_login=true', context)
+    return HttpResponseRedirect('/?invalid_login=true', context)
     
 def loggedin(request):
     context = {'full_name': request.user.username}

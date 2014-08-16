@@ -1,16 +1,80 @@
+<!--login-->
+<div class="remodal-bg">
+<div class="remodal" data-remodal-id="video">
+  <iframe width="100%" height="315" src="http://www.youtube.com/embed/Tlq9mye4mZA?rel=0" frameborder="0" allowfullscreen></iframe>
+</div>
+<div data-remodal-id="login">
+<input type="button" id="login-btn" class="btn" value="Login" />
 
-<footer>
-<div class="footer-wrapper">
-<div class="footer">
-  <div class="container">
-    <ul class="nav navbar-nav">
-      <li><a href="/admin/">Organizer's Login</a></li>
-      <li><a href="/mission.html/">Mission</a></li>
-      <li><a href="/contact.html/">Contact</a></li>
-    </ul>
-  </div>
+<div id="slidediv">
+{% include "login.html" %}
+
 </div>
-</div>
- <div class="container copyright">
- © Silent Disco Squad 2014 
- </div></footer>
+
+    <a href="/profile.html" class="btn">Login</a> 
+  <a href="/profile.html" class="btn">Sign up! It's Free!</a> 
+ </div>
+<!--login-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> 
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script> 
+<script type="text/javascript" src="/static/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="/static/js/slick.js"></script> 
+<script src="/static/js/jquery.remodal.js"></script>
+
+
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+<script> 
+$(document).ready(function() {
+    $('.single-item').slick({
+        dots: true,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    });
+
+     var inst = $('[data-remodal-id=login]').remodal();
+});
+  </script>
+
+  <script type="text/javascript">
+            $(function () {
+                $('#timepicker1').datetimepicker({
+                    pickDate: false
+                });
+
+                $('#timepicker2').datetimepicker({
+                    pickDate: false
+                });
+
+                $('#datepicker').datetimepicker({
+                    pickTime: false
+                });
+            });
+        </script>
+
+        <script>
+if(!Modernizr.svg) {
+    $('img[src*="svg"]').attr('src', function() {
+        return $(this).attr('src').replace('.svg', '.png');
+    });
+}
+</script>
+
+
+<script type="text/javascript">
+$(function() {
+
+$("#login-btn").click(function() {
+$('#slidediv').toggle('slide', { direction: 'left' }, 700);
+});
+});
+</script>
+
+</body>
+</html>
