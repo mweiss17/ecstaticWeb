@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Silent Disco Squad</title>
+
+<!--HEADER START-->
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/styles.css" />
+
+<!--[if IE]>
+    <script type="text/javascript">
+
+    </script>
+<![endif]-->
+
+<!--SCRIPTS -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48932505-1', 'silentdiscosquad.com');
+  ga('send', 'pageview');
+
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+
+<body>
+<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/whatissds.html">What is SDS</a></li>
+        <li><a href="/" class="logo"></a></li>
+        <li><a href="/jointhesquad.html">Join the Squad</a></li>
+      </ul>
+    </div>
+    <!-- /.nav-collapse -->
+    
+  </div>
+  <!-- /.container --> 
+</div>
+<!-- /.navbar --> 
+
+<div class="sep-half"></div>
+<div class="container">
+	<div class="col-md-12">
+
+<h2>{{event.title}}</h2>
+<h4>Don't Panic (at the disco)!</h4> <br>
+<ul>
+	<li><strong>Step 1:</strong> Grab some friends, and circle up</li>
+	<li><strong>Step 2:</strong> At 5 minutes, the LOAD MIX button appears -- click it!</li>
+	<li><strong>Step 3:</strong> At ten seconds left, we all count down together</li> 
+	<li><strong>Step 4:</strong> Hit the PLAY MIX button that appears at 0, and the disco begins!</li>
+</ul>
+<audio>
+<source src="https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}" type="audio/mpeg">
+</audio>
+
+
+<br class="clear">
+
+<button class="streaming btn" type="button" id="load" onclick="loadMix()">Load Mix</button>
+<br>
+<button class="streaming btn" class="btn" type="button" id="play" onclick="playMix()">Play Mix</button>
+<h1 id="countdown"> </h1>
+<script>
+{% include "static/js/stream.js" %}
+</script>
+
+	</div>
+</div>
+
+</body>
+</html>

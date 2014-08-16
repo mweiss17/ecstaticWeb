@@ -1,0 +1,117 @@
+{% include "header.html" %}
+
+<div class="container">
+  <div class="row city-top">
+    <div class="col-md-2 city">
+      <div  type="button" id="city-menu" data-toggle="dropdown"> Find your City <span class="caret"></span> </div>
+      <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Halifax</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Montreal</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Beijing</a></li>
+        <li role="presentation" class="divider"></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Create your own
+      Silent Disco Squad in your city</a></li>
+      </ul>
+    </div>
+    <div class="col-md-6 city-name"> Organize your own Silent Disco Squad </div>
+   
+  </div>
+
+  <div class="row city-details">
+    <div class="col-md-12 event-picture" style="background-image:url(/static/img/sds4.jpg)"> </div>
+    <div class="profile-title">
+        <h1> No silent disco near you? 
+            Become an SDS organizer!</h1>
+        <p>Make one yourself! It's easier than you think and we will support you throughout the process.</p>
+      <p>Silent Disco Squad is a community of people aimed at Turning the World into a Dancefloor. Silent Disco Squad is here to empower as many people as possible to take part and organize Silent Disco Squads in their local community.</p> </div>
+  </div>
+  
+  </br>
+
+  <div class="row">
+    <h2> Who?</h2>
+  </div>
+  
+  <div class="row organize-form">
+    <div class="col-md-6 nopadding">
+      <div class="input-group">
+        <input type="text" class="register-field"  placeholder="Your First Name">
+      </div>
+    </div>
+    <div class="col-md-6 nopadding">
+      <div class="input-group">
+        <input type="text" class="register-field"  placeholder="Your Last Name" >
+      </div>
+    </div>
+  </div>
+  <div class="row organize-form">
+    <div class="col-md-6 nopadding">
+      <div class="input-group">
+        <input type="text" class="register-field"  placeholder="Your e-mail">
+      </div>
+    </div>
+    <div class="col-md-6 nopadding">
+      <div class="input-group">
+        <input type="text" class="register-field"  placeholder="Your e-mail (repeat)" >
+      </div>
+    </div>
+  </div>
+
+  </br>
+
+  <div class="row">
+    <h2> When?</h2>
+  </div>
+
+  <div class="row organize-form">
+    <div class="col-md-3 nopadding">
+      <div class="input-group">
+        <input type="text" class="register-field"  placeholder="Title of the Event">
+      </div>
+    </div>
+    <div class="col-md-3 nopadding">
+      <div class="input-group date" >
+        <input type="text" id="datepicker" placeholder="Day of the Event"/>
+      </div>
+    </div>
+    <div class="col-md-3 nopadding">
+      <div class="input-group">
+        <input type="text" id="timepicker1"  placeholder="Event Start Time">
+      </div>
+    </div>
+    <div class="col-md-3 nopadding">
+      <div class="input-group">
+        <input type="text" id="timepicker2"  placeholder="Music Start Time">
+      </div>
+    </div>
+  </div>
+  
+  </br>
+  
+  <div class="row">
+    <h2> Where?</h2>
+  </div>
+  
+  <div class="row organize-form">
+    <div class="col-md-4 nopadding">
+      <div class="input-group">
+        <input type="text" class="register-field"  placeholder="What City is holding the event?">
+      </div>
+    </div>
+    <div class="col-md-4 nopadding">
+      <div class="input-group">
+        <input type="text" class="register-center-field"  placeholder="Where?" >
+      </div>
+    </div>
+    <div class="col-md-4 nopadding">
+      <div class="input-group">
+        <input type="text" class="register-field"  placeholder="Google Map Link URL">
+      </div></br>
+    </div>
+
+    <div class="btn">Send your Silent Disco Squad form</div>
+  </div>
+</div>
+
+{% include "footer.html" %}
+

@@ -1,0 +1,31 @@
+test2
+<div class="container organizer">
+  <div class="col-md-3">
+    <div class="picture" class="picture" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.organizer1.profilePic.photoFile}}); background-size: cover;"></div>
+    <span class="title">{{ event.role1 }}</span><br>
+    <span class="name"> {{ event.organizer1.user}}</span> </div>
+
+    {% if event.role2 %}
+  <div class="col-md-3">
+    <div class="picture" class="picture" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.organizer2.profilePic.photoFile}}); background-size: cover;"></div>
+    <span class="title"> {{ event.role2 }}</span><br>
+    <span class="name"> {{ event.organizer2.user}}</span> </div>
+  {% endif %}
+
+    {% if event.role3 %}
+  <div class="col-md-3">
+  <div class="picture" class="picture" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.organizer3.profilePic.photoFile}}); background-size: cover;"></div>
+    <span class="title"> {{ event.role3 }}</span><br>
+    <span class="name"> {{ event.organizer3.user}}</span> </div>
+  {% endif %}
+    
+  {% if event.role4 %}
+  <div class="col-md-3">
+    <div class="picture" class="picture" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.organizer4.profilePic.photoFile}}); background-size: cover;"></div>
+    <span class="title"> {{ event.role4 }}</span><br>
+    <span class="name"> {{ event.organizer4.user}}</span> </div>
+  {% endif %}
+
+</div>
+<br>
+<hr>

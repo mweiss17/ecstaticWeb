@@ -1,0 +1,140 @@
+{% include "header.html" %}
+{% include "header_city.html" %}
+
+
+
+  <div class="row city-details">
+    <div class="col-md-5 event-picture" style="background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})"> </div>
+    <div class="col-md-7 info">
+      <h4> Upcoming Silent Disco Squad </h4>
+      <span class="countdown">12 Days, 11 Hours, 22 Min, 33 sec</span>
+      <p>&nbsp;</p>
+      <h4>Meet Up </h4>
+      June 12th 2014, 1PM <!--{{ event.start_time}}--> </br>
+      {{ event.location}} </br>
+      <a href="{{event.fbEvent}}">
+      <div class="btn small facebook">Join the Facebook Event > </div></a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5 city-mix">
+      <div class="col-md-12">
+        <h2> Submit a song </h2>
+        <h4> The Mix is crowdsourced! </h4>
+        </br>
+
+    {% if success %}
+    {{ success }}
+    {% endif %}
+      {% if not user.is_authenticated %}
+        <form method="post" action="add_email_to_mailing_list" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="btn submit">Submit Song</button>
+      {% else %}
+        {% csrf_token %}
+        {{ form }}
+      {% endif %}
+      </form>
+
+        <div class="input-group">
+          <input type="text" class="submit-track" placeholder="Song name or link">
+        </div>
+        </br>
+        <div class="input-group">
+          <input type="text"  class="submit-track" placeholder="Upload a song">
+          <span class="input-group-addon">Browse File</span> </div>
+        <a href="/citypage_getthemix.html?id={{event.id}}">
+        <div class="btn"> Submit Track &nbsp;<span class="glyphicon glyphicon glyphicon-thumbs-up"></span></div>
+        </a>
+        <hr>
+        <h3> Participant's Guide </h3>
+        <h4> For a smooth danceparty </h4>
+        </br>
+        <ul>
+          <li><span class="bullet"> 1. </span> Join your Local SDS party! </br>
+            Enter your email address to join and submit a song. </li>
+          <li><span class="bullet"> 2. </span> Suggest you current/favourite superhawt dance track for the mix. </br>
+            Choose a song that makes you groove! </li>
+          <li> <span class="bullet"> 3. </span> BYOD (Bring your own device)! </br>
+            Bring your mp3 player, smartphone, walkman with the downloaded mixed uploaded and of course: your headphones! </li>
+        </ul>
+        </br>
+        <h3> On Safety </h3>
+        <p> Walking as a group all wearing headphones can be dangerous, especially when crossing roads - we are a collective, watch out for your SDS brothers and sisters! </p>
+        </br>
+        <h3> Ethos </h3>
+        <p>While there is an SDS organizer, the organizers create (and curates) the space. Everyone is an active participant.</p>
+        </br>
+        <h2> Have a great Silent Disco! </h2>
+      </div>
+    </div>
+    <div class="col-md-7 nopadding">
+      <iframe src="{{ event.google_map_link|safe }}" width="100%" height="350" frameborder="0" style="border:0"></iframe>
+      <div class="col-md-12 green">
+        <h4>Organizers</h4>
+      </div>
+      <p>&nbsp;</p>
+      <div class="col-md-12"> <!-- Organizer wrapper start -->
+        
+        <div class="col-md-4"> <!-- Organizer start -->
+          <div class="organizer" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.organizer1.profilePic.photoFile}}) no-repeat;"></div>
+        </div>
+        <div class="col-md-8">
+          <h4>{{ event.organizer1.user}}</h4>
+          <p>{{ event.role1 }}</p>
+          <p>Cras eget erat imperdiet, ornare nisl eget, euismod elit. Curabitur justo magna, pharetra sit amet ante nec, laoreet tincidunt enim !</p>
+          <hr>
+        </div>
+        <!-- Organizer end -->
+
+      
+           {% if event.role2 %}
+          <div class="col-md-4"> <!-- Organizer start -->
+          <div class="organizer" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.organizer2.profilePic.photoFile}}) no-repeat;"></div>
+        </div>
+        <div class="col-md-8">
+          <h4>{{ event.organizer2.user}}</h4>
+          <p>{{ event.role2 }}</p>
+          <p>Cras eget erat imperdiet, ornare nisl eget, euismod elit. Curabitur justo magna, pharetra sit amet ante nec, laoreet tincidunt enim !</p>
+          <hr>
+        </div>
+        {% endif %}
+        <!-- Organizer end -->
+
+           {% if event.role3 %}
+           <div class="col-md-4"> <!-- Organizer start -->
+          <div class="organizer" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.organizer3.profilePic.photoFile}}) no-repeat;"></div>
+        </div>
+        <div class="col-md-8">
+          <h4>{{ event.organizer3.user}}</h4>
+          <p>{{ event.role3 }}</p>
+          <p>Cras eget erat imperdiet, ornare nisl eget, euismod elit. Curabitur justo magna, pharetra sit amet ante nec, laoreet tincidunt enim !</p>
+          <hr>
+        </div>
+        {% endif %}
+        <!-- Organizer end -->
+
+           {% if event.role4 %}
+           <div class="col-md-4"> <!-- Organizer start -->
+          <div class="organizer" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.organizer4.profilePic.photoFile}}) no-repeat;"></div>
+        </div>
+        <div class="col-md-8">
+          <h4>{{ event.organizer4.user}}</h4>
+          <p>{{ event.role4 }}</p>
+          <p>Cras eget erat imperdiet, ornare nisl eget, euismod elit. Curabitur justo magna, pharetra sit amet ante nec, laoreet tincidunt enim !</p>
+          <hr>
+        </div>
+        {% endif %}
+        <!-- Organizer end -->
+        
+      </div>
+      <!-- Organizer wrapper end --> 
+      
+    </div>
+  </div>
+</div>
+
+
+  {% include "footer.html" %}
+

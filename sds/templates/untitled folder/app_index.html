@@ -1,0 +1,47 @@
+{% include "header.html" %}
+
+<div class="section active" id="section0">
+  <div id="Container"> {% if upcomingEvents %}
+    {% for event in upcomingEvents %}
+    <div class="mix category-1" name="eventBox" data-my-order="1" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover;">
+      <div class="overlay">
+        <div id="eventID{{event.id}}" class="event-countdown"></div>
+        <span class="event-city">{{ event.city }} </span></br>
+        <span class="event-title">{{ event.title }} </span> </br>
+        <a href="/future.html?title={{event.title}}">
+        <button type="button" class="btn btn-default">Join</button>
+        </a> </div>
+    </div>
+    {% endfor %}
+    {% endif %} </div>
+  <a href="/become.html"><div class="cta create">Create Your own Silent Disco Squad</div></a>
+  <a href="#section1">
+  <div class="cta pastevents">Past events</div>
+  </a> </div>
+
+
+<div class="section" id="section1">
+  <div class="top-sep"></div>
+  <div id="Container" class="container"> 
+    {% if previousEvents %}
+      {% for event in previousEvents %}
+        <div class="item" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}}); background-size: cover;">
+          <div class="overlay">
+            <div id="eventID{{event.id}}"></div>
+            <span class="event-city">{{ event.city }} </span></br>
+            <span class="event-title">{{ event.title }} </span> </br>
+            <span class="event-countdown">{{ event.start_time}} </span> </br>
+            <a href="/past.html?title={{event.title}}">
+              <button type="button" class="btn">See Event</button>
+            </a> 
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %} 
+  </div>
+  {% include "footer.html" %}
+</div>
+<script>arrangeEvents();</script>
+</body>
+</html>
+
