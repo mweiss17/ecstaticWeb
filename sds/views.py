@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import *
-from sds.models import Photos, Music, Events, globalEvent, surveySignups
+from sds.models import *
 from sds.forms import surveySignupsForm
 from django.template import RequestContext, loader
 from boto.s3.connection import S3Connection
@@ -11,12 +11,13 @@ from django.views.generic import FormView
 from django.core.urlresolvers import reverse
 from django.forms import ModelForm
 from django.forms.models import modelform_factory
-from sds.forms import MusicForm
+from sds.forms import *
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from django.contrib import auth
 from django.core.context_processors import csrf
 from mailchimp import utils
+from django.contrib.auth.forms import *
 import logging, json, pprint, datetime, time
 
 def calculateCurrentTime():
@@ -58,16 +59,19 @@ def index(request):
     if 'visited' in request.COOKIES:
         showLightbox = False
 
+    authform = AuthenticationForm(request)
+    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
+    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['password'].widget.attrs['placeholder'] = "Password"
 
-    context = RequestContext(request, {
-        'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents, 'invalid_login': invalid_login, 'showLightbox': showLightbox, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added
-    })
+    context = RequestContext(request, {'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents, 'invalid_login': invalid_login, 'showLightbox': showLightbox, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "authform":authform})
 
     resp = HttpResponse(template.render(context))
     resp.set_cookie('visited', True)
     return resp
 
-def citypage_submitsong(request):
+def future(request):
     MusicForm = modelform_factory(Music, fields=("email", "song_name_or_link", "intention", "uploadedSong"))
     message = ""
     if request.method == 'POST':
@@ -94,27 +98,69 @@ def citypage_submitsong(request):
     etaList.append(eventstart - calculateCurrentTime())
 
     context = {'success': message, 'form': form, 'event': event, 'globalEvent': event.globalEvent, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList}
-    return render_to_response('citypage_submitsong.html', context, context_instance=RequestContext(request))
+    return render_to_response('index_future.html', context, context_instance=RequestContext(request))
+
+def about(request):
+    context = {}
+    return render(request, 'about.html', context)
+
+def blog(request):
+    context = {}
+    return render(request, 'blog.html', context)
 
 def organize(request):
-    context = {}
-    return render_to_response('organize.html', context, context_instance=RequestContext(request))
-
-def citypage_getthemix(request):
-    context = {}
-    return render_to_response('citypage_getthemix.html', context, context_instance=RequestContext(request))
-
-"""def citypage_submitsong(request):
-    context = {}
-    return render_to_response('citypage_submitsong.html', context, context_instance=RequestContext(request))
-"""
-def citypage_city(request):
-    context = {}
-    return render_to_response('citypage_city.html', context, context_instance=RequestContext(request))
+    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
+    context = {"upcomingEvents":upcomingEvents}
+    return render(request, 'organize.html', context)
 
 def profile(request):
-    context = {}
-    return render_to_response('profile.html', context, context_instance=RequestContext(request))
+    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
+    context = {"upcomingEvents":upcomingEvents}
+    return render(request, 'profile.html', context)
+
+def citypage_getthemix(request):
+    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
+    context = {"upcomingEvents":upcomingEvents}
+    return render(request, 'citypage_getthemix.html', context)
+
+def citypage_submitsong(request):
+    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
+    if request.method == 'POST':
+        form = MusicForm(request.POST, request.FILES)
+        uploadedSong = " "
+        songName = request.POST['song_name_or_link']
+
+        send_mail('Dancetrack Received', "We got your track! Thanks for your contribution to the Dancemix!" + "\nLast Favour! From now until October we have a quick Survey (https://jfe.qualtrics.com/form/SV_01G8vvjtNXN6Xt3) that helps us better understand the effects of participating in Silent Disco Squad - Please take 5-10 Mins and fill it out! " + "\nWith Love," +"\nThe SDS Team", 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
+        send_mail("Song Submission from: "+ request.POST['email'], "songname: "+ songName + " intention: "+ request.POST['intention'],'contact@silentdiscosquad.com', ['david@silentdiscosquad.com'], fail_silently=False)       
+        if form.is_valid():
+            message = "Thanks for submitting your song!"
+            form.save()
+    else:
+        form = MusicForm()
+
+    authform = AuthenticationForm(request)
+    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
+    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['password'].widget.attrs['placeholder'] = "Password"
+
+    context = {"upcomingEvents":upcomingEvents, "form":form, "authform":authform}
+    return render(request, 'citypage_submitsong.html', context)
+
+def citypage_city(request):
+    eventCity=str(request.GET['city'])
+    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7), eventCity=city.objects.get(cityName=str(request.GET['city'])))
+    event = upcomingEvents[0]
+
+    authform = AuthenticationForm(request)
+    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
+    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['password'].widget.attrs['placeholder'] = "Password"
+
+    context = {"upcomingEvents":upcomingEvents, "event":event, "authform":authform}
+    return render(request, 'citypage_city.html', context)
+
 
 def contact(request):
     context = {}
@@ -202,35 +248,23 @@ def appindex(request):
         'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents
     })
     return HttpResponse(data, mimetype='application/json')
-
-def login(request):
-    c = {}
-    c.update(csrf(request))    
-    return render_to_response('login.html', c)
     
 def auth_view(request):
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
+    username = request.POST['username']
+    password = request.POST['password']
     user = auth.authenticate(username=username, password=password)
     context = {}
     if user is not None:
         auth.login(request, user)
-        return HttpResponseRedirect('/?loggedin=true', context)
+        return HttpResponseRedirect('/', context)
     else:
         context = {'invalid_login': True}
-        return HttpResponseRedirect('/?invalid_login=true', context)
-    return HttpResponseRedirect('/?invalid_login=true', context)
+        return HttpResponseRedirect(user, context)
     
-def loggedin(request):
-    context = {'full_name': request.user.username}
-    return render(request, 'index', context)
-
-def invalid_login(request):
-    return render_to_response('invalid_login.html')
-
 def logout(request):
     auth.logout(request)
-    return HttpResponseRedirect('/')
+    context = {}
+    return render(request, 'logout.html', context)
 
 
 MAILCHIMP_LIST_ID = '4d0c4db173' # DRY :)
@@ -269,9 +303,7 @@ def mixMailSignup(request):
         download = request.POST['download']
         if download is not None and download != '':
             return HttpResponseRedirect('https://s3.amazonaws.com/silentdiscosquad/'+download)
-    return HttpResponseRedirect('/stream.html/?id='+request.POST['id'])   
-
-
+    return HttpResponseRedirect('/stream.html/?id='+request.POST['id'])       
 
 def add_email_to_mailing_list(request):
     if request.POST['email']:

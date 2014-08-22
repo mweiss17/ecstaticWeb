@@ -4,23 +4,16 @@
 <div class="col-sm-3 col-md-2 sidebar">
   <ul class="nav nav-sidebar">
     <li><a href="#">FIND YOUR CITY</a></li>
-
-     {% if upcomingGlobalEvent %}
-              {% for event in upcomingEvents %}
-              {% if event.globalEvent %}
-               <li> <a href="/citypage_submitsong.html?id={{event.id}}"> {{event.city}}</a> 
-                </li>
-         
-              {% endif %}
-              {% endfor %}          
-              {% endif %}
+      {% for event in upcomingEvents %}
+        {%if event.eventCity.cityName %}
+          <li> <a href="/citypage_city.html?city={{event.eventCity}}"> {{event.eventCity}}</a> </li>
+        {%endif%}
+      {% endfor %}          
     <li><a href="/organize.html">Create your own </br>
       Silent Disco Squad in your city </a></li>
   </ul>
 </div>
 
-
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
   <div class="main-title">We are turning the World </br>
     into a dancefloor.
     <h3 class="yellow"> <a href="#video">Watch a Video</a> </h3>

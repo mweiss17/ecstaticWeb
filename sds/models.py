@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 from django import forms
 from django.db import models
 from django.contrib import admin
-from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils import timezone
@@ -24,11 +23,6 @@ class Photos(models.Model):
     photoUploadDate = models.DateTimeField("photoUploadDate", auto_now=True, blank=True, null=True)
     def __unicode__(self):
         return self.photoFile.url + " : " + str(self.photoUploadDate)
-
-class ProfilePicture(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    photoFile = models.FileField(upload_to='Photos/%Y/%m/%d')
-    photoUploadDate = models.DateTimeField("photoUploadDate", auto_now=True, blank=True, null=True)
 
 class Music(models.Model):
     uploadedSong = models.FileField(upload_to='uploadedSongs/%Y/%m/%d', default='uploadedSongs', blank=True)
@@ -55,7 +49,7 @@ class Events(models.Model):
     title = models.CharField(max_length=100)
     arrive_start_time = models.DateTimeField("Event Start Time")
     music_start_time = models.DateTimeField("Music Start Time")
-    city = models.CharField(max_length=50)
+    eventCity = models.ForeignKey("city", blank=True, null=True)
     location = models.CharField(max_length=50)
     google_map_link = models.CharField(max_length=1000)
     latitude = models.FloatField(default=40.74481)
@@ -65,6 +59,11 @@ class Events(models.Model):
     fbEvent = models.URLField()
     globalEvent = models.ForeignKey(globalEvent, blank=True, null=True)
 
+    def __unicode__(self):
+        return self.title
+
+class UserProfile(models.Model):
+    #Roles
     ORGANIZER = 'organizer'
     DJ = 'dj'
     VIDEOGRAPHER = 'videographer'
@@ -75,21 +74,14 @@ class Events(models.Model):
         (VIDEOGRAPHER, 'videographer'),
         (PHOTOGRAPHER, 'photographer'),
     )
-    role1 = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
-    organizer1 = models.ForeignKey("UserProfile", related_name='organizerProfile1', null=True, blank=True)
-    role2 = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
-    organizer2 = models.ForeignKey("UserProfile", related_name='organizerProfile2', null=True, blank=True)
-    role3 = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
-    organizer3 = models.ForeignKey("UserProfile", related_name='organizerProfile3', null=True, blank=True)
+    role = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
 
-    def __unicode__(self):
-        return self.title
-
-class UserProfile(models.Model):
+    #Other Fields
+    city = models.ForeignKey("city")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True)
     profilePic = models.ForeignKey(Photos)
-    profilePicture = models.ForeignKey(ProfilePicture)
     signupDate = models.DateTimeField("signupDate", auto_now=True)
+    dancefloorSuperpower = models.CharField(max_length=2048)
     def __unicode__(self):
         return self.user.username
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
@@ -103,8 +95,8 @@ class surveySignups(models.Model):
     def __unicode__(self):
         return self.email
 
-class MusicForm(ModelForm):
-    class Meta:
-        model = Music
-        fields = ['email', 'song_name_or_link', 'intention', 'uploadedSong']
-
+class city(models.Model):
+    cityName = models.CharField(max_length=255)
+    cityImage = models.FileField(upload_to='Photos/%Y/%m/%d')
+    def __unicode__(self):
+        return self.cityName
