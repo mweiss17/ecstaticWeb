@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import *
 from sds.models import *
-from sds.forms import surveySignupsForm
 from django.template import RequestContext, loader
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
@@ -18,7 +17,7 @@ from django.contrib import auth
 from django.core.context_processors import csrf
 from mailchimp import utils
 from django.contrib.auth.forms import *
-import logging, json, pprint, datetime, time
+import logging, json, pprint, datetime, time, hashlib,random
 
 def calculateCurrentTime():
     now = datetime.datetime.utcnow()
@@ -33,7 +32,6 @@ def index(request):
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
     previousEvents = Events.objects.filter(arrive_start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
     upcomingGlobalEvent = globalEvent.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
-    invalid_login = False
     email_added = ""
     try:
         email_added = request.GET['email_added']
@@ -44,20 +42,7 @@ def index(request):
     except Exception, e:
         pass
 
-    future = 'False'
-    etaList = []
-    upcomingEventsList = []
     template = loader.get_template('index.html')
-    for event in upcomingEvents:
-        eventstart = event.music_start_time
-        eventstart = time.mktime(eventstart.timetuple())
-        etaList.append(eventstart-calculateCurrentTime())
-        upcomingEventsList.append(event.id)
-
-
-    showLightbox = True
-    if 'visited' in request.COOKIES:
-        showLightbox = False
 
     authform = AuthenticationForm(request)
     authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
@@ -65,40 +50,11 @@ def index(request):
     authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
     authform.fields['password'].widget.attrs['placeholder'] = "Password"
 
-    context = RequestContext(request, {'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents, 'invalid_login': invalid_login, 'showLightbox': showLightbox, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "authform":authform})
+    context = RequestContext(request, {'index':True, 'upcomingEvents': upcomingEvents, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "authform":authform})
 
     resp = HttpResponse(template.render(context))
     resp.set_cookie('visited', True)
     return resp
-
-def future(request):
-    MusicForm = modelform_factory(Music, fields=("email", "song_name_or_link", "intention", "uploadedSong"))
-    message = ""
-    if request.method == 'POST':
-        form = MusicForm(request.POST, request.FILES)
-        uploadedSong = " "
-        songName = request.POST['song_name_or_link']
-
-        send_mail('Dancetrack Received', "We got your track! Thanks for your contribution to the Dancemix!" + "\nLast Favour! From now until October we have a quick Survey (https://jfe.qualtrics.com/form/SV_01G8vvjtNXN6Xt3) that helps us better understand the effects of participating in Silent Disco Squad - Please take 5-10 Mins and fill it out! " + "\nWith Love," +"\nThe SDS Team", 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
-        send_mail("Song Submission from: "+ request.POST['email'], "songname: "+ songName + " intention: "+ request.POST['intention'],'contact@silentdiscosquad.com', ['david@silentdiscosquad.com'], fail_silently=False)       
-        if form.is_valid():
-            message = "Thanks for submitting your song!"
-            form.save()
-    else:
-        form = MusicForm()
-    
-    event = Events.objects.filter(id=request.GET['id'])
-    event = event[0]
-    eventstart = event.music_start_time
-    eventstart = time.mktime(eventstart.timetuple())
-    upcomingEventsList = []
-    upcomingEventsList.append(event.id)
-
-    etaList = []
-    etaList.append(eventstart - calculateCurrentTime())
-
-    context = {'success': message, 'form': form, 'event': event, 'globalEvent': event.globalEvent, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList}
-    return render_to_response('index_future.html', context, context_instance=RequestContext(request))
 
 def about(request):
     context = {}
@@ -110,14 +66,151 @@ def blog(request):
 
 def organize(request):
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
-    context = {"upcomingEvents":upcomingEvents}
-    return render(request, 'organize.html', context)
+    authform = AuthenticationForm(request)
+    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
+    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['password'].widget.attrs['placeholder'] = "Password"
 
-def profile(request):
+    context = {}
+    if request.method == 'POST':
+        ef = eventForm(request.POST)
+        pf = photoUploadForm(request.POST, request.FILES)
+        context['ef'] = ef
+        context['pf'] = pf
+        if pf.is_valid():                 
+            photoObj = pf.save(commit=False)
+            photoObj.user = request.user
+            photoObj.save()
+        if ef.is_valid():
+            eventObject = ef.save(commit=False)
+            eventObject.eventPic = photoObj
+            eventObject.organizer = request.user
+            eventObject.save()
+            return render(request, 'event_creation_success.html', context)
+        else:
+            return render(request, 'fuck.html', context)
+    else:
+        ef = eventForm()
+        pf = photoUploadForm()
+
+        ef.fields['title'].widget.attrs['class'] = "register-field"
+        ef.fields['eventCity'].widget.attrs['class'] = "register-field"
+        ef.fields['location'].widget.attrs['class'] = "register-field"
+        ef.fields['google_map_link'].widget.attrs['class'] = "register-center-field"
+
+        ef.fields['title'].widget.attrs['placeholder'] = "Title"
+        ef.fields['arrive_start_time'].widget.attrs['placeholder'] = "When should people arrive?"
+        ef.fields['music_start_time'].widget.attrs['placeholder'] = "When does the mix begin?"
+        ef.fields['eventCity'].widget.attrs['placeholder'] = "City"
+        ef.fields['location'].widget.attrs['placeholder'] = "Specific Location"
+        ef.fields['google_map_link'].widget.attrs['placeholder'] = "Google Maps Link"
+
+        ef.fields['arrive_start_time'].widget.attrs['data-format'] = "MM/dd/yyyy hh:mm"
+        ef.fields['music_start_time'].widget.attrs['data-format'] = "MM/dd/yyyy hh:mm"
+
+
+        context = {"upcomingEvents":upcomingEvents, "ef":ef, "pf":pf, "authform":authform}
+        return render(request, 'organize.html', context)
+
+def event_creation_success(request):
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
     context = {"upcomingEvents":upcomingEvents}
-    return render(request, 'profile.html', context)
+    return render(request, 'event_creation_success.html', context)
 
+def profile(request):
+    authform = AuthenticationForm(request)
+    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
+    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['password'].widget.attrs['placeholder'] = "Password"
+    context = {}
+    if request.method == 'POST':
+        uf = UserCreateForm(request.POST, request.FILES)
+        upf = UserProfileForm(request.POST, request.FILES)
+        pf = photoUploadForm(request.POST, request.FILES)
+        context['uf'] = uf
+        context['upf'] = upf
+        context['pf'] = pf
+        profile_CSS(uf, upf)
+
+        if uf.is_valid():
+            userObj = uf.save()
+            if pf.is_valid():                 
+                photoObj = pf.save(commit=False)
+                photoObj.user = userObj
+                photoObj.save()
+                context['pf'] = photoObj
+            if upf.is_valid():
+                userProfileObj = upf.save(commit=False)
+                userProfileObj.user = userObj
+                userProfileObj.profilePic = photoObj
+                email = uf.cleaned_data['email']
+                salt = hashlib.sha1(str(random.random())).hexdigest()[:5]            
+                userProfileObj.activation_key = hashlib.sha1(salt+email).hexdigest()            
+                userProfileObj.key_expires = datetime.datetime.today() + datetime.timedelta(2)
+                userProfileObj.save()
+                context['upf'] = userProfileObj
+
+                # Send email with activation key
+                email_subject = 'SDS Account Confirmation'
+                email_body = "Hey %s, thanks for signing up. To activate your account, click this link within \
+                48hours http://54.186.184.253/confirm/%s" % (uf.cleaned_data['username'], userProfileObj.activation_key)
+                send_mail(email_subject, email_body, 'david@silentdiscosquad.com',
+                    [email], fail_silently=False)
+                return render(request, 'register_success.html', context)
+        return render(request, 'profile.html', context)
+
+    else:
+        pf = photoUploadForm()
+        uf = UserCreateForm()
+        upf = UserProfileForm()
+        profile_CSS(uf, upf)
+        context = {"uf" : uf, "upf" : upf, "pf":pf}
+        return render(request, 'profile.html', context)
+
+def profile_CSS(uf, upf):
+    uf.fields['first_name'].widget.attrs['class'] = "register-field"
+    uf.fields['last_name'].widget.attrs['class'] = "register-center-field"
+    uf.fields['username'].widget.attrs['class'] = "register-field"
+    uf.fields['email'].widget.attrs['class'] = "register-field"
+    uf.fields['password1'].widget.attrs['class'] = "register-field"
+    uf.fields['password2'].widget.attrs['class'] = "register-center-field"
+    uf.fields['first_name'].widget.attrs['placeholder'] = "First Name"
+    uf.fields['last_name'].widget.attrs['placeholder'] = "Last Name"
+    uf.fields['username'].widget.attrs['placeholder'] = "Disco Name"
+    uf.fields['email'].widget.attrs['placeholder'] = "E-mail"
+    uf.fields['password1'].widget.attrs['placeholder'] = "Password"
+    uf.fields['password2'].widget.attrs['placeholder'] = "Password (repeat)"
+    upf.fields['role'].widget.attrs['class'] = "register-field"
+    upf.fields['dancefloorSuperpower'].widget.attrs['class'] = "register-field"
+    upf.fields['city'].widget.attrs['class'] = "register-field"
+    upf.fields['role'].widget.attrs['placeholder'] = "Role"
+    upf.fields['dancefloorSuperpower'].widget.attrs['placeholder'] = "Dancefloor Superpower"
+    upf.fields['city'].widget.attrs['placeholder'] = "What city do you live closest to?"
+    return
+
+def register_confirm(request, activation_key):
+    #check if user is already logged in and if he is redirect him to some other url, e.g. home
+    if request.user.is_authenticated():
+        HttpResponseRedirect('/')
+
+    # check if there is UserProfile which matches the activation key (if not then display 404)
+    user_profile = get_object_or_404(UserProfile, activation_key=activation_key)
+
+    #check if the activation key has expired, if it hase then render confirm_expired.html
+    if user_profile.key_expires < timezone.now():
+        return render_to_response('user_profile/confirm_expired.html')
+    #if the key hasn't expired save user and set him as active and render some template to confirm activation
+    user = user_profile.user
+    user.is_active = True
+    user.save()
+    user = authenticate(username=user.username, password=user.password)
+    return render_to_response('register_confirm.html')
+
+def register_success(request):
+    render_to_response('register_success.html')
+    
 def citypage_getthemix(request):
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
     context = {"upcomingEvents":upcomingEvents}
@@ -256,7 +349,7 @@ def auth_view(request):
     context = {}
     if user is not None:
         auth.login(request, user)
-        return HttpResponseRedirect('/', context)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'), context)
     else:
         context = {'invalid_login': True}
         return HttpResponseRedirect(user, context)
@@ -264,7 +357,7 @@ def auth_view(request):
 def logout(request):
     auth.logout(request)
     context = {}
-    return render(request, 'logout.html', context)
+    return render(request, request.META.get('HTTP_REFERER'), context)
 
 
 MAILCHIMP_LIST_ID = '4d0c4db173' # DRY :)

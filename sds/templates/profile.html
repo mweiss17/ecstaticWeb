@@ -16,69 +16,72 @@
   </div>
   </br>
   <div class="row">
-    <h2> Fill out this form</h2>
-{{uf}}
-{{upf}}
-  </div>
+    <h2> Sign up for an Account!</h2>
+    <form method="post" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{uf.non_field_errors}}
+      <div class="row register-form">
+        <div class="col-md-4 nopadding">
+          <div class="input-group">
+            {{uf.first_name}}<br>
+          </div>
+        </div>
+      <div class="col-md-4 nopadding">
+        <div class="input-group">
+          {{uf.last_name}}<br>
+        </div>
+      </div>
+      <div class="col-md-4 nopadding">
+        <div class="input-group">
+          {{uf.username.errors}}
+          {{uf.username}}
+        </div>
+      </div>
+    </div>
   <div class="row register-form">
     <div class="col-md-4 nopadding">
       <div class="input-group">
-        <input type="text" class="register-field"  placeholder="Your first name">
+        {{uf.password1.errors}}
+        {{uf.password1}}<br>
       </div>
     </div>
     <div class="col-md-4 nopadding">
       <div class="input-group">
-        <input type="text" class="register-center-field"  placeholder="Your last Name" >
+        {{uf.password2.errors}}
+        {{uf.password2}}<br>
       </div>
     </div>
     <div class="col-md-4 nopadding">
       <div class="input-group">
-        <input type="text" class="register-field"  placeholder="Your disco Name">
-      </div>
-    </div>
-  </div>
-  <div class="row register-form">
-    <div class="col-md-4 nopadding">
-      <div class="input-group">
-        <input type="text" class="register-field"  placeholder="Password">
-      </div>
-    </div>
-    <div class="col-md-4 nopadding">
-      <div class="input-group">
-        <input type="text" class="register-center-field"  placeholder="Password (repeat)" >
-      </div>
-    </div>
-    <div class="col-md-4 nopadding">
-      <div class="input-group">
-        <input type="text" class="register-field"  placeholder="What city do you live in?">
-      </div>
-    </div>
-  </div>
-  <div class="row register-form">
-    <div class="col-md-6 nopadding">
-      <div class="input-group">
-        <input type="text" class="register-field"  placeholder="Your e-mail">
-      </div>
-    </div>
-    <div class="col-md-6 nopadding">
-      <div class="input-group">
-        <input type="text" class="register-center-field"  placeholder="Your e-mail (repeat)" >
+        {{upf.city}}
       </div>
     </div>
   </div>
   <div class="row register-form">
     <div class="col-md-6 nopadding">
       <div class="input-group">
-        <input type="text" class="register-field"  placeholder="Your dance super power">
+        {{uf.email.errors}}
+        {{uf.email}}<br>
       </div>
     </div>
+  </div>
+  <div class="row register-form">
     <div class="col-md-6 nopadding">
       <div class="input-group">
-        <input type="text" class="register-center-field"  placeholder="Upload a profile picture" >
-        <span class="input-group-addon">Browse File</span></div>
-      </br>
+        {{upf.dancefloorSuperpower}}
+      </div>
     </div>
-    <div class="btn">Create your profile</div>
+      <div class="col-md-6 nopadding">
+        <div class="input-group">
+          {{upf.role}}
+        </div>
+      </div>
+    <div class="col-md-6 nopadding">
+      <div class="input-group">
+        {{pf.photoFile}}
+      </div>
+    </div>
   </div>
-</div>
+  <button type="submit" class="btn submit">Create your profile</button>
+</form>
   {% include "footer.html" %}

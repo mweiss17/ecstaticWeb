@@ -8,93 +8,102 @@
         <p>Make one yourself! It's easier than you think and we will support you throughout the process.</p>
       <p>Silent Disco Squad is a community of people aimed at Turning the World into a Dancefloor. Silent Disco Squad is here to empower as many people as possible to take part and organize Silent Disco Squads in their local community.</p> </div>
   </div>
-  
+  {% if user.is_authenticated %}
   </br>
-
   <div class="row">
     <h2> Who?</h2>
   </div>
-  
-  <div class="row organize-form">
-    <div class="col-md-6 nopadding">
-      <div class="input-group">
-        <input type="text" class="register-field"  placeholder="Your First Name">
+  <form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ef.non_field_errors}}
+    <div class="row">
+      <h2> When?</h2>
+    </div>
+    <div class="row organize-form">
+      <div class="col-md-3 nopadding">
+        <div class="input-group">
+          {{ef.title.errors}}
+          {{ef.title}}
+        </div>
+      </div>
+      <div class="col-md-3 nopadding">
+        <div class="well">
+          <div class="input-append date" id="datetimepicker1">
+            {{ef.arrive_start_time.errors}}
+            {{ef.arrive_start_time}}
+            <span class="add-on">
+              <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 nopadding">
+        <div class="well">
+          <div class="input-append date" id="datetimepicker2">
+            {{ef.music_start_time.errors}}
+            {{ef.music_start_time}}
+            <span class="add-on">
+              <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            </span>
+          </div>
+        </div>  
       </div>
     </div>
-    <div class="col-md-6 nopadding">
-      <div class="input-group">
-        <input type="text" class="register-field"  placeholder="Your Last Name" >
-      </div>
-    </div>
-  </div>
-  <div class="row organize-form">
-    <div class="col-md-6 nopadding">
-      <div class="input-group">
-        <input type="text" class="register-field"  placeholder="Your e-mail">
-      </div>
-    </div>
-    <div class="col-md-6 nopadding">
-      <div class="input-group">
-        <input type="text" class="register-field"  placeholder="Your e-mail (repeat)" >
-      </div>
-    </div>
-  </div>
+    <script type="text/javascript">
+      $(function() {
+        $('#datetimepicker1').datetimepicker({ 
+          format: 'MM/DD/YYYY hh:mm',
+          pickDate: true,
+          pickSeconds: false,
+          pick12HourFormat: false            
+        });
+      });
+        $(function() {
+        $('#datetimepicker2').datetimepicker({ 
+          format: 'MM/DD/YYYY hh:mm',
+          pickDate: true,
+          pickSeconds: false,
+          pick12HourFormat: false            
+        });
+      });
+    </script>
 
-  </br>
-
-  <div class="row">
-    <h2> When?</h2>
-  </div>
-
-  <div class="row organize-form">
-    <div class="col-md-3 nopadding">
-      <div class="input-group">
-        <input type="text" class="register-field"  placeholder="Title of the Event">
-      </div>
-    </div>
-    <div class="col-md-3 nopadding">
-      <div class="input-group date" >
-        <input type="text" id="datepicker" placeholder="Day of the Event"/>
-      </div>
-    </div>
-    <div class="col-md-3 nopadding">
-      <div class="input-group">
-        <input type="text" id="timepicker1"  placeholder="Event Start Time">
-      </div>
-    </div>
-    <div class="col-md-3 nopadding">
-      <div class="input-group">
-        <input type="text" id="timepicker2"  placeholder="Music Start Time">
-      </div>
-    </div>
-  </div>
-  
-  </br>
-  
-  <div class="row">
-    <h2> Where?</h2>
-  </div>
-  
-  <div class="row organize-form">
-    <div class="col-md-4 nopadding">
-      <div class="input-group">
-        <input type="text" class="register-field"  placeholder="What City is holding the event?">
-      </div>
-    </div>
-    <div class="col-md-4 nopadding">
-      <div class="input-group">
-        <input type="text" class="register-center-field"  placeholder="Where?" >
-      </div>
-    </div>
-    <div class="col-md-4 nopadding">
-      <div class="input-group">
-        <input type="text" class="register-field"  placeholder="Google Map Link URL">
-      </div></br>
+    </br>
+    
+    <div class="row">
+      <h2> Where?</h2>
     </div>
 
-    <div class="btn">Send your Silent Disco Squad form</div>
-  </div>
+    <div class="row organize-form">
+      <div class="col-md-4 nopadding">
+        <div class="input-group">
+          {{ef.eventCity.errors}}
+          {{ef.eventCity}}
+        </div>
+      </div>
+      <div class="col-md-4 nopadding">
+        <div class="input-group">
+          {{ef.location.errors}}
+          {{ef.location}}
+        </div>
+      </div>
+      <div class="col-md-4 nopadding">
+        <div class="input-group">
+          {{ef.google_map_link.errors}}
+          {{ef.google_map_link}}
+        </div></br>
+      </div>
+      {{pf.photoFile}}
+    <button type="submit" class="btn submit">Submit your Event</button>
+    </div>
+  </form>
 </div>
+{% else %}
+<center>Please <a href="#login">Login</a> 
+ or <a href="/profile.html">sign up</a> for an account to use create an event!</center>
 
+{% endif %}
+
+Please<a href="mailto:david@silentdiscosquad.com"><div class="indexemailbtn"> Email us</div></a> if there are any problems, or you just want some more info!</h2>
 {% include "footer.html" %}
 

@@ -1,12 +1,19 @@
-from django import forms
 from django.forms import ModelForm
 from sds.models import *
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
 
 class UserProfileForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.fields["role"].choices = [("", "Select your Role"),] + list(self.fields["role"].choices)[1:] 
+        self.fields['city'].empty_label = "Select your City"
+
     class Meta:
         model = UserProfile 
-        fields = ['role', 'user', 'profilePic', 'dancefloorSuperpower']
+        exclude = ['user', 'profilePic', 'activation_key', 'key_expires']
+        fields = ['role', 'dancefloorSuperpower', 'city']
 
 class MusicForm(ModelForm):
     class Meta:
@@ -18,73 +25,39 @@ class surveySignupsForm(ModelForm):
         model = surveySignups
         fields = ['email', 'event']
 
-
-class UserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
-    password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput)
-
-    class Meta:
-        model = User
-        # Note - include all *required* CustomUser fields here,
-        # but don't need to include password1 and password2 as they are
-        # already included since they are defined above.
-        fields = ("username",)
-
-    def clean_password2(self):
-        # Check that the two password entries match
-        password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
-        if password1 and password2 and password1 != password2:
-            msg = "Passwords don't match"
-            raise forms.ValidationError("Password mismatch")
-        return password2
-
+class UserCreateForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
+    
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        try:
+            User._default_manager.get(email=email)
+        except User.DoesNotExist:
+            return email
+        raise forms.ValidationError('duplicate_email')
+    
     def save(self, commit=True):
-        user = super(UserCreationForm, self).save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
+        user = super(UserCreateForm, self).save(commit=False)
+        user.email = self.cleaned_data["email"]
         if commit:
+            user.is_active = False
             user.save()
         return user
 
-class ReadOnlyPasswordHashWidget(forms.Widget):
-    def render(self, name, value, attrs):
-        encoded = value
-        final_attrs = self.build_attrs(attrs)
-        if not encoded or encoded.startswith(UNUSABLE_PASSWORD_PREFIX):
-            summary = mark_safe("<strong>%s</strong>" % ugettext("No password set."))
-        else:
-            try:
-                hasher = identify_hasher(encoded)
-            except ValueError:
-                summary = mark_safe("<strong>%s</strong>" % ugettext("Invalid password format or unknown hashing algorithm."))
-            else:
-                summary = format_html_join('',
-                "<strong>{0}</strong>: {1} ",
-                ((ugettext(key), value)
-                for key, value in hasher.safe_summary(encoded).items())
-                )
-        return format_html("<div{0}>{1}</div>", flatatt(final_attrs), summary)
-
-class ReadOnlyPasswordHashField(forms.Field):
-    widget = ReadOnlyPasswordHashWidget
-
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault("required", False)
-        super(ReadOnlyPasswordHashField, self).__init__(*args, **kwargs)
-    
-    def bound_data(self, data, initial):
-        # Always return initial because the widget doesn't
-        # render an input field.
-        return initial
-    
-    def has_changed(self, initial, data):
-        return False
-
-class UserChangeForm(forms.ModelForm):
-    password = ReadOnlyPasswordHashField()
     class Meta:
         model = User
-    def clean_password(self):
-        return self.initial['password']
+        fields = ( "username", "email", "first_name", "last_name" )
 
+class photoUploadForm(ModelForm):
+    class Meta:
+        model = Photos
+        fields = ['user', 'photoFile', 'title']
+
+class eventForm(ModelForm):
+    class Meta:
+        model = Events
+        exclude = ['latitude', 'longitude', 'eventPic', 'eventMix', 'fbEvent', 'globalEvent', 'organizer']
+        fields = ['title', 'eventCity', 'location', 'arrive_start_time', 'music_start_time', 'google_map_link']
 
