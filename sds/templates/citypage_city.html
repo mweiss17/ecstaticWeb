@@ -1,239 +1,35 @@
 {% include "header.html" %}
 
 {% include "header_city.html" %}
-  {%if event%}
-  <div class="row city-details">
-    <div class="col-md-5 event-picture" style="background-image:url(/static/img/sds1.jpg)"> </div>
-    <div class="col-md-7 info">
-      <h2> {{event.title}} </h2>
-      <div id="eventID{{event.id}}" class="event-countdown"></div> </br>
-      <a href="/citypage_submitsong.html?id={{event.id}}">
-      <div class="btn small">See full Info > </div>
-      </a> </div>
-    <div class="row">
-      <div class="col-md-5">
-        <h3>Don't miss a Silent Disco Squad, Ever!</h3>
-        Subscribe to the newsletter</div>
-      <div class="col-md-7">
-        <div class="input-group"> </br>
-          <input type="text" class="submit-track" placeholder="Enter your e-mail">
-          Subscribe </div>
+    {% for event in upcomingEvents %}
+      <div class="row city-details">
+        <div class="col-md-5 event-picture" style="background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})"> </div>
+        <div class="col-md-7 info">
+          <h2> {{event.title}} </h2>
+          <div id="eventID{{event.id}}" class="event-countdown"></div> </br>
+          <a href="/citypage_submitsong.html?id={{event.id}}">
+          <div class="btn small">See full Info > </div>
+          </a> 
+        </div>
       </div>
-    </div>
-  </div>
-  {% endif %}
-  <p>&nbsp;</p>
+      <br>
+    {% endfor %}
+
   <div class="row green">
     <div class="col-md-12">
       <h4> Your Fellow dancers</h4>
     </div>
   </div>
 
-   <div class="row">
- 
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/2.jpg" width="100%">
-       David Zangwill
-    </div>
-
-   <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/6.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/11.jpg" width="100%">
-       David Zangwill
-    </div>
-
-        <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/9.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/7.jpg" width="100%">
-       David Zangwill
-    </div>
-
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/4.jpg" width="100%">
-       David Zangwill
-    </div>
-
-       <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/david.jpg" width="100%">
-       David Zangwill
-    </div>
-
-  
-    <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/1.jpg" width="100%">
-       David Zangwill
-    </div>
-
-    
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/10.jpg" width="100%">
-       David Zangwill
-    </div>
-
-    <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/3.jpg" width="100%">
-       David Zangwill
-    </div>
- 
- 
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/5.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/8.jpg" width="100%">
-       David Zangwill
-    </div>
-  </div>
-
-
-
-
   <div class="row">
+  {% for person in community %}
     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/david.jpg" width="100%">
-       David Zangwill
+      <img src="https://silentdiscosquad.s3.amazonaws.com/{{person.profilePic.photoFile}}" width="100%">
+      {{ person.user.username }}
     </div>
 
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/1.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/2.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/3.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/4.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/5.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/6.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/7.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/8.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/9.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/10.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/11.jpg" width="100%">
-       David Zangwill
-    </div>
-
-    
+  {% endfor %}
   </div>
-
-
-  <div class="row">
- 
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/2.jpg" width="100%">
-       David Zangwill
-    </div>
-
-   <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/6.jpg" width="100%">
-       David Zangwill
-    </div>
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/11.jpg" width="100%">
-       David Zangwill
-    </div>
-
-        <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/9.jpg" width="100%">
-       David Zangwill
-    </div>
-
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/7.jpg" width="100%">
-       David Zangwill
-    </div>
-
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/4.jpg" width="100%">
-       David Zangwill
-    </div>
-
-       <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/david.jpg" width="100%">
-       David Zangwill
-    </div>
-
-
-  
-    <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/1.jpg" width="100%">
-       David Zangwill
-    </div>
-  
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="//static/img/10.jpg" width="100%">
-       David Zangwill
-    </div>
-
-    <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/3.jpg" width="100%">
-       David Zangwill
-    </div>
- 
-
-     <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/5.jpg" width="100%">
-       David Zangwill
-    </div>
- <div class="col-md-1 nopadding dancer">
-    <img src="/static/img/8.jpg" width="100%">
-       David Zangwill
-    </div>
-    
-  </div>
-</div>
 
 
   {% include "footer.html" %}

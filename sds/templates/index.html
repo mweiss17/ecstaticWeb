@@ -4,10 +4,8 @@
 <div class="col-sm-3 col-md-2 sidebar">
   <ul class="nav nav-sidebar">
     <li><a href="#">FIND YOUR CITY</a></li>
-      {% for event in upcomingEvents %}
-        {% if event.eventCity.cityName %}
-          <li> <a href="/citypage_city.html?city={{event.eventCity}}"> {{event.eventCity}}</a> </li>
-        {% endif %}
+      {% for city in cities %}
+          <li> <a href="/citypage_city.html?city={{city}}"> {{city}}</a> </li>
       {% endfor %}          
     <li><a href="/organize.html">Create your own </br>
       Silent Disco Squad in your city </a></li>

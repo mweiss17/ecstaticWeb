@@ -8,12 +8,12 @@ class UserProfileForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         self.fields["role"].choices = [("", "Select your Role"),] + list(self.fields["role"].choices)[1:] 
-        self.fields['city'].empty_label = "Select your City"
+        self.fields['city'].empty_label = "Select your City (or \"I don't see my city\")"
 
     class Meta:
         model = UserProfile 
         exclude = ['user', 'profilePic', 'activation_key', 'key_expires']
-        fields = ['role', 'dancefloorSuperpower', 'city']
+        fields = ['role', 'dancefloorSuperpower', 'city', 'zipcode']
 
 class MusicForm(ModelForm):
     class Meta:
@@ -61,3 +61,8 @@ class eventForm(ModelForm):
         exclude = ['latitude', 'longitude', 'eventPic', 'eventMix', 'fbEvent', 'globalEvent', 'organizer']
         fields = ['title', 'eventCity', 'location', 'arrive_start_time', 'music_start_time', 'google_map_link']
 
+class cityForm(ModelForm):
+    class Meta:
+        model = city
+        exclude = ['cityImage']
+        fields = ['cityName']

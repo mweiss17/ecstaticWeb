@@ -4,13 +4,33 @@
     <div class="col-md-5 event-picture" style="background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})"> </div>
     <div class="col-md-7 info">
       <h4> Upcoming Silent Disco Squad </h4>
-      <span class="countdown">12 Days, 11 Hours, 22 Min, 33 sec</span>
+      <span class="countdown">
+      <script>
+        window.onload = startCountdown();
+
+        function startCountdown(){
+          var str = '{{ event.music_start_time|date:"U" }}'
+          new Countdown({
+            selector: '.countdown',
+            msgPattern: "{days} days, {hours} hours, {minutes} minutes, and {seconds} seconds till Disco!",
+            dateStart: new Date(), //milliseconds since epoch,
+            dateEnd: new Date(Number(str.concat('000'))) /*seconds since epoch*/
+          });
+        }
+      </script>
+      </span>
       <p>&nbsp;</p>
       <h4>Meet Up </h4>
-      June 12th 2014, 1PM <!--{{ event.start_time}}--> </br>
+      {{ event.arrive_start_time}} </br>
       {{ event.location}} </br>
       <a href="{{event.fbEvent}}">
       <div class="btn small facebook">Join the Facebook Event > </div></a>
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+      <input type="hidden" name="cmd" value="_s-xclick">
+      <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
+      <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+      <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+      </form>
     </div>
   </div>
   <div class="row">
@@ -69,7 +89,7 @@
       </div>
     </div>
     <div class="col-md-7 nopadding">
-      <iframe src="{{ event.google_map_link|safe }}" width="100%" height="350" frameborder="0" style="border:0"></iframe>
+      <iframe src="{{ event.google_map_link }}" width="100%" height="350" frameborder="0" style="border:0"></iframe>
       <div class="col-md-12 green">
         <h4>Organizers</h4>
       </div>
