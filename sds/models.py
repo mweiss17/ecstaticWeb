@@ -12,14 +12,14 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from sds.perm import perm
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
-from datetime import datetime
+from datetime import datetime, date
 
 
 class Photos(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     photoFile = models.FileField(upload_to='Photos/%Y/%m/%d')
     photographer = models.CharField(max_length=30, blank=True)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, blank=True)
     photoUploadDate = models.DateTimeField("photoUploadDate", auto_now=True, blank=True, null=True)
     def __unicode__(self):
         return self.photoFile.url + " : " + str(self.photoUploadDate)
@@ -58,6 +58,7 @@ class Events(models.Model):
     eventMix = models.ForeignKey(Music, blank=True, null=True)
     fbEvent = models.URLField()
     globalEvent = models.ForeignKey(globalEvent, blank=True, null=True)
+    organizer = models.ForeignKey(User)
 
     def __unicode__(self):
         return self.title
@@ -81,6 +82,8 @@ class UserProfile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True)
     profilePic = models.ForeignKey(Photos)
     signupDate = models.DateTimeField("signupDate", auto_now=True)
+    activation_key = models.CharField(max_length=40, blank=True)
+    key_expires = models.DateTimeField(default=date.today())
     dancefloorSuperpower = models.CharField(max_length=2048)
     def __unicode__(self):
         return self.user.username

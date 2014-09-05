@@ -9,8 +9,10 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
+    url(r'^register_success.html', views.register_success, name='register_success'),
+    url(r'^event_creation_success.html', views.event_creation_success, name='event_creation_success'),
+    url(r'^confirm/(?P<activation_key>\w+)/', views.register_confirm),
     url(r'^about.html/$', views.about, name='about'),
-    url(r'^blog.html/$', views.blog, name='blog'),
     url(r'^organize.html/$', views.organize, name='organize'),
     url(r'^logout.html/$', views.logout, name='logout'),
     url(r'^profile.html/$', views.profile, name='profile'),
@@ -33,6 +35,8 @@ urlpatterns = patterns('',
     url(r'^mixMailSignup/$', views.mixMailSignup),
     url(r'^accounts/', include('allauth.urls')), 
     url(r'^mailchimp/', include('mailchimp.urls')),
+    url(r'^weblog/', include('zinnia.urls')),
+    url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^admin/', include(admin.site.urls))
 
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
