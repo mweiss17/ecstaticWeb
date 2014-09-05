@@ -1,8 +1,5 @@
 {% include "header.html" %}
 {% include "header_city.html" %}
-
-
-
   <div class="row city-details">
     <div class="col-md-5 event-picture" style="background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})"> </div>
     <div class="col-md-7 info">
@@ -26,15 +23,17 @@
     {% if success %}
     {{ success }}
     {% endif %}
+      <form method="post" action="" enctype="multipart/form-data">
+      {% csrf_token %}
       {% if not user.is_authenticated %}
-        <form method="post" action="add_email_to_mailing_list" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit" class="btn submit">Submit Song</button>
+        email: {{ form.email }}<br>
       {% else %}
-        {% csrf_token %}
-        {{ form }}
+        <input type="text" name="email" value={{request.user.email}} hidden><br>
       {% endif %}
+      songname: {{ form.song_name_or_link }}<br>
+      intention: {{ form.intention }}<br>
+      uploadedSong: {{ form.uploadedSong }}<br>
+      <button type="submit" class="btn submit">Submit Song</button>
       </form>
 
         <div class="input-group">

@@ -1,13 +1,13 @@
 {% include "header.html" %}
 
 {% include "header_city.html" %}
-
+  {%if event%}
   <div class="row city-details">
     <div class="col-md-5 event-picture" style="background-image:url(/static/img/sds1.jpg)"> </div>
     <div class="col-md-7 info">
-      <h2> Upcoming Silent Disco Squad </h2>
-      <span class="countdown">12 Days, 11 Hours, 22 Min, 33 sec</span> </br>
-      <a href="/citypage_submitsong.html">
+      <h2> {{event.title}} </h2>
+      <div id="eventID{{event.id}}" class="event-countdown"></div> </br>
+      <a href="/citypage_submitsong.html?id={{event.id}}">
       <div class="btn small">See full Info > </div>
       </a> </div>
     <div class="row">
@@ -21,6 +21,7 @@
       </div>
     </div>
   </div>
+  {% endif %}
   <p>&nbsp;</p>
   <div class="row green">
     <div class="col-md-12">
