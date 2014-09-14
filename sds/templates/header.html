@@ -16,6 +16,7 @@
 <link href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="/static/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/static/js/countdown.min.js"></script>
 </head>
 
 <body>
@@ -56,18 +57,18 @@
       <a class="social-icons last" href="https://soundcloud.com/silent-disco-squad" target="_blank"><img src="/static/img/social_soundcloud.svg"></a> </li>
       
       {% if not user.is_authenticated %}
-      <li><a class="login" href="#login">Login</a></li>
-      {% elif user.is_authenticated %}
-      <li>
-        <div  class="login" type="button" id="menu-login" data-toggle="dropdown"> Hello, {{ user.username }}!<span class="caret"></span> </div>
-        <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu1">
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">See Profile</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="/logout.html">Log Out</a></li>
-        </ul>
-      </div>
-      </li>
-      {% endif %}
-    </ul>
+        <li><a class="login" href="#login">Login</a></li>
+
+        {% elif user.is_authenticated %}
+        <li> <div  class="login" type="button" id="menu-login" data-toggle="dropdown"> Hello, {{user.username}}! <span class="caret"></span> </div>
+      <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">See Profile</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="/logout.html">Log Out</a></li>
+      </ul>
+    </div></li>
+        {% endif %}
+      </ul>
+    </div>
   </div>
 </div>
 </div>

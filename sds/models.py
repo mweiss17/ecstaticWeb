@@ -65,15 +65,17 @@ class Events(models.Model):
 
 class UserProfile(models.Model):
     #Roles
-    ORGANIZER = 'organizer'
-    DJ = 'dj'
-    VIDEOGRAPHER = 'videographer'
-    PHOTOGRAPHER = 'photographer'
+    ORGANIZER = 'Organizer'
+    DJ = 'DJ'
+    VIDEOGRAPHER = 'Videographer'
+    PHOTOGRAPHER = 'Photographer'
+    DANCER = 'Dancer'
     ORGANIZERCHOICES = (
-        (ORGANIZER, 'organizer'),
-        (DJ, 'dj'),
-        (VIDEOGRAPHER, 'videographer'),
-        (PHOTOGRAPHER, 'photographer'),
+        (ORGANIZER, 'Organizer'),
+        (DJ, 'DJ'),
+        (VIDEOGRAPHER, 'Videographer'),
+        (PHOTOGRAPHER, 'Photographer'),
+        (DANCER, 'Dancer'),
     )
     role = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
 
@@ -85,6 +87,7 @@ class UserProfile(models.Model):
     activation_key = models.CharField(max_length=40, blank=True)
     key_expires = models.DateTimeField(default=date.today())
     dancefloorSuperpower = models.CharField(max_length=2048)
+    zipcode = models.CharField(max_length=10)
     def __unicode__(self):
         return self.user.username
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])

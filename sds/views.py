@@ -29,11 +29,7 @@ def index(request):
     datetimeNow = datetime.datetime.now()
     TimeZone = datetime.timedelta(seconds=3600*7) #adjustment for EST (4 hrs) + 
                                                   #adjustment for inprogress events (3 hours)
-    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
-    tempUpcomingEventsCities = []
-    for e in upcomingEvents:
-        tempUpcomingEventsCities.append(e.eventCity.cityName)
-    upcomingEventsCities = set(tempUpcomingEventsCities)
+    cities = city.objects.filter()
     previousEvents = Events.objects.filter(arrive_start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
     upcomingGlobalEvent = globalEvent.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
     email_added = ""
@@ -53,8 +49,7 @@ def index(request):
     authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
     authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
     authform.fields['password'].widget.attrs['placeholder'] = "Password"
-
-    context = RequestContext(request, {'index':True, 'upcomingEventsCities':upcomingEventsCities,'upcomingEvents': upcomingEvents, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "authform":authform})
+    context = RequestContext(request, {'index':True, 'cities':cities, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "authform":authform})
 
     resp = HttpResponse(template.render(context))
     resp.set_cookie('visited', True)
@@ -207,9 +202,11 @@ def profile_CSS(uf, upf):
     upf.fields['role'].widget.attrs['class'] = "register-field"
     upf.fields['dancefloorSuperpower'].widget.attrs['class'] = "register-field"
     upf.fields['city'].widget.attrs['class'] = "register-field"
+    upf.fields['zipcode'].widget.attrs['class'] = "register-field"
     upf.fields['role'].widget.attrs['placeholder'] = "Role"
     upf.fields['dancefloorSuperpower'].widget.attrs['placeholder'] = "Dancefloor Superpower"
     upf.fields['city'].widget.attrs['placeholder'] = "What city do you live closest to?"
+    upf.fields['zipcode'].widget.attrs['placeholder'] = "zipcode"
     return
 
 def register_confirm(request, activation_key):
@@ -238,7 +235,7 @@ def citypage_getthemix(request):
     context = {"upcomingEvents":upcomingEvents}
     return render(request, 'citypage_getthemix.html', context)
 
-def citypage_submitsong(request):
+def future(request):
     event = Events.objects.get(id=request.GET['id'])
     if request.method == 'POST':
         form = MusicForm(request.POST, request.FILES)
@@ -260,13 +257,13 @@ def citypage_submitsong(request):
     authform.fields['password'].widget.attrs['placeholder'] = "Password"
 
     context = {"form":form, "authform":authform, "event":event}
-    return render(request, 'citypage_submitsong.html', context)
+    return render(request, 'future.html', context)
 
 def citypage_city(request):
     eventCity=str(request.GET['city'])
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7), eventCity=city.objects.get(cityName=str(request.GET['city'])))
-    event = upcomingEvents[0]
     community = UserProfile.objects.filter(city=city.objects.get(cityName=str(request.GET['city'])))
+    cities = city.objects.filter()
 
     authform = AuthenticationForm(request)
     authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
@@ -274,7 +271,7 @@ def citypage_city(request):
     authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
     authform.fields['password'].widget.attrs['placeholder'] = "Password"
 
-    context = {"upcomingEvents":upcomingEvents, "event":event, "authform":authform, "community":community}
+    context = {"upcomingEvents":upcomingEvents, "authform":authform, "community":community, "cities":cities, "eventCity":eventCity}
     return render(request, 'citypage_city.html', context)
 
 
