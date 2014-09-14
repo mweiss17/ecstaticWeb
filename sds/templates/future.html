@@ -100,51 +100,12 @@
           <div class="organizer" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.organizer1.profilePic.photoFile}}) no-repeat;"></div>
         </div>
         <div class="col-md-8">
-          <h4>{{ event.organizer1.user}}</h4>
-          <p>{{ event.role1 }}</p>
-          <p>Cras eget erat imperdiet, ornare nisl eget, euismod elit. Curabitur justo magna, pharetra sit amet ante nec, laoreet tincidunt enim !</p>
-          <hr>
-        </div>
-        <!-- Organizer end -->
+          <h4>{{ organizer.user.username}}</h4>
+          <div class="organizer" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{organizer.profilePic.photoFile}}) no-repeat;"></div>
 
-      
-           {% if event.role2 %}
-          <div class="col-md-4"> <!-- Organizer start -->
-          <div class="organizer" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.organizer2.profilePic.photoFile}}) no-repeat;"></div>
-        </div>
-        <div class="col-md-8">
-          <h4>{{ event.organizer2.user}}</h4>
-          <p>{{ event.role2 }}</p>
-          <p>Cras eget erat imperdiet, ornare nisl eget, euismod elit. Curabitur justo magna, pharetra sit amet ante nec, laoreet tincidunt enim !</p>
+          <p>{{organizer.dancefloorSuperpower}}</p>
           <hr>
         </div>
-        {% endif %}
-        <!-- Organizer end -->
-
-           {% if event.role3 %}
-           <div class="col-md-4"> <!-- Organizer start -->
-          <div class="organizer" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.organizer3.profilePic.photoFile}}) no-repeat;"></div>
-        </div>
-        <div class="col-md-8">
-          <h4>{{ event.organizer3.user}}</h4>
-          <p>{{ event.role3 }}</p>
-          <p>Cras eget erat imperdiet, ornare nisl eget, euismod elit. Curabitur justo magna, pharetra sit amet ante nec, laoreet tincidunt enim !</p>
-          <hr>
-        </div>
-        {% endif %}
-        <!-- Organizer end -->
-
-           {% if event.role4 %}
-           <div class="col-md-4"> <!-- Organizer start -->
-          <div class="organizer" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.organizer4.profilePic.photoFile}}) no-repeat;"></div>
-        </div>
-        <div class="col-md-8">
-          <h4>{{ event.organizer4.user}}</h4>
-          <p>{{ event.role4 }}</p>
-          <p>Cras eget erat imperdiet, ornare nisl eget, euismod elit. Curabitur justo magna, pharetra sit amet ante nec, laoreet tincidunt enim !</p>
-          <hr>
-        </div>
-        {% endif %}
         <!-- Organizer end -->
         
       </div>

@@ -243,6 +243,7 @@ def citypage_getthemix(request):
 
 def future(request):
     event = Events.objects.get(id=request.GET['id'])
+    organizer = UserProfile.objects.get(user=event.organizer)
     if request.method == 'POST':
         form = MusicForm(request.POST, request.FILES)
         uploadedSong = " "
@@ -262,7 +263,7 @@ def future(request):
     authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
     authform.fields['password'].widget.attrs['placeholder'] = "Password"
 
-    context = {"form":form, "authform":authform, "event":event}
+    context = {"form":form, "authform":authform, "event":event, "organizer":organizer}
     return render(request, 'future.html', context)
 
 def citypage_city(request):
@@ -357,9 +358,10 @@ def appindex(request):
         eventstart = time.mktime(eventstart.timetuple())
         etaList.append(eventstart-calculateCurrentTime())
         upcomingEventsList.append(event.id)
-        some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.city, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent, 'latitude':event.latitude, 'longitude':event.longitude, 'songTitle':event.eventMix.uploadedSong.url})
-        #logger = logging.getLogger(__name__)
-        #logger.debug(eventstart)
+        if event.eventMix:
+            some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.eventCity.cityName, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent, 'latitude':event.latitude, 'longitude':event.longitude, 'songTitle':event.eventMix.uploadedSong.url})
+        else:
+            some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.eventCity.cityName, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent, 'latitude':event.latitude, 'longitude':event.longitude, 'songTitle':"No Mix Uploaded!"})
 
     data = json.dumps(some_data_to_dump)
 
