@@ -1,25 +1,8 @@
 {% include "header.html" %} 
 {% include "header_city.html" %}
-<<<<<<< HEAD
-    {% for event in upcomingEvents %}
-      <div class="row city-details">
-        <div class="col-md-5 event-picture" style="background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})"> </div>
-        <div class="col-md-7 info">
-          <h2> {{event.title}} </h2>
-          <div id="eventID{{event.id}}" class="event-countdown"></div> </br>
-          <a href="/future.html?id={{event.id}}">
-          <div class="btn small">See full Info > </div>
-          </a> 
-        </div>
-      </div>
-      <br>
-    {% endfor %}
-=======
->>>>>>> b761a4b753942455d881751ead74f0f4f0fd9975
-
 <div class="row">
     <div class="col-md-6">
-        {%if event%} {% for event in upcomingEvents %}
+        {% for event in upcomingEvents %}
 
         <div class="row city-details">
             <div class="col-sm-5 event-picture" style=
@@ -30,12 +13,12 @@
                 <h2>{{event.title}}</h2>
 
                 <div class="event-countdown" id="eventID{{event.id}}"></div><br>
-                <a href="/citypage_submitsong.html?id={{event.id}}">
+                <a href="/future.html?id={{event.id}}">
                 <div class="btn small">
                     See full Info >
                 </div></a>
             </div>
-        </div>{% endfor %} {% endif %}
+        </div>{% endfor %} 
     </div>
 
     <div class="col-md-6" style="background:#222 !important; color:#fff">
