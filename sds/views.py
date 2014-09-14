@@ -30,6 +30,10 @@ def index(request):
     TimeZone = datetime.timedelta(seconds=3600*7) #adjustment for EST (4 hrs) + 
                                                   #adjustment for inprogress events (3 hours)
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
+    tempUpcomingEventsCities = []
+    for e in upcomingEvents:
+        tempUpcomingEventsCities.append(e.eventCity.cityName)
+    upcomingEventsCities = set(tempUpcomingEventsCities)
     previousEvents = Events.objects.filter(arrive_start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
     upcomingGlobalEvent = globalEvent.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
     email_added = ""
@@ -50,11 +54,13 @@ def index(request):
     authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
     authform.fields['password'].widget.attrs['placeholder'] = "Password"
 
-    context = RequestContext(request, {'index':True, 'upcomingEvents': upcomingEvents, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "authform":authform})
+    context = RequestContext(request, {'index':True, 'upcomingEventsCities':upcomingEventsCities,'upcomingEvents': upcomingEvents, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "authform":authform})
 
     resp = HttpResponse(template.render(context))
     resp.set_cookie('visited', True)
     return resp
+
+
 
 def about(request):
     context = {}
@@ -76,8 +82,12 @@ def organize(request):
     if request.method == 'POST':
         ef = eventForm(request.POST)
         pf = photoUploadForm(request.POST, request.FILES)
+        cf = cityForm(request.POST)
+        cpf = photoUploadForm(request.POST, request.FILES)
         context['ef'] = ef
         context['pf'] = pf
+        context['cf'] = cf
+        context['cpf'] = cpf
         if pf.is_valid():                 
             photoObj = pf.save(commit=False)
             photoObj.user = request.user
@@ -86,6 +96,14 @@ def organize(request):
             eventObject = ef.save(commit=False)
             eventObject.eventPic = photoObj
             eventObject.organizer = request.user
+            if cf.is_valid() and cpf.is_valid():
+                cityPhotoObject = cpf.save(commit=False)
+                cityPhotoObject.user = request.user
+                cityPhotoObject.save()
+                cityObject = cf.save(commit=False)
+                cityObject.cityImage = cityPhotoObject
+                cityObject.save()
+                eventObject.city = cityObject
             eventObject.save()
             return render(request, 'event_creation_success.html', context)
         else:
@@ -93,6 +111,8 @@ def organize(request):
     else:
         ef = eventForm()
         pf = photoUploadForm()
+        cf = cityForm()
+        cpf = photoUploadForm()
 
         ef.fields['title'].widget.attrs['class'] = "register-field"
         ef.fields['eventCity'].widget.attrs['class'] = "register-field"
@@ -109,8 +129,10 @@ def organize(request):
         ef.fields['arrive_start_time'].widget.attrs['data-format'] = "MM/dd/yyyy hh:mm"
         ef.fields['music_start_time'].widget.attrs['data-format'] = "MM/dd/yyyy hh:mm"
 
+        cf.fields['cityName'].widget.attrs['class'] = 'register-field'
+        cf.fields['cityName'].widget.attrs['placeholder'] = 'My City\'s Name'
 
-        context = {"upcomingEvents":upcomingEvents, "ef":ef, "pf":pf, "authform":authform}
+        context = {"upcomingEvents":upcomingEvents, "ef":ef, "pf":pf, "cf":cf, "cpf":cpf, "authform":authform}
         return render(request, 'organize.html', context)
 
 def event_creation_success(request):
@@ -217,7 +239,7 @@ def citypage_getthemix(request):
     return render(request, 'citypage_getthemix.html', context)
 
 def citypage_submitsong(request):
-    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
+    event = Events.objects.get(id=request.GET['id'])
     if request.method == 'POST':
         form = MusicForm(request.POST, request.FILES)
         uploadedSong = " "
@@ -237,13 +259,14 @@ def citypage_submitsong(request):
     authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
     authform.fields['password'].widget.attrs['placeholder'] = "Password"
 
-    context = {"upcomingEvents":upcomingEvents, "form":form, "authform":authform}
+    context = {"form":form, "authform":authform, "event":event}
     return render(request, 'citypage_submitsong.html', context)
 
 def citypage_city(request):
     eventCity=str(request.GET['city'])
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7), eventCity=city.objects.get(cityName=str(request.GET['city'])))
     event = upcomingEvents[0]
+    community = UserProfile.objects.filter(city=city.objects.get(cityName=str(request.GET['city'])))
 
     authform = AuthenticationForm(request)
     authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
@@ -251,8 +274,9 @@ def citypage_city(request):
     authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
     authform.fields['password'].widget.attrs['placeholder'] = "Password"
 
-    context = {"upcomingEvents":upcomingEvents, "event":event, "authform":authform}
+    context = {"upcomingEvents":upcomingEvents, "event":event, "authform":authform, "community":community}
     return render(request, 'citypage_city.html', context)
+
 
 def contact(request):
     context = {}
@@ -356,7 +380,8 @@ def auth_view(request):
 def logout(request):
     auth.logout(request)
     context = {}
-    return render(request, request.META.get('HTTP_REFERER'), context)
+    return HttpResponseRedirect('/')       
+
 
 
 MAILCHIMP_LIST_ID = '4d0c4db173' # DRY :)

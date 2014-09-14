@@ -4,25 +4,23 @@
 <div class="col-sm-3 col-md-2 sidebar">
   <ul class="nav nav-sidebar">
     <li><a href="#">FIND YOUR CITY</a></li>
-      {% for event in upcomingEvents %}
-        {% if event.eventCity.cityName %}
-          <li> <a href="/citypage_city.html?city={{event.eventCity}}"> {{event.eventCity}}</a> </li>
-        {% endif %}
+      {% for city in upcomingEventsCities %}
+          <li> <a href="/citypage_city.html?city={{city}}"> {{city}}</a> </li>
       {% endfor %}          
-    <li><a href="/organize.html">Create your own </br>
+    <li><a href="/organize.html">Organize a
       Silent Disco Squad in your city </a></li>
   </ul>
 </div>
 
   <div class="main-title">We are turning the World </br>
     into a dancefloor.
-    <h3 class="yellow"> <a href="#video">Watch a Video</a> </h3>
+    <h3 class="yellow"> <a href="#video">  <span class="glyphicon glyphicon-play-circle"></span> <a href="#video"> Watch a Video</a> </h3>
   </div>
   <div class="single-item">
-    <div style="background-image: url(/static/img/sds1.jpg); display:block; height:650px; width:100%;  background-size:cover" >
+    <div style="background-image: url(/static/img/sds1.jpg); display:block; height:650px;  background-size:cover" >
       <div class="overlay"></div>
     </div>
-    <div style="background-image: url(/static/img/sds2.jpg); display:block; height:650px; width:100%;  background-size:cover" >
+    <div style="background-image: url(/static/img/sds2.jpg); display:block; height:650px;   background-size:cover" >
       <div class="overlay"></div>
     </div>
   </div>
