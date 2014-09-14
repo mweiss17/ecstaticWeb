@@ -1,6 +1,6 @@
-{% include "header.html" %}
-
+{% include "header.html" %} 
 {% include "header_city.html" %}
+<<<<<<< HEAD
     {% for event in upcomingEvents %}
       <div class="row city-details">
         <div class="col-md-5 event-picture" style="background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})"> </div>
@@ -14,23 +14,40 @@
       </div>
       <br>
     {% endfor %}
+=======
+>>>>>>> b761a4b753942455d881751ead74f0f4f0fd9975
 
-  <div class="row green">
-    <div class="col-md-12">
-      <h4> Your Fellow dancers</h4>
+<div class="row">
+    <div class="col-md-6">
+        {%if event%} {% for event in upcomingEvents %}
+
+        <div class="row city-details">
+            <div class="col-sm-5 event-picture" style=
+            "background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})">
+            </div>
+
+            <div class="col-sm-7 info">
+                <h2>{{event.title}}</h2>
+
+                <div class="event-countdown" id="eventID{{event.id}}"></div><br>
+                <a href="/citypage_submitsong.html?id={{event.id}}">
+                <div class="btn small">
+                    See full Info >
+                </div></a>
+            </div>
+        </div>{% endfor %} {% endif %}
     </div>
-  </div>
 
-  <div class="row">
-  {% for person in community %}
-    <div class="col-md-1 nopadding dancer">
-      <img src="https://silentdiscosquad.s3.amazonaws.com/{{person.profilePic.photoFile}}" width="100%">
-      {{ person.user.username }}
-    </div>
+    <div class="col-md-6" style="background:#222 !important; color:#fff">
+        <h4>Your Fellow dancers</h4>
+    </div>{% for person in community %}
 
-  {% endfor %}
-  </div>
+    <div class="col-sm-1 nopadding dancer">
+        <img height="100px" src=
+        "https://silentdiscosquad.s3.amazonaws.com/{{person.profilePic.photoFile}}" width="100%">
+        {{ person.user.username }}
+    </div>{% endfor %}
+</div>
+</div>
 
-
-  {% include "footer.html" %}
-
+{% include "footer.html" %}

@@ -29,11 +29,6 @@ def index(request):
     datetimeNow = datetime.datetime.now()
     TimeZone = datetime.timedelta(seconds=3600*7) #adjustment for EST (4 hrs) + 
                                                   #adjustment for inprogress events (3 hours)
-    #upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
-    #tempUpcomingEventsCities = []
-    #for e in upcomingEvents:
-    #    tempUpcomingEventsCities.append(e.eventCity.cityName)
-    #upcomingEventsCities = set(tempUpcomingEventsCities)
     cities = city.objects.filter()
     previousEvents = Events.objects.filter(arrive_start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
     upcomingGlobalEvent = globalEvent.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
@@ -54,7 +49,6 @@ def index(request):
     authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
     authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
     authform.fields['password'].widget.attrs['placeholder'] = "Password"
-
     context = RequestContext(request, {'index':True, 'cities':cities, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "authform":authform})
 
     resp = HttpResponse(template.render(context))

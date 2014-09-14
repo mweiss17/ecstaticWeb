@@ -3,7 +3,6 @@ from sds.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-
 class UserProfileForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)

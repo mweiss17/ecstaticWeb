@@ -2,36 +2,38 @@
 
 <div class="container">
   <div class="row city-top">
-    <div class="col-md-2 city">
+    <div class="col-sm-2 city">
       <div id="city-menu"> Register </div>
     </div>
   </div>
   <div class="row city-details">
-    <div class="col-md-12 event-picture" style="background-image:url(/static/img/sds3.jpg)"> </div>
-    <div class="profile-title">
+    <div class="col-sm-12 signup-picture" style="background-image:url(/static/img/sds3.jpg)"> 
+       <div class="profile-title">
       <h1> Join the Silent Disco Squad Community now! </h1>
       People from all around the world are participating and creating Silent Disco Squad. </br>
       Join the community,  get to know them and connect with your fellow dancers! </br>
       We would like to know you! </div>
+    </div>
+   
   </div>
   </br>
-  <div class="row">
+ 
     <h2> Sign up for an Account!</h2>
     <form method="post" action="" enctype="multipart/form-data">
       {% csrf_token %}
       {{uf.non_field_errors}}
       <div class="row register-form">
-        <div class="col-md-4 nopadding">
+        <div class="col-sm-4 nopadding">
           <div class="input-group">
             {{uf.first_name}}<br>
           </div>
         </div>
-      <div class="col-md-4 nopadding">
+      <div class="col-sm-4 nopadding">
         <div class="input-group">
           {{uf.last_name}}<br>
         </div>
       </div>
-      <div class="col-md-4 nopadding">
+      <div class="col-sm-4 nopadding">
         <div class="input-group">
           {{uf.username.errors}}
           {{uf.username}}
@@ -39,26 +41,26 @@
       </div>
     </div>
   <div class="row register-form">
-    <div class="col-md-4 nopadding">
+    <div class="col-sm-4 nopadding">
       <div class="input-group">
         {{uf.password1.errors}}
         {{uf.password1}}<br>
       </div>
     </div>
-    <div class="col-md-4 nopadding">
+    <div class="col-sm-4 nopadding">
       <div class="input-group">
         {{uf.password2.errors}}
         {{uf.password2}}<br>
       </div>
     </div>
-    <div class="col-md-4 nopadding">
+    <div class="col-sm-4 nopadding">
       <div class="input-group">
         {{upf.city}}
       </div>
     </div>
   </div>
   <div class="row register-form">
-    <div class="col-md-6 nopadding">
+    <div class="col-sm-6 nopadding">
       <div class="input-group">
         {{uf.email.errors}}
         {{uf.email}}<br>
@@ -66,12 +68,12 @@
     </div>
   </div>
   <div class="row register-form">
-    <div class="col-md-6 nopadding">
+    <div class="col-sm-6 nopadding">
       <div class="input-group">
         {{upf.dancefloorSuperpower}}
       </div>
     </div>
-      <div class="col-md-6 nopadding">
+      <div class="col-sm-6 nopadding">
         <div class="input-group">
           {{upf.role}}
         </div>
@@ -85,8 +87,10 @@
       <div class="input-group">
         {{pf.photoFile}}
       </div>
-    </div>
+   
   </div>
   <button type="submit" class="btn submit">Create your profile</button>
 </form>
+</div>
+</div>
   {% include "footer.html" %}
