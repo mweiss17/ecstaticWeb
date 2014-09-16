@@ -61,6 +61,10 @@ class eventForm(ModelForm):
         fields = ['title', 'eventCity', 'location', 'arrive_start_time', 'music_start_time', 'google_map_link']
 
 class cityForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(cityForm, self).__init__(*args, **kwargs)
+        self.fields['cityName'].empty_label = "Select your City (or \"I don't see my city\")"
+
     class Meta:
         model = city
         exclude = ['cityImage']

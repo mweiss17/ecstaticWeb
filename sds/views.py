@@ -236,6 +236,7 @@ def citypage_getthemix(request):
     return render(request, 'citypage_getthemix.html', context)
 
 def future(request):
+    cities = city.objects.filter()
     event = Events.objects.get(id=request.GET['id'])
     organizer = UserProfile.objects.get(user=event.organizer)
     if request.method == 'POST':
@@ -257,7 +258,7 @@ def future(request):
     authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
     authform.fields['password'].widget.attrs['placeholder'] = "Password"
 
-    context = {"form":form, "authform":authform, "event":event, "organizer":organizer}
+    context = {"form":form, "authform":authform, "event":event, "organizer":organizer, "cities":cities}
     return render(request, 'future.html', context)
 
 def citypage_city(request):
