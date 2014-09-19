@@ -2,8 +2,8 @@
 {% include "header_city.html" %}
 <div class="row">
     <div class="col-md-6">
+      {% if upcomingEvents %}
         {% for event in upcomingEvents %}
-
         <div class="row city-details">
             <div class="col-sm-5 event-picture" style=
             "background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})">
@@ -11,26 +11,58 @@
 
             <div class="col-sm-7 info">
                 <h2>{{event.title}}</h2>
-
                 <div class="event-countdown" id="eventID{{event.id}}"></div><br>
                 <a href="/future.html?id={{event.id}}">
                 <div class="btn small">
                     See full Info >
                 </div></a>
             </div>
-        </div>{% endfor %} 
+        </div>
+
+        {% endfor %} 
+        {% else %} 
+            <div class="row city-details">
+            <div class="col-sm-12 info"><br/>
+                <h3>There are currently no upcoming <br/>Silent Disco Squad in your city.</h3>
+                <br/>
+              
+
+                <a href="/organize.html">
+                <div class="btn medium">
+                    Organize one in my city now! >
+                </div></a>
+            </div>
+        </div>
+        {% endif %} 
     </div>
 
     <div class="col-md-6" style="background:#222 !important; color:#fff">
         <h4>Your Fellow dancers</h4>
-    </div>{% for person in community %}
+    </div>
+  
+        {% for person in community %}
 
     <div class="col-sm-1 nopadding dancer">
         <img height="100px" src=
         "https://silentdiscosquad.s3.amazonaws.com/{{person.profilePic.photoFile}}" width="100%">
         {{ person.user.username }}
-    </div>{% endfor %}
+    </div>
+        {% endfor %}
+
+   
+
+    
 </div>
+</div>
+<!--
+<div class="col-sm-6">
+    <h3>Join and meet dancers in your city!</h3>
+    <h4>Sign up for a free account and stay in touch with the community.</h4><br>
+    <a href="/profile.html">
+    <div class="btn medium">
+        Sign up for a free account &gt;
+    </div></a>
 </div>
 
+    </div>  -->
 {% include "footer.html" %}

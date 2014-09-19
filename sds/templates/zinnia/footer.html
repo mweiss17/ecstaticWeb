@@ -1,0 +1,99 @@
+ {% if index %}
+ 
+  {% else %}
+<a name="app"><div class="footer"></a>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <h3>What is Silent Disco Squad? </h3>
+        </br>
+        Silent Disco Squad brings the transformational power of the dancefloor into everyday moments by organizing massively public, participant­ driven Danceparties. 
+        Using mp3 players, smartphones, and headphones, all SDS participants hear the same music at the same time, transforming everyday moments into a Silent Disco Squad. <br class="clear">
+        </br>
+        <span class="glyphicon glyphicon-play-circle"></span> <a href="#video"> Watch a Video!</a> </br>
+        </br>
+       </div>
+       <div class="col-md-7">
+     <!--    <h3>Participate to a Silent Disco in your city</h3>
+        </br>
+        Ready to take part in a Massive Danceparty? Just choose your city to check the nearest event, download the mix in your device and get ready to groove!
+ -->
+         <h3>Download the Mobile App Now!</h3>
+        </br>
+        It's here! The first Silent Disco App is available for iPhones and Androids devices. Just download it from
+        the Apple Store (for iPhone) or Google Play (Android). 
+        <br class="clear">
+        </br>
+        <h4>Downloads links:</h4>
+        <i class="fa fa-apple fa-5x"></i>
+        <i class="fa fa-android fa-5x"></i>
+        
+
+        </div>
+
+    </div>© 2014 - Silent Disco Squad
+  </div>
+</div>
+
+{% endif %} 
+
+
+
+<!--login-->
+<div class="remodal-bg">
+<div class="remodal" data-remodal-id="video">
+  <iframe width="100%" height="315" src="http://www.youtube.com/embed/Tlq9mye4mZA?rel=0" frameborder="0" allowfullscreen></iframe>
+</div>
+<div data-remodal-id="login">
+  <div id="slidediv"> {% include "login.html" %} </div>
+</div>
+<!--login-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> 
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script> 
+<script type="text/javascript" src="/static/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="/static/js/slick.js"></script> 
+<script src="/static/js/jquery.remodal.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script> 
+$(document).ready(function() {
+    $('.single-item').slick({
+        dots: true,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    });
+
+     var inst = $('[data-remodal-id=login]').remodal();
+});
+  </script>
+<script type="text/javascript">
+            $(function () {
+                $('#timepicker1').datetimepicker({
+                    pickDate: false
+                });
+
+                $('#timepicker2').datetimepicker({
+                    pickDate: false
+                });
+
+                $('#datepicker').datetimepicker({
+                    pickTime: false
+                });
+            });
+        </script>
+<script>
+if(!Modernizr.svg) {
+    $('img[src*="svg"]').attr('src', function() {
+        return $(this).attr('src').replace('.svg', '.png');
+    });
+}
+</script>
+
+
+</body>
+</html>
