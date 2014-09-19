@@ -1,16 +1,20 @@
 {% include "header.html" %}
 {% include "header_city.html" %}
-  <div class="row city-details">
-    <div class="col-md-12 event-picture" style="background-image:url(/static/img/sds4.jpg)"> </div>
-    <div class="profile-title">
-        <h1> No silent disco near you? 
+
+ <div class="row city-details">
+    <div class="col-sm-12 signup-picture" style="background-image:url(/static/img/sds4.jpg)"> 
+       <div class="profile-title">
+       <h1> No silent disco near you? 
             Become an SDS organizer!</h1>
         <p>Make one yourself! It's easier than you think and we will support you throughout the process.</p>
-      <p>Silent Disco Squad is a community of people aimed at Turning the World into a Dancefloor. Silent Disco Squad is here to empower as many people as possible to take part and organize Silent Disco Squads in their local community.</p> </div>
+      <p>Silent Disco Squad is a community of people aimed at Turning the World into a Dancefloor. </br>Silent Disco Squad is here to empower as many people as possible to take part and organize Silent Disco Squads in their local community.</p> </div>
+    </div>
+   
   </div>
-  {% if user.is_authenticated %}
+   {% if user.is_authenticated %}
   </br>
   <a href="https://s3.amazonaws.com/silentdiscosquad/The+Design+of+Everyday+Things+-+Don+Norman.pdf">Download David's Manifesto</a>
+ 
 
   <form method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
@@ -112,4 +116,5 @@
 {% endif %}
 <br><br>
 Please<a href="mailto:david@silentdiscosquad.com"><div class="indexemailbtn"> Email us</div></a> if there are any problems, or you just want some more info!</h2>
+</div>
 {% include "footer.html" %}

@@ -2,7 +2,7 @@
 <div class="container-fluid">
 <div class="row">
 <div class="col-sm-3 col-md-2 sidebar">
-  <ul class="nav nav-sidebar">
+  <ul class="nav">
     <li><a href="#">FIND YOUR CITY</a></li>
       {% for city in cities %}
           <li> <a href="/citypage_city.html?city={{city}}"> {{city}}</a> </li>
@@ -12,26 +12,35 @@
   </ul>
 </div>
 
-  <div class="main-title">We are turning the World </br>
-    into a dancefloor.
-    <h3 class="yellow"> <a href="#video">  <span class="glyphicon glyphicon-play-circle"></span> <a href="#video"> Watch a Video</a> </h3>
-  </div>
+
   <div class="single-item">
     <div style="background-image: url(/static/img/sds1.jpg); display:block; height:650px;  background-size:cover" >
       <div class="overlay"></div>
+        <div class="main-title">We are turning the World </br>
+    into a dancefloor.
+    <h3 class="yellow"> <a href="#video">  <span class="glyphicon glyphicon-play-circle"></span> <a href="#video"> Watch a Video</a> </h3>
+  </div>
+
+
     </div>
-    <div style="background-image: url(/static/img/sds2.jpg); display:block; height:650px;   background-size:cover" >
+    <div style="background-image: url(/static/img/tedxconcordia_silentdiscosquad.jpg); display:block; height:650px;   background-size:cover; background-position:bottom center"  >
       <div class="overlay"></div>
+
+        <div class="main-title">Watch the TEDxTalk</br>
+    <h3 class="yellow"> <a href="#video">  <span class="glyphicon glyphicon-play-circle"></span> <a href="#video"> Watch a Video</a> </h3>
+  </div>
+
+
     </div>
   </div>
 </div>
 
 {% if user.is_authenticated %}
-<div class="caption-wrapper"><a href="/citypage_submitsong.html?id={{upcomingEvents.0.id}}"><span class="yellow">MONTREAL</span></br>
+<div class="caption-wrapper"><a href="/future.html?id={{upcomingEvents.0.id}}"><span class="yellow">MONTREAL</span></br>
   Upcoming Silent Disco: July 12th</div>
 </a>
 {% else %}
-<div class="caption-wrapper"><a href="/citypage_submitsong.html?id={{upcomingEvents.0.id}}"><span class="yellow">MONTREAL</span></br>
+<div class="caption-wrapper"><a href="/future.html?id={{upcomingEvents.0.id}}"><span class="yellow">MONTREAL</span></br>
   Upcoming Silent Disco: July 12th</div>
 </a>
 {% endif %}
