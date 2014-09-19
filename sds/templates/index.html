@@ -34,13 +34,7 @@
   </div>
 </div>
 
-{% if user.is_authenticated %}
-<div class="caption-wrapper"><a href="/future.html?id={{upcomingEvents.0.id}}"><span class="yellow">MONTREAL</span></br>
-  Upcoming Silent Disco: July 12th</div>
+<div class="caption-wrapper"><a href="/future.html?id={{upcomingEvents.0.id}}"><span class="yellow">{{upcomingEvents.0.title}}</span></br>
+{{upcomingEvents.0.arrive_start_time}}</div>
 </a>
-{% else %}
-<div class="caption-wrapper"><a href="/future.html?id={{upcomingEvents.0.id}}"><span class="yellow">MONTREAL</span></br>
-  Upcoming Silent Disco: July 12th</div>
-</a>
-{% endif %}
 {% include "footer.html" %}

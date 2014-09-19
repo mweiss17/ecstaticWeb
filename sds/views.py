@@ -26,6 +26,7 @@ def calculateCurrentTime():
     return now
 
 def index(request):
+    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
     datetimeNow = datetime.datetime.now()
     TimeZone = datetime.timedelta(seconds=3600*7) #adjustment for EST (4 hrs) + 
                                                   #adjustment for inprogress events (3 hours)
@@ -49,7 +50,7 @@ def index(request):
     authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
     authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
     authform.fields['password'].widget.attrs['placeholder'] = "Password"
-    context = RequestContext(request, {'index':True, 'cities':cities, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "authform":authform})
+    context = RequestContext(request, {'index':True, 'cities':cities, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "authform":authform, "upcomingEvents":upcomingEvents})
 
     resp = HttpResponse(template.render(context))
     resp.set_cookie('visited', True)
