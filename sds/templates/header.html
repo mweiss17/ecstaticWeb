@@ -16,9 +16,17 @@
 <link href="/static/css/styles.css" rel="stylesheet">
 <link href="/static/css/jquery.remodal.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<script src="/static/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> 
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
+<script src="/static/js/slick.js"></script> 
+<script src="/static/js/jquery.remodal.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+<script type="text/javascript" src="/static/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/static/js/countdown.min.js"></script>
 <script src="/static/js/fileUpload.js"></script>
 <script src="/static/js/emailCollection.js"></script>
@@ -43,8 +51,6 @@
 
         <a class="navbar-brand index-logo" href="/">
         <img src="/static/img/silentdiscosquadlogo.svg" alt="Logo" class="logo-img"></a> 
-
-
         </div>
       {% else %}
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> 
@@ -70,7 +76,10 @@
 
       </div>
       {% endif %}
-
+</div>
+<div class="city-top">
+test
+</div>
     <div class="navbar-collapse collapse">
     <ul class="nav navbar-nav navbar-right">
       <li><a href="/organize.html">Organize</a></li>

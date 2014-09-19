@@ -304,6 +304,9 @@ ul li {
 .navbar {
   font-size: 11px;
 }
+.navbar-header{
+  float:left !important;
+}
 .sidebar {
   position: fixed;
   top: 50px;
@@ -797,6 +800,7 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 }
 .navbar-brand {
   padding: 0 !important;
+  float:left;
 }
 .index-logo {
   padding-left: 15px !important;

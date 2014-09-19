@@ -109,7 +109,7 @@ def organize(request):
         cf = cityForm()
         cpf = photoUploadForm()
 
-        ef.fields['title'].widget.attrs['class'] = "register-field"
+        ef.fields['title'].widget.attrs['class'] = ""
         ef.fields['eventCity'].widget.attrs['class'] = "register-field"
         ef.fields['location'].widget.attrs['class'] = "register-field"
         ef.fields['google_map_link'].widget.attrs['class'] = "register-center-field"
