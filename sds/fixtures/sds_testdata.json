@@ -1,0 +1,685 @@
+[
+{ "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "username": "martin",
+        "password": "password"
+    }
+},
+{
+    "pk": 1, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "martin", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/02/34596_funny_cookie_monster_terrorist.jpg"
+    }
+},
+{
+    "pk": 2, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "martin", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/02/rtfm.jpg"
+    }
+},
+{
+    "pk": 3, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "martin", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/02/david.jpg"
+    }
+},
+{
+    "pk": 4, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "asdf", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/02/david.jpg"
+    }
+},
+{
+    "pk": 5, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "martin", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/04/1451554_10201280161308914_1977276621_n.jpg"
+    }
+},
+{
+    "pk": 6, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "Martin", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/05/IMG_2959.jpg"
+    }
+},
+{
+    "pk": 7, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "martin", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/05/16_The_Age_Of_Reason.jpg"
+    }
+},
+{
+    "pk": 8, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "Alice in Wonderland", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/13/Flowers-alice-in-wonderland-25961565-800-400.jpg"
+    }
+},
+{
+    "pk": 9, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "Alice in Wonderland", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/13/Alice-disneyscreencaps.com-3199.jpg"
+    }
+},
+{
+    "pk": 10, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "David Zangwill", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/16/1982181_10201752613279918_1645416878_n.jpg"
+    }
+},
+{
+    "pk": 11, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "David Zangwill", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/16/382898_10151193081954327_1531568692_n.jpg"
+    }
+},
+{
+    "pk": 12, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "David Zangwill", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/16/1661845_10201877410477141_1139512008_n.jpg"
+    }
+},
+{
+    "pk": 13, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "David", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/21/SDS-SIlly-Hats-and-Sleds.png"
+    }
+},
+{
+    "pk": 14, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "David", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/21/1464702_10201659784469677_1189614759_n.png"
+    }
+},
+{
+    "pk": 15, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "Annie", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/03/21/1395859_10200850844416260_109480230_n.jpg"
+    }
+},
+{
+    "pk": 16, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "Clare", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/04/02/1560617_2557293065796_154970642_n.jpg"
+    }
+},
+{
+    "pk": 19, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "Clare", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/04/02/1380588_2417596173461_685137820_n.jpg"
+    }
+},
+{
+    "pk": 20, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "Josh", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/04/02/Josh.png"
+    }
+},
+{
+    "pk": 21, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "alfonso", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/04/03/alf.png"
+    }
+},
+{
+    "pk": 23, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "alfonso", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/04/03/10007500_10152207121563654_53610017_n.jpg"
+    }
+},
+{
+    "pk": 24, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "olympe", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/04/17/lolyboudha.jpg"
+    }
+},
+{
+    "pk": 29, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "martin", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/04/27/6_Frothingham_Milton_Spring_2014.jpg"
+    }
+},
+{
+    "pk": 30, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "Karan", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/04/28/6_Frothingham_Milton_Spring_2014.jpg"
+    }
+},
+{
+    "pk": 31, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/04/28/6_Frothingham_Milton_Spring_2014.jpg"
+    }
+},
+{
+    "pk": 32, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "karan", 
+        "title": "", 
+        "photoUploadDate": null, 
+        "user": 1, 
+        "photoFile": "Photos/2014/04/28/6_Frothingham_Milton_Spring_2014.jpg"
+    }
+},
+{
+    "pk": 35, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "", 
+        "photoUploadDate": "2014-05-13T00:09:48.884Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/05/13/martin.png"
+    }
+},
+{
+    "pk": 38, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "Peter", 
+        "title": "sdstams", 
+        "photoUploadDate": "2014-05-16T18:54:25.076Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/05/16/SDSTams.jpg"
+    }
+},
+{
+    "pk": 43, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "pic", 
+        "photoUploadDate": "2014-07-07T15:44:55.883Z", 
+        "user": null, 
+        "photoFile": "Photos/2014/07/07/265805_1981917907772_2462685_o.jpg"
+    }
+},
+{
+    "pk": 46, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "asdff", 
+        "photoUploadDate": "2014-07-07T19:03:07.765Z", 
+        "user": null, 
+        "photoFile": "Photos/2014/07/07/265805_1981917907772_2462685_o.jpg"
+    }
+},
+{
+    "pk": 47, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "asdffwe", 
+        "photoUploadDate": "2014-07-07T19:09:44.357Z", 
+        "user": null, 
+        "photoFile": "Photos/2014/07/07/GuacNoms.png"
+    }
+},
+{
+    "pk": 48, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "asdfas", 
+        "photoUploadDate": "2014-07-07T19:14:20.927Z", 
+        "user": null, 
+        "photoFile": "Photos/2014/07/07/photo.JPG"
+    }
+},
+{
+    "pk": 49, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "", 
+        "photoUploadDate": "2014-08-25T16:36:06.794Z", 
+        "user": null, 
+        "photoFile": "Photos/2014/08/25/IMG_3267.JPG.jpeg"
+    }
+},
+{
+    "pk": 50, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "", 
+        "photoUploadDate": "2014-08-25T16:37:55.699Z", 
+        "user": null, 
+        "photoFile": "Photos/2014/08/25/IMG_3267.JPG.jpeg"
+    }
+},
+{
+    "pk": 51, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "", 
+        "photoUploadDate": "2014-08-25T16:40:23.046Z", 
+        "user": null, 
+        "photoFile": "Photos/2014/08/25/IMG_3267.JPG.jpeg"
+    }
+},
+{
+    "pk": 56, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "", 
+        "photoUploadDate": "2014-08-29T15:59:33.862Z", 
+        "user": null, 
+        "photoFile": "Photos/2014/08/29/IMG_3267.JPG.jpeg"
+    }
+},
+{
+    "pk": 57, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "", 
+        "photoUploadDate": "2014-08-29T16:02:31.732Z", 
+        "user": null, 
+        "photoFile": "Photos/2014/08/29/photo.JPG"
+    }
+},
+{
+    "pk": 58, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "", 
+        "photoUploadDate": "2014-08-29T16:09:13.697Z", 
+        "user": null, 
+        "photoFile": "Photos/2014/08/29/photo.JPG"
+    }
+},
+{
+    "pk": 59, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "", 
+        "photoUploadDate": "2014-08-29T16:10:14.259Z", 
+        "user": null, 
+        "photoFile": "Photos/2014/08/29/photo.JPG"
+    }
+},
+{
+    "pk": 60, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "", 
+        "photoUploadDate": "2014-08-31T15:16:15.274Z", 
+        "user": null, 
+        "photoFile": "Photos/2014/08/31/IMG_3597.JPG"
+    }
+},
+{
+    "pk": 61, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "", 
+        "photoUploadDate": "2014-08-31T15:20:26.665Z", 
+        "user": null, 
+        "photoFile": "Photos/2014/08/31/IMG_3597.JPG"
+    }
+},
+{
+    "pk": 76, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "a", 
+        "photoUploadDate": "2014-09-01T18:53:11.072Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/01/IMG_3597.JPG"
+    }
+},
+{
+    "pk": 77, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "a", 
+        "photoUploadDate": "2014-09-01T18:59:52.377Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/01/IMG_3597.JPG"
+    }
+},
+{
+    "pk": 78, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "a", 
+        "photoUploadDate": "2014-09-01T19:00:19.024Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/01/IMG_3597.JPG"
+    }
+},
+{
+    "pk": 79, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "b", 
+        "photoUploadDate": "2014-09-05T15:47:55.909Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/05/IMG_3587.JPG"
+    }
+},
+{
+    "pk": 80, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "b", 
+        "photoUploadDate": "2014-09-05T15:47:56.475Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/05/IMG_3587.JPG"
+    }
+},
+{
+    "pk": 81, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "b", 
+        "photoUploadDate": "2014-09-05T15:50:03.581Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/05/IMG_3587.JPG"
+    }
+},
+{
+    "pk": 82, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "b", 
+        "photoUploadDate": "2014-09-05T15:50:04.007Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/05/IMG_3587.JPG"
+    }
+},
+{
+    "pk": 83, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "b", 
+        "photoUploadDate": "2014-09-05T15:51:26.658Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/05/IMG_3587.JPG"
+    }
+},
+{
+    "pk": 84, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "b", 
+        "photoUploadDate": "2014-09-05T15:51:27.017Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/05/IMG_3587.JPG"
+    }
+},
+{
+    "pk": 85, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "b", 
+        "photoUploadDate": "2014-09-05T15:52:08.914Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/05/IMG_3587.JPG"
+    }
+},
+{
+    "pk": 86, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "b", 
+        "photoUploadDate": "2014-09-05T15:52:09.282Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/05/IMG_3587.JPG"
+    }
+},
+{
+    "pk": 87, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "b", 
+        "photoUploadDate": "2014-09-05T16:03:44.198Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/05/IMG_3591.JPG"
+    }
+},
+{
+    "pk": 95, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "a", 
+        "photoUploadDate": "2014-09-05T19:40:44.126Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/05/IMG_3597.JPG"
+    }
+},
+{
+    "pk": 96, 
+    "model": "sds.photos", 
+    "fields": {
+        "photographer": "", 
+        "title": "a", 
+        "photoUploadDate": "2014-09-05T19:40:44.581Z", 
+        "user": 1, 
+        "photoFile": "Photos/2014/09/05/IMG_3597.JPG"
+    }
+},
+
+{
+    "pk": 1, 
+    "model": "sds.music", 
+    "fields": {
+        "song_name_or_link": "", 
+        "uploadedSong": "uploadedSongs/2014/03/03/Show_Me_Love.mp3", 
+        "email": "martin.clyde.weiss@gmail.com", 
+        "intention": "asdfasf", 
+        "musicUploadDate": null, 
+        "event": null
+    }
+},
+{
+    "pk": 10, 
+    "model": "sds.events", 
+    "fields": {
+        "eventMix": 1, 
+        "title": "Arctic Jamboree", 
+        "eventPic": 5, 
+        "arrive_start_time": "2014-07-03T16:16:32Z", 
+        "globalEvent": null, 
+        "longitude": 74.524907999999996, 
+        "fbEvent": "https://www.facebook.com/events/1402939536617003/", 
+        "eventCity": null, 
+        "location": "Parc La Fontaine", 
+        "latitude": 41.420504000000001, 
+        "google_map_link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5590.390923785978!2d-73.5689505!3d45.52627205!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x45962228026ccc97!2sLa+Fontaine+Park!5e0!3m2!1sen!2s!4v1394990891564", 
+        "music_start_time": "2014-07-03T16:16:34Z", 
+        "organizer": 1
+    }
+},
+{
+    "pk": 19, 
+    "model": "sds.events", 
+    "fields": {
+        "eventMix": 1, 
+        "title": "Silent Disco Squad: Funky Freaky Costume Danceparty", 
+        "eventPic": 15, 
+        "arrive_start_time": "2014-08-20T19:00:00Z", 
+        "globalEvent": null, 
+        "longitude": -74.524907999999996, 
+        "fbEvent": "https://www.facebook.com/SilentDiscoSquad", 
+        "eventCity": null, 
+        "location": "Mont Royal Metro", 
+        "latitude": 41.420504000000001, 
+        "google_map_link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2795.2804825542994!2d-73.58177599999999!3d45.524561!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc91bd1b3c85553%3A0x7d64c446a3ad4482!2sStation+Mont-Royal!5e0!3m2!1sen!2s!4v1395426838512", 
+        "music_start_time": "2014-08-20T19:30:00Z", 
+        "organizer": 1
+    }
+},
+{
+    "pk": 1, 
+    "model": "sds.userprofile", 
+    "fields": {
+        "city": 1, 
+        "activation_key": "", 
+        "key_expires": "2014-08-29T00:00:00Z", 
+        "dancefloorSuperpower": "can turn the world into a dancefloor", 
+        "signupDate": "2014-09-10T16:54:45.566Z", 
+        "zipcode": 1,
+        "role": null, 
+        "user": 1, 
+        "profilePic": 1
+    }
+},
+{
+    "pk": 1, 
+    "model": "sds.city", 
+    "fields": {
+        "cityName": "Montreal", 
+        "cityImage": "Photos/2014/08/18/IMG_2955.JPG"
+    }
+},
+{
+    "pk": 2, 
+    "model": "sds.city", 
+    "fields": {
+        "cityName": "Toronto", 
+        "cityImage": "Photos/2014/09/05/IMG_3587.JPG"
+    }
+}
+]

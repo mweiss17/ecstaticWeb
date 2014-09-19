@@ -1,89 +1,63 @@
 {% include "header.html" %}
 {% include "header_city.html" %}
-  <div class="row city-details">
-    <div class="col-md-5 event-picture" style="background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})"> </div>
-    <div class="col-md-7 info">
-      <h4> Upcoming Silent Disco Squad </h4>
-      <span class="countdown">
-      <script>
-        window.onload = startCountdown();
-
-        function startCountdown(){
-          var str = '{{ event.music_start_time|date:"U" }}'
-          new Countdown({
-            selector: '.countdown',
-            msgPattern: "{days} days, {hours} hours, {minutes} minutes, and {seconds} seconds till Disco!",
-            dateStart: new Date(), //milliseconds since epoch,
-            dateEnd: new Date(Number(str.concat('000'))) /*seconds since epoch*/
-          });
-        }
-      </script>
-      </span>
-      <p>&nbsp;</p>
-      <h4>Meet Up </h4>
-      {{ event.arrive_start_time}} </br>
-      {{ event.location}} </br>
-      <a href="{{event.fbEvent}}">
-      <div class="btn small facebook">Join the Facebook Event > </div></a>
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="text" name="eventID" value="{{event.id}}" style="display: none">
+<div class="row city-details">
+  <div class="col-md-5 event-picture" style="background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})"> </div>
+  <div class="col-md-7 info">
+    <h4> Upcoming Silent Disco Squad </h4>
+    <span class="countdown">
+      <input type="hidden" id="music_start_time" name="music_start_time" value='{{ event.music_start_time|date:"U" }}'>
+      <script src="/static/js/countdownController.js"></script>
+    </span>
+    <p>&nbsp;</p>
+    <h4>Meet Up </h4>
+    {{ event.arrive_start_time}} </br>
+    {{ event.location}} </br>
+    <a href="{{event.fbEvent}}"><div class="btn small facebook">Join the Facebook Event > </div></a>
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
       <input type="hidden" name="cmd" value="_s-xclick">
-      <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
+      <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+      ">
       <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
       <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-      </form>
->>>>>>> 78283fb55f2995e18b99626d3312dacba8b503ea:sds/templates/future.html
-    </div>
-
-
-    <div class="col-sm-6">
-    <h2>Meet Up </h2>
-     
-      <span class="location">{{ event.location}}</span> </br>
-        <a href="{{event.fbEvent}}">
-      <div class="btn small facebook"><i class="fa fa-facebook fa-lg"></i>  Join the Facebook Event</div></a>
-    </div>
-
-  
-
-  </div>
-  </div>
-  <div class="row">
-    <div class="col-md-5 city-mix">
-      <div class="col-md-12">
-        <h2> Submit a song </h2>
-        <h4> The Mix is crowdsourced! </h4>
-        </br>
-
-    {% if success %}
-    {{ success }}
+    </form>
+    {% if event.eventMix.uploadedSong %}
+      <button class="btn" onclick="streamEmailPopup();">Stream The Mix</button>
+      <a class="btn" onclick="downloadEmailPopup();" >Download Mix!</a>
+    {% elif event.globalEvent.eventMix.uploadedSong %}
+      <button class="btn" onclick="streamEmailPopup();">Stream The Mix</button>
+      <a class="btn" onclick="downloadEmailPopup();" >Download Mix!</a>
+      <button class="btn streaming-off" >Please Login To Download The Mix! </button>
+    {% elif not event.eventMix.uploadedSong and user.is_authenticated %}
+      <button class="btn" disabled onclick="streamEmailPopup();">Stream The Mix</button>
+      <a class="btn" disabled onclick="downloadEmailPopup();" >Download Mix!</a>
     {% endif %}
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-5 city-mix">
+    <div class="col-md-12">
+      <h2> Submit a song </h2>
+      <h4> The Mix is crowdsourced! </h4>
+      </br>
       <form method="post" action="" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% if not user.is_authenticated %}
-        email: {{ form.email }}<br>
-      {% else %}
-      <div class="input-group">
-        <input type="text" class="submit-track" name="email" value={{request.user.email}} hidden><br>
-      {% endif %}
-      songname: {{ form.song_name_or_link }}<br>
-      intention: {{ form.intention }}<br>
-      uploadedSong: {{ form.uploadedSong }}<br>
-      <button type="submit" class="btn submit">Submit Song</button>
-      </div>
-      </form>
-
-        <!-- <div class="input-group">
-          <input type="text" class="submit-track" placeholder="Song name or link">
-        </div>
-        </br>
+        {% csrf_token %}
+        {% if not user.is_authenticated %}
+          email: {{ form.email }}<br>
+        {% else %}
         <div class="input-group">
-          <input type="text"  class="submit-track" placeholder="Upload a song">
-          <span class="input-group-addon">Browse File</span> </div>
-        <a href="/citypage_getthemix.html?id={{event.id}}">
-        <div class="btn"> Submit Track &nbsp;<span class="glyphicon glyphicon glyphicon-thumbs-up"></span></div>
-        </a>
-        <hr> -->
-      
+          <input type="text" class="submit-track" name="email" value={{request.user.email}} hidden><br>
+          {% endif %}
+          songname: {{ form.song_name_or_link }}<br>
+          intention: {{ form.intention }}<br>
+          uploadedSong: {{ form.uploadedSong }}<br>
+          <div id="fileName"></div>
+          <div id="fileSize"></div>
+          <div id="fileType"></div>
+          <div id="progressNumber"></div>
+          <button type="submit" onclick="uploadFile()" class="btn submit">Submit Song</button>
+        </div>
+      </form>      
     </div>
     <div class="col-md-7 nopadding">
       <iframe src="{{ event.google_map_link }}" width="100%" height="350" frameborder="0" style="border:0"></iframe>
@@ -92,7 +66,6 @@
       </div>
       <p>&nbsp;</p>
       <div class="col-md-12"> <!-- Organizer wrapper start -->
-        
         <div class="col-md-4"> <!-- Organizer start -->
           <div class="organizer" style="background: url(https://silentdiscosquad.s3.amazonaws.com/{{event.organizer1.profilePic.photoFile}}) no-repeat;"></div>
         </div>
@@ -104,10 +77,8 @@
           <hr>
         </div>
         <!-- Organizer end -->
-        
       </div>
       <!-- Organizer wrapper end --> 
-      
     </div>
   </div>
 </div>

@@ -17,7 +17,7 @@ from django.contrib import auth
 from django.core.context_processors import csrf
 from mailchimp import utils
 from django.contrib.auth.forms import *
-import logging, json, pprint, datetime, time, hashlib,random
+import logging, json, pprint, datetime, time, hashlib,random,sys
 
 def calculateCurrentTime():
     now = datetime.datetime.utcnow()
@@ -251,6 +251,8 @@ def future(request):
             form.save()
     else:
         form = MusicForm()
+    form.fields['uploadedSong'].widget.attrs['id'] = "fileToUpload"
+    form.fields['uploadedSong'].widget.attrs['onchange'] = "fileSelected()"
 
     authform = AuthenticationForm(request)
     authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
@@ -402,6 +404,7 @@ def mixMailSignup(request):
         survey = request.POST['survey']
         email = request.POST['email']
         eventPKID = request.POST['id']
+        #print >> sys.stderr, request.POST['id']
         if survey is not None and survey != '':
             if email is not None and email != '':
                 s = surveySignups(email=email, event=Events.objects.get(pk=eventPKID), mixAccess="download")
