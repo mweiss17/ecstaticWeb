@@ -13,6 +13,11 @@ ul li {
 /*list-style-type: none;*/
 
 }
+
+
+.navbar-header {
+  float:left !important;
+}
 .center {
   text-align: center;
   padding: 20px;
@@ -316,7 +321,7 @@ ul li {
 }
 .main-title {
   font-size: 70px;
-  left: 27%;
+  left: 25%;
 }
 .caption-wrapper {
   display: inline;
@@ -385,7 +390,7 @@ ul li {
 }
 .city-menu {
   border: none !important;
-  background: none !important;
+
   margin: 0 !important;
   padding: 0 !important;
   width: 100%;
@@ -431,7 +436,7 @@ ul li {
 }
 .city-top .city {
   background-color: #f9c900;
-  padding-top: 9px;
+  padding-top: 10px;
   padding-bottom: 9px;
   text-transform: uppercase;
   display: block;
@@ -484,13 +489,13 @@ ul li {
   width: 100%;
 }
 .organizer {
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   background-position: center center !important;
   background-size: cover !important;
-  border-radius: 150px;
-  -webkit-border-radius: 150px;
-  -moz-border-radius: 150px;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
 }
 .register-form .register-field, #datepicker, #timepicker1, #timepicker2 {
   border: none !important;

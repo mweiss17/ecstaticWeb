@@ -26,6 +26,8 @@
 </head>
 
 <body>
+
+
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation"> 
 {% if index %}
   <div class="container-fluid"> 
@@ -38,8 +40,11 @@
         <span class="sr-only">Toggle navigation</span> 
         <span class="icon-bar"></span> <span class="icon-bar"></span> 
         <span class="icon-bar"></span> </button>
+
         <a class="navbar-brand index-logo" href="/">
         <img src="/static/img/silentdiscosquadlogo.svg" alt="Logo" class="logo-img"></a> 
+
+
         </div>
       {% else %}
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> 
@@ -48,6 +53,21 @@
       <span class="icon-bar"></span> </button>
       <a class="navbar-brand" href="/">
       <img src="/static/img/silentdiscosquadlogo.svg" alt="Logo" class="logo-img"></a> 
+
+          
+        <div class="col-md-2 city">
+          <div class="btn city-menu dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"> Find your city <span class="caret"></span> </div>
+          <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu1">
+            {% for city in cities %}
+            <li role="presentation" > <a role="menuitem" tabindex="-1" href="/citypage_city.html?city={{city.cityName}}"> {{city.cityName}}</a> </li>
+            {% endfor %}
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/organize.html">Organize a Silent Disco Squad in your city</a></li>
+          </ul>
+        </div>
+
+      
+
       </div>
       {% endif %}
 

@@ -9,12 +9,79 @@
         <p>Make one yourself! It's easier than you think and we will support you throughout the process.</p>
       <p>Silent Disco Squad is a community of people aimed at Turning the World into a Dancefloor. </br>Silent Disco Squad is here to empower as many people as possible to take part and organize Silent Disco Squads in their local community.</p> </div>
     </div>
-   
   </div>
-   {% if user.is_authenticated %}
-  </br>
-  <a href="https://s3.amazonaws.com/silentdiscosquad/The+Design+of+Everyday+Things+-+Don+Norman.pdf">Download David's Manifesto</a>
- 
+
+
+<div class="row">
+  <div class="col-sm-6"> Description </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+      <input type="text" class="register-field"  placeholder="Title of the Event">
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-sm-6"> Description </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+      <input type="text" class="register-field"  placeholder="When should people arrive?">
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6"> Description </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+      <input type="text" class="register-field"  placeholder="When does the countdown starts?">
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6"> Description </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+      <input type="text" class="register-field"  placeholder="Where does it starts?">
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6"> Description </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+      <input type="text" class="register-field"  placeholder="Specific location">
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6"> Description </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+      <input type="text" class="register-field"  placeholder="Google Map link">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
 
   <form method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
@@ -108,13 +175,5 @@
     <button type="submit" class="btn submit">Submit your Event</button>
     </div>
   </form>
-</div>
-{% else %}
-<center>Please <a href="#login">Login</a> 
- or <a href="/profile.html">sign up</a> for an account to use create an event!</center>
 
-{% endif %}
-<br><br>
-Please<a href="mailto:david@silentdiscosquad.com"><div class="indexemailbtn"> Email us</div></a> if there are any problems, or you just want some more info!</h2>
-</div>
 {% include "footer.html" %}
