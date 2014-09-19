@@ -1,17 +1,19 @@
 <div class="container">
+
+
+<!-- OLD <div class="container">
   <div class="row city-top">
     <div class="col-md-2 city">
-      <div class="btn city-menu dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"> Find your city <span class="caret"></span> </div>
+      <div  type="button" id="city-menu" data-toggle="dropdown"> Find your city <span class="caret"></span> </div>
       <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu1">
       {% for city in cities %}
-      <li role="presentation" > <a role="menuitem" tabindex="-1" href="/citypage_city.html?city={{city.cityName}}"> {{city.cityName}}</a> </li>
+          <li role="presentation" > <a role="menuitem" tabindex="-1" href="/citypage_city.html?city={{city.cityName}}"> {{city.cityName}}</a> </li>
       {% endfor %}          
       <li role="presentation" class="divider"></li>
       <li role="presentation"><a role="menuitem" tabindex="-1" href="/organize.html">Organize a Silent Disco Squad in your city</a></li>
     </ul>
   </div>
-  {% if community %}
-    <div class="col-md-8 city-name"> {{ eventCity }}</div>
-    <div class="col-md-2 green"> <a href="/citypage_city.html/?city={{eventCity}}"> Community </a> </div>
-  {% endif %}
+  <div class="col-md-8 city-name"> {{ eventCity }}</div>
+  <div class="col-md-2 green"> <a href="/citypage_city.html/?city={{eventCity}}"> Community </a> </div>
 </div>
+ -->

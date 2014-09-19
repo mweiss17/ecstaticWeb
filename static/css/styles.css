@@ -304,9 +304,6 @@ ul li {
 .navbar {
   font-size: 11px;
 }
-.navbar-header{
-  float:left !important;
-}
 .sidebar {
   position: fixed;
   top: 50px;
@@ -387,13 +384,18 @@ ul li {
   left: 20%;
 }
 }
+
+
+.formstyle {
+  width: 100%;
+  padding: 10px;
 }
 .main .page-header {
   margin-top: 0;
 }
 .city-menu {
   border: none !important;
-
+  background: none !important;
   margin: 0 !important;
   padding: 0 !important;
   width: 100%;
@@ -421,6 +423,34 @@ ul li {
   background-size: cover;
   background-position: center center;
 }
+
+.findyourcity {
+  float: left;
+  background: #f9c900;
+  padding:13px;
+  text-transform: uppercase;
+  display: block;
+  color: #fff;
+  text-align: center;
+  margin-left: 20px;
+  font-size: 20px;
+}
+
+.findyourcity li {
+  font-size: 20px;
+}
+
+.findyourcity li:nth-child(odd) {
+  background: #F9C900;
+}
+.findyourcity li:nth-child(even) {
+  background: #ffdf59;
+}
+
+.findyourcity li:last-child {
+  background: #F9C900 ;
+}
+
 .city-top a {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -438,7 +468,7 @@ ul li {
   font-size: 22px;
 }
 .city-top .city {
-  background-color: #f9c900;
+  background: #f9c900;
   padding-top: 10px;
   padding-bottom: 9px;
   text-transform: uppercase;
@@ -800,7 +830,6 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 }
 .navbar-brand {
   padding: 0 !important;
-  float:left;
 }
 .index-logo {
   padding-left: 15px !important;

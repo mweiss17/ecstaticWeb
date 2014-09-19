@@ -35,8 +35,7 @@
     <div class="col-md-12">
       <h2> Submit a song </h2>
       <h4> The Mix is crowdsourced! </h4>
-      </br>
-      <form method="post" action="" enctype="multipart/form-data">
+       <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
         {% if not user.is_authenticated %}
           email: {{ form.email }}<br>
