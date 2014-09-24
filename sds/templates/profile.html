@@ -1,11 +1,6 @@
 {% include "header.html" %}
 
 <div class="container">
-  <div class="row city-top">
-    <div class="col-sm-2 city">
-      <div id="city-menu"> Register </div>
-    </div>
-  </div>
   <div class="row city-details">
     <div class="col-sm-12 signup-picture" style="background-image:url(/static/img/sds3.jpg)"> 
        <div class="profile-title">
@@ -21,7 +16,7 @@
     <h2> Sign up for an Account!</h2>
     <form method="post" action="" enctype="multipart/form-data">
       {% csrf_token %}
-      {{uf.non_field_errors}}
+       <span class="profile-error">{{uf.non_field_errors}}</span>
       <div class="row register-form">
         <div class="col-sm-4 nopadding">
           <div class="input-group">
@@ -35,7 +30,7 @@
       </div>
       <div class="col-sm-4 nopadding">
         <div class="input-group">
-          {{uf.username.errors}}
+           <span class="profile-error">{{uf.username.errors}}</span>
           {{uf.username}}
         </div>
       </div>
@@ -43,13 +38,13 @@
   <div class="row register-form">
     <div class="col-sm-4 nopadding">
       <div class="input-group">
-        {{uf.password1.errors}}
+         <span class="profile-error">{{uf.password1.errors}}</span>
         {{uf.password1}}<br>
       </div>
     </div>
     <div class="col-sm-4 nopadding">
       <div class="input-group">
-        {{uf.password2.errors}}
+        <span class="profile-error">{{uf.password2.errors}}</span>
         {{uf.password2}}<br>
       </div>
     </div>
@@ -62,7 +57,7 @@
   <div class="row register-form">
     <div class="col-sm-6 nopadding">
       <div class="input-group">
-        {{uf.email.errors}}
+         <span class="profile-error">{{uf.email.errors}}</span>
         {{uf.email}}<br>
       </div>
     </div>

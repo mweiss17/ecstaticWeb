@@ -203,6 +203,25 @@ ul li {
   display: inline-block;
   padding: 20px;
 }
+.profile-item{
+  color:#13A5A5;
+}
+
+.profile-error {
+    background: rgba(255, 0, 0, 0.8);
+    color: #fff;
+    line-height: 0;
+    padding: 5px;
+    padding-bottom: 8px;
+    position: absolute;
+    right: 10px;
+    top: -20px;
+    z-index: 2;
+}
+
+.errorlist {
+  padding-top:15px; 
+}
 /*
  * Top navigation
  * Hide default border to remove 1px line.
@@ -401,6 +420,8 @@ ul li {
   width: 100%;
   font-size: 18px !important
 }
+
+
 .city-top .dropdown-menu, .navbar .dropdown-menu {
   background-color: #f9c900 !important;
   border-radius: 0 !important;
@@ -408,6 +429,8 @@ ul li {
   border: none !important;
   margin-top: -2px !important;
   width: 100%;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important
 }
 .city-top .dropdown-menu a, .navbar .dropdown-menu a {
   color: #fff !important;
@@ -424,10 +447,11 @@ ul li {
   background-position: center center;
 }
 
+
 .findyourcity {
   float: left;
   background: #f9c900;
-  padding:13px;
+  padding:10px;
   text-transform: uppercase;
   display: block;
   color: #fff;
@@ -899,4 +923,11 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 
 .zinnia .nav a{
   color: #fff !important
+}
+
+audio, canvas, progress, video {
+    border-radius: 0;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
 }
