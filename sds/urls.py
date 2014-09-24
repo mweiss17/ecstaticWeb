@@ -9,8 +9,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-    url(r'^register_success.html', views.register_success, name='register_success'),
-    url(r'^event_creation_success.html', views.event_creation_success, name='event_creation_success'),
+    url(r'^myprofile.html/$', views.myprofile, name='myprofile'),
+    url(r'^register_success.html/', views.register_success, name='register_success'),
+    url(r'^event_creation_success.html/', views.event_creation_success, name='event_creation_success'),
     url(r'^confirm/(?P<activation_key>\w+)/', views.register_confirm),
     url(r'^about.html/$', views.about, name='about'),
     url(r'^organize.html/$', views.organize, name='organize'),

@@ -56,17 +56,63 @@ def index(request):
     resp.set_cookie('visited', True)
     return resp
 
+def myprofile(request):
+    cities = city.objects.filter()
+    currentUserProfile = UserProfile.objects.get(user=request.user)
+ 
+    authform = AuthenticationForm(request)
+    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
+    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['password'].widget.attrs['placeholder'] = "Password" 
+    context = {}
+    context.update({'cities':cities, 'currentUserProfile':currentUserProfile, 'authform':authform})
+    if request.method == 'POST':
+        pf = photoUploadForm(request.POST, request.FILES, instance=request.user.get_profile().profilePic)
+        uf = UserCreateForm(request.POST, request.FILES, instance=request.user)
+        upf = UserProfileForm(request.POST, request.FILES, instance=request.user.get_profile())
+        context['uf'] = uf
+        context['upf'] = upf
+        context['pf'] = pf
+        print >> sys.stderr, uf
+
+        if uf.is_valid():
+            print >> sys.stderr, asdfasdf
+            userObj = uf.save()
+            if pf.is_valid():                 
+                photoObj = pf.save(commit=False)
+                photoObj.user = userObj
+                photoObj.save()
+                context['pf'] = photoObj
+            if upf.is_valid():
+                userProfileObj = upf.save(commit=False)
+                userProfileObj.user = userObj
+                userProfileObj.profilePic = photoObj
+                userProfileObj.save()
+                context['upf'] = userProfileObj
+                return render(request, 'register_success.html', context)
+        return render(request, 'myprofile.html', context)
+
+    else:
+        pf = photoUploadForm(instance=request.user.get_profile().profilePic)
+        uf = UserCreateForm(instance=request.user)
+        upf = UserProfileForm(instance=request.user.get_profile())
+        context.update({"uf" : uf, "upf" : upf, "pf":pf})
+        return render(request, 'myprofile.html', context)
 
 
 def about(request):
-    context = {}
+    cities = city.objects.filter()
+    context = {"cities":cities}
     return render(request, 'about.html', context)
 
 def blog(request):
-    context = {}
+    cities = city.objects.filter()
+    context = {"cities":cities}
     return render(request, 'blog.html', context)
 
 def organize(request):
+    cities = city.objects.filter()
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
     authform = AuthenticationForm(request)
     authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
@@ -128,7 +174,7 @@ def organize(request):
         cf.fields['cityName'].widget.attrs['class'] = 'register-field'
         cf.fields['cityName'].widget.attrs['placeholder'] = 'My City\'s Name'
 
-        context = {"upcomingEvents":upcomingEvents, "ef":ef, "pf":pf, "cf":cf, "cpf":cpf, "authform":authform}
+        context = {"upcomingEvents":upcomingEvents, "ef":ef, "pf":pf, "cf":cf, "cpf":cpf, "authform":authform, "cities":cities}
         return render(request, 'organize.html', context)
 
 def event_creation_success(request):
@@ -281,7 +327,8 @@ def citypage_city(request):
 
 
 def contact(request):
-    context = {}
+    cities = city.objects.filter()
+    context = {"cities":cities}
     if request.method == 'POST':
             send_mail("From: "+request.POST['email']+" "+request.POST['subject'], request.POST['message'], "contact@silentdiscosquad.com" , ['martin@silentdiscosquad.com', 'david@silentdiscosquad.com'])
     return render(request, 'contact.html', context)
@@ -316,6 +363,7 @@ def whatissds(request):
     return render(request, 'index_whatissds.html', context)
 
 def stream(request):
+    cities = city.objects.filter()
     event = Events.objects.filter(id=request.GET['id'])
     event = event[0]
 
@@ -323,7 +371,7 @@ def stream(request):
     eventstart = time.mktime(eventstart.timetuple())
     eta = eventstart - calculateCurrentTime()
     eta = -eta
-    context = {'event': event, 'eta': eta}
+    context = {'event': event, 'eta': eta, "cities":cities}
     try:
         if(request.GET['async']):
             return HttpResponse(eta)
