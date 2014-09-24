@@ -156,13 +156,13 @@ def organize(request):
         cf = cityForm()
         cpf = photoUploadForm()
 
-        ef.fields['title'].widget.attrs['class'] = ""
-        ef.fields['eventCity'].widget.attrs['class'] = "register-field"
-        ef.fields['location'].widget.attrs['class'] = "register-field"
-        ef.fields['google_map_link'].widget.attrs['class'] = "register-center-field"
+        ef.fields['title'].widget.attrs['class'] = "formstyle"
+        ef.fields['eventCity'].widget.attrs['class'] = "formstyle"
+        ef.fields['location'].widget.attrs['class'] = "formstyle"
+        ef.fields['google_map_link'].widget.attrs['class'] = "formstyle"
 
-        ef.fields['title'].widget.attrs['placeholder'] = "Title"
-        ef.fields['arrive_start_time'].widget.attrs['placeholder'] = "When should people arrive?"
+        ef.fields['title'].widget.attrs['placeholder'] = "Title of the Event"
+        ef.fields['arrive_start_time'].widget.attrs['placeholder'] = "When does the event begin?"
         ef.fields['music_start_time'].widget.attrs['placeholder'] = "When does the mix begin?"
         ef.fields['eventCity'].widget.attrs['placeholder'] = "City"
         ef.fields['location'].widget.attrs['placeholder'] = "Specific Location"
@@ -275,7 +275,7 @@ def register_confirm(request, activation_key):
     return render_to_response('register_confirm.html')
 
 def register_success(request):
-    render_to_response('register_success.html')
+    return render_to_response('register_success.html')
     
 def citypage_getthemix(request):
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
