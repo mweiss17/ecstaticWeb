@@ -2,10 +2,12 @@
  <div class="row city-details">
     <div class="col-sm-12 signup-picture" style="background-image:url(/static/img/sds4.jpg)"> 
          <div class="profile-title">
-         <h1> No silent disco near you? 
+         <h1> No Silent Disco Squad near you? 
               Become an SDS organizer!</h1>
-          <p>Make one yourself! It's easier than you think and we will support you throughout the process.</p>
-        <p>Silent Disco Squad is a community of people aimed at Turning the World into a Dancefloor. </br>Silent Disco Squad is here to empower as many people as possible to take part and organize Silent Disco Squads in their local community.</p> 
+          <p>It's easier than you think and we will support you throughout the process.</p> 
+          <br>
+          <br>
+          <br>
         </div>
     </div>
   </div>
@@ -13,169 +15,162 @@
 
 <h2> Your Event Info</h2>
 </br>
-
-<div class="row">
-  <div class="col-sm-6"> Nulla non mauris non massa suscipit interdum et tempus metus. Fusce commodo diam a commodo commodo. Pellentesque mattis mattis tellus non suscipit. Aenean sed dolor aliquet, hendrerit felis vehicula, tristique lacus. Nulla ullamcorper sapien ut dui porttitor ullamcorper.</div>
-  <div class="col-sm-6">
-    <div class="input-group">
-      <input type="text" class="formstyle"  placeholder="Title of the Event">
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-6">  Nulla non mauris non massa suscipit interdum et tempus metus. Fusce commodo diam a commodo commodo. Pellentesque mattis mattis tellus </div>
-  <div class="col-sm-6">
-    <div class="input-group">
-      <input type="text" class="formstyle"  placeholder="When should people arrive?">
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-6">  Nulla non mauris non massa suscipit interdum et tempus metus.  </div>
-  <div class="col-sm-6">
-    <div class="input-group">
-      <input type="text" class="formstyle"  placeholder="When does the countdown starts?">
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-6">  Nulla non mauris non massa suscipit interdum et tempus metus. Fusce commodo diam a commodo commodo. Pellentesque mattis mattis tellus Nulla non mauris non massa suscipit interdum et tempus metus.  </div>
-  <div class="col-sm-6">
-    <div class="input-group">
-      <input type="text" class="formstyle"  placeholder="Where does it starts?">
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-6"> Nulla non mauris non massa suscipit interdum et tempus metus. </div>
-  <div class="col-sm-6">
-    <div class="input-group">
-      <input type="text" class="formstyle"  placeholder="Specific location">
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-6"> Nulla non mauris non massa suscipit interdum et tempus metus. Fusce commodo diam a commodo commodo. Pellentesque mattis mattis tellus </div>
-  <div class="col-sm-6">
-    <div class="input-group">
-      <input type="text" class="formstyle"  placeholder="Google Map link">
-    </div>
-  </div>
-</div>
-</div>
-
-
-
-
-
-
-
   <form method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
     {{ef.non_field_errors}}
-    <div class="row">
-      <h2> When?</h2>
-    </div>
-    <div class="row organize-form">
-      <div class="col-md-3 nopadding">
-        <div class="input-group">
+
+<div class="row">
+  <div class="col-sm-6"> Name your event in accordance with your intention or as part of a larger theme</div>
+  <div class="col-sm-6">
+    <div class="input-group">
           {{ef.title.errors}}
           {{ef.title}}
-        </div>
-      </div>
-      <div class="col-md-3 nopadding">
-        <div class="well">
-          <div class="input-append date" id="datetimepicker1">
-            {{ef.arrive_start_time.errors}}
-            {{ef.arrive_start_time}}
-            <span class="add-on">
-              <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 nopadding">
-        <div class="well">
-          <div class="input-append date" id="datetimepicker2">
-            {{ef.music_start_time.errors}}
-            {{ef.music_start_time}}
-            <span class="add-on">
-              <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-            </span>
-          </div>
-        </div>  
-      </div>
     </div>
-    <script type="text/javascript">
-      $(function() {
-        $('#datetimepicker1').datetimepicker({ 
-          format: 'MM/DD/YYYY hh:mm',
-          pickDate: true,
-          pickSeconds: false,
-          pick12HourFormat: false            
-        });
-      });
-        $(function() {
-        $('#datetimepicker2').datetimepicker({ 
-          format: 'MM/DD/YYYY hh:mm',
-          pickDate: true,
-          pickSeconds: false,
-          pick12HourFormat: false            
-        });
-      });
-    </script>
+  </div>
+</div>
 
-    </br>
-    
-    <div class="row">
-      <h2> Where?</h2>
-    </div>
+<hr>
 
-    <div class="row organize-form">
-      <div class="col-md-4 nopadding">
-        <div class="input-group">
-          {{ef.eventCity.errors}}
-          {{ef.eventCity}}
+<div class="row">
+  <div class="col-sm-6">  This is the time you want people to show up at, remember people tend to show up fashionably late </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+      <div class="well">
+        <div class="input-append date" id="datetimepicker1">
+          {{ef.arrive_start_time.errors}}
+          {{ef.arrive_start_time}}
+          <span class="add-on">
+            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+          </span>
         </div>
       </div>
-      <div class="col-md-4 nopadding">
-        <div class="input-group">
-          {{ef.location.errors}}
-          {{ef.location}}
-        </div>
-      </div>
-      <div class="col-md-4 nopadding">
-        <div class="input-group">
-          {{ef.google_map_link.errors}}
-          {{ef.google_map_link}}
-        </div></br>
-      </div>
-      {{pf.photoFile}}
     </div>
-    <br>
-    <div class="row organize-form">
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-sm-6">  This is the time that the music will start streaming from SilentDiscoSquad.com <br><br>
+In Our Experience: Countdown Time  ≈  Arrival Time + 25 Minutes
+
+  </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+      <div class="well">
+        <div class="input-append date" id="datetimepicker2">
+          {{ef.music_start_time.errors}}
+          {{ef.music_start_time}}
+          <span class="add-on">
+            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+          </span>
+        </div>
+      </div>  
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-sm-6"> Where exactly does your SDS start? Enter the specific name of your starting location that Dancers will know to go to [Address, Intersection, Name of Place, or Landmark] </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+      {{ef.location.errors}}
+      {{ef.location}}
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-sm-6"> Enter a google map link of your specific starting location
+<ul>
+  <li>
+    1) go to googlemap (embed link to google maps)
+  </li>
+  <li>
+    2) type in the name of your exact starting location 
+  </li>
+  <li>
+    3) click the gear button [image] in lower right corner
+  </li>
+  <li>
+    4) click share + embed
+  </li>
+  <li>
+    5) click ‘embed map’ button 
+  </li>
+  <li>
+    6) copy and paste the messy code here - it starts with <q>&lt;iframe src=...</q>
+  </li>
+</ul>
+
+ </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+      {{ef.google_map_link.errors}}
+      {{ef.google_map_link}}
+    </div>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-sm-6"> Select the city that your event will be hosted in from the dropdown menu. If you do not see your city, you have the opportunity to found your city's Silent Disco Squad community by clicking the "I don't see my city" link. Simply upload a photo of your city and enter its name.  </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+      {{ef.eventCity.errors}}
+      {{ef.eventCity}}
+      <button type=button id="toggleButton">I don't see my City</button>
+    <div style="display: none" id="toggleDiv" class="row organize-form">
       <div class="col-md-4 nopadding">
-      I don't see my city<br>
+        Create your city!<br>
         {{cf.cityName}}<br>
         Image of my City: {{cpf.photoFile}}
       </div>
-    <button type="submit" class="btn submit">Submit your Event</button>
     </div>
+
+    </div>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-sm-6"> Please upload a banner photo for your event</div>
+  <div class="col-sm-6">
+    <div class="input-group">
+      {{pf.photoFile.errors}}
+      {{pf.photoFile}}
+    </div>
+  </div>
+</div>
+<hr>
+<button type="submit" class="btn submit">Submit your Event</button>
+
   </form>
 
+<script type="text/javascript">
+  $(function() {
+    $('#datetimepicker1').datetimepicker({ 
+      format: 'MM/DD/YYYY hh:mm',
+      pickDate: true,
+      pickSeconds: false,
+      pick12HourFormat: false            
+    });
+  });
+    $(function() {
+    $('#datetimepicker2').datetimepicker({ 
+      format: 'MM/DD/YYYY hh:mm',
+      pickDate: true,
+      pickSeconds: false,
+      pick12HourFormat: false            
+    });
+  });
+
+  $( '#toggleButton' ).click(function() {
+    $( "#toggleDiv" ).toggle( "slide" );
+  });
+
+</script>
+</br>
 {% include "footer.html" %}
