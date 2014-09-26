@@ -8,7 +8,7 @@ class UserProfileForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         self.fields["role"].choices = [("", "Select your Role"),] + list(self.fields["role"].choices)[1:] 
-        self.fields['city'].empty_label = "Select your City (or \"I don't see my city\")"
+        self.fields['city'].empty_label = "Select your City"
 
     class Meta:
         model = UserProfile 
