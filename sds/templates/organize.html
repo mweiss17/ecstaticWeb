@@ -16,6 +16,7 @@
   </div>
 </br>
 
+
 <h2> Your Event Info</h2>
 </br>
   <form method="post" action="" enctype="multipart/form-data">
@@ -38,15 +39,14 @@
   <div class="col-sm-6">  This is the time you want people to show up at, remember people tend to show up fashionably late </div>
   <div class="col-sm-6">
     <div class="input-group">
-      <div class="well">
+  
         <div class="input-append date" id="timepicker1">
           {{ef.arrive_start_time.errors}}
           {{ef.arrive_start_time}}
           <span class="add-on">
-            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            <span class="glyphicon glyphicon-time"></span> 
           </span>
         </div>
-      </div>
     </div>
   </div>
 </div>
@@ -60,15 +60,15 @@ In Our Experience: Countdown Time  ≈  Arrival Time + 25 Minutes
   </div>
   <div class="col-sm-6">
     <div class="input-group">
-      <div class="well">
-        <div class="input-append date" id="datetimepicker2">
+     
+        <div class="input-append date" id="timepicker2">
           {{ef.music_start_time.errors}}
           {{ef.music_start_time}}
           <span class="add-on">
-            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            <span class="glyphicon glyphicon-time"></span> 
           </span>
         </div>
-      </div>  
+     
     </div>
   </div>
 </div>

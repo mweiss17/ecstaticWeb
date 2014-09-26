@@ -561,14 +561,7 @@ ul li {
   -webkit-border-radius: 100px;
   -moz-border-radius: 100px;
 }
-.register-form .register-field, #datepicker, #timepicker1, #timepicker2 {
-  border: none !important;
-  border-top: 3px solid #14A5A5 !important;
-  border-bottom: 1px solid #aaa !important;
-  padding: 10px;
-  background-color: transparent !important;
-  width: 100%;
-}
+
 .register-form .register-center-field {
   border: 1px solid #aaa !important;
   border-top: none !important;
@@ -582,14 +575,7 @@ ul li {
   margin-top: 40px;
   border-radius: 0 !important;
 }
-.organize-form .register-field, #datepicker, #timepicker1, #timepicker2 {
-  border: none !important;
-  border-top: 3px solid #14A5A5 !important;
-  border-bottom: 1px solid #aaa !important;
-  padding: 10px;
-  background-color: transparent !important;
-  width: 100%;
-}
+
 .organize-form .register-center-field {
   border: 1px solid #aaa !important;
   border-top: none !important;
@@ -957,4 +943,12 @@ audio, canvas, progress, video {
     border: 0 none;
     left: 0px;
     box-shadow: 0;
+  }
+
+.timepicker .btn{
+ padding:0px !important;
+  }
+
+  .login .dropdown {
+    margin-top: 0px !important
   }

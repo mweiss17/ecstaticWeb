@@ -22,6 +22,8 @@ When you click this button, the below form should replace the top form :)
 <button type="button">Edit Profile</button>
 <br>
 <br>
+
+<div class="col-sm-9"> 
 <form method="post" action="" enctype="multipart/form-data">
   {% csrf_token %} <br>
   <br>
@@ -45,6 +47,7 @@ When you click this button, the below form should replace the top form :)
   <br>
   Role: {{upf.role}}
   </div>
-  <button type="submit" class="btn submit">Create your profile</button>
+  <button type="submit" class="btn submit">Save your modifications</button>
 </form>
+</div>
 {% include "footer.html" %}
