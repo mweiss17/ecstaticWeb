@@ -102,7 +102,7 @@ class surveySignups(models.Model):
         return self.email
 
 class city(models.Model):
-    cityName = models.CharField(max_length=255)
+    cityName = models.CharField(max_length=255, blank=True)
     cityImage = models.FileField(upload_to='Photos/%Y/%m/%d')
     def __unicode__(self):
         return self.cityName

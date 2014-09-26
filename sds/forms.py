@@ -84,16 +84,15 @@ class photoUploadForm(ModelForm):
         fields = ['user', 'photoFile', 'title']
 
 class eventForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(eventForm, self).__init__(*args, **kwargs)
+        self.fields['eventCity'].empty_label = "Select your City"
     class Meta:
         model = Events
         exclude = ['latitude', 'longitude', 'eventPic', 'eventMix', 'globalEvent', 'organizer']
         fields = ['title', 'eventCity', 'location', 'arrive_start_time', 'music_start_time', 'google_map_link', 'fbEvent']
 
 class cityForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(cityForm, self).__init__(*args, **kwargs)
-        self.fields['cityName'].empty_label = "Select your City (or \"I don't see my city\")"
-
     class Meta:
         model = city
         exclude = ['cityImage']
