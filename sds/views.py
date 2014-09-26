@@ -153,7 +153,7 @@ def organize(request):
             send_mail(email_subject, email_body, 'david@silentdiscosquad.com', [request.user.email], fail_silently=False)
             return render(request, 'event_creation_success.html', context)
         else:
-            return render(request, 'fuck.html', context)
+            return render(request, 'oops.html', context)
     else:
         ef = eventForm()
         pf = photoUploadForm()
@@ -167,6 +167,7 @@ def organize(request):
         ef.fields['fbEvent'].widget.attrs['class'] = "formstyle"
         ef.fields['arrive_start_time'].widget.attrs['class'] = "formstyle"
         ef.fields['music_start_time'].widget.attrs['class'] = "formstyle"
+        cf.fields['cityName'].widget.attrs['class'] = 'formstyle'
 
         ef.fields['title'].widget.attrs['placeholder'] = "Title of the Event"
         ef.fields['arrive_start_time'].widget.attrs['placeholder'] = "When does the event begin?"
@@ -179,7 +180,6 @@ def organize(request):
         ef.fields['arrive_start_time'].widget.attrs['data-format'] = "MM/dd/yyyy hh:mm"
         ef.fields['music_start_time'].widget.attrs['data-format'] = "MM/dd/yyyy hh:mm"
 
-        cf.fields['cityName'].widget.attrs['class'] = 'register-field'
         cf.fields['cityName'].widget.attrs['placeholder'] = 'My City\'s Name'
 
         context = {"upcomingEvents":upcomingEvents, "ef":ef, "pf":pf, "cf":cf, "cpf":cpf, "authform":authform, "cities":cities}

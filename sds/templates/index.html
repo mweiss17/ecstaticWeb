@@ -7,8 +7,7 @@
     {% for city in cities %}
     <li> <a href="/citypage_city.html?city={{city}}"> {{city}}</a> </li>
     {% endfor %}
-    <li><a href="/organize.html">Organize a
-      Silent Disco Squad in your city </a></li>
+    <li><a href="/organize.html">Add your City </a></li>
   </ul>
 </div>
 <div class="col-sm-2"> </div>
@@ -18,7 +17,7 @@
       <div class="overlay">
       <div class="main-title">We are turning the World </br>
         into a dancefloor.
-        <h3 class="yellow"> <a href="#video"> <span class="glyphicon glyphicon-play-circle"></span> <a href="#whatissds"> Watch a Video</a> </h3>
+        <h3 class="yellow"> <a href="#video"> <span class="glyphicon glyphicon-play-circle"></span> <a href="#whatissds"> Watch us get weird in public</a> </h3>
       </div>
     </li>
     <li><img src="/static/img/silentdiscosquad_halloween.jpg" />
@@ -29,10 +28,11 @@
       {{upcomingEvents.0.arrive_start_time}}</h2>
         <h3 class="yellow"> {% for event in upcomingEvents %}               
               {% if forloop.first %}<div class="row"> {% endif %}
+                {% if event.globalEvent %}
                  <a href="/future.html?id={{event.id}}">
                   <button type="button" class="btn btn-default join-button"> {{event.eventCity}}
                   </button></a> 
-                
+                {% endif%}
               {% if forloop.last %}</div> 
               {% endif %}
  {% endfor %}</h3>
@@ -41,7 +41,7 @@
     <li><img src="/static/img/tedxconcordia_talk.jpg" />
       <div class="overlay">
       <div class="main-title">Watch the TEDxTalk</br>
-        <h3 class="yellow"> <a href="#video"> <span class="glyphicon glyphicon-play-circle"></span> <a href="#tedxtalk"> Watch a Video</a> </h3>
+        <h3 class="yellow"> <a href="#video"> <span class="glyphicon glyphicon-play-circle"></span> <a href="#tedxtalk"> Watch David get weird on stage</a> </h3>
       </div>
     </li>
   </ul>
