@@ -152,6 +152,10 @@ ul li {
   margin: 10px auto;
   transition: all 0.2s linear 0s;
 }
+
+.btn-default {
+  border: none;
+}
 .btn.small {
   padding: 5px;
   font-size: 14px;
@@ -949,6 +953,6 @@ audio, canvas, progress, video {
  padding:0px !important;
   }
 
-  .login .dropdown {
+  .login .dropdown-menu {
     margin-top: 0px !important
   }
