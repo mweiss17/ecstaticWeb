@@ -4,47 +4,39 @@
 <div class="col-sm-3 col-md-2 sidebar">
   <ul class="nav">
     <li><a href="#">FIND YOUR CITY</a></li>
-      {% for city in cities %}
-          <li> <a href="/citypage_city.html?city={{city}}"> {{city}}</a> </li>
-      {% endfor %}          
-    <li><a href="/organize.html">Add your city </a></li>
+    {% for city in cities %}
+    <li> <a href="/citypage_city.html?city={{city}}"> {{city}}</a> </li>
+    {% endfor %}
+    <li><a href="/organize.html">Organize a
+      Silent Disco Squad in your city </a></li>
   </ul>
 </div>
-
-
-  <div class="single-item">
-    <div style="background-image: url(/static/img/sds1.jpg); display:block; height:650px;  background-size:cover" >
-      <div class="overlay"></div>
-        <div class="main-title">We are turning the World </br>
-    into a dancefloor.
-    <h3 class="yellow"> <a href="#video">  <span class="glyphicon glyphicon-play-circle"></span> <a href="#whatissds"> Watch a Video</a> </h3>
-  </div>
-
-
-    </div>
-
-       <div style="background-image: url(/static/img/tedxconcordia_silentdiscosquad.jpg); display:block; height:650px;   background-size:cover; background-position:bottom center"  >
-      <div class="overlay"></div>
-
-        <div class="main-title">{{upcomingEvents.0.title}}</br>
-        <h2>We are throwing a Global Dance Party!</h2>
-    <h3 class="yellow"> <a href="#video">  <span class="glyphicon glyphicon-search"></span> <a href="#tedxtalk"> Find Your City </a> </h3>
-  </div>
-
+<div class="col-sm-2"> </div>
+<div class="col-sm-10 nopadding">
+  <ul class="bxslider">
+    <li><img src="/static/img/sds1.jpg" />
+      <div class="overlay">
+      <div class="main-title">We are turning the World </br>
+        into a dancefloor.
+        <h3 class="yellow"> <a href="#video"> <span class="glyphicon glyphicon-play-circle"></span> <a href="#whatissds"> Watch a Video</a> </h3>
+      </div>
+    </li>
+    <li><img src="/static/img/silentdiscosquad_halloween.jpg" />
+      <div class="overlay">
+      <div class="main-title">
+       Get Ready - We are throwing a global costumed dance party on October 31st!
+        <h2>{{upcomingEvents.0.title}}<br>
+      {{upcomingEvents.0.arrive_start_time}}</h2>
+        <h3 class="yellow"> <a href="#video"> <span class="glyphicon glyphicon-search"></span> <a href="#tedxtalk"> Find Your City </a> </h3>
+      </div>
+    </li>
+    <li><img src="/static/img/tedxconcordia_talk.jpg" />
+      <div class="overlay">
+      <div class="main-title">Watch the TEDxTalk</br>
+        <h3 class="yellow"> <a href="#video"> <span class="glyphicon glyphicon-play-circle"></span> <a href="#tedxtalk"> Watch a Video</a> </h3>
+      </div>
+    </li>
+  </ul>
+  <div id="bx-pager"> <a data-slide-index="0" href=""><img src="/static/img/sds1_th.jpg" /></a> <a data-slide-index="1" href=""><img src="/static/img/silentdiscosquad_halloween_th.jpg" /></a> <a data-slide-index="2" href=""><img src="/static/img/tedxconcordia_talk_th.jpg" /></a> </div>
 </div>
-
-    <div style="background-image: url(/static/img/tedxconcordia_silentdiscosquad.jpg); display:block; height:650px;   background-size:cover; background-position:bottom center"  >
-      <div class="overlay"></div>
-
-        <div class="main-title">Watch the TEDxTalk</br>
-    <h3 class="yellow"> <a href="#video">  <span class="glyphicon glyphicon-play-circle"></span> <a href="#tedxtalk"> Watch a Video</a> </h3>
-  </div>
-
-    </div>
-  </div>
-</div>
-
-<div class="caption-wrapper"><a href="/future.html?id={{upcomingEvents.0.id}}"><span class="yellow">{{upcomingEvents.0.title}}</span></br>
-{{upcomingEvents.0.arrive_start_time}}</div>
-</a>
-{% include "footer.html" %}
+{% include "footer.html" %} 

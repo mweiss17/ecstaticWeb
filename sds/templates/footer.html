@@ -12,7 +12,7 @@
         Silent Disco Squad brings the transformational power of the dancefloor into everyday moments by organizing massively public, participant­ driven Danceparties. 
         Using mp3 players, smartphones, and headphones, all SDS participants hear the same music at the same time, transforming everyday moments into a Silent Disco Squad. <br class="clear">
         </br>
-        <span class="glyphicon glyphicon-play-circle"></span> <a href="#video"> Watch a Video!</a> </br>
+        <span class="glyphicon glyphicon-play-circle"></span> <a href="#whatissds"> Watch a Video!</a> </br>
         </br>
        </div>
        <div class="col-md-7">
@@ -55,21 +55,23 @@
   <iframe width="100%" height="315" src="https://www.youtube.com/embed/HOutHFirz6A" frameborder="0" allowfullscreen></iframe>
 </div>
 
-<div data-remodal-id="login">
+<div class="remodal" data-remodal-id="login">
   <div id="slidediv"> {% include "login.html" %} </div>
+</div>
 </div>
 <!--login-->
 
+  <script type="text/javascript">
+    
+$('.bxslider').bxSlider({
+  pagerCustom: '#bx-pager',
+  captions: true,
+  controls: true,
+
+});
+  </script>
+
 <script> 
-$(document).ready(function() {
-    $('.single-item').slick({
-        dots: true,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        
-    });
 
      var inst = $('[data-remodal-id=login]').remodal();
 });
