@@ -22,6 +22,7 @@
         </script> 
         </span> 
       </div>
+
     <div class="col-sm-5">
       <h2>Meet Up </h2>
       <span class="location"> {{ event.arrive_start_time}} </br>
@@ -29,6 +30,23 @@
       </span> <a href="{{event.fbEvent}}">
       <div class="btn small facebook"><i class="fa fa-facebook fa-lg"></i> Join the Facebook Event</div>
       </a> 
+    </div>
+    <br class="clear">
+    <div class="col-sm-12">
+        <br><br>
+
+      {% if event.eventMix.uploadedSong %}
+      <button class="btn" onclick="streamEmailPopup();">Stream The Mix</button>
+      <a class="btn" onclick="downloadEmailPopup();" >Download Mix!</a>
+    {% elif event.globalEvent.eventMix.uploadedSong %}
+      <button class="btn" onclick="streamEmailPopup();">Stream The Mix</button>
+      <a class="btn" onclick="downloadEmailPopup();" >Download Mix!</a>
+      <button class="btn streaming-off" >Please Login To Download The Mix! </button>
+    {% elif not event.eventMix.uploadedSong %}
+      <button class="btn" disabled onclick="streamEmailPopup();">Stream The Mix</button>
+      <a class="btn" disabled onclick="downloadEmailPopup();" >Download Mix!</a>
+      Mix is unfinished!
+    {%endif%}
     </div>
   </div>
 </div>
@@ -78,18 +96,6 @@
   </div>
 
   <div class="col-md-7 nopadding">
-              {% if event.eventMix.uploadedSong %}
-      <button class="btn" onclick="streamEmailPopup();">Stream The Mix</button>
-      <a class="btn" onclick="downloadEmailPopup();" >Download Mix!</a>
-    {% elif event.globalEvent.eventMix.uploadedSong %}
-      <button class="btn" onclick="streamEmailPopup();">Stream The Mix</button>
-      <a class="btn" onclick="downloadEmailPopup();" >Download Mix!</a>
-      <button class="btn streaming-off" >Please Login To Download The Mix! </button>
-    {% elif not event.eventMix.uploadedSong %}
-      <button class="btn" disabled onclick="streamEmailPopup();">Stream The Mix</button>
-      <a class="btn" disabled onclick="downloadEmailPopup();" >Download Mix!</a>
-      Mix is unfinished!
-    {%endif%}
 
     <iframe src="{{ event.google_map_link }}" width="100%" height="378" frameborder="0" style="border:0"></iframe>
 

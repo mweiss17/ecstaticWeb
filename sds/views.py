@@ -165,6 +165,8 @@ def organize(request):
         ef.fields['location'].widget.attrs['class'] = "formstyle"
         ef.fields['google_map_link'].widget.attrs['class'] = "formstyle"
         ef.fields['fbEvent'].widget.attrs['class'] = "formstyle"
+        ef.fields['arrive_start_time'].widget.attrs['class'] = "formstyle"
+        ef.fields['music_start_time'].widget.attrs['class'] = "formstyle"
 
         ef.fields['title'].widget.attrs['placeholder'] = "Title of the Event"
         ef.fields['arrive_start_time'].widget.attrs['placeholder'] = "When does the event begin?"
@@ -309,6 +311,8 @@ def future(request):
     form.fields['uploadedSong'].widget.attrs['onchange'] = "fileSelected()"
     form.fields['song_name_or_link'].widget.attrs['class'] = "formstyle"
     form.fields['intention'].widget.attrs['class'] = "formstyle"
+    form.fields['email'].widget.attrs['placeholder'] = "Email"
+    form.fields['email'].widget.attrs['class'] = "formstyle"
     form.fields['song_name_or_link'].widget.attrs['placeholder'] = "Songname"
     form.fields['intention'].widget.attrs['placeholder'] = "Intention"
 

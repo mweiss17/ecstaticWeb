@@ -27,7 +27,15 @@
        Get Ready - We are throwing a global costumed dance party on October 31st!
         <h2>{{upcomingEvents.0.title}}<br>
       {{upcomingEvents.0.arrive_start_time}}</h2>
-        <h3 class="yellow"> <a href="#video"> <span class="glyphicon glyphicon-search"></span> <a href="#tedxtalk"> Find Your City </a> </h3>
+        <h3 class="yellow"> {% for event in upcomingEvents %}               
+              {% if forloop.first %}<div class="row"> {% endif %}
+                 <a href="/future.html?id={{event.id}}">
+                  <button type="button" class="btn btn-default join-button"> {{event.eventCity}}
+                  </button></a> 
+                
+              {% if forloop.last %}</div> 
+              {% endif %}
+ {% endfor %}</h3>
       </div>
     </li>
     <li><img src="/static/img/tedxconcordia_talk.jpg" />
