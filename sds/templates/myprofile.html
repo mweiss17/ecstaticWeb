@@ -18,7 +18,7 @@
   <span class="profile-item">Role: </span> {{currentUserProfile.role}}<br>
   <span class="profile-item">Dancefloor Superpower: </span> {{currentUserProfile.dancefloorSuperpower}} </div>
 
-When you click this button, the below form should replae the top form :)
+When you click this button, the below form should replace the top form :)
 <button type="button">Edit Profile</button>
 <br>
 <br>
@@ -27,14 +27,16 @@ When you click this button, the below form should replae the top form :)
   <br>
   Profile Picture: {{pf.photoFile}} <br>
   <br>
-  First Name: {{uf.first_name}} <br>
+  First Name: {{uf.first_name}} {{uf.first_name.errors}}<br>
   <br>
-  Last Name: {{uf.last_name}} <br>
+  Last Name: {{uf.last_name}} {{uf.last_name.errors}} <br>
   <br>
-  Username: {{uf.username}} <br>
+  <div hidden>
+  Username: {{uf.username}} {{uf.username.errors}} <br>
   <br>
-  Email: {{uf.email}} <br>
+  Email: {{uf.email}} {{uf.email.errors}} <br>
   <br>
+  </div>
   Dancefloor Superpower: {{upf.dancefloorSuperpower}} <br>
   <br>
   Zipcode: {{upf.zipcode}} <br>

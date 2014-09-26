@@ -1,4 +1,5 @@
-from django.forms import ModelForm
+from django.forms import *
+from registration.forms import RegistrationForm
 from sds.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -15,6 +16,9 @@ class UserProfileForm(ModelForm):
         fields = ['role', 'dancefloorSuperpower', 'city', 'zipcode']
 
 class MusicForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(MusicForm, self).__init__(*args, **kwargs)
+        self.fields['uploadedSong'].label = 'Upload Song'
     class Meta:
         model = Music 
         fields = ['email', 'intention', 'song_name_or_link', 'uploadedSong']
@@ -28,7 +32,6 @@ class UserCreateForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
-    
     def clean_email(self):
         email = self.cleaned_data["email"]
         try:
@@ -49,6 +52,32 @@ class UserCreateForm(UserCreationForm):
         model = User
         fields = ( "username", "email", "first_name", "last_name" )
 
+class UpdateProfile(forms.ModelForm):
+    username = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'first_name', 'last_name')
+
+    def clean_email(self):
+        username = self.cleaned_data.get('username')
+        email = self.cleaned_data.get('email')
+
+        if email and User.objects.filter(email=email).exclude(username=username).count():
+            raise forms.ValidationError('This email address is already in use. Please supply a different email address.')
+        return email
+
+    def save(self, commit=True):
+        user = super(UpdateProfile, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+
+        if commit:
+            user.save()
+        return user
+
 class photoUploadForm(ModelForm):
     class Meta:
         model = Photos
@@ -57,8 +86,8 @@ class photoUploadForm(ModelForm):
 class eventForm(ModelForm):
     class Meta:
         model = Events
-        exclude = ['latitude', 'longitude', 'eventPic', 'eventMix', 'fbEvent', 'globalEvent', 'organizer']
-        fields = ['title', 'eventCity', 'location', 'arrive_start_time', 'music_start_time', 'google_map_link']
+        exclude = ['latitude', 'longitude', 'eventPic', 'eventMix', 'globalEvent', 'organizer']
+        fields = ['title', 'eventCity', 'location', 'arrive_start_time', 'music_start_time', 'google_map_link', 'fbEvent']
 
 class cityForm(ModelForm):
     def __init__(self, *args, **kwargs):

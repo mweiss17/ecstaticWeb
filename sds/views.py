@@ -67,35 +67,32 @@ def myprofile(request):
     authform.fields['password'].widget.attrs['placeholder'] = "Password" 
     context = {}
     context.update({'cities':cities, 'currentUserProfile':currentUserProfile, 'authform':authform})
+
     if request.method == 'POST':
         pf = photoUploadForm(request.POST, request.FILES, instance=request.user.get_profile().profilePic)
-        uf = UserCreateForm(request.POST, request.FILES, instance=request.user)
+        uf = UpdateProfile(data=request.POST, instance=request.user)
         upf = UserProfileForm(request.POST, request.FILES, instance=request.user.get_profile())
         context['uf'] = uf
         context['upf'] = upf
         context['pf'] = pf
-        print >> sys.stderr, uf
 
         if uf.is_valid():
-            print >> sys.stderr, asdfasdf
             userObj = uf.save()
             if pf.is_valid():                 
                 photoObj = pf.save(commit=False)
                 photoObj.user = userObj
                 photoObj.save()
-                context['pf'] = photoObj
             if upf.is_valid():
                 userProfileObj = upf.save(commit=False)
                 userProfileObj.user = userObj
                 userProfileObj.profilePic = photoObj
                 userProfileObj.save()
-                context['upf'] = userProfileObj
-                return render(request, 'register_success.html', context)
+        context.update({"uf" : uf, "upf" : upf, "pf":pf, 'currentUserProfile':UserProfile.objects.get(user=request.user)})
         return render(request, 'myprofile.html', context)
 
     else:
         pf = photoUploadForm(instance=request.user.get_profile().profilePic)
-        uf = UserCreateForm(instance=request.user)
+        uf = UpdateProfile(instance=request.user)
         upf = UserProfileForm(instance=request.user.get_profile())
         context.update({"uf" : uf, "upf" : upf, "pf":pf})
         return render(request, 'myprofile.html', context)
@@ -136,6 +133,10 @@ def organize(request):
             photoObj.save()
         if ef.is_valid():
             eventObject = ef.save(commit=False)
+            s = eventObject.google_map_link
+            mySubString=s[s.find("\"")+1:s.find("\"")]
+            print >> sys.stderr, mySubString
+            eventObject.google_map_link = mySubString
             eventObject.eventPic = photoObj
             eventObject.organizer = request.user
             if cf.is_valid() and cpf.is_valid():
@@ -147,6 +148,9 @@ def organize(request):
                 cityObject.save()
                 eventObject.city = cityObject
             eventObject.save()
+            email_subject = 'SDS Event Confirmation'
+            email_body = "Hey! You made an event." 
+            send_mail(email_subject, email_body, 'david@silentdiscosquad.com', [request.user.email], fail_silently=False)
             return render(request, 'event_creation_success.html', context)
         else:
             return render(request, 'fuck.html', context)
@@ -160,6 +164,7 @@ def organize(request):
         ef.fields['eventCity'].widget.attrs['class'] = "formstyle"
         ef.fields['location'].widget.attrs['class'] = "formstyle"
         ef.fields['google_map_link'].widget.attrs['class'] = "formstyle"
+        ef.fields['fbEvent'].widget.attrs['class'] = "formstyle"
 
         ef.fields['title'].widget.attrs['placeholder'] = "Title of the Event"
         ef.fields['arrive_start_time'].widget.attrs['placeholder'] = "When does the event begin?"
@@ -167,6 +172,7 @@ def organize(request):
         ef.fields['eventCity'].widget.attrs['placeholder'] = "City"
         ef.fields['location'].widget.attrs['placeholder'] = "Specific Location"
         ef.fields['google_map_link'].widget.attrs['placeholder'] = "Google Maps Link"
+        ef.fields['fbEvent'].widget.attrs['placeholder'] = "Facebook Event Link"
 
         ef.fields['arrive_start_time'].widget.attrs['data-format'] = "MM/dd/yyyy hh:mm"
         ef.fields['music_start_time'].widget.attrs['data-format'] = "MM/dd/yyyy hh:mm"
@@ -299,7 +305,12 @@ def future(request):
     else:
         form = MusicForm()
     form.fields['uploadedSong'].widget.attrs['id'] = "fileToUpload"
+    form.fields['uploadedSong'].widget.attrs['label'] = "Upload Song"
     form.fields['uploadedSong'].widget.attrs['onchange'] = "fileSelected()"
+    form.fields['song_name_or_link'].widget.attrs['class'] = "formstyle"
+    form.fields['intention'].widget.attrs['class'] = "formstyle"
+    form.fields['song_name_or_link'].widget.attrs['placeholder'] = "Songname"
+    form.fields['intention'].widget.attrs['placeholder'] = "Intention"
 
     authform = AuthenticationForm(request)
     authform.fields['username'].widget.attrs['class'] = "submit-track user-login"

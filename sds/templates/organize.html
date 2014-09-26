@@ -2,6 +2,9 @@
  <div class="row city-details">
     <div class="col-sm-12 signup-picture" style="background-image:url(/static/img/sds4.jpg)"> 
          <div class="profile-title">
+         <br>
+         <br>
+         <br>
          <h1> No Silent Disco Squad near you? 
               Become an SDS organizer!</h1>
           <p>It's easier than you think and we will support you throughout the process.</p> 
@@ -126,7 +129,7 @@ In Our Experience: Countdown Time  ≈  Arrival Time + 25 Minutes
     <div style="display: none" id="toggleDiv" class="row organize-form">
       <div class="col-md-4 nopadding">
         Create your city!<br>
-        {{cf.cityName}}<br>
+        {{cf.cityName}}<br><br>
         Image of my City: {{cpf.photoFile}}
       </div>
     </div>
@@ -144,7 +147,21 @@ In Our Experience: Countdown Time  ≈  Arrival Time + 25 Minutes
     </div>
   </div>
 </div>
+
 <hr>
+
+<div class="row">
+  <div class="col-sm-6"> Create a Facebook Event for your event, make sure you set it to public or people won't be able to access it from links on our site! </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+          {{ef.fbEvent.errors}}
+          {{ef.fbEvent}}
+    </div>
+  </div>
+</div>
+
+<hr>
+
 <button type="submit" class="btn submit">Submit your Event</button>
 
   </form>
