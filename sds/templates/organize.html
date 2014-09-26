@@ -129,7 +129,9 @@ In Our Experience: Countdown Time  ≈  Arrival Time + 25 Minutes
     <div style="display: none" id="toggleDiv" class="row organize-form">
       <div class="col-md-4 nopadding">
         Create your city!<br>
+        {{cf.cityName.errors}}
         {{cf.cityName}}<br><br>
+        {{cpf.photoFile.errors}}
         Image of my City: {{cpf.photoFile}}
       </div>
     </div>
@@ -167,23 +169,6 @@ In Our Experience: Countdown Time  ≈  Arrival Time + 25 Minutes
   </form>
 
 <script type="text/javascript">
-  $(function() {
-    $('#datetimepicker1').datetimepicker({ 
-      format: 'MM/DD/YYYY hh:mm',
-      pickDate: true,
-      pickSeconds: false,
-      pick12HourFormat: false            
-    });
-  });
-    $(function() {
-    $('#datetimepicker2').datetimepicker({ 
-      format: 'MM/DD/YYYY hh:mm',
-      pickDate: true,
-      pickSeconds: false,
-      pick12HourFormat: false            
-    });
-  });
-
   $( '#toggleButton' ).click(function() {
     $( "#toggleDiv" ).toggle( "slide" );
   });

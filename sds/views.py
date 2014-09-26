@@ -123,11 +123,8 @@ def organize(request):
         pf = photoUploadForm(request.POST, request.FILES)
         cf = cityForm(request.POST)
         cpf = photoUploadForm(request.POST, request.FILES)
-        context['ef'] = ef
-        context['pf'] = pf
-        context['cf'] = cf
-        context['cpf'] = cpf
-        if pf.is_valid():                 
+        context.update({'ef':ef, 'pf':pf, 'cf':cf, 'cpf':cpf})
+        if pf.is_valid():      
             photoObj = pf.save(commit=False)
             photoObj.user = request.user
             photoObj.save()
@@ -139,21 +136,21 @@ def organize(request):
             eventObject.google_map_link = mySubString
             eventObject.eventPic = photoObj
             eventObject.organizer = request.user
-            if cf.is_valid() and cpf.is_valid():
+            if cf.is_valid() and cpf.is_valid() and eventObject.eventCity is None:
                 cityPhotoObject = cpf.save(commit=False)
                 cityPhotoObject.user = request.user
                 cityPhotoObject.save()
                 cityObject = cf.save(commit=False)
-                cityObject.cityImage = cityPhotoObject
+                cityObject.cityImage = cityPhotoObject.photoFile
                 cityObject.save()
-                eventObject.city = cityObject
+                eventObject.eventCity = cityObject
             eventObject.save()
             email_subject = 'SDS Event Confirmation'
             email_body = "Hey! You made an event." 
             send_mail(email_subject, email_body, 'david@silentdiscosquad.com', [request.user.email], fail_silently=False)
             return render(request, 'event_creation_success.html', context)
         else:
-            return render(request, 'oops.html', context)
+            return render(request, 'organize.html', context)
     else:
         ef = eventForm()
         pf = photoUploadForm()
