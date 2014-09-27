@@ -34,14 +34,15 @@
     <br class="clear">
     <div class="col-sm-12">
         <br><br>
-
-      {% if event.eventMix.uploadedSong %}
+      {% if event.eventMix.uploadedSong and user.is_authenticated %}
+      <button class="btn" onclick="streamLoggedin();">Stream The Mix</button>
+      <a class="btn" href='https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}'>Download Mix!</a>
+      {% elif event.eventMix.uploadedSong %}
       <button class="btn" onclick="streamEmailPopup();">Stream The Mix</button>
       <a class="btn" onclick="downloadEmailPopup();" >Download Mix!</a>
     {% elif event.globalEvent.eventMix.uploadedSong %}
       <button class="btn" onclick="streamEmailPopup();">Stream The Mix</button>
       <a class="btn" onclick="downloadEmailPopup();" >Download Mix!</a>
-      <button class="btn streaming-off" >Please Login To Download The Mix! </button>
     {% elif not event.eventMix.uploadedSong %}
       <button class="btn" disabled onclick="streamEmailPopup();">Stream The Mix</button>
       <a class="btn" disabled onclick="downloadEmailPopup();" >Download Mix!</a>
