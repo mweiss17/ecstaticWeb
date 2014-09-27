@@ -411,7 +411,7 @@ ul li {
   font-size: 14px;
 }
 .main-title {
-  font-size: 90px;
+  font-size: 80px;
   left: 20%;
 }
 }
@@ -496,6 +496,9 @@ ul li {
 
 .findyourcity li:last-child {
   background: #F9C900 ;
+  border-top:1px solid #fff;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .city-top a {
@@ -615,6 +618,8 @@ ul li {
 .login {
   color: #14A5A5 !important;
 }
+
+
 ul.nav li.dropdown:hover ul.dropdown-menu {
   display: block !important;
 }
