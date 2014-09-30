@@ -16,7 +16,7 @@
   </div>
 </br>
 
-
+{% if user.is_authenticated %}
 <div class="row">
   <div class="col-sm-6"> <h2>Instructions</h2></div>
   <div class="col-sm-6">
@@ -163,6 +163,18 @@ In Our Experience: Countdown Time  ≈  Arrival Time + 25 Minutes
 <hr>
 
 <div class="row">
+  <div class="col-sm-6"> Is this event part of a larger global event? If so, select the event from the dropdown. If not, leave this blank. </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+          {{ef.globalEvent.errors}}
+          {{ef.globalEvent}}
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
   <div class="col-sm-6"> Create a Facebook Event for your event, make sure you set it to public or people won't be able to access it from links on our site! </div>
   <div class="col-sm-6">
     <div class="input-group">
@@ -185,4 +197,11 @@ In Our Experience: Countdown Time  ≈  Arrival Time + 25 Minutes
 
 </script>
 </br>
+{% else %}
+<center>Please <a href="#login">Login</a> 
+ or <a href="/profile.html">sign up</a> for an account to use create an event!</center>
+
+{% endif %}
+<br><br>
+Please<a href="mailto:david@silentdiscosquad.com"><div class="indexemailbtn"> Email us</div></a> if there are any problems, or you just want some more info!</h2>
 {% include "footer.html" %}

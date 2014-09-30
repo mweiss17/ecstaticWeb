@@ -171,6 +171,7 @@ def organize(request):
         ef.fields['fbEvent'].widget.attrs['class'] = "formstyle"
         ef.fields['arrive_start_time'].widget.attrs['class'] = "formstyle"
         ef.fields['music_start_time'].widget.attrs['class'] = "formstyle"
+        ef.fields['globalEvent'].widget.attrs['class'] = "formstyle"
         cf.fields['cityName'].widget.attrs['class'] = 'formstyle'
 
         ef.fields['title'].widget.attrs['placeholder'] = "Title of the Event"
