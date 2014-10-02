@@ -89,8 +89,8 @@ class eventForm(ModelForm):
         self.fields['eventCity'].empty_label = "Select your City"
     class Meta:
         model = Events
-        exclude = ['latitude', 'longitude', 'eventPic', 'eventMix', 'globalEvent', 'organizer']
-        fields = ['title', 'eventCity', 'location', 'arrive_start_time', 'music_start_time', 'google_map_link', 'fbEvent']
+        exclude = ['latitude', 'longitude', 'eventPic', 'eventMix', 'organizer']
+        fields = ['title', 'eventCity', 'location', 'arrive_start_time', 'music_start_time', 'google_map_link', 'fbEvent', 'globalEvent']
 
 class cityForm(ModelForm):
     class Meta:

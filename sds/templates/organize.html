@@ -16,7 +16,7 @@
   </div>
 </br>
 
-
+{% if user.is_authenticated %}
 <div class="row">
   <div class="col-sm-6"> <h2>Instructions</h2></div>
   <div class="col-sm-6">
@@ -133,7 +133,9 @@ In Our Experience: Countdown Time  ≈  Arrival Time + 25 Minutes
     <div class="input-group">
       {{ef.eventCity.errors}}
       {{ef.eventCity}}
-      <button type=button id="toggleButton">I don't see my City</button>
+            or<br>
+
+      <button type=button id="toggleButton">This is the first event in my City</button>
     <div style="display: none" id="toggleDiv" class="row organize-form">
       <div class="col-md-4 nopadding">
         Create your city!<br>
@@ -154,6 +156,18 @@ In Our Experience: Countdown Time  ≈  Arrival Time + 25 Minutes
     <div class="input-group">
       {{pf.photoFile.errors}}
       {{pf.photoFile}}
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-sm-6"> Is this event part of a larger global event? If so, select the event from the dropdown. If not, leave this blank. </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+          {{ef.globalEvent.errors}}
+          {{ef.globalEvent}}
     </div>
   </div>
 </div>
@@ -183,4 +197,11 @@ In Our Experience: Countdown Time  ≈  Arrival Time + 25 Minutes
 
 </script>
 </br>
+{% else %}
+<center>Please <a href="#login">Login</a> 
+ or <a href="/profile.html">sign up</a> for an account to use create an event!</center>
+
+{% endif %}
+<br><br>
+Please<a href="mailto:david@silentdiscosquad.com"><div class="indexemailbtn"> Email us</div></a> if there are any problems, or you just want some more info!</h2>
 {% include "footer.html" %}

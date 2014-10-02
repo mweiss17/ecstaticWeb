@@ -1,9 +1,4 @@
 {% block content %}
-
-  {% if form.errors %}
-    <p class="error">Sorry, that's not a valid username or password</p>
-  {% endif %}
-
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
   <form action="/auth_view/" method="post">
     {% csrf_token %}
@@ -17,8 +12,13 @@
     <div class="input-group">
       {{authform.password}}
     </div>
+    {% if messages %}
+      {% for message in messages %}
+        <p class="error">{{ message }}</li>
+      {% endfor %}
+    {% endif %}
     <br>
-    <!-- I had to cut this: class="remodal-confirm btn" because it was fucking up the form submission. :/-->
+
     <input type="submit" class="btn" value="login" />
   <a href="/profile.html" class="btn">Sign up! It's Free!</a> 
     </br>

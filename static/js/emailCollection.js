@@ -27,6 +27,16 @@ function streamEmailPopup(){
         callback: function() {
          document.getElementById("formToFind").submit();        
        }
+      },
+      login: {
+        label: "Login",
+        className: "btn-success",
+        callback: function() {
+            var s = "/future.html/?id=";
+            s += eventID;
+            s += "#login";
+            window.location.href = s;
+        }
       }
     }
   });
@@ -62,7 +72,27 @@ function downloadEmailPopup(){
         callback: function() {
          document.getElementById("formToFind").submit();        
         }
+      },
+      login: {
+        label: "Login",
+        className: "btn-success",
+        callback: function() {
+            var s = "/future.html/?id=";
+            s += eventID;
+            s += "#login";
+            window.location.href = s;
+        }
       }
     }
   });
 }
+
+function streamLoggedin(){
+  var eventID = String(document.getElementsByName("eventID")[0].value);
+  var s = "/stream.html/?id=";
+  s += eventID;
+  window.location.href = s;
+}
+
+
+

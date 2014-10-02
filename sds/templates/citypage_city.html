@@ -1,59 +1,56 @@
 {% include "header.html" %} 
-<div class="row">
-    <div class="col-md-6">
-      {% if upcomingEvents %}
-        {% for event in upcomingEvents %}
-        <div class="row city-details">
-            <div class="col-sm-5 event-picture" style=
-            "background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})">
-            </div>
-
-            <div class="col-sm-7 info">
-                <h2>{{event.title}}</h2>
-                <h4>{{event.location}}</h4>
-                <h4>{{event.arrive_start_time}}</h4>
-
-                <div class="event-countdown" id="eventID{{event.id}}"></div><br>
-                <a href="/future.html?id={{event.id}}">
-                <div class="btn small">
-                    See full Info >
-                </div></a>
-            </div>
-        </div>
-
-        {% endfor %} 
-        {% else %} 
-            <div class="row city-details">
-            <div class="col-sm-12 info"><br/>
-                <h3>There are currently no upcoming <br/>Silent Disco Squad in your city.</h3>
-                <br/>
-              
-
-                <a href="/organize.html">
-                <div class="btn medium">
-                    Organize one in my city now! >
-                </div></a>
-            </div>
-        </div>
-        {% endif %} 
+<div class="container">
+    <div class="row city-top"> 
+        <div class="col-md-10 city-name"><i class="fa fa-flag"></i> CURRENT CITY: {{ eventCity }}</div>
+        <div class="col-md-2 green"> <a href="/citypage_city.html/?city={{eventCity}}"> Community </a> </div>
     </div>
 
-    <div class="col-md-6" style="background:#333 !important; color:#fff" >
-        <h4>Your Fellow dancers</h4>
-    </div>
-  
+    <div class="row">
+        <div class="col-md-6">
+            {% if upcomingEvents %}
+                {% for event in upcomingEvents %}
+                    <div class="row city-details">
+                        <div class="col-sm-5 event-picture" style=
+                        "background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})">
+                        </div>
+
+                        <div class="col-sm-7 info">
+                            <h2>{{event.title}}</h2>
+                            <h4>{{event.location}}</h4>
+                            <h4>{{event.arrive_start_time}}</h4>
+
+                            <div class="event-countdown" id="eventID{{event.id}}"></div><br>
+                            <a href="/future.html?id={{event.id}}">
+                            <div class="btn small">
+                                See full Info >
+                            </div></a>
+                        </div>
+                    </div>
+                {% endfor %} 
+            {% else %} 
+                <div class="row city-details">
+                    <div class="col-sm-12 info"><br/>
+                        <h3>There are currently no upcoming <br/>Silent Disco Squad in your city.</h3>
+                        <br/>
+                        <a href="/organize.html">
+                            <div class="btn medium">
+                                Organize one in my city now! >
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endif %} 
+        </div>
+        <div class="col-md-6" style="background:#333 !important; color:#fff" >
+            <h4>Your Fellow dancers</h4>
+        </div>
         {% for person in community %}
-
-    <div class="col-sm-1 nopadding dancer">
-        <img height="100px" src=
-        "https://silentdiscosquad.s3.amazonaws.com/{{person.profilePic.photoFile}}" width="100%">
-        {{ person.user.username }}
+            <div class="col-sm-1 nopadding dancer">
+                <img height="100px" src=
+                "https://silentdiscosquad.s3.amazonaws.com/{{person.profilePic.photoFile}}" width="100%">
+                {{ person.user.username }}
+            </div>
+        {% endfor %} 
+        </div>
     </div>
-        {% endfor %}
-
-   
-
-    
-</div>
-</div>
 {% include "footer.html" %}

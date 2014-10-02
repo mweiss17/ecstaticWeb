@@ -17,6 +17,7 @@ from django.contrib import auth
 from django.core.context_processors import csrf
 from mailchimp import utils
 from django.contrib.auth.forms import *
+from django.contrib import messages
 import logging, json, pprint, datetime, time, hashlib,random,sys
 
 def calculateCurrentTime():
@@ -100,7 +101,13 @@ def myprofile(request):
 
 def about(request):
     cities = city.objects.filter()
-    context = {"cities":cities}
+    authform = AuthenticationForm(request)
+    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
+    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['password'].widget.attrs['placeholder'] = "Password" 
+
+    context = {"cities":cities, 'authform':authform}
     return render(request, 'about.html', context)
 
 def blog(request):
@@ -164,6 +171,7 @@ def organize(request):
         ef.fields['fbEvent'].widget.attrs['class'] = "formstyle"
         ef.fields['arrive_start_time'].widget.attrs['class'] = "formstyle"
         ef.fields['music_start_time'].widget.attrs['class'] = "formstyle"
+        ef.fields['globalEvent'].widget.attrs['class'] = "formstyle"
         cf.fields['cityName'].widget.attrs['class'] = 'formstyle'
 
         ef.fields['title'].widget.attrs['placeholder'] = "Title of the Event"
@@ -341,6 +349,13 @@ def citypage_city(request):
 def contact(request):
     cities = city.objects.filter()
     context = {"cities":cities}
+    authform = AuthenticationForm(request)
+    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
+    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
+    authform.fields['password'].widget.attrs['placeholder'] = "Password"
+    context.update({"authform":authform})
+
     if request.method == 'POST':
             send_mail("From: "+request.POST['email']+" "+request.POST['subject'], request.POST['message'], "contact@silentdiscosquad.com" , ['martin@silentdiscosquad.com', 'david@silentdiscosquad.com'])
     return render(request, 'contact.html', context)
@@ -437,13 +452,13 @@ def auth_view(request):
         auth.login(request, user)
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'), context)
     else:
-        context = {'invalid_login': True}
-        return HttpResponseRedirect(user, context)
+        messages.error(request, 'Incorrect username or password, try again.')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER')+"#login", context)
     
 def logout(request):
     auth.logout(request)
     context = {}
-    return HttpResponseRedirect('/')       
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'), context)
 
 
 
