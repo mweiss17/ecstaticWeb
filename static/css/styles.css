@@ -581,6 +581,15 @@ ul li {
   -moz-border-radius: 100px;
 }
 
+.register-form .register-field{
+  border: none !important;
+  border-top: 3px solid #14A5A5 !important;
+  border-bottom: 1px solid #aaa !important;
+  padding: 10px;
+  background-color: transparent !important;
+  width: 100%;
+}
+
 .register-form .register-center-field {
   border: 1px solid #aaa !important;
   border-top: none !important;
@@ -593,6 +602,15 @@ ul li {
 .register-form .input-group {
   margin-top: 40px;
   border-radius: 0 !important;
+}
+
+.organize-form .register-field{
+  border: none !important;
+  border-top: 3px solid #14A5A5 !important;
+  border-bottom: 1px solid #aaa !important;
+  padding: 10px;
+  background-color: transparent !important;
+  width: 100%;
 }
 
 .organize-form .register-center-field {
@@ -619,6 +637,9 @@ ul li {
   color: #14A5A5 !important;
 }
 
+.login-field {
+  color: #fff !important;
+}
 
 ul.nav li.dropdown:hover ul.dropdown-menu {
   display: block !important;
