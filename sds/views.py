@@ -18,6 +18,8 @@ from django.core.context_processors import csrf
 from mailchimp import utils
 from django.contrib.auth.forms import *
 from django.contrib import messages
+from myauth.forms import *
+from django.contrib.auth import login
 import logging, json, pprint, datetime, time, hashlib,random,sys
 
 def calculateCurrentTime():
@@ -25,6 +27,15 @@ def calculateCurrentTime():
     now = time.mktime(now.timetuple()) 
     now = now - 4 * 3600
     return now
+
+def addloginform(context):
+    loginform = LoginForm()
+    loginform.fields['login'].widget.attrs['class'] = "submit-track user-login"
+    loginform.fields['login'].widget.attrs['placeholder'] = "Disco-Name"
+    loginform.fields['password'].widget.attrs['class'] = "submit-track user-login"
+    loginform.fields['password'].widget.attrs['placeholder'] = "Password"
+    context.update({'loginform':loginform})
+    return
 
 def index(request):
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
@@ -45,13 +56,9 @@ def index(request):
         pass
 
     template = loader.get_template('index.html')
-
-    authform = AuthenticationForm(request)
-    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
-    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['password'].widget.attrs['placeholder'] = "Password"
-    context = RequestContext(request, {'index':True, 'cities':cities, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "authform":authform, "upcomingEvents":upcomingEvents})
+    context = RequestContext(request, {})
+    addloginform(context)
+    context.update({'index':True, 'cities':cities, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "upcomingEvents":upcomingEvents})
 
     resp = HttpResponse(template.render(context))
     resp.set_cookie('visited', True)
@@ -61,21 +68,15 @@ def myprofile(request):
     cities = city.objects.filter()
     currentUserProfile = UserProfile.objects.get(user=request.user)
  
-    authform = AuthenticationForm(request)
-    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
-    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['password'].widget.attrs['placeholder'] = "Password" 
     context = {}
-    context.update({'cities':cities, 'currentUserProfile':currentUserProfile, 'authform':authform})
+    addloginform(context)
+    context.update({'cities':cities, 'currentUserProfile':currentUserProfile})
 
     if request.method == 'POST':
-        pf = photoUploadForm(request.POST, request.FILES, instance=request.user.get_profile().profilePic)
+        pf = photoUploadForm(request.POST, request.FILES, instance=request.user.profile.profilePic)
         uf = UpdateProfile(data=request.POST, instance=request.user)
-        upf = UserProfileForm(request.POST, request.FILES, instance=request.user.get_profile())
-        context['uf'] = uf
-        context['upf'] = upf
-        context['pf'] = pf
+        upf = UserProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        context.update({'uf':uf, 'upf':upf, 'pf':pf})
 
         if uf.is_valid():
             userObj = uf.save()
@@ -92,22 +93,18 @@ def myprofile(request):
         return render(request, 'myprofile.html', context)
 
     else:
-        pf = photoUploadForm(instance=request.user.get_profile().profilePic)
+        pf = photoUploadForm(instance=request.user.profile.profilePic)
         uf = UpdateProfile(instance=request.user)
-        upf = UserProfileForm(instance=request.user.get_profile())
+        upf = UserProfileForm(instance=request.user.profile)
         context.update({"uf" : uf, "upf" : upf, "pf":pf})
         return render(request, 'myprofile.html', context)
 
 
 def about(request):
+    context = {}
+    loginform(context)
     cities = city.objects.filter()
-    authform = AuthenticationForm(request)
-    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
-    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['password'].widget.attrs['placeholder'] = "Password" 
-
-    context = {"cities":cities, 'authform':authform}
+    context.update({"cities":cities})
     return render(request, 'about.html', context)
 
 def blog(request):
@@ -118,13 +115,8 @@ def blog(request):
 def organize(request):
     cities = city.objects.filter()
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
-    authform = AuthenticationForm(request)
-    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
-    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['password'].widget.attrs['placeholder'] = "Password"
-
     context = {}
+    addloginform(context)
     if request.method == 'POST':
         ef = eventForm(request.POST)
         pf = photoUploadForm(request.POST, request.FILES)
@@ -187,7 +179,7 @@ def organize(request):
 
         cf.fields['cityName'].widget.attrs['placeholder'] = 'My City\'s Name'
 
-        context = {"upcomingEvents":upcomingEvents, "ef":ef, "pf":pf, "cf":cf, "cpf":cpf, "authform":authform, "cities":cities}
+        context.update({"upcomingEvents":upcomingEvents, "ef":ef, "pf":pf, "cf":cf, "cpf":cpf, "cities":cities})
         return render(request, 'organize.html', context)
 
 def event_creation_success(request):
@@ -196,19 +188,13 @@ def event_creation_success(request):
     return render(request, 'event_creation_success.html', context)
 
 def profile(request):
-    authform = AuthenticationForm(request)
-    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
-    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['password'].widget.attrs['placeholder'] = "Password"
     context = {}
+    addloginform(context)
     if request.method == 'POST':
         uf = UserCreateForm(request.POST, request.FILES)
         upf = UserProfileForm(request.POST, request.FILES)
         pf = photoUploadForm(request.POST, request.FILES)
-        context['uf'] = uf
-        context['upf'] = upf
-        context['pf'] = pf
+        context.update({'uf': uf, 'upf':upf, 'pf':pf})
         profile_CSS(uf, upf)
 
         if uf.is_valid():
@@ -217,7 +203,7 @@ def profile(request):
                 photoObj = pf.save(commit=False)
                 photoObj.user = userObj
                 photoObj.save()
-                context['pf'] = photoObj
+                context.update({'pf':photoObj})
             if upf.is_valid():
                 userProfileObj = upf.save(commit=False)
                 userProfileObj.user = userObj
@@ -227,7 +213,7 @@ def profile(request):
                 userProfileObj.activation_key = hashlib.sha1(salt+email).hexdigest()            
                 userProfileObj.key_expires = datetime.datetime.today() + datetime.timedelta(2)
                 userProfileObj.save()
-                context['upf'] = userProfileObj
+                context.update({'upf': userProfileObj})
 
                 # Send email with activation key
                 email_subject = 'SDS Account Confirmation'
@@ -243,7 +229,7 @@ def profile(request):
         uf = UserCreateForm()
         upf = UserProfileForm()
         profile_CSS(uf, upf)
-        context = {"uf" : uf, "upf" : upf, "pf":pf}
+        context.update({"uf" : uf, "upf" : upf, "pf":pf})
         return render(request, 'profile.html', context)
 
 def profile_CSS(uf, upf):
@@ -296,6 +282,7 @@ def citypage_getthemix(request):
     return render(request, 'citypage_getthemix.html', context)
 
 def future(request):
+    context = {}
     cities = city.objects.filter()
     event = Events.objects.get(id=request.GET['id'])
     organizer = UserProfile.objects.get(user=event.organizer)
@@ -321,40 +308,27 @@ def future(request):
     form.fields['song_name_or_link'].widget.attrs['placeholder'] = "Songname"
     form.fields['intention'].widget.attrs['placeholder'] = "Intention"
 
-    authform = AuthenticationForm(request)
-    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
-    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['password'].widget.attrs['placeholder'] = "Password"
 
-    context = {"form":form, "authform":authform, "event":event, "organizer":organizer, "cities":cities}
+    context.update({"form":form, "event":event, "organizer":organizer, "cities":cities})
     return render(request, 'future.html', context)
 
 def citypage_city(request):
+    context = {}
+    addloginform(context)
     eventCity=str(request.GET['city'])
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7), eventCity=city.objects.get(cityName=str(request.GET['city'])))
     community = UserProfile.objects.filter(city=city.objects.get(cityName=str(request.GET['city'])))
     cities = city.objects.filter()
 
-    authform = AuthenticationForm(request)
-    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
-    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['password'].widget.attrs['placeholder'] = "Password"
 
-    context = {"upcomingEvents":upcomingEvents, "authform":authform, "community":community, "cities":cities, "eventCity":eventCity}
+    context.update({"upcomingEvents":upcomingEvents, "community":community, "cities":cities, "eventCity":eventCity})
     return render(request, 'citypage_city.html', context)
 
 
 def contact(request):
     cities = city.objects.filter()
     context = {"cities":cities}
-    authform = AuthenticationForm(request)
-    authform.fields['username'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['username'].widget.attrs['placeholder'] = "Disco-Name"
-    authform.fields['password'].widget.attrs['class'] = "submit-track user-login"
-    authform.fields['password'].widget.attrs['placeholder'] = "Password"
-    context.update({"authform":authform})
+    loginform(context)
 
     if request.method == 'POST':
             send_mail("From: "+request.POST['email']+" "+request.POST['subject'], request.POST['message'], "contact@silentdiscosquad.com" , ['martin@silentdiscosquad.com', 'david@silentdiscosquad.com'])
@@ -460,6 +434,18 @@ def logout(request):
     context = {}
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'), context)
 
+def myauthview(request):
+    name = request.POST['login']
+    password = request.POST['password']
+    users = User.objects.filter(Q(username=name)|Q(email=name))
+    context = {}
+    for user in users:
+        if user.is_active and user.check_password(password):
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
+            auth.login(request, user)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'), context)
+    messages.error(request, 'Incorrect username or password, try again.')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER')+"#login", context)
 
 
 MAILCHIMP_LIST_ID = '4d0c4db173' # DRY :)

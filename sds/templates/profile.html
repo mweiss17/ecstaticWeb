@@ -30,7 +30,7 @@
       </div>
       <div class="col-sm-4 nopadding">
         <div class="input-group">
-           <span class="profile-error">{{uf.username.errors}}</span>
+           <span class="{% if uf.username.errors %} profile-error {% endif %}">{{uf.username.errors}}</span>
           {{uf.username}}
         </div>
       </div>
@@ -38,13 +38,13 @@
   <div class="row register-form">
     <div class="col-sm-4 nopadding">
       <div class="input-group">
-         <span class="profile-error">{{uf.password1.errors}}</span>
+         <span class="{% if uf.username.errors %} profile-error {% endif %}">{{uf.password1.errors}}</span>
         {{uf.password1}}<br>
       </div>
     </div>
     <div class="col-sm-4 nopadding">
       <div class="input-group">
-        <span class="profile-error">{{uf.password2.errors}}</span>
+        <span class="{% if uf.username.errors %} profile-error {% endif %}">{{uf.password2.errors}}</span>
         {{uf.password2}}<br>
       </div>
     </div>
@@ -57,7 +57,7 @@
   <div class="row register-form">
     <div class="col-sm-6 nopadding">
       <div class="input-group">
-         <span class="profile-error">{{uf.email.errors}}</span>
+         <span class="{% if uf.username.errors %} profile-error {% endif %}">{{uf.email.errors}}</span>
         {{uf.email}}<br>
       </div>
     </div>

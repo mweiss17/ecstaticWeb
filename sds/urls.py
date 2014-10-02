@@ -4,11 +4,14 @@ from sds import views
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
+from myauth.views import LoginView
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
+    url(r'^myauthview/$', views.myauthview, name='myauthview'),
+    url(r'^login\.html$', LoginView.as_view(), name='login'),
     url(r'^myprofile.html/$', views.myprofile, name='myprofile'),
     url(r'^register_success.html/', views.register_success, name='register_success'),
     url(r'^event_creation_success.html/', views.event_creation_success, name='event_creation_success'),

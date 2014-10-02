@@ -58,7 +58,7 @@ class Events(models.Model):
     eventMix = models.ForeignKey(Music, blank=True, null=True)
     fbEvent = models.URLField()
     globalEvent = models.ForeignKey(globalEvent, blank=True, null=True)
-    organizer = models.ForeignKey(User)
+    organizer = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     def __unicode__(self):
         return self.title
@@ -81,7 +81,7 @@ class UserProfile(models.Model):
 
     #Other Fields
     city = models.ForeignKey("city", blank=True, null=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='profile')
     profilePic = models.ForeignKey(Photos)
     signupDate = models.DateTimeField("signupDate", auto_now=True)
     activation_key = models.CharField(max_length=40, blank=True)

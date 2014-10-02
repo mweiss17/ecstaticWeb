@@ -1,7 +1,7 @@
 from django.forms import *
 from registration.forms import RegistrationForm
 from sds.models import *
-from django.contrib.auth.models import User
+from myauth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 class UserProfileForm(ModelForm):
