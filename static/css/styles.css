@@ -95,6 +95,7 @@ ul li {
 .light-grey {
   background: #EEEEEE;
   color: #333 !important;
+  padding-bottom: 50px;
 }
 .light-grey h2 {
   color: #333;
@@ -468,6 +469,7 @@ ul li {
 .signup-picture {
   background-size: cover;
   background-position: center center;
+  margin-bottom: 40px;
 }
 
 
@@ -635,8 +637,13 @@ ul li {
 }
 .login {
   color: #14A5A5 !important;
+
 }
 
+.login input {
+    border:0;
+  border-bottom:1px solid #14A5A5 !important;
+}
 .login-field {
   color: #fff !important;
 }

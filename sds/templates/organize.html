@@ -1,5 +1,6 @@
 {% include "header.html" %}
- <div class="row city-details">
+<div class="container">
+ <div class="city-details">
     <div class="col-sm-12 signup-picture" style="background-image:url(/static/img/sds4.jpg)"> 
          <div class="profile-title">
          <br>
@@ -197,11 +198,34 @@ In Our Experience: Countdown Time  ≈  Arrival Time + 25 Minutes
 
 </script>
 </br>
+</div>
 {% else %}
-<center>Please <a href="#login">Login</a> 
- or <a href="/profile.html">sign up</a> for an account to use create an event!</center>
+
+<div class="container">
+  <div class="col-sm-12">
+    <center>
+      <h2>Please Login or Sign up for an account to create an event!</h2>
+      <br>
+     <h4> Silent Disco Squad is a community of people aimed at Turning the World into a Dancefloor.<br>
+      Silent Disco Squad is here to empower as many people as possible to take part and organize Silent Disco Squads in their local community.</h4>
+    </center>
+    <br>
+    <center>
+      <a href="#login"><div class="btn">Login</div></a>
+      <a href="/profile.html"><div class="btn"> Sign up for an account!</div></a>
+      <br>
+      <br>
+     
+   
+     <h4>If there are any problems, or you just want some more info, drop us an email!</h4>
+  <a href="mailto:david@silentdiscosquad.com"><i class="fa fa-envelope fa-2x fa-border"></i></a> 
+    </center>
+
+    
+<br><br>
+
+</div>
+
 
 {% endif %}
-<br><br>
-Please<a href="mailto:david@silentdiscosquad.com"><div class="indexemailbtn"> Email us</div></a> if there are any problems, or you just want some more info!</h2>
 {% include "footer.html" %}
