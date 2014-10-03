@@ -112,6 +112,9 @@ def blog(request):
     context = {"cities":cities}
     return render(request, 'blog.html', context)
 
+def auth_view(request):
+    return
+
 def organize(request):
     cities = city.objects.filter()
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
@@ -416,37 +419,11 @@ def appindex(request):
         'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents
     })
     return HttpResponse(data, mimetype='application/json')
-    
-def auth_view(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = auth.authenticate(username=username, password=password)
-    context = {}
-    if user is not None:
-        auth.login(request, user)
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'), context)
-    else:
-        messages.error(request, 'Incorrect username or password, try again.')
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER')+"#login", context)
-    
+        
 def logout(request):
     auth.logout(request)
     context = {}
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'), context)
-
-def myauthview(request):
-    name = request.POST['login']
-    password = request.POST['password']
-    users = User.objects.filter(Q(username=name)|Q(email=name))
-    context = {}
-    for user in users:
-        if user.is_active and user.check_password(password):
-            user.backend = 'django.contrib.auth.backends.ModelBackend'
-            auth.login(request, user)
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'), context)
-    messages.error(request, 'Incorrect username or password, try again.')
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER')+"#login", context)
-
 
 MAILCHIMP_LIST_ID = '4d0c4db173' # DRY :)
 REDIRECT_URL_NAME = '/?email_added=success'

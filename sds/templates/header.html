@@ -67,7 +67,7 @@
       <li> <a class="social-icons" href="https://www.facebook.com/SilentDiscoSquad" target="_blank"> <img src="/static/img/social_facebook.svg"></a> <a class="social-icons" href="https://www.youtube.com/channel/UC3GVaVuJM2QBDNHbF9WM0OA" target="_blank"><img src="/static/img/social_youtube.svg"></a> </li>
       {% if cities %}
         {% if not user.is_authenticated %}
-          <li><a class="login" href="#login">Login</a></li>
+          <li><a class="login" href="#login">Login / Signup</a></li>
           {% elif user.is_authenticated %}
           <li>
             <div  class="login" type="button" id="menu-login" data-toggle="dropdown"> Hello, {{user.username}}! <span class="caret"></span> </div>

@@ -4,14 +4,11 @@ from sds import views
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
-from myauth.views import LoginView
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-    url(r'^myauthview/$', views.myauthview, name='myauthview'),
-    url(r'^login\.html$', LoginView.as_view(), name='login'),
     url(r'^myprofile.html/$', views.myprofile, name='myprofile'),
     url(r'^register_success.html/', views.register_success, name='register_success'),
     url(r'^event_creation_success.html/', views.event_creation_success, name='event_creation_success'),
@@ -33,7 +30,7 @@ urlpatterns = patterns('',
     url(r'^whatissds.html/$', views.whatissds, name='whatissds'),
     url(r'^stream.html/$', views.stream, name='stream'),
     url(r'^appindex.html/$', views.appindex, name='contact'),
-    url(r'^auth_view/$', views.auth_view, name='auth_view'),
+    #url(r'^auth_view/$', views.auth_view, name='auth_view'),
     url(r'^accounts/auth/$',  'sds.views.auth_view'),    
     url(r'^add_email_to_mailing_list/$', views.add_email_to_mailing_list),
     url(r'^mixMailSignup/$', views.mixMailSignup),
