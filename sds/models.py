@@ -46,6 +46,7 @@ class globalEvent(models.Model):
         return self.title
 
 class Events(models.Model):
+    active = models.BooleanField()
     title = models.CharField(max_length=100)
     arrive_start_time = models.DateTimeField("Event Start Time")
     music_start_time = models.DateTimeField("Music Start Time")

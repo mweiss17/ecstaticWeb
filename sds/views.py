@@ -102,7 +102,7 @@ def myprofile(request):
 
 def about(request):
     context = {}
-    loginform(context)
+    addloginform(context)
     cities = city.objects.filter()
     context.update({"cities":cities})
     return render(request, 'about.html', context)
@@ -125,16 +125,17 @@ def organize(request):
         pf = photoUploadForm(request.POST, request.FILES)
         cf = cityForm(request.POST)
         cpf = photoUploadForm(request.POST, request.FILES)
-        context.update({'ef':ef, 'pf':pf, 'cf':cf, 'cpf':cpf})
+        um = uploadMix(request.POST, request.FILES)
+        context.update({'ef':ef, 'pf':pf, 'cf':cf, 'cpf':cpf, 'um':um})
         if pf.is_valid():      
             photoObj = pf.save(commit=False)
             photoObj.user = request.user
-            photoObj.save()
+            photoObj.save()            
         if ef.is_valid():
             eventObject = ef.save(commit=False)
             s = eventObject.google_map_link
             mySubString=s[s.find("\"")+1:s.find("\"")]
-            print >> sys.stderr, mySubString
+            #print >> sys.stderr, mySubString
             eventObject.google_map_link = mySubString
             eventObject.eventPic = photoObj
             eventObject.organizer = request.user
@@ -146,6 +147,12 @@ def organize(request):
                 cityObject.cityImage = cityPhotoObject.photoFile
                 cityObject.save()
                 eventObject.eventCity = cityObject
+                eventObject.active = False
+            if um.is_valid():
+                mix = um.save(commit=False)
+                mix.event = eventObject
+                mix.save()
+                eventObject.eventMix = mix
             eventObject.save()
             email_subject = 'SDS Event Confirmation'
             email_body = "Hey! You made an event." 
@@ -158,6 +165,7 @@ def organize(request):
         pf = photoUploadForm()
         cf = cityForm()
         cpf = photoUploadForm()
+        um = uploadMix()
 
         ef.fields['title'].widget.attrs['class'] = "formstyle"
         ef.fields['eventCity'].widget.attrs['class'] = "formstyle"
@@ -182,7 +190,7 @@ def organize(request):
 
         cf.fields['cityName'].widget.attrs['placeholder'] = 'My City\'s Name'
 
-        context.update({"upcomingEvents":upcomingEvents, "ef":ef, "pf":pf, "cf":cf, "cpf":cpf, "cities":cities})
+        context.update({"upcomingEvents":upcomingEvents, "ef":ef, "pf":pf, "cf":cf, "cpf":cpf,'um':um, "cities":cities})
         return render(request, 'organize.html', context)
 
 def event_creation_success(request):
@@ -319,7 +327,7 @@ def citypage_city(request):
     context = {}
     addloginform(context)
     eventCity=str(request.GET['city'])
-    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7), eventCity=city.objects.get(cityName=str(request.GET['city'])))
+    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7), eventCity=city.objects.get(cityName=str(request.GET['city'])), active=True)
     community = UserProfile.objects.filter(city=city.objects.get(cityName=str(request.GET['city'])))
     cities = city.objects.filter()
 
@@ -331,7 +339,7 @@ def citypage_city(request):
 def contact(request):
     cities = city.objects.filter()
     context = {"cities":cities}
-    loginform(context)
+    addloginform(context)
 
     if request.method == 'POST':
             send_mail("From: "+request.POST['email']+" "+request.POST['subject'], request.POST['message'], "contact@silentdiscosquad.com" , ['martin@silentdiscosquad.com', 'david@silentdiscosquad.com'])

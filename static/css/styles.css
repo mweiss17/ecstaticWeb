@@ -569,6 +569,7 @@ ul li {
 }
 .submit-track {
   background-color: transparent !important;
+  color: white !important;
   border: none !important;
   border-bottom: 1px solid #aaa !important;
   width: 100%;
