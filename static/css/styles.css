@@ -1,7 +1,7 @@
 body {
   font-family: 'Dosis', sans-serif !important;
   font-size: 16px !important;
-  padding-top: 50px;
+  padding-top: 70px;
 }
 a {
   text-decoration: none !important;
@@ -112,6 +112,26 @@ ul li {
 .navy a, .green a {
   color: #F9C900;
 }
+
+.about {
+  line-height: 1.5;
+  padding:40px;
+}
+
+.about ul{
+  padding-top:20px ;
+  padding-bottom: 20px;
+  padding-left: 20px;
+}
+
+.about ul li{
+  padding-bottom:8px;
+
+}
+
+.about h3{
+  text-transform: none;
+}
 .city-name {
   text-align: center;
 }
@@ -145,6 +165,12 @@ ul li {
   width: 100% !important;
   border-radius: 0 !important;
 }
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    }
+
+
 .btn {
   background: #14a5a5;
   padding: 10px;
@@ -279,23 +305,12 @@ ul li {
 }
 
 
-
-
-::-webkit-input-placeholder { /* WebKit browsers */
- color:    #333;
-}
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
- color:    #333;
- opacity:  1;
-}
-::-moz-placeholder { /* Mozilla Firefox 19+ */
- color:    #333;
- opacity:  1;
-}
-:-ms-input-placeholder { /* Internet Explorer 10+ */
- color:    #333;
-}
  @media (min-width: 768px) {
+
+  body {
+ 
+  padding-top: 50px;
+}
 .city-name {
   text-align: left;
   font-size: 18px !important;
