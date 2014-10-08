@@ -8,6 +8,8 @@
 <meta name="description" content="Take part in massive, silent and synchronized danceparty around the world! We are turning the world into a dancefloor." />
 <meta name="keywords"  content="Silent Disco, Silent Disco Squad, Disco silencieuse, Music, Dancefloor, International Dance Party, Syncronized Music" />
 <title>Silent Disco Squad</title>
+<link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" media="screen" href="/static/datetimepicker/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" type="text/css" media="screen, projection" href="/static/zinnia/css/screen.css"/>
 <link rel="stylesheet" type="text/css" media="print" href="/static/zinnia/css/print.css"/>
@@ -16,8 +18,6 @@
 <link href="/static/css/jquery.bxslider.css" rel="stylesheet">
 <link href="/static/css/styles.css" rel="stylesheet">
 <link href="/static/css/jquery.remodal.css" rel="stylesheet">
-
-
 <link href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
@@ -36,51 +36,52 @@
 </head>
 
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation"> {% if index %}
-  <div class="container-fluid"> {% else %}
-    <div class="container"> {% endif %}
-      <div class="navbar-header"> {% if index %}
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-        <a class="navbar-brand index-logo" href="/"> <img src="/static/img/silentdiscosquadlogo.svg" alt="Logo" class="logo-img"></a> </div>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation"> 
+  {% if index %}
+  <div class="container-fluid"> 
+  {% else %}
+  <div class="container"> 
+  {% endif %}
+    <div class="navbar-header"> 
+      {% if index %}
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand index-logo" href="/"> <img src="/static/img/silentdiscosquadlogo.svg" alt="Logo" class="logo-img"></a>
       {% else %}
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
       <a class="navbar-brand" href="/"> <img src="/static/img/silentdiscosquadlogo.svg" alt="Logo" class="logo-img"></a>
       {% if cities %}
-        <div class="findyourcity">
-          <div class="btn city-menu dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"> Find your city <span class="caret"></span> </div>
-          <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu1">
-            {% for city in cities %}
-            <li role="presentation" > <a role="menuitem" tabindex="-1" href="/citypage_city.html?city={{city.cityName}}"> {{city.cityName}}</a> </li>
-            {% endfor %}
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="/organize.html">Organize a Silent Disco Squad in your city</a></li>
-          </ul>
-        </div>
+      <div class="findyourcity">
+        <div class="btn city-menu dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"> Find your city <span class="caret"></span> </div>
+        <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu1">
+          {% for city in cities %}
+          <li role="presentation" > <a role="menuitem" tabindex="-1" href="/citypage_city.html?city={{city.cityName}}"> {{city.cityName}}</a> </li>
+          {% endfor %}
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/organize.html">Organize a Silent Disco Squad in your city</a></li>
+        </ul>
+      </div>
+      {% endif %}
       {% endif %}
     </div>
-    {% endif %}
     <div class="navbar-collapse collapse">
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="/organize.html">Organize</a></li>
-      <li><a href="/about.html">About</a></li>
-      <li><a href="/weblog">Blog</a></li>
-      <li><a href="/contact.html">Contact</a></li>
-      <li> <a class="social-icons" href="https://www.facebook.com/SilentDiscoSquad" target="_blank"> <img src="/static/img/social_facebook.svg"></a> <a class="social-icons" href="https://www.youtube.com/channel/UC3GVaVuJM2QBDNHbF9WM0OA" target="_blank"><img src="/static/img/social_youtube.svg"></a> </li>
-      {% if cities %}
-        {% if not user.is_authenticated %}
-          <li><a class="login" href="#login">Login / Signup</a></li>
-          {% elif user.is_authenticated %}
-          <li>
-            <div  class="login" type="button" id="menu-login" data-toggle="dropdown"> Hello, {{user.username}}! <span class="caret"></span> </div>
-            <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu1">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="/myprofile.html">See Profile</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="/logout.html">Log Out</a></li>
-            </ul>
-          </div>
-          </li>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/organize.html">Organize</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/weblog">Blog</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li> <a class="social-icons" href="https://www.facebook.com/SilentDiscoSquad" target="_blank"> <img src="/static/img/social_facebook.svg"></a> <a class="social-icons" href="https://www.youtube.com/channel/UC3GVaVuJM2QBDNHbF9WM0OA" target="_blank"><img src="/static/img/social_youtube.svg"></a> </li>
+        {% if cities and not user.is_authenticated %}
+        <li><a class="login" href="#login">Login / Signup</a></li>  
+        {% elif user.is_authenticated %}
+        <li>
+          <div  class="login" type="button" id="menu-login" data-toggle="dropdown"> Hello, {{user.username}}! <span class="caret"></span> </div>
+          <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/myprofile.html">See Profile</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/logout.html">Log Out</a></li>
+          </ul>
+        </li>
         {% endif %}
-      {% endif %}
-    </ul>
+      </ul>
+    </div>
   </div>
-</div>
 </div>
 </div>

@@ -155,7 +155,7 @@ def organize(request):
                 eventObject.eventMix = mix
             eventObject.save()
             email_subject = 'SDS Event Confirmation'
-            email_body = "Hey! You made an event." 
+            email_body = "Hello Disco Organizer!\n\nNice - you just created an event; our team is verifying all the information you gave us. Once we approve your event we will reach out to you. Approval should be within a few hours.\n\nThanks for Turning the World into a Dancefloor!\n\nWith a Smile,\n\nThe SDS Team" 
             send_mail(email_subject, email_body, 'david@silentdiscosquad.com', [request.user.email], fail_silently=False)
             return render(request, 'event_creation_success.html', context)
         else:
@@ -210,15 +210,15 @@ def profile(request):
 
         if uf.is_valid():
             userObj = uf.save()
-            if pf.is_valid():                 
-                photoObj = pf.save(commit=False)
-                photoObj.user = userObj
-                photoObj.save()
-                context.update({'pf':photoObj})
             if upf.is_valid():
                 userProfileObj = upf.save(commit=False)
                 userProfileObj.user = userObj
-                userProfileObj.profilePic = photoObj
+                if pf.is_valid():                 
+                    photoObj = pf.save(commit=False)
+                    photoObj.user = userObj
+                    photoObj.save()
+                    context.update({'pf':photoObj})
+                    userProfileObj.profilePic = photoObj
                 email = uf.cleaned_data['email']
                 salt = hashlib.sha1(str(random.random())).hexdigest()[:5]            
                 userProfileObj.activation_key = hashlib.sha1(salt+email).hexdigest()            
@@ -244,22 +244,22 @@ def profile(request):
         return render(request, 'profile.html', context)
 
 def profile_CSS(uf, upf):
-    uf.fields['first_name'].widget.attrs['class'] = "register-field"
-    uf.fields['last_name'].widget.attrs['class'] = "register-center-field"
-    uf.fields['username'].widget.attrs['class'] = "register-field"
-    uf.fields['email'].widget.attrs['class'] = "register-field"
-    uf.fields['password1'].widget.attrs['class'] = "register-field"
-    uf.fields['password2'].widget.attrs['class'] = "register-center-field"
+    uf.fields['first_name'].widget.attrs['class'] = "formstyle"
+    uf.fields['last_name'].widget.attrs['class'] = "formstyle"
+    uf.fields['username'].widget.attrs['class'] = "formstyle"
+    uf.fields['email'].widget.attrs['class'] = "formstyle"
+    uf.fields['password1'].widget.attrs['class'] = "formstyle"
+    uf.fields['password2'].widget.attrs['class'] = "formstyle"
     uf.fields['first_name'].widget.attrs['placeholder'] = "First Name"
     uf.fields['last_name'].widget.attrs['placeholder'] = "Last Name"
     uf.fields['username'].widget.attrs['placeholder'] = "Disco Name"
     uf.fields['email'].widget.attrs['placeholder'] = "E-mail"
     uf.fields['password1'].widget.attrs['placeholder'] = "Password"
     uf.fields['password2'].widget.attrs['placeholder'] = "Password (repeat)"
-    upf.fields['role'].widget.attrs['class'] = "register-field"
-    upf.fields['dancefloorSuperpower'].widget.attrs['class'] = "register-field"
-    upf.fields['city'].widget.attrs['class'] = "register-field"
-    upf.fields['zipcode'].widget.attrs['class'] = "register-field"
+    upf.fields['role'].widget.attrs['class'] = "formstyle"
+    upf.fields['dancefloorSuperpower'].widget.attrs['class'] = "formstyle"
+    upf.fields['city'].widget.attrs['class'] = "formstyle"
+    upf.fields['zipcode'].widget.attrs['class'] = "formstyle"
     upf.fields['role'].widget.attrs['placeholder'] = "Role"
     upf.fields['dancefloorSuperpower'].widget.attrs['placeholder'] = "Dancefloor Superpower"
     upf.fields['city'].widget.attrs['placeholder'] = "What city do you live closest to?"
@@ -431,7 +431,7 @@ def appindex(request):
 def logout(request):
     auth.logout(request)
     context = {}
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'), context)
+    return HttpResponseRedirect("/", context)
 
 MAILCHIMP_LIST_ID = '4d0c4db173' # DRY :)
 REDIRECT_URL_NAME = '/?email_added=success'
