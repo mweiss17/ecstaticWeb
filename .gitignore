@@ -1,3 +1,4 @@
+fabfile.py*
 sds/config.json
 media/
 *.pyc
