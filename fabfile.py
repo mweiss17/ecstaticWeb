@@ -2,7 +2,7 @@ from fabric.api import *
 from fabric.network import ssh
 
 env.key_filename = '~/.ssh/martin.pem'
-env.hosts = ['ec2-user@silentdiscosquad.com:22']
+env.hosts = ['ec2-user@54.173.246.101:22']
 
 def prepare_deploy(branch_name):
     with settings(warn_only=True):
