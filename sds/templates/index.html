@@ -1,6 +1,10 @@
 {% include "header.html" %}
 <div class="container-fluid">
 <div class="row">
+
+<!--This is the right code for non-mobile, you hacked it off for halloween, uncomment it when halloween is over
+and come up with an actual fix-->
+<!--god fucking damn it. Still haven't fixed this piece of shit hack, this code takes you to the city page, which we're just forgetting about now. We want people caring about the COMMUNITY damn it. Not using the other code to just get to events...-->
 <div class="col-sm-3 col-md-2 sidebar">
   <ul class="nav">
     <li><a href="#">FIND YOUR CITY</a></li>
@@ -10,6 +14,22 @@
     <li><a href="/organize.html">Add your City </a></li>
   </ul>
 </div>
+
+<!--this is a hack to get you to the events fuck-->
+<!--div class="col-sm-3 col-md-2 sidebar">
+  <ul class="nav">
+    <li><a href="#">FIND YOUR CITY</a></li>
+
+        {% for event in upcomingEvents %}               
+                {% if event.globalEvent %}
+                    <li> <a href="/future.html?id={{event.id}}"> {{event.eventCity}}</a> </li>
+                {% endif%}
+ {% endfor %}</h3>
+   </ul>
+</div-->
+
+
+
 <div class="col-sm-2"> </div>
 <div class="col-sm-10 nopadding">
   <ul class="bxslider">
@@ -20,10 +40,10 @@
         <h3 class="yellow"> <a href="#video"> <span class="glyphicon glyphicon-play-circle"></span> <a href="#whatissds"> Watch us get weird in public</a> </h3>
       </div>
     </li>
-    <li><img src="/static/img/silentdiscosquad_halloween.jpg" />
+    <li><img src="/static/img/ArcticJamboreeCoverPhoto2.jpg" />
       <div class="overlay">
       <div class="main-title">
-       Get Ready - We are throwing a global costumed dance party on October 31st!
+        Join us on February 1st as we turn Parc La Fontaine into a Dancefloor!
         <h2>{{upcomingEvents.0.title}}<br>
       {{upcomingEvents.0.arrive_start_time}}</h2>
         <h3 class="yellow"> {% for event in upcomingEvents %}               
@@ -45,6 +65,6 @@
       </div>
     </li>
   </ul>
-  <div id="bx-pager"> <a data-slide-index="0" href=""><img src="/static/img/sds1_th.jpg" /></a> <a data-slide-index="1" href=""><img src="/static/img/silentdiscosquad_halloween_th.jpg" /></a> <a data-slide-index="2" href=""><img src="/static/img/tedxconcordia_talk_th.jpg" /></a> </div>
+  <div id="bx-pager"> <a data-slide-index="0" href=""><img src="/static/img/sds1_th.jpg" /></a> <a data-slide-index="1" href=""><img src="/static/img/ArcticJamboreeCoverPhoto2_th.jpg" /></a> <a data-slide-index="2" href=""><img src="/static/img/tedxconcordia_talk_th.jpg" /></a> </div>
 </div>
 {% include "footer.html" %} 

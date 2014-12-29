@@ -210,7 +210,9 @@ def profile(request):
 
         if uf.is_valid():
             userObj = uf.save()
+            print >> sys.stderr, "userobj saved"
             if upf.is_valid():
+                print >> sys.stderr, "userprofile is_valid"
                 userProfileObj = upf.save(commit=False)
                 userProfileObj.user = userObj
                 if pf.is_valid():                 
@@ -229,7 +231,7 @@ def profile(request):
                 # Send email with activation key
                 email_subject = 'SDS Account Confirmation'
                 email_body = "Hey %s, thanks for signing up. To activate your account, click this link within \
-                48hours http://54.186.184.253/confirm/%s" % (uf.cleaned_data['username'], userProfileObj.activation_key)
+                48hours http://silentdiscosquad.com/confirm/%s" % (uf.cleaned_data['username'], userProfileObj.activation_key)
                 send_mail(email_subject, email_body, 'david@silentdiscosquad.com',
                     [email], fail_silently=False)
                 return render(request, 'register_success.html', context)
@@ -294,6 +296,7 @@ def citypage_getthemix(request):
 
 def future(request):
     context = {}
+    addloginform(context)
     cities = city.objects.filter()
     event = Events.objects.get(id=request.GET['id'])
     organizer = UserProfile.objects.get(user=event.organizer)
@@ -463,7 +466,7 @@ def mixMailSignup(request):
                 text_content += "\n\nThank you for offering to participate in our survey. Please take 5-10 minutes to fill it out here: https://jfe.qualtrics.com/form/SV_01G8vvjtNXN6Xt3."
                 text_content += "There will also be a 2 minute survey sent immediately following the next disco, and a follow-up survey next week. Thanks for your help!"
                 text_content += "\n\nMuch love from the SDS Team ~:D"
-                send_mail('Silent Disco Squad Survey', text_content, 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
+               # send_mail('Silent Disco Squad Survey', text_content, 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
 
 
     if request.method == 'POST' and 'download' in request.POST:

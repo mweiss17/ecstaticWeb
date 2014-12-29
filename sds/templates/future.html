@@ -1,8 +1,11 @@
 {% include "header.html" %}
 <div class="container">
 <div class="row city-details">
-
+<!-- don't remove this!! it's used in emailCollection to grab the id / event name-->
   <input type="text" name="eventID" value="{{event.id}}" style="display: none">
+  <input type="text" name="eventMix" value="{{event.eventMix.uploadedSong}}" style="display: none">
+<!-- End death glare -->
+
   <div class="col-md-5 event-picture" style="background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})"> </div>
     <div class="col-md-7 info">
       <div class="col-sm-7">
@@ -12,12 +15,14 @@
           window.onload = startCountdown();
 
           function startCountdown(){
-            var str = '{{ event.music_start_time|date:"U" }}'
+            var str = new Date(Number('{{ event.music_start_time|date:"U" }}'));
+            var adj = new Date((str.getTime() + 14400)*1000);
             new Countdown({
               selector: '.countdown',
               msgPattern: "{days} days, {hours} hours, {minutes} minutes, and {seconds} seconds till Disco!",
               dateStart: new Date(), //milliseconds since epoch,
-              dateEnd: new Date(Number(str.concat('000'))) /*seconds since epoch*/
+              //dateEnd: new Date(Number(str.concat('000'))) /*seconds since epoch*/
+              dateEnd: adj
             });
           }
         </script> 
@@ -34,7 +39,7 @@
     </div>
     <br class="clear">
     <div class="col-sm-12">
-        <br><br>
+    <br><br>
       {% if event.eventMix.uploadedSong and user.is_authenticated %}
       <button class="btn" onclick="streamLoggedin();">Stream The Mix</button>
       <a class="btn" href='https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}'>Download Mix!</a>
@@ -52,7 +57,6 @@
     </div>
   </div>
 </div>
-
 
 
 <div class="row">

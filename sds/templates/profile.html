@@ -24,11 +24,15 @@
   <form method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
     <span class="profile-error">{{uf.non_field_errors}}</span>
+{{ uf.non_field_errors }}
+{{ upf.non_field_errors }}
+{{ pf.non_field_errors }}
 
 <div class="row">
   <div class="col-sm-6"> First Name</div>
   <div class="col-sm-6">
     <div class="input-group">
+        {{uf.first_name.errors}}
         {{uf.first_name}}<br>
     </div>
   </div>
@@ -40,6 +44,7 @@
   <div class="col-sm-6"> Last Name</div>
   <div class="col-sm-6">
     <div class="input-group">
+        {{uf.last_name.errors}}
         {{uf.last_name}}<br>
     </div>
   </div>
@@ -88,6 +93,7 @@
   <div class="col-sm-6"> Which city are you in? If none of these cities is the city that you're in, then no one has organized a Silent Disco Squad for your city! What a tragedy! Feel free to leave this blank.</div>
   <div class="col-sm-6">
     <div class="input-group">
+        {{upf.city.errors}}
         {{upf.city}}<br>
     </div>
   </div>
@@ -111,6 +117,7 @@
   <div class="col-sm-6"> What is your dancefloor superpower?</div>
   <div class="col-sm-6">
     <div class="input-group">
+        {{upf.dancefloorSuperpower.errors}}
         {{upf.dancefloorSuperpower}}<br>
     </div>
   </div>
@@ -122,6 +129,7 @@
   <div class="col-sm-6"> Have you taken on any roles with Silent Disco Squad?</div>
   <div class="col-sm-6">
     <div class="input-group">
+        {{upf.role.errors}}
         {{upf.role}}<br>
     </div>
   </div>
@@ -133,6 +141,7 @@
   <div class="col-sm-6"> What's your zipcode? We're gathering this information for internal purposes, some of our upcoming projects are location based. More on that soon! </div>
   <div class="col-sm-6">
     <div class="input-group">
+        {{upf.zipcode.errors}}
         {{upf.zipcode}}<br>
     </div>
   </div>

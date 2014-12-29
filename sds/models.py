@@ -12,7 +12,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from sds.perm import perm
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
-from datetime import datetime, date
+from datetime import datetime, date, time
 
 
 class Photos(models.Model):
@@ -86,7 +86,7 @@ class UserProfile(models.Model):
     profilePic = models.ForeignKey(Photos)
     signupDate = models.DateTimeField("signupDate", auto_now=True)
     activation_key = models.CharField(max_length=40, blank=True)
-    key_expires = models.DateTimeField(default=date.today())
+    key_expires = models.DateTimeField(default=datetime.now)
     dancefloorSuperpower = models.CharField(max_length=2048)
     zipcode = models.CharField(max_length=10)
     def __unicode__(self):

@@ -2,7 +2,7 @@
 
 {% include "header.html" %}
 
-<div class="col-sm-12">
+<div>
 
 <h2>{{event.title}}</h2>
 <h2 id="countdown" style="font-size:28px !important"> </h2>
@@ -24,7 +24,7 @@ var eventID = {{event.id}};
 </script>
 <script type="text/javascript" src="/static/js/stream.js"></script>
 
-<button class="streaming btn" type="button" id="play" onclick="playMix(); ">Play Mix</button>
+<button class="streaming btn" type="button" id="play" onclick="playMix(); " disabled>Play Mix</button>
 
 </div>
 {% include "footer.html" %} 

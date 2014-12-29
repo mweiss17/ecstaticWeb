@@ -91,7 +91,7 @@ function showRemaining() {
 
 //Makes the html for the play button visible at 0 seconds
 function makePlayButtonVisible(){
-	document.getElementById('play').style.display = 'block';
+	document.getElementById('play').disabled = false;
 }
 
 //Progress through Mix
