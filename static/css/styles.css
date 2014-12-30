@@ -15,7 +15,10 @@ ul li {
 
 }
 
-
+.bolder{
+  font-weight: 900;
+  font-size: 20px;
+}
 .navbar-header {
   float:left !important;
 }
@@ -260,6 +263,7 @@ input:-webkit-autofill {
 
 .errorlist {
   padding-top:15px; 
+  border: 2px red solid;
 }
 /*
  * Top navigation

@@ -88,7 +88,7 @@ class UserProfile(models.Model):
     activation_key = models.CharField(max_length=40, blank=True)
     key_expires = models.DateTimeField(default=datetime.now)
     dancefloorSuperpower = models.CharField(max_length=2048)
-    zipcode = models.CharField(max_length=10)
+    zipcode = models.CharField(max_length=10, default=00000, blank=True, null=True)
     def __unicode__(self):
         return self.user.username
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
