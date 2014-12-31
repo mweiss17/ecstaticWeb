@@ -355,6 +355,7 @@ input:-webkit-autofill {
 .navbar {
   font-size: 11px;
 }
+
 .sidebar {
   position: fixed;
   top: 50px;
@@ -408,7 +409,6 @@ input:-webkit-autofill {
 /*
  * Main content
  */
-
 .main {
   padding: 20px;
   overflow: hidden;
@@ -420,6 +420,7 @@ input:-webkit-autofill {
   padding: 0;
 }
 .city-details .info {
+
   height: 100%;
 }
 

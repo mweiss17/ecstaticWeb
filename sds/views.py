@@ -22,6 +22,9 @@ from myauth.forms import *
 from django.contrib.auth import login
 import logging, json, pprint, datetime, time, hashlib,random,sys
 
+MAILCHIMP_LIST_ID = '4d0c4db173' 
+REDIRECT_URL_NAME = '/?email_added=success'
+
 def calculateCurrentTime():
     now = datetime.datetime.utcnow()
     now = time.mktime(now.timetuple()) 
@@ -436,9 +439,6 @@ def logout(request):
     context = {}
     return HttpResponseRedirect("/", context)
 
-MAILCHIMP_LIST_ID = '4d0c4db173' # DRY :)
-REDIRECT_URL_NAME = '/?email_added=success'
-
 def mixMailSignup(request):
     #newsletter
     if request.method == 'POST' and 'newsletter' in request.POST and 'email' in request.POST:
@@ -446,9 +446,7 @@ def mixMailSignup(request):
         email = request.POST['email']
         if newsletter is not None and newsletter != '':
             if email is not None and email != '':
-                email_address = request.POST['email']
-                list = utils.get_connection().get_list_by_id(MAILCHIMP_LIST_ID)
-                list.subscribe(email_address, {'EMAIL': email_address})
+                subscribeToMailchimp(request.POST['email'])
     #Survey     
     if request.method == 'POST' and 'survey' in request.POST and 'email' in request.POST:
         survey = request.POST['survey']
@@ -474,6 +472,11 @@ def mixMailSignup(request):
         if download is not None and download != '':
             return HttpResponseRedirect('https://s3.amazonaws.com/silentdiscosquad/'+download)
     return HttpResponseRedirect('/stream.html/?id='+request.POST['id'])       
+
+def subscribeToMailchimp(email):
+    list = utils.get_connection().get_list_by_id(MAILCHIMP_LIST_ID)
+    list.subscribe(email, {'EMAIL': email})
+
 
 def add_email_to_mailing_list(request):
     if request.POST['email']:

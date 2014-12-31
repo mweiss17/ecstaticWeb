@@ -59,7 +59,7 @@
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
       <a class="navbar-brand" href="/"> <img src="/static/img/silentdiscosquadlogo.svg" alt="Logo" class="logo-img"></a>
       {% if cities %}
-      <div class="findyourcity">
+      <div class="findyourcity hidden-xs">
         <div class="btn city-menu dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"> Find your city <span class="caret"></span> </div>
         <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu1">
           {% for city in cities %}
@@ -71,6 +71,7 @@
       {% endif %}
       {% endif %}
     </div>
+
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/organize.html">Organize</a></li>
@@ -92,5 +93,8 @@
       </ul>
     </div>
   </div>
+  <div class="visible-xs" style="min-height:20px; background-color:#0E1633;">
+  </div>
+
 </div>
 </div>

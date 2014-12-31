@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row city-top"> 
         <div class="col-md-10 city-name"><i class="fa fa-flag"></i> CURRENT CITY: {{ eventCity }}</div>
-        <div class="col-md-2 green"> <a href="/citypage_city.html/?city={{eventCity}}"> Community </a> </div>
+        <div class="col-md-2 green hidden-xs"> <a href="/citypage_city.html/?city={{eventCity}}"> Community </a> </div>
     </div>
 
     <div class="row">
@@ -10,7 +10,7 @@
             {% if upcomingEvents %}
                 {% for event in upcomingEvents %}
                     <div class="row city-details">
-                        <div class="col-sm-5 event-picture" style=
+                        <div class="col-sm-5 event-picture hidden-xs" style=
                         "background-image:url(https://silentdiscosquad.s3.amazonaws.com/{{event.eventPic.photoFile}})">
                         </div>
 
@@ -43,11 +43,11 @@
                 </div>
             {% endif %} 
         </div>
-        <div class="col-md-6" style="background:#333 !important; color:#fff" >
+        <div class="col-md-6 hidden-xs" style="background:#333 !important; color:#fff" >
             <h4>Your Fellow dancers</h4>
         </div>
         {% for person in community %}
-            <div class="col-sm-1 nopadding dancer">
+            <div class="col-sm-1 nopadding dancer hidden-xs">
                 <img height="100px" src=
                 "https://silentdiscosquad.s3.amazonaws.com/{{person.profilePic.photoFile}}" width="100%">
                 {{ person.user.username }}
