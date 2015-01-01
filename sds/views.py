@@ -309,8 +309,8 @@ def future(request):
         uploadedSong = " "
         songName = request.POST['song_name_or_link']
 
-        send_mail('Dancetrack Received', "We got your track! Thanks for your contribution to the Dancemix!" + "\nLast Favour! From now until October we have a quick Survey (https://jfe.qualtrics.com/form/SV_01G8vvjtNXN6Xt3) that helps us better understand the effects of participating in Silent Disco Squad - Please take 5-10 Mins and fill it out! " + "\nWith Love," +"\nThe SDS Team", 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
-        send_mail("Song Submission from: "+ request.POST['email'], "songname: "+ songName + " intention: "+ request.POST['intention'],'contact@silentdiscosquad.com', ['david@silentdiscosquad.com'], fail_silently=False)       
+        send_mail('Dancetrack Received', "We got your track! Thanks for your contribution to the Dancemix \nWith Love," +"\nThe SDS Team", 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
+        send_mail("Received Track from: "+ request.POST['email'], "songname: "+ songName + " intention: "+ request.POST['intention'],'contact@silentdiscosquad.com', ['david@silentdiscosquad.com'], fail_silently=False)       
         if form.is_valid():
             message = "Thanks for submitting your song!"
             form.save()
