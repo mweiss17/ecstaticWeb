@@ -13,6 +13,7 @@ from django.forms.models import modelform_factory
 from sds.forms import *
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
+from settings import *
 from django.contrib import auth
 from django.core.context_processors import csrf
 from mailchimp import utils
@@ -234,7 +235,7 @@ def profile(request):
                 # Send email with activation key
                 email_subject = 'SDS Account Confirmation'
                 email_body = "Hey %s, thanks for signing up. To activate your account, click this link within \
-                48hours http://silentdiscosquad.com/confirm/%s" % (uf.cleaned_data['username'], userProfileObj.activation_key)
+                48hours http://%s/confirm/%s" % (uf.cleaned_data['username'], settings.HOSTNAME, userProfileObj.activation_key)
                 send_mail(email_subject, email_body, 'david@silentdiscosquad.com',
                     [email], fail_silently=False)
                 return render(request, 'register_success.html', context)

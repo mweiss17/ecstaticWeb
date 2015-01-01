@@ -23,6 +23,17 @@
 </br>
   <form method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
+    {% for field in uf %}
+      <div class="fieldWrapper">
+          {{ field.errors }}
+      </div>
+    {% endfor %}
+    {% for field in upf %}
+      <div class="fieldWrapper">
+          {{ field.errors }}
+      </div>
+    {% endfor %}
+
     <span class="profile-error">{{uf.non_field_errors}}</span>
 {{ uf.non_field_errors }}
 {{ upf.non_field_errors }}
@@ -138,7 +149,7 @@
 <hr>
 
 <div class="row">
-  <div class="col-sm-6">(Optional) What's your zipcode? </div>
+  <div class="col-sm-6 hidden-xs">(Optional) What's your zipcode? </div>
   <div class="col-sm-6">
     <div class="input-group">
         {{upf.zipcode.errors}}
@@ -150,7 +161,7 @@
 <hr>
 
 <div class="row">
-  <div class="col-sm-6 bolder"> Upload a picture of yourself, or something that represents your dancefloor presence!</div>
+  <div class="col-sm-6 bolder"> REQUIRED Profile Picture! (100x100 pixels)</div>
   <div class="col-sm-6">
     <div class="input-group">
         {{pf.photoFile.errors}}

@@ -39,7 +39,7 @@ function editprofile(){
   <form  method="post" action="" enctype="multipart/form-data">
     {% csrf_token %} <br>
     <br>
-    <div class="col-sm-3"> Profile Picture: </div>
+    <div class="col-sm-3"> Profile Picture (100x100 pixels): </div>
     <div class="col-sm-9"> {{pf.photoFile}} </div>
     
     <div class="col-sm-3"> First Name: </div>
