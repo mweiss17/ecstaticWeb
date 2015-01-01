@@ -68,40 +68,52 @@ def index(request):
     resp.set_cookie('visited', True)
     return resp
 
-def myprofile(request):
-    cities = city.objects.filter()
-    currentUserProfile = UserProfile.objects.get(user=request.user)
- 
+
+## Want to modify this such that if you get a GET request with a username, you load THAT user, but you 
+## don't allow the other user to modify their shiz.
+def profile(request):
     context = {}
     addloginform(context)
+    cities = city.objects.filter()
+    username = request.GET.get('username', '')
+    if username != '':
+        currentUserProfile = UserProfile.objects.get(user=User.objects.get(username=username))
+        context.update({"myprofile":False})
+    else:
+        currentUserProfile = UserProfile.objects.get(user=request.user)
+        context.update({"myprofile":True})
+
+
     context.update({'cities':cities, 'currentUserProfile':currentUserProfile})
 
-    if request.method == 'POST':
-        pf = photoUploadForm(request.POST, request.FILES, instance=request.user.profile.profilePic)
-        uf = UpdateProfile(data=request.POST, instance=request.user)
-        upf = UserProfileForm(request.POST, request.FILES, instance=request.user.profile)
-        context.update({'uf':uf, 'upf':upf, 'pf':pf})
+    pf = photoUploadForm(instance=currentUserProfile.profilePic)
+    uf = UpdateProfile(instance=currentUserProfile.user)
+    upf = UserProfileForm(instance=currentUserProfile)
+    context.update({"uf" : uf, "upf" : upf, "pf":pf})
+    return render(request, 'profile.html', context)
 
-        if uf.is_valid():
-            userObj = uf.save()
-            if pf.is_valid():                 
-                photoObj = pf.save(commit=False)
-                photoObj.user = userObj
-                photoObj.save()
-            if upf.is_valid():
-                userProfileObj = upf.save(commit=False)
-                userProfileObj.user = userObj
-                userProfileObj.profilePic = photoObj
-                userProfileObj.save()
-        context.update({"uf" : uf, "upf" : upf, "pf":pf, 'currentUserProfile':UserProfile.objects.get(user=request.user)})
-        return render(request, 'myprofile.html', context)
+def profileupdate(request):
+    context = {}
+    addloginform(context)
+    cities = city.objects.filter()
+    pf = photoUploadForm(request.POST, request.FILES, instance=request.user.profile.profilePic)
+    uf = UpdateProfile(data=request.POST, instance=request.user)
+    upf = UserProfileForm(request.POST, request.FILES, instance=request.user.profile)
+    context.update({'uf':uf, 'upf':upf, 'pf':pf})
 
-    else:
-        pf = photoUploadForm(instance=request.user.profile.profilePic)
-        uf = UpdateProfile(instance=request.user)
-        upf = UserProfileForm(instance=request.user.profile)
-        context.update({"uf" : uf, "upf" : upf, "pf":pf})
-        return render(request, 'myprofile.html', context)
+    if uf.is_valid():
+        userObj = uf.save()
+        if pf.is_valid():                 
+            photoObj = pf.save(commit=False)
+            photoObj.user = userObj
+            photoObj.save()
+        if upf.is_valid():
+            userProfileObj = upf.save(commit=False)
+            userProfileObj.user = userObj
+            userProfileObj.profilePic = photoObj
+            userProfileObj.save()
+    context.update({"uf" : uf, "upf" : upf, "pf":pf, 'currentUserProfile':UserProfile.objects.get(user=request.user)})
+    return render(request, 'profile.html', context)
 
 
 def about(request):
@@ -202,7 +214,7 @@ def event_creation_success(request):
     context = {"upcomingEvents":upcomingEvents}
     return render(request, 'event_creation_success.html', context)
 
-def profile(request):
+def createprofile(request):
     context = {}
     addloginform(context)
     if request.method == 'POST':
@@ -239,7 +251,7 @@ def profile(request):
                 send_mail(email_subject, email_body, 'david@silentdiscosquad.com',
                     [email], fail_silently=False)
                 return render(request, 'register_success.html', context)
-        return render(request, 'profile.html', context)
+        return render(request, 'createprofile.html', context)
 
     else:
         pf = photoUploadForm()
@@ -247,7 +259,7 @@ def profile(request):
         upf = UserProfileForm()
         profile_CSS(uf, upf)
         context.update({"uf" : uf, "upf" : upf, "pf":pf})
-        return render(request, 'profile.html', context)
+        return render(request, 'createprofile.html', context)
 
 def profile_CSS(uf, upf):
     uf.fields['first_name'].widget.attrs['class'] = "formstyle"

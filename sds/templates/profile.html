@@ -1,180 +1,103 @@
-{% include "header.html" %}
-
+{% include "header.html" %} 
+<br>
+{% if myprofile %}
 <div class="container">
-  <div class="row">
-    <div class="col-sm-12 signup-picture" style="background-image:url(/static/img/sds3.jpg)"> 
-       <div class="profile-title">
-       <br>
-      <h1> Join the Silent Disco Squad Community now! </h1>
-      People from all around the world are participating and creating Silent Disco Squad. </br>
-      Join the community,  get to know them and connect with your fellow dancers! </br>
-      We would like to know you! </div><br><br>
+<div class="col-sm-12">
+  <h1>My profile</h1>
+  <h3>You can modify your infomation anytime.</h3>
+  <br>
+  <br>
+</div>
+<div name="profile">
+  <div class="col-sm-3"> <img  src=
+"https://silentdiscosquad.s3.amazonaws.com/{{currentUserProfile.profilePic.photoFile}}" width="100%"> </div>
+  <div class="col-sm-9"> 
+    <span class="profile-item"> Username: </span> {{ currentUserProfile.user.username }} <br>
+    <span class="profile-item">City: </span> {{currentUserProfile.city}}<br>
+    <span class="profile-item">First Name: </span> {{currentUserProfile.user.first_name}}<br>
+    <span class="profile-item">Last Name: </span> {{currentUserProfile.user.last_name}}<br>
+    <span class="profile-item">Email: </span> {{currentUserProfile.user.email}}<br>
+    <span class="profile-item">Zipcode: </span> {{currentUserProfile.zipcode}}<br>
+    <span class="profile-item">Role: </span> {{currentUserProfile.role}}<br>
+    <span class="profile-item">Dancefloor Superpower: </span> {{currentUserProfile.dancefloorSuperpower}} <br>
+    <button class="btn" type="button" onclick="editprofile();">Edit Profile</button>
+     <br>
+    <br>
+    <br>
     </div>
-  </div>
-
-<div class="row">
-  <div class="col-sm-6"> <h2>Instructions</h2></div>
-  <div class="col-sm-6">
-    <h2> Your Profile Info</h2>
-  </div>
+</div>
+  {% else %}
+  <div class="container">
+  <div class="col-sm-12">
+  <h1>{{currentUserProfile.user.first_name}}'s profile</h1>
+  <br>
+  <br>
+</div>
+<div name="profile">
+  <div class="col-sm-3"> <img  src=
+"https://silentdiscosquad.s3.amazonaws.com/{{currentUserProfile.profilePic.photoFile}}" width="100%"> </div>
+  <div class="col-sm-9"> 
+    <span class="profile-item"> Username: </span> {{ currentUserProfile.user.username }} <br>
+    <span class="profile-item">City: </span> {{currentUserProfile.city}}<br>
+    <span class="profile-item">First Name: </span> {{currentUserProfile.user.first_name}}<br>
+    <span class="profile-item">Last Name: </span> {{currentUserProfile.user.last_name}}<br>
+    <span class="profile-item">Role: </span> {{currentUserProfile.role}}<br>
+    <span class="profile-item">Dancefloor Superpower: </span> {{currentUserProfile.dancefloorSuperpower}} <br>
+     <br>
+    <br>
+    <br>
+    </div>
 </div>
 
+  {% endif %}
 
-</br>
-  <form method="post" action="" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% for field in uf %}
-      <div class="fieldWrapper">
-          {{ field.errors }}
+<script>
+function editprofile(){
+    document.getElementsByName("editprofile")[0].style.display = 'block';
+    document.getElementsByName("profile")[0].style.display = 'none';
+}
+</script> 
+<br>
+<br>
+<div name="editprofile" style="display:none">
+  <div class="col-sm-9">
+  <form  method="post" action="updateprofile" enctype="multipart/form-data">
+    {% csrf_token %} <br>
+    <br>
+    <div class="col-sm-3"> Profile Picture (100x100 pixels): </div>
+    <div class="col-sm-9"> {{pf.photoFile}} </div>
+    
+    <div class="col-sm-3"> First Name: </div>
+    <div class="col-sm-9"> {{uf.first_name}} {{uf.first_name.errors}} </div>
+    
+    <div class="col-sm-3"> Last Name:
+      <div hidden> Username: {{uf.username}} {{uf.username.errors}} <br>
+        <br>
+        Email: {{uf.email}} {{uf.email.errors}} <br>
+        <br>
       </div>
-    {% endfor %}
-    {% for field in upf %}
-      <div class="fieldWrapper">
-          {{ field.errors }}
-      </div>
-    {% endfor %}
+    </div> 
+    <div class="col-sm-9"> {{uf.last_name}} {{uf.last_name.errors}} </div>
+    
+    <div class="col-sm-3"> Dancefloor Superpower: </div>
+    <div class="col-sm-9"> {{upf.dancefloorSuperpower}} </div>
+    
+    <div class="col-sm-3"> Zipcode: </div>
+    <div class="col-sm-9"> {{upf.zipcode}} </div>
 
-    <span class="profile-error">{{uf.non_field_errors}}</span>
-{{ uf.non_field_errors }}
-{{ upf.non_field_errors }}
-{{ pf.non_field_errors }}
-
-<div class="row">
-  <div class="col-sm-6 bolder"> First Name</div>
-  <div class="col-sm-6">
-    <div class="input-group">
-        {{uf.first_name.errors}}
-        {{uf.first_name}}<br>
+    <div class="col-sm-3"> City: </div>
+    <div class="col-sm-9"> {{upf.city}} </div>
+    
+    <div class="col-sm-3"> Role: </div>
+    <div class="col-sm-9"> {{upf.role}} 
+    <br class="clear">
+    <button type="submit" class="btn submit">Save Changes</button>
     </div>
-  </div>
-</div>
+    
 
-<hr>
-
-<div class="row">
-  <div class="col-sm-6 bolder"> Last Name</div>
-  <div class="col-sm-6">
-    <div class="input-group">
-        {{uf.last_name.errors}}
-        {{uf.last_name}}<br>
     </div>
-  </div>
-</div>
-
-<hr>
-
-
-<div class="row">
-  <div class="col-sm-6 bolder"> Username that will appear beneath your picture on the community page for your city.</div>
-  <div class="col-sm-6">
-    <div class="input-group">
-        {{uf.username.errors}}
-        {{uf.username}}<br>
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-6 bolder"> Please enter a password.</div>
-  <div class="col-sm-6">
-    <div class="input-group">
-        {{uf.password1.errors}}
-        {{uf.password1}}<br>
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-6 bolder"> Please repeat your password.</div>
-  <div class="col-sm-6">
-    <div class="input-group">
-        {{uf.password2.errors}}
-        {{uf.password2}}<br>
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-6">(Optional) Which city are you in? </div>
-  <div class="col-sm-6">
-    <div class="input-group">
-        {{upf.city.errors}}
-        {{upf.city}}<br>
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-6 bolder"> Please enter a valid email, where we can send your account confirmation.</div>
-  <div class="col-sm-6">
-    <div class="input-group">
-        {{uf.email.errors}}
-        {{uf.email}}<br>
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-6 bolder"> What is your dancefloor superpower?</div>
-  <div class="col-sm-6">
-    <div class="input-group">
-        {{upf.dancefloorSuperpower.errors}}
-        {{upf.dancefloorSuperpower}}<br>
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-6">(Optional) Have you taken on any roles with Silent Disco Squad? </div>
-  <div class="col-sm-6">
-    <div class="input-group">
-        {{upf.role.errors}}
-        {{upf.role}}<br>
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-6 hidden-xs">(Optional) What's your zipcode? </div>
-  <div class="col-sm-6">
-    <div class="input-group">
-        {{upf.zipcode.errors}}
-        {{upf.zipcode}}<br>
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-6 bolder"> REQUIRED Profile Picture! (100x100 pixels)</div>
-  <div class="col-sm-6">
-    <div class="input-group">
-        {{pf.photoFile.errors}}
-        {{pf.photoFile}}<br>
-    </div>
-  </div>
-</div>
-
-<hr>
-   <br><br>
-  <button type="submit" class="btn submit">Create your profile</button>
-</form>
+  </form>
 
 </div>
 </div>
-  {% include "footer.html" %}
+{% include "footer.html" %}
