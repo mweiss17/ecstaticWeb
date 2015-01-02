@@ -83,7 +83,6 @@ def profile(request):
         currentUserProfile = UserProfile.objects.get(user=request.user)
         context.update({"myprofile":True})
 
-
     context.update({'cities':cities, 'currentUserProfile':currentUserProfile})
 
     pf = photoUploadForm(instance=currentUserProfile.profilePic)

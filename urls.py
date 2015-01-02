@@ -12,9 +12,6 @@ urlpatterns = patterns('',
 	url(r'^', include('sds.urls')),
 	url(r'^auth/', include('myauth.urls')),
 	
-	#Password Reset
-	(r'^accounts/password/reset/$', 'django.contrib.auth.views.password_reset',
-     {'post_reset_redirect' : '/accounts/password/reset/done/'}),
     (r'^accounts/password/reset/done/$', 'django.contrib.auth.views.password_reset_done'),
     (r'^accounts/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm',
      {'post_reset_redirect' : '/accounts/password/done/'}),

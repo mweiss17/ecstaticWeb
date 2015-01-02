@@ -10,7 +10,10 @@ from sds.models import *
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.contrib import auth
-import logging, json, pprint, datetime, time, hashlib,random,sys
+from django.conf import settings
+from sds.settings import *
+import logging, json, pprint, datetime, time, hashlib,random,sys,socket
+
 
 
 def addloginform(context):
@@ -27,6 +30,7 @@ def forgotpassword(request):
 	context = {'cities':cities}
 	addloginform(context)
 	ufpr = UserForgotPasswordForm()
+
 	if request.method == 'POST':
 		ufpr = UserForgotPasswordForm(request.POST)
 		context.update({'ufpr':ufpr})
@@ -34,7 +38,11 @@ def forgotpassword(request):
 			User = get_user_model()
 			user = User.objects.filter(email=request.POST['email'])
 			user.backend = 'django.contrib.auth.backends.ModelBackend'
-			if user:
+			if user and settings.SITE_ID == 5:
+				ufpr.save(from_email='Martin@SilentDiscoSquad.com', email_template_name='myauth/DEVELOPMENT_password_reset_email.html')
+				context.update({'success':"success"})
+				return render(request, 'forgotpassword.html', context)
+			elif user and settings.SITE_ID == 2:
 				ufpr.save(from_email='Martin@SilentDiscoSquad.com', email_template_name='myauth/password_reset_email.html')
 				context.update({'success':"success"})
 				return render(request, 'forgotpassword.html', context)
