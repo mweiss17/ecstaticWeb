@@ -32,6 +32,11 @@
   <form method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
     {{ef.non_field_errors}}
+    {% for field in ef %}
+      <div class="fieldWrapper">
+          {{ field.errors }}
+      </div>
+    {% endfor %}
 
 <div class="row">
   <div class="col-sm-6"> Name your event in accordance with your intention or as part of a larger theme</div>

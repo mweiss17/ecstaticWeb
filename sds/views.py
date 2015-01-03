@@ -449,7 +449,7 @@ def appindex(request):
 def logout(request):
     auth.logout(request)
     context = {}
-    return HttpResponseRedirect("/", context)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def mixMailSignup(request):
     #newsletter
