@@ -14,7 +14,7 @@ class UserProfileForm(ModelForm):
     class Meta:
         model = UserProfile 
         exclude = ['user', 'activation_key', 'key_expires', 'profilePic', 'discosAttended']
-        fields = ['role', 'dancefloorSuperpower', 'city', 'zipcode']
+        fields = ['role', 'dancefloorSuperpower', 'city', 'zipcode', 'newsletter']
 
 class MusicForm(ModelForm):
     def __init__(self, *args, **kwargs):

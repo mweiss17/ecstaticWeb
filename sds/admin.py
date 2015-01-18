@@ -16,7 +16,7 @@ class EventsAdmin(admin.ModelAdmin):
 		return obj.eventCity.cityName
 
 class UserProfileAdmin(admin.ModelAdmin):
-	list_display = ('user', 'profilePic', 'signupDate')
+	list_display = ('user', 'profilePic', 'signupDate', 'newsletter')
 
 #I'm not letting users upload music from the backend while it will have the incorrect MIME type
 class MusicAdmin(admin.ModelAdmin):
