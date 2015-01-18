@@ -452,6 +452,7 @@ def logout(request):
     context = {}
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
 def mixMailSignup(request):
     #newsletter
     if request.method == 'POST' and 'newsletter' in request.POST and 'email' in request.POST:
