@@ -90,7 +90,6 @@ class UserProfile(models.Model):
     dancefloorSuperpower = models.CharField(max_length=2048)
     zipcode = models.CharField(max_length=10, default=00000, blank=True, null=True)
     discosAttended = models.PositiveSmallIntegerField(default=0)
-    newsletter = models.BooleanField(blank=True)
     def __unicode__(self):
         return self.user.username
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
