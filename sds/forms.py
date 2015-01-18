@@ -5,7 +5,7 @@ from myauth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 class UserProfileForm(ModelForm):
-    newsletter = forms.BooleanField()
+    newsletter = forms.BooleanField(initial=True)
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         self.fields["role"].choices = [("", "Select your Role"),] + list(self.fields["role"].choices)[1:] 
