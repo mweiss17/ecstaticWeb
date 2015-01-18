@@ -248,7 +248,7 @@ def createprofile(request):
                 48hours http://%s/confirm/%s" % (uf.cleaned_data['username'], settings.HOSTNAME, userProfileObj.activation_key)
                 send_mail(email_subject, email_body, 'david@silentdiscosquad.com',
                     [email], fail_silently=False)
-                if uf.cleaned_data['newsletter']:
+                if upf.cleaned_data['newsletter']:
                     subscribeToMailchimp(email)
                 return render(request, 'register_success.html', context)
         return render(request, 'createprofile.html', context)
@@ -487,8 +487,11 @@ def mixMailSignup(request):
     return HttpResponseRedirect('/stream.html/?id='+request.POST['id'])       
 
 def subscribeToMailchimp(email):
-    list = utils.get_connection().get_list_by_id(MAILCHIMP_LIST_ID)
-    list.subscribe(email, {'EMAIL': email})
+    try:
+        list = utils.get_connection().get_list_by_id(MAILCHIMP_LIST_ID)
+        list.subscribe(email, {'EMAIL': email})
+    except:
+        pass
 
 
 def add_email_to_mailing_list(request):
