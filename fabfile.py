@@ -34,7 +34,8 @@ def aws():
     print fab.env.hosts
     fab.env.key_filename = SSH_KEY_FILE
     fab.env.user = SERVER_USER
-    fab.env.parallel = True
+    fab.env.parallel = False 
+aws()
 
 def prepare_deploy(branch_name):
     with fab.settings(warn_only=True):
@@ -43,9 +44,19 @@ def prepare_deploy(branch_name):
 	fab.local("git add -p --all :/ && git commit -a")
         fab.local('git checkout master && git merge ' + branch_name)
 
-def deploy():
+def deploy_live():
     with fab.settings(warn_only=True):
-        with cd('/home/ec2-user/sds'):
+        with fab.cd('/home/ec2-user/sds'):
+            fab.local('git push')
+            fab.run('git pull')
+            fab.run('python manage.py schemamigration sds --auto')
+            fab.run('python manage.py migrate sds')
+            fab.run('sudo /etc/init.d/httpd restart')
+
+
+def deploypreprod():
+    with fab.settings(warn_only=True):
+        with fab.cd('/home/ec2-user/sds'):
             fab.local('git push')
             fab.run('git pull')
             fab.run('python manage.py schemamigration sds --auto')
