@@ -9,7 +9,6 @@ from django.contrib.auth.forms import PasswordResetForm
 
 class UserCreationForm(AuthUserCreationForm):
 
-	receive_newsletter = forms.BooleanField(required=False)
 	class Meta:
 		model = User
 		## This method is defined in django.contrib.auth.form.UserCreationForm and explicitly links to auth.models.User so we need to override it
@@ -25,9 +24,7 @@ class UserCreationForm(AuthUserCreationForm):
 		)
 
 class UserChangeForm(AuthUserChangeForm):
-	
-	receive_newsletter = forms.BooleanField(required=False)
-	
+		
 	class Meta:
 		model = User
 

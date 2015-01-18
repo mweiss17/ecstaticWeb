@@ -225,7 +225,6 @@ def createprofile(request):
 
         if uf.is_valid():
             userObj = uf.save()
-            print >> sys.stderr, "userobj saved"
             if upf.is_valid():
                 print >> sys.stderr, "userprofile is_valid"
                 userProfileObj = upf.save(commit=False)
@@ -249,6 +248,8 @@ def createprofile(request):
                 48hours http://%s/confirm/%s" % (uf.cleaned_data['username'], settings.HOSTNAME, userProfileObj.activation_key)
                 send_mail(email_subject, email_body, 'david@silentdiscosquad.com',
                     [email], fail_silently=False)
+                if uf.cleaned_data['newsletter']:
+                    subscribeToMailchimp(email)
                 return render(request, 'register_success.html', context)
         return render(request, 'createprofile.html', context)
 
