@@ -45,6 +45,10 @@ class globalEvent(models.Model):
     def __unicode__(self):
         return self.title
 
+class EventAttendees(model.Model):
+    events = ForeignKey(Events)
+    attendees = ForeignKey(User)
+
 class Events(models.Model):
     active = models.BooleanField()
     title = models.CharField(max_length=100)
@@ -89,7 +93,6 @@ class UserProfile(models.Model):
     key_expires = models.DateTimeField(default=datetime.now)
     dancefloorSuperpower = models.CharField(max_length=2048)
     zipcode = models.CharField(max_length=10, default=00000, blank=True, null=True)
-    discosAttended = models.PositiveSmallIntegerField(default=0)
     newsletter = models.BooleanField()
     def __unicode__(self):
         return self.user.username

@@ -66,6 +66,7 @@ def deploy_dev():
     with fab.settings(warn_only=True):
         with fab.cd('/home/ec2-user/sds'):
             fab.env.hosts = ['ec2-user@54.173.246.101:22']
+	    print "here"
 	    fab.local('git push')
             fab.run('git pull')
             fab.run('python manage.py schemamigration sds --auto')
