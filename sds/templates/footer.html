@@ -69,6 +69,27 @@
 </div>
 <!--login-->
 
+<script>
+{% if request.user %}
+  currentUser = "{{request.user}}"
+{% else %}
+  currentUser = null;
+{% endif %}
+
+{% if event.id %}
+  eventID = "{{event.id}}"
+{% else %}
+  eventID = null;
+{% endif %}
+
+{% if event.eventMix.uploadedSong %}
+  eventMix = "{{event.eventMix.uploadedSong}}"
+{% else %}
+  eventMix = null;
+{% endif %}
+
+</script>
+
   <script type="text/javascript">
     
 $('.bxslider').bxSlider({

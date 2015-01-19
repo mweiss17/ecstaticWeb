@@ -35,7 +35,6 @@ def aws():
     fab.env.key_filename = SSH_KEY_FILE
     fab.env.user = SERVER_USER
     fab.env.parallel = False 
-aws()
 
 def prepare_deploy_dev(branch_name):
     with fab.settings(warn_only=True):

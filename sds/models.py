@@ -45,9 +45,6 @@ class globalEvent(models.Model):
     def __unicode__(self):
         return self.title
 
-class EventAttendees(models.Model):
-    events = ForeignKey(Events)
-    attendees = ForeignKey(User)
 
 class Events(models.Model):
     active = models.BooleanField()
@@ -67,6 +64,10 @@ class Events(models.Model):
 
     def __unicode__(self):
         return self.title
+
+class EventAttendees(models.Model):
+    event = models.ForeignKey(Events, blank=True, null=True)
+    attendee = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
 
 class UserProfile(models.Model):
     #Roles

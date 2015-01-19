@@ -41,8 +41,11 @@
     <div class="col-sm-12">
     <br><br>
       {% if event.eventMix.uploadedSong and user.is_authenticated %}
-      <a class="btn streamOrDownload" href="/stream.html?id={{event.id}};">Stream The Mix</button>
-      <a class="btn streamOrDownload" href='https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}'>Download Mix!</a>
+      <button class="btn streamOrDownload" onclick='recordStream();'>Stream The Mix</button>
+      <button class="btn streamOrDownload" onclick='recordDownload();'>Download Mix!</button>
+
+      <!--a class="btn streamOrDownload" href="/stream.html?id={{event.id}};">Stream The Mix</a>
+      <a class="btn streamOrDownload" href='https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}'>Download Mix!</a-->
       {% elif event.eventMix.uploadedSong %}
       <a class="btn streamOrDownload" href="#login">Stream The Mix</button>
       <a class="btn streamOrDownload" href="#login" >Download Mix!</a>
