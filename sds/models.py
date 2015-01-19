@@ -45,7 +45,7 @@ class globalEvent(models.Model):
     def __unicode__(self):
         return self.title
 
-class EventAttendees(model.Model):
+class EventAttendees(models.Model):
     events = ForeignKey(Events)
     attendees = ForeignKey(User)
 
