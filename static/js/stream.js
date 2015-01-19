@@ -45,7 +45,7 @@ function sync(){
 function playMix() {
 	this.mAudioPlayer.play();
 	this.mAudioPlayer.pause();
-	tryToJumpInterval = setInterval(tryToJump, 50);
+	tryToJumpInterval = setInterval(tryToJump, 5000);
 	updateProgressInterval = setInterval(updateProgress, 1000);
 }
 
@@ -54,10 +54,6 @@ function tryToJump() {
 	if(Math.abs(mAudioPlayer.currentTime - playtime) > 5){
 		mAudioPlayer.currentTime = playtime;
 		this.mAudioPlayer.play();
-	}
-	//Clear the interval if the it's within 5 seconds, and the player is playing
-	else if(!mAudioPlayer.paused){
-		clearInterval(tryToJumpInterval);
 	}
 }
 
