@@ -18,6 +18,8 @@ def prepare_deploy(branch_name):
     with fab.settings(warn_only=True):
         fab.local('python manage.py schemamigration sds --auto')
         fab.local('python manage.py migrate sds')
+	fab.local('python manage.py schemamigration myauth --auto')
+        fab.local('python manage.py migrate myauth')
 	fab.local("git add -p --all :/ && git commit -a")
         fab.local('git checkout master && git merge ' + branch_name)
 
@@ -28,6 +30,8 @@ def deploy():
             fab.run('git pull')
             fab.run('python manage.py schemamigration sds --auto')
             fab.run('python manage.py migrate sds')
+            fab.run('python manage.py schemamigration myauth --auto')
+            fab.run('python manage.py migrate myauth')
             fab.run('sudo /etc/init.d/httpd restart')
 
 def aws_hosts():
