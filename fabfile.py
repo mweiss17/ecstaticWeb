@@ -1,6 +1,9 @@
 from fabric import api as fab
 from fabric.network import ssh
 import boto
+import boto.utils
+import time
+import datetime
 
 LOAD_BALANCER_NAME = 'SDSLiveLoadBalancer'
 SERVER_USER = 'ec2-user'
@@ -14,10 +17,17 @@ def live():
     aws()
     SSH_KEY_FILE = '~/.ssh/martin.pem'
 
+def takeImage():
+    with fab.settings(warn_only=True):
+        with fab.cd('/home/ec2-user/sds'):
+            fab.run('python deployment_scripts/createImage.py')
+
 def prepare_deploy(branch_name):
     with fab.settings(warn_only=True):
         fab.local('python manage.py schemamigration sds --auto')
         fab.local('python manage.py migrate sds')
+	fab.local('python manage.py schemamigration myauth --auto')
+        fab.local('python manage.py migrate myauth')
 	fab.local("git add -p --all :/ && git commit -a")
         fab.local('git checkout master && git merge ' + branch_name)
 
@@ -28,6 +38,8 @@ def deploy():
             fab.run('git pull')
             fab.run('python manage.py schemamigration sds --auto')
             fab.run('python manage.py migrate sds')
+            fab.run('python manage.py schemamigration myauth --auto')
+            fab.run('python manage.py migrate myauth')
             fab.run('sudo /etc/init.d/httpd restart')
 
 def aws_hosts():

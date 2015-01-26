@@ -229,12 +229,12 @@ def createprofile(request):
                 print >> sys.stderr, "userprofile is_valid"
                 userProfileObj = upf.save(commit=False)
                 userProfileObj.user = userObj
-                if pf.is_valid():                 
-                    photoObj = pf.save(commit=False)
-                    photoObj.user = userObj
-                    photoObj.save()
-                    context.update({'pf':photoObj})
-                    userProfileObj.profilePic = photoObj
+            if pf.is_valid():                 
+                photoObj = pf.save(commit=False)
+                photoObj.user = userObj
+                photoObj.save()
+                context.update({'pf':photoObj})
+                userProfileObj.profilePic = photoObj
                 email = uf.cleaned_data['email']
                 salt = hashlib.sha1(str(random.random())).hexdigest()[:5]            
                 userProfileObj.activation_key = hashlib.sha1(salt+email).hexdigest()            
