@@ -3,18 +3,22 @@ from boto.ec2.autoscale import AutoScaleConnection
 from boto.ec2.autoscale import LaunchConfiguration
 from boto.ec2.autoscale import AutoScalingGroup
 
+img = ""
+
 #Create an Image of the current server
 def create_image():
+    global img
     instance_id = boto.utils.get_instance_metadata()['instance-id']
     timestamp = time.time()
     value = datetime.datetime.fromtimestamp(timestamp)
     humanreadabledate = value.strftime('%Y-%m-%d_%H.%M.%S')
     image_name = 'productionImage'+humanreadabledate
     conn = boto.connect_ec2()
-    img = conn.create_image(instance_id, name, description=None, no_reboot=False, block_device_mapping=None, dry_run=False)
+    img = conn.create_image(instance_id, image_name, description=None, no_reboot=False, block_device_mapping=None, dry_run=False)
 
 #Create a new Autoscaling Configuration
 def create_autoscaling_conf():
+    global img
     conn = AutoScaleConnection(os.environ['AWS_ACCESS_KEY_ID'], os.environ['AWS_SECRET_ACCESS_KEY'])
     autoscale = boto.ec2.autoscale.connect_to_region('us-east-1')
     print conn.get_all_groups()
