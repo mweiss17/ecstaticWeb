@@ -1,6 +1,9 @@
 from fabric import api as fab
 from fabric.network import ssh
 import boto
+import boto.utils
+import time
+import datetime
 
 LOAD_BALANCER_NAME = 'SDSLiveLoadBalancer'
 SERVER_USER = 'ec2-user'
@@ -13,6 +16,11 @@ def dev():
 def live():
     aws()
     SSH_KEY_FILE = '~/.ssh/martin.pem'
+
+def takeImage():
+    with fab.settings(warn_only=True):
+        with fab.cd('/home/ec2-user/sds'):
+            fab.run('python deployment_scripts/createImage.py')
 
 def prepare_deploy(branch_name):
     with fab.settings(warn_only=True):
