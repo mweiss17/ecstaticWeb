@@ -3,6 +3,7 @@ from boto.ec2.autoscale import AutoScaleConnection
 from boto.ec2.autoscale import LaunchConfiguration
 from boto.ec2.autoscale import AutoScalingGroup
 
+conn = boto.connect_ec2()
 print conn.get_all_groups()
 old_autoscaling_group = conn.get_all_groups()
 old_config_group = conn.get_all_groups()
@@ -13,7 +14,6 @@ timestamp = time.time()
 value = datetime.datetime.fromtimestamp(timestamp)
 humanreadabledate = value.strftime('%Y-%m-%d_%H.%M.%S')
 image_name = 'productionImage'+humanreadabledate
-conn = boto.connect_ec2()
 img = conn.create_image(instance_id, name, description=None, no_reboot=False, block_device_mapping=None, dry_run=False)
 
 #Create a new Autoscaling Configuration
