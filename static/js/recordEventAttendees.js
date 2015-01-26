@@ -3,7 +3,6 @@ var xmlhttp = new XMLHttpRequest();
 function record(){
 	//Hit the server's view that checks whether this account has already "attended" this event
 	try{
-		console.log("heyo");
 		xmlhttp.open("GET","/recordEventAttendees.html/?eventID="+eventID,true);
 		xmlhttp.send();
 	}
@@ -14,10 +13,10 @@ function record(){
 
 function recordStream() {
 	record();
-	//window.location.href = "/stream.html?id="+eventID;
+	window.location.href = "/stream.html?id="+eventID;
 }
 
 function recordDownload() {
 	record();
-	//window.location.href = "https://s3.amazonaws.com/silentdiscosquad/"+eventMix;
+	window.location.href = "https://s3.amazonaws.com/silentdiscosquad/"+eventMix;
 }

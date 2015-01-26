@@ -293,7 +293,7 @@ def register_confirm(request, activation_key):
     user_profile = get_object_or_404(UserProfile, activation_key=activation_key)
 
     #check if the activation key has expired, if it hase then render confirm_expired.html
-    if user_profile.key_expires < datetime.datetime.now():
+    if user_profile.key_expires < datetime.datetime.utcnow():
         return render_to_response('user_profile/confirm_expired.html')
     #if the key hasn't expired save user and set him as active and render some template to confirm activation
     user = user_profile.user
