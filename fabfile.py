@@ -15,6 +15,7 @@ def deployLive():
     with fab.settings(warn_only=True):
         with fab.cd('/home/ec2-user/sds'):
             fab.run('python deploy.py')
+            fab.local('python deploy_cleanup.py')
 
 def prepare_deploy(branch_name):
     with fab.settings(warn_only=True):

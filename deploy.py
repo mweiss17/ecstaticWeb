@@ -33,17 +33,5 @@ def create_autoscaling_group():
     ag = AutoScalingGroup(group_name=config_name, load_balancers=['SDSLiveLoadBalancer'], availability_zones=['us-east-1a'], launch_config=lc, min_size=2, max_size=2, connection=conn)
     conn.create_auto_scaling_group(ag)
 
-conn = AutoScaleConnection(os.environ['AWS_ACCESS_KEY_ID'], os.environ['AWS_SECRET_ACCESS_KEY'])
-print conn.get_all_groups()
-old_autoscaling_group = conn.get_all_groups()
-old_config_group = conn.get_all_groups()
 create_image()
 create_autoscaling_group()
-print "Wait 5 minutes"
-time.sleep(300)
-print "wake up and kill the old AG group."
-
-
-#old_autoscaling_group.shutdown_instances()
-#old_autoscaling_group.delete()
-#old_config_group.delete()
