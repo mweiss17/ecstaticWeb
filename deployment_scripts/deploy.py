@@ -16,11 +16,6 @@ def create_image():
     conn = boto.connect_ec2()
     img = conn.create_image(instance_id, image_name, description=None, no_reboot=False, block_device_mapping=None, dry_run=False)
 
-#Get the cloudinit script to be run on startup on the new servers
-def get_script(filename='user-data-script.sh'):
-    template = open(filename).read()
-    return template
-
 #Create a new Autoscaling Group
 def create_autoscaling_group():
     global img
@@ -31,7 +26,7 @@ def create_autoscaling_group():
     value = datetime.datetime.fromtimestamp(timestamp)
     humanreadabledate = value.strftime('%Y-%m-%d_%H.%M.%S')
     config_name = 'live_launch_config'+humanreadabledate
-    init_script = get_script()
+    init_script = "sed -i 's/preprod.cdadlb7rfieo.us-east-1.rds.amazonaws.com/sdslivejan28.cdadlb7rfieo.us-east-1.rds.amazonaws.com/g"
     lc = LaunchConfiguration(name=config_name, image_id=img,
                              key_name='SDSEastKey',
                              security_groups=['sg-a7afb1c2'],
