@@ -26,10 +26,11 @@ def create_autoscaling_group():
     value = datetime.datetime.fromtimestamp(timestamp)
     humanreadabledate = value.strftime('%Y-%m-%d_%H.%M.%S')
     config_name = 'live_launch_config'+humanreadabledate
+    init_script = "#!/bin/sh filename=/home/ec2-user/sds/sds/config.json; sed -i 's/preprod.cdadlb7rfieo.us-east-1.rds.amazonaws.com/sdslivejan28.cdadlb7rfieo.us-east-1.rds.amazonaws.com/g' $filename"
     lc = LaunchConfiguration(name=config_name, image_id=img,
                              key_name='SDSEastKey',
                              security_groups=['sg-a7afb1c2'],
-                             user_data="#!/bin/sh sed -i 's/preprod.cdadlb7rfieo.us-east-1.rds.amazonaws.com/sdslivejan28.cdadlb7rfieo.us-east-1.rds.amazonaws.com/g' /home/ec2-user/sds/sds/config.json")
+                             user_data="#!/bin/sh filename=/home/ec2-user/sds/sds/config.json; sed -i 's/preprod.cdadlb7rfieo.us-east-1.rds.amazonaws.com/sdslivejan28.cdadlb7rfieo.us-east-1.rds.amazonaws.com/g' $filename")
     conn.create_launch_configuration(lc)
     ag = AutoScalingGroup(group_name=config_name, load_balancers=['SDSLiveLoadBalancer'], availability_zones=['us-east-1a'], launch_config=lc, min_size=2, max_size=2, connection=conn)
     conn.create_auto_scaling_group(ag)
