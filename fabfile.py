@@ -15,7 +15,9 @@ def deployLive():
     with fab.settings(warn_only=True):
         with fab.cd('/home/ec2-user/sds'):
             fab.run('python deploy.py')
-            fab.local('python deploy_cleanup.py')
+            #fab.local('python deploy_cleanup.py')
+            #fab.env.hosts = aws_hosts()             
+            #fab.run('python intialize_live_server.py')
 
 def prepare_deploy(branch_name):
     with fab.settings(warn_only=True):
@@ -38,7 +40,7 @@ def deploy():
             fab.run('sudo /etc/init.d/httpd restart')
 
 def aws_hosts():
-    # Get a list of instance IDs for the ELB.
+    # Get a list of instance IDs behind the load balancer.
     instances = []
     conn = boto.connect_elb()
     for elb in conn.get_all_load_balancers(LOAD_BALANCER_NAME):
@@ -59,14 +61,6 @@ def aws_hosts():
     hosts.sort() # Put them in a consistent order, so that calling code can do hosts[0] and hosts[1] consistently.
 
     return hosts
-
-def aws():
-    fab.env.hosts = aws_hosts()
-    print fab.env.hosts
-    fab.env.key_filename = SSH_KEY_FILE
-    fab.env.user = SERVER_USER
-    fab.env.parallel = False
-
 
 def reset_migrations():
     #navigate into the production database and run:  'drop table south_migrationhistory;'
