@@ -13,7 +13,7 @@ fab.env.key_filename = '~/.ssh/martin.pem'
 
 def deployLive():
     with fab.settings(warn_only=True):
-        with fab.cd('/home/ec2-user/sds'):
+        with fab.cd('/home/ec2-user/sds/deployment_scripts/'):
             fab.run('python deploy.py')
             #fab.local('python deploy_cleanup.py')
             #fab.env.hosts = aws_hosts()             
