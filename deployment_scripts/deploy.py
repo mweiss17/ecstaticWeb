@@ -26,7 +26,7 @@ def create_autoscaling_group():
     value = datetime.datetime.fromtimestamp(timestamp)
     humanreadabledate = value.strftime('%Y-%m-%d_%H.%M.%S')
     config_name = 'live_launch_config'+humanreadabledate
-    init_script = "#!/bin/bash sed -i 's/preprod.cdadlb7rfieo.us-east-1.rds.amazonaws.com/sdslivejan28.cdadlb7rfieo.us-east-1.rds.amazonaws.com/g ~/sds/sds/config.json"
+    init_script = "#!/bin/sh sed -i 's/preprod.cdadlb7rfieo.us-east-1.rds.amazonaws.com/sdslivejan28.cdadlb7rfieo.us-east-1.rds.amazonaws.com/g ~/sds/sds/config.json"
     lc = LaunchConfiguration(name=config_name, image_id=img,
                              key_name='SDSEastKey',
                              security_groups=['sg-a7afb1c2'],
