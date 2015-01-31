@@ -60,7 +60,7 @@ def loginView(request):
 	users = User.objects.filter(Q(username=name)|Q(email=name))
 	context = {}
 	for user in users:
-		if user.is_active and user.check_password(password):
+		if user.check_password(password):
 			user.backend = 'django.contrib.auth.backends.ModelBackend'
 			auth.login(request, user)
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'), context)

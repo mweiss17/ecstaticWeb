@@ -53,7 +53,7 @@ class UserCreateForm(UserCreationForm):
         model = User
         fields = ( "username", "email", "first_name", "last_name" )
 
-class UpdateProfile(forms.ModelForm):
+class profile_update_form(forms.ModelForm):
     username = forms.CharField(required=True)
     email = forms.EmailField(required=True)
     first_name = forms.CharField(required=False)
@@ -72,7 +72,7 @@ class UpdateProfile(forms.ModelForm):
         return email
 
     def save(self, commit=True):
-        user = super(UpdateProfile, self).save(commit=False)
+        user = super(profile_update_form, self).save(commit=False)
         user.email = self.cleaned_data['email']
 
         if commit:

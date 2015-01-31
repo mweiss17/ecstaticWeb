@@ -39,7 +39,7 @@ class LoginForm(forms.Form):
 		self.user = None
 		users = User.objects.filter(Q(username=login)|Q(email=login))
 		for user in users:
-			if user.is_active and user.check_password(password):
+			if user.check_password(password):
 				self.user = user
 		if self.user is None:
 			raise forms.ValidationError('Invalid username or password')

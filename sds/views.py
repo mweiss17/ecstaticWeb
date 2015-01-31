@@ -86,17 +86,18 @@ def profile(request):
     context.update({'cities':cities, 'currentUserProfile':currentUserProfile})
 
     pf = photoUploadForm(instance=currentUserProfile.profilePic)
-    uf = UpdateProfile(instance=currentUserProfile.user)
+    uf = profile_update_form(instance=currentUserProfile.user)
     upf = UserProfileForm(instance=currentUserProfile)
     context.update({"uf" : uf, "upf" : upf, "pf":pf})
     return render(request, 'profile.html', context)
 
 def profileupdate(request):
     context = {}
+    context.update({"myprofile":True})
     addloginform(context)
     cities = city.objects.filter()
     pf = photoUploadForm(request.POST, request.FILES, instance=request.user.profile.profilePic)
-    uf = UpdateProfile(data=request.POST, instance=request.user)
+    uf = profile_update_form(data=request.POST, instance=request.user)
     upf = UserProfileForm(request.POST, request.FILES, instance=request.user.profile)
     context.update({'uf':uf, 'upf':upf, 'pf':pf})
 
@@ -241,13 +242,6 @@ def createprofile(request):
                 userProfileObj.key_expires = datetime.datetime.today() + datetime.timedelta(2)
                 userProfileObj.save()
                 context.update({'upf': userProfileObj})
-
-                # Send email with activation key
-                email_subject = 'SDS Account Confirmation'
-                email_body = "Hey %s, thanks for signing up. To activate your account, click this link within \
-                48hours http://%s/confirm/%s" % (uf.cleaned_data['username'], settings.HOSTNAME, userProfileObj.activation_key)
-                send_mail(email_subject, email_body, 'david@silentdiscosquad.com',
-                    [email], fail_silently=False)
                 if upf.cleaned_data['newsletter']:
                     subscribeToMailchimp(email)
                 return render(request, 'register_success.html', context)
