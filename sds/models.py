@@ -22,7 +22,10 @@ class Photos(models.Model):
     title = models.CharField(max_length=100, blank=True)
     photoUploadDate = models.DateTimeField("photoUploadDate", auto_now=True, blank=True, null=True)
     def __unicode__(self):
-        return self.photoFile.url + " : " + str(self.photoUploadDate)
+        if self.photoFile:
+            return self.photoFile.url
+        else:
+            return "/static/img/default_profile_pic.jpg"
 
 class Music(models.Model):
     uploadedSong = models.FileField(upload_to='uploadedSongs/%Y/%m/%d', default='uploadedSongs', blank=True)
@@ -95,15 +98,6 @@ class UserProfile(models.Model):
     dancefloorSuperpower = models.CharField(max_length=2048, blank=True, null=True)
     zipcode = models.CharField(max_length=10, default=00000, blank=True, null=True)
     newsletter = models.BooleanField()
-
-    @property
-    def profile_image_url(self):
-        # Pseudocode:
-        if UserProfile.profilePic:
-            return UserProfile.profilePic
-        else:
-            return "/static/img/default_profile_pic.jpg"
-
     def __unicode__(self):
         return self.user.username
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])

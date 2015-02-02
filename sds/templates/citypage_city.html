@@ -47,13 +47,13 @@
             <h4>Your Fellow dancers</h4>
         </div>
         {% for person in community %}
-        <a href="/profile.html?username={{person.user.username}}">
-            <div class="col-sm-1 nopadding dancer hidden-xs">
-                <img height="100px" src=
-                "https://silentdiscosquad.s3.amazonaws.com/{{person.profilePic.photoFile}}" width="100%">
-                {{ person.user.username }}
-            </div>
-        </a>
+            <a href="/profile.html?username={{person.user.username}}">
+                <div class="col-sm-1 nopadding dancer hidden-xs">
+                    <img height="100px" src=
+                    "{{person.profilePic}}" width="100%">
+                    {{ person.user.username }}
+                </div>
+            </a>
         {% endfor %} 
         </div>
     </div>

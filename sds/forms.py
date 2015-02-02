@@ -31,8 +31,8 @@ class surveySignupsForm(ModelForm):
 
 class UserCreateForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=30)
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=30, required=False)
     def clean_email(self):
         email = self.cleaned_data["email"]
         try:
@@ -80,6 +80,7 @@ class profile_update_form(forms.ModelForm):
         return user
 
 class photoUploadForm(ModelForm):
+    photoFile = forms.FileField(required=False)
     class Meta:
         model = Photos
         fields = ['user', 'photoFile', 'title']

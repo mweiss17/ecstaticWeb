@@ -107,7 +107,11 @@ def profileupdate(request):
             photoObj = pf.save(commit=False)
             photoObj.user = userObj
             photoObj.save()
-        if upf.is_valid():
+        if upf.is_valid() and not pf.is_valid():
+            userProfileObj = upf.save(commit=False)
+            userProfileObj.user = userObj
+            userProfileObj.save()
+        elif upf.is_valid():
             userProfileObj = upf.save(commit=False)
             userProfileObj.user = userObj
             userProfileObj.profilePic = photoObj
@@ -227,7 +231,6 @@ def createprofile(request):
         if uf.is_valid():
             userObj = uf.save()
             if upf.is_valid():
-                print >> sys.stderr, "userprofile is_valid"
                 userProfileObj = upf.save(commit=False)
                 userProfileObj.user = userObj
             if pf.is_valid():                 
@@ -244,6 +247,8 @@ def createprofile(request):
                 context.update({'upf': userProfileObj})
                 if upf.cleaned_data['newsletter']:
                     subscribeToMailchimp(email)
+                userObj.backend = 'django.contrib.auth.backends.ModelBackend'
+                auth.login(request, userObj)
                 return render(request, 'register_success.html', context)
         return render(request, 'createprofile.html', context)
 
@@ -341,7 +346,7 @@ def citypage_city(request):
     addloginform(context)
     eventCity=str(request.GET['city'])
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7), eventCity=city.objects.get(cityName=str(request.GET['city'])), active=True)
-    community = UserProfile.objects.filter(city=city.objects.get(cityName=str(request.GET['city'])))
+    community = UserProfile.objects.filter(city=city.objects.get(cityName=str(request.GET['city']))).exclude(profilePic__photoFile="")
     cities = city.objects.filter()
 
 
@@ -444,6 +449,8 @@ def appindex(request):
 def logout(request):
     auth.logout(request)
     context = {}
+    if "profile.html" in request.META.get('HTTP_REFERER'):
+        return HttpResponseRedirect('/')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 

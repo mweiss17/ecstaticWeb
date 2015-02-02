@@ -62,13 +62,13 @@
   <h3>Skype username: david.zangwill</h3>
 </div>
 
-
+<!--login-->
 <div class="remodal" data-remodal-id="login">
   <div id="slidediv"> {% include "login.html" %} </div>
 </div>
 </div>
-<!--login-->
 
+<!--Variables that are accessible in javascript-->
 <script>
 {% if request.user %}
   currentUser = "{{request.user}}"
@@ -87,7 +87,9 @@
 {% else %}
   eventMix = null;
 {% endif %}
-
+{% if event.music_start_time %} 
+  music_start_time = '{{ event.music_start_time|date:"U" }}'
+{% endif %}
 </script>
 
   <script type="text/javascript">

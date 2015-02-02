@@ -1,4 +1,6 @@
 {% include "header.html" %}
+<script src="/static/js/future.js"></script>
+<script src="/static/js/cookies.js"></script>
 <div class="container">
 <div class="row city-details">
 <!-- don't remove this!! it's used in emailCollection to grab the id / event name-->
@@ -11,21 +13,6 @@
       <div class="col-sm-7">
         <h2> Countdown</h2>
         <span class="countdown"> 
-        <script>
-          window.onload = startCountdown();
-
-          function startCountdown(){
-            var str = new Date(Number('{{ event.music_start_time|date:"U" }}'));
-            var adj = new Date((str.getTime() + 14400)*1000);
-            new Countdown({
-              selector: '.countdown',
-              msgPattern: "{days} days, {hours} hours, {minutes} minutes, and {seconds} seconds till Disco!",
-              dateStart: new Date(), //milliseconds since epoch,
-              //dateEnd: new Date(Number(str.concat('000'))) /*seconds since epoch*/
-              dateEnd: adj
-            });
-          }
-        </script> 
         </span> 
       </div>
 
@@ -40,18 +27,15 @@
     <br class="clear">
     <div class="col-sm-12">
     <br><br>
-      {% if event.eventMix.uploadedSong and user.is_authenticated %}
-      <button class="btn streamOrDownload" onclick='recordStream();'>Stream The Mix</button>
-      <button class="btn streamOrDownload" onclick='recordDownload();'>Download Mix!</button>
-
-      <!--a class="btn streamOrDownload" href="/stream.html?id={{event.id}};">Stream The Mix</a>
-      <a class="btn streamOrDownload" href='https://s3.amazonaws.com/silentdiscosquad/{{event.eventMix.uploadedSong}}'>Download Mix!</a-->
-      {% elif event.eventMix.uploadedSong %}
-      <a class="btn streamOrDownload" href="#login">Stream The Mix</button>
-      <a class="btn streamOrDownload" href="#login" >Download Mix!</a>
+    {% if event.eventMix.uploadedSong and user.is_authenticated %}
+      <button id="stream" class="btn streamOrDownload" onclick='record_stream();'>Stream The Mix</button>
+      <button id="download" class="btn streamOrDownload" onclick='record_download();'>Download Mix!</button>
+    {% elif event.eventMix.uploadedSong %}
+      <button class="btn streamOrDownload" onclick="set_stream_cookie();">Stream The Mix</button>
+      <button class="btn streamOrDownload" onclick="set_download_cookie();" >Download Mix!</a>
     {% elif event.globalEvent.eventMix.uploadedSong %}
-      <a class="btn streamOrDownload" href="#login">Stream The Mix</button>
-      <a class="btn streamOrDownload" href="#login" >Download Mix!</a>
+      <button class="btn streamOrDownload" onclick="set_stream_cookie();">Stream The Mix</button>
+      <button class="btn streamOrDownload" onclick="set_download_cookie();" >Download Mix!</a>
     {% elif not event.eventMix.uploadedSong %}
       <a class="btn streamOrDownload" disabled href="#login">Stream The Mix</button>
       <a class="btn streamOrDownload" disabled href="#login" >Download Mix!</a>

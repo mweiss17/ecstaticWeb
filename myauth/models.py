@@ -17,7 +17,7 @@ class UserManager(BaseUserManager):
 			raise ValueError(_('The given username must be set'))
 		email = self.normalize_email(email)
 		user = self.model(username=username, email=email,
-			is_staff=is_staff,
+			is_staff=is_staff, is_active=True,
 			is_superuser=is_superuser, last_login=now,
 			date_joined=now, **extra_fields)
 		user.set_password(password)
@@ -31,6 +31,7 @@ class UserManager(BaseUserManager):
 	def create_superuser(self, username, email, password, **extra_fields):
 		user=self._create_user(username, email, password, True, True,
 		**extra_fields)
+		user.is_active=True
 		user.save(using=self._db)
 		return user
 
@@ -43,8 +44,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 	email = models.EmailField(_('email address'), max_length=255)
 	is_staff = models.BooleanField(_('staff status'), default=False,
 		help_text=_('Designates whether the user can log into this admin site.'))
-	#is_active = models.BooleanField(_('active'), default=False,
-	#	help_text=_('Designates whether this user should be treated as active. Unselect this instead of deleting accounts.'))
+	is_active = models.BooleanField(_('active'), default=False,
+		help_text=_('Designates whether this user should be treated as active. Unselect this instead of deleting accounts.'))
 	date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
 	USERNAME_FIELD = 'username'
