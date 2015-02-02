@@ -37,7 +37,6 @@ def forgotpassword(request):
 		if ufpr.is_valid():
 			User = get_user_model()
 			user = User.objects.filter(email=request.POST['email'])
-			print >> sys.stderr, user
 			user.backend = 'django.contrib.auth.backends.ModelBackend'
 			if user and settings.SITE_ID == 5:
 				ufpr.save(from_email='Martin@SilentDiscoSquad.com', email_template_name='myauth/DEVELOPMENT_password_reset_email.html')
