@@ -15,6 +15,8 @@ from boto.s3.key import Key
 from datetime import datetime, date, time
 
 
+
+
 class Photos(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     photoFile = models.FileField(upload_to='Photos/%Y/%m/%d')
@@ -23,9 +25,9 @@ class Photos(models.Model):
     photoUploadDate = models.DateTimeField("photoUploadDate", auto_now=True, blank=True, null=True)
     def __unicode__(self):
         if self.photoFile:
-            return self.photoFile.url
+            return unicode(self.photoFile.url)
         else:
-            return "/static/img/default_profile_pic.jpg"
+            return unicode("/static/img/default_profile_pic.jpg")
 
 class Music(models.Model):
     uploadedSong = models.FileField(upload_to='uploadedSongs/%Y/%m/%d', default='uploadedSongs', blank=True)
