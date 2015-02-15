@@ -4,3 +4,4 @@ media/
 *.pyc
 sds.log
 sds/migrations/*.pyc
+sds/settings/__init__.py

@@ -28,6 +28,7 @@ urlpatterns = patterns('',
     url(r'^mailchimp/', include('mailchimp.urls')),
     url(r'^mission.html/$', views.mission, name='mission'),
     url(r'^mixMailSignup/$', views.mixMailSignup),
+    url(r'^nuitblanche/$', views.index),
     url(r'^organize.html/$', views.organize, name='organize'),
     url(r'^participate.html/$', views.participate, name='participate'),
     url(r'^profile.html/$', views.profile, name='profile'),
@@ -39,4 +40,3 @@ urlpatterns = patterns('',
     url(r'^weblog/', include('zinnia.urls')),
     url(r'^whatissds.html/$', views.whatissds, name='whatissds'),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-

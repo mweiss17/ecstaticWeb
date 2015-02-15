@@ -21,9 +21,8 @@ from django.contrib.auth.forms import *
 from django.contrib import messages
 from myauth.forms import *
 from django.contrib.auth import login
-import logging, json, pprint, datetime, time, hashlib,random,sys
+import logging, json, pprint, datetime, time, hashlib, random,sys,mixpanel
 
-MAILCHIMP_LIST_ID = '4d0c4db173' 
 REDIRECT_URL_NAME = '/?email_added=success'
 
 def calculateCurrentTime():
@@ -41,7 +40,15 @@ def addloginform(context):
     context.update({'loginform':loginform})
     return
 
+def checkIfNuitBlanche(PATH):
+    if "nuitblanche" in PATH:
+        mp = mixpanel.Mixpanel(PROJECT_TOKEN)
+        mp.track("NuitBlancheVisit",{"person":"person"})
+    return
+
+
 def index(request):
+    checkIfNuitBlanche(request.path)
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
     datetimeNow = datetime.datetime.now()
     TimeZone = datetime.timedelta(seconds=3600*7) #adjustment for EST (4 hrs) + 

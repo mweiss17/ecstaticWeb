@@ -60,8 +60,11 @@ and come up with an actual fix-->
     </li>
     <li><img src="/static/img/tedxconcordia_talk.jpg" />
       <div class="overlay">
-      <div class="main-title">Watch the TEDxTalk</br>
+      <div id="tedxtalk" class="main-title">Watch the TEDxTalk</br>
         <h3 class="yellow"> <a href="#tedxtalk"> <span class="glyphicon glyphicon-play-circle"></span> <a href="#tedxtalk"> How do we carry the music festival forward?</a> </h3>
+          <script type="text/javascript">
+            mixpanel.track_links("#tedxtalk a", "watch tedxtalk");
+          </script>
       </div>
     </li>
   </ul>
