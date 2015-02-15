@@ -3,5 +3,5 @@ from .common import *
 
 DEBUG = False
 DATABASES = PREPROD_DATABASE
-SITE_ID = 5
+SITE_ID = 2
 

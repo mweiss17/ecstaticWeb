@@ -165,4 +165,3 @@ PRODUCTION_DATABASE={
         "PORT": "5432"
     }
 }
-PROJECT_TOKEN = ""
