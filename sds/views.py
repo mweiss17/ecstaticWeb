@@ -231,7 +231,7 @@ def createprofile(request):
         uf = UserCreateForm(request.POST, request.FILES)
         upf = UserProfileForm(request.POST, request.FILES)
         pf = photoUploadForm(request.POST, request.FILES)
-        mp_id = request.POST['mp_id']
+        #mp_id = request.POST['mp_id']
         context.update({'uf': uf, 'upf':upf, 'pf':pf})
         profile_CSS(uf, upf)
 
@@ -257,11 +257,11 @@ def createprofile(request):
                     subscribeToMailchimp(email)
                 userObj.backend = 'django.contrib.auth.backends.ModelBackend'
                 auth.login(request, userObj)
-                mp.people_set(mp_id, {
+                """mp.people_set(mp_id, {
                     '$first_name'    : userObj.first_name,
                     '$last_name'     : userObj.last_name,
                     '$email'         : email,
-                })
+                })"""
                 return render(request, 'register_success.html', context)
         return render(request, 'createprofile.html', context)
 
