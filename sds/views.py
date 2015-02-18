@@ -22,8 +22,7 @@ from django.contrib import messages
 from myauth.forms import *
 from django.contrib.auth import login
 import logging, json, pprint, datetime, time, hashlib, random,sys,mixpanel
-
-REDIRECT_URL_NAME = '/?email_added=success'
+mp = mixpanel.Mixpanel(PROJECT_TOKEN)
 
 def calculateCurrentTime():
     now = datetime.datetime.utcnow()
@@ -31,18 +30,17 @@ def calculateCurrentTime():
     now = now - 4 * 3600
     return now
 
-def addloginform(context):
+def common(context):
     loginform = LoginForm()
     loginform.fields['login'].widget.attrs['class'] = "submit-track user-login"
     loginform.fields['login'].widget.attrs['placeholder'] = "Disco-Name"
     loginform.fields['password'].widget.attrs['class'] = "submit-track user-login"
     loginform.fields['password'].widget.attrs['placeholder'] = "Password"
-    context.update({'loginform':loginform})
+    context.update({'loginform':loginform, 'PROJECT_TOKEN':PROJECT_TOKEN})
     return
 
 def checkIfNuitBlanche(PATH):
     if "nuitblanche" in PATH:
-        mp = mixpanel.Mixpanel(PROJECT_TOKEN)
         mp.track("NuitBlancheVisit",{"person":"person"})
     return
 
@@ -68,7 +66,7 @@ def index(request):
 
     template = loader.get_template('index.html')
     context = RequestContext(request, {})
-    addloginform(context)
+    common(context)
     context.update({'index':True, 'cities':cities, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "upcomingEvents":upcomingEvents})
 
     resp = HttpResponse(template.render(context))
@@ -80,7 +78,7 @@ def index(request):
 ## don't allow the other user to modify their shiz.
 def profile(request):
     context = {}
-    addloginform(context)
+    common(context)
     cities = city.objects.filter()
     username = request.GET.get('username', '')
     if username != '':
@@ -101,7 +99,7 @@ def profile(request):
 def profileupdate(request):
     context = {}
     context.update({"myprofile":True})
-    addloginform(context)
+    common(context)
     cities = city.objects.filter()
     pf = photoUploadForm(request.POST, request.FILES, instance=request.user.profile.profilePic)
     uf = profile_update_form(data=request.POST, instance=request.user)
@@ -110,6 +108,7 @@ def profileupdate(request):
 
     if uf.is_valid():
         userObj = uf.save()
+        print >> sys.stderr, userObj
         if pf.is_valid():                 
             photoObj = pf.save(commit=False)
             photoObj.user = userObj
@@ -129,7 +128,7 @@ def profileupdate(request):
 
 def about(request):
     context = {}
-    addloginform(context)
+    common(context)
     cities = city.objects.filter()
     context.update({"cities":cities})
     return render(request, 'about.html', context)
@@ -146,7 +145,7 @@ def organize(request):
     cities = city.objects.filter()
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
     context = {}
-    addloginform(context)
+    common(context)
     if request.method == 'POST':
         ef = eventForm(request.POST)
         pf = photoUploadForm(request.POST, request.FILES)
@@ -227,16 +226,18 @@ def event_creation_success(request):
 
 def createprofile(request):
     context = {}
-    addloginform(context)
+    common(context)
     if request.method == 'POST':
         uf = UserCreateForm(request.POST, request.FILES)
         upf = UserProfileForm(request.POST, request.FILES)
         pf = photoUploadForm(request.POST, request.FILES)
+        mp_id = request.POST['mp_id']
         context.update({'uf': uf, 'upf':upf, 'pf':pf})
         profile_CSS(uf, upf)
 
         if uf.is_valid():
             userObj = uf.save()
+
             if upf.is_valid():
                 userProfileObj = upf.save(commit=False)
                 userProfileObj.user = userObj
@@ -256,6 +257,11 @@ def createprofile(request):
                     subscribeToMailchimp(email)
                 userObj.backend = 'django.contrib.auth.backends.ModelBackend'
                 auth.login(request, userObj)
+                mp.people_set(mp_id, {
+                    '$first_name'    : userObj.first_name,
+                    '$last_name'     : userObj.last_name,
+                    '$email'         : email,
+                })
                 return render(request, 'register_success.html', context)
         return render(request, 'createprofile.html', context)
 
@@ -318,7 +324,7 @@ def citypage_getthemix(request):
 
 def future(request):
     context = {}
-    addloginform(context)
+    common(context)
     cities = city.objects.filter()
     event = Events.objects.get(id=request.GET['id'])
     organizer = UserProfile.objects.get(user=event.organizer)
@@ -350,7 +356,7 @@ def future(request):
 
 def citypage_city(request):
     context = {}
-    addloginform(context)
+    common(context)
     eventCity=str(request.GET['city'])
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7), eventCity=city.objects.get(cityName=str(request.GET['city'])), active=True)
     community = UserProfile.objects.filter(city=city.objects.get(cityName=str(request.GET['city']))).exclude(profilePic__photoFile="")
@@ -364,7 +370,7 @@ def citypage_city(request):
 def contact(request):
     cities = city.objects.filter()
     context = {"cities":cities}
-    addloginform(context)
+    common(context)
 
     if request.method == 'POST':
             send_mail("From: "+request.POST['email']+" "+request.POST['subject'], request.POST['message'], "contact@silentdiscosquad.com" , ['martin@silentdiscosquad.com', 'david@silentdiscosquad.com'])

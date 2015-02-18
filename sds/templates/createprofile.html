@@ -181,6 +181,12 @@
   </div>
 </div>
 
+<input type="hidden" id="mp_id" name="mp_id" value="">
+<script>
+mix_person_id = mixpanel.get_distinct_id();
+document.getElementById("mp_id").value = mix_person_id;
+</script>
+
 <hr>
    <br><br>
   <button type="submit" class="btn submit">Create your profile</button>
