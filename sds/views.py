@@ -40,7 +40,7 @@ def common(context):
     return
 
 def checkIfNuitBlanche(PATH):
-    if "nuitblanche" in PATH:
+    if "NuitBlanche" in PATH:
         mp.track("NuitBlancheVisit",{"person":"person"})
     return
 
