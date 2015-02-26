@@ -133,11 +133,6 @@ def about(request):
     context.update({"cities":cities})
     return render(request, 'about.html', context)
 
-def blog(request):
-    cities = city.objects.filter()
-    context = {"cities":cities}
-    return render(request, 'blog.html', context)
-
 def organize(request):
     cities = city.objects.filter()
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
@@ -301,11 +296,6 @@ def profile_CSS(uf, upf):
 
 def register_success(request):
     return render_to_response('register_success.html')
-    
-def citypage_getthemix(request):
-    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
-    context = {"upcomingEvents":upcomingEvents}
-    return render(request, 'citypage_getthemix.html', context)
 
 def future(request):
     context = {}
@@ -346,8 +336,6 @@ def citypage_city(request):
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7), eventCity=city.objects.get(cityName=str(request.GET['city'])), active=True)
     community = UserProfile.objects.filter(city=city.objects.get(cityName=str(request.GET['city']))).exclude(profilePic__photoFile="")
     cities = city.objects.filter()
-
-
     context.update({"upcomingEvents":upcomingEvents, "community":community, "cities":cities, "eventCity":eventCity})
     return render(request, 'citypage_city.html', context)
 
