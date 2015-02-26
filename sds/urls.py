@@ -10,7 +10,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^about.html/$', views.about, name='about'),
-    url(r'^accounts/auth/$',  'sds.views.auth_view'),    
     url(r'^accounts/', include('allauth.urls')), 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^appindex.html/$', views.appindex, name='contact'),

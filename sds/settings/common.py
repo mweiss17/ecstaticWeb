@@ -14,15 +14,9 @@ ACCOUNT_EMAIL_REQUIRED = (True)
 AUTH_PROFILE_MODULE = 'sds.UserProfile'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    # Required by allauth template tags
-    "django.core.context_processors.request",
-    "django.contrib.auth.context_processors.auth",
-    # allauth specific context processors
-    "allauth.account.context_processors.account",
-    "allauth.socialaccount.context_processors.socialaccount",
     #zinia context processors
     'django.core.context_processors.i18n',
-    'zinnia.context_processors.version',  # Optional
+    'zinnia.context_processors.version',  # Optionl
     'django.contrib.messages.context_processors.messages',
 )
 
@@ -33,9 +27,6 @@ FIXTURE_DIRS = (
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
-
-    # `allauth` specific authentication methods, such as login by e-mail
-    "allauth.account.auth_backends.AuthenticationBackend",
 )
 ACCOUNT_ACTIVATION_DAYS=7
 EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
@@ -74,10 +65,6 @@ INSTALLED_APPS = (
     'sds',
     'south',
     'django_extensions',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
     'mailchimp',
     'compressor',
     'django.contrib.comments',

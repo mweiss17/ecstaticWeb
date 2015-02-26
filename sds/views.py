@@ -138,9 +138,6 @@ def blog(request):
     context = {"cities":cities}
     return render(request, 'blog.html', context)
 
-def auth_view(request):
-    return
-
 def organize(request):
     cities = city.objects.filter()
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
