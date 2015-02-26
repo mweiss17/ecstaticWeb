@@ -10,7 +10,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^about.html/$', views.about, name='about'),
-    url(r'^accounts/', include('allauth.urls')), 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^appindex.html/$', views.appindex, name='contact'),
     url(r'^citypage_getthemix.html/$', views.citypage_getthemix, name='citypage_getthemix'),
