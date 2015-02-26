@@ -26,6 +26,13 @@ def prepare_deploy(branch_name):
 	fab.local("git add -p --all :/ && git commit -a")
         fab.local('git checkout master && git merge ' + branch_name)
 
+def migrate_database():
+    with fab.settings(warn_only=True):
+            fab.local('python manage.py schemamigration sds --auto')
+            fab.local('python manage.py migrate sds')
+            fab.local('python manage.py schemamigration myauth --auto')
+            fab.local('python manage.py migrate myauth')
+
 def deploy():
     with fab.settings(warn_only=True):
         with fab.cd('/home/ec2-user/sds'):
