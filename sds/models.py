@@ -91,8 +91,6 @@ class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='profile')
     profilePic = models.ForeignKey(Photos, blank=True, null=True)
     signupDate = models.DateTimeField("signupDate", auto_now=True)
-    activation_key = models.CharField(max_length=40, blank=True)
-    key_expires = models.DateTimeField(default=datetime.now)
     dancefloorSuperpower = models.CharField(max_length=2048, blank=True, null=True)
     zipcode = models.CharField(max_length=10, default=00000, blank=True, null=True)
     newsletter = models.BooleanField()
