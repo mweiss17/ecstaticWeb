@@ -28,6 +28,7 @@ def prepare_deploy(branch_name):
 
 def migrate_database():
     with fab.settings(warn_only=True):
+        with fab.cd('/home/ec2-user/sds/'):
             fab.local('python manage.py schemamigration sds --auto')
             fab.local('python manage.py migrate sds')
             fab.local('python manage.py schemamigration myauth --auto')
