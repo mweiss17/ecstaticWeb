@@ -21,7 +21,7 @@
       <span class="location"> {{ event.arrive_start_time}} </br>
       {{ event.location}} </br>
       </span> <a href="{{event.fbEvent}}">
-      <div class="btn small facebook"><i class="fa fa-facebook fa-lg"></i> Join the Facebook Event</div>
+      <div class="btn small facebook" onclick="mixpanel.track('clicked facebook');"><i class="fa fa-facebook fa-lg"></i> Join the Facebook Event</div>
       </a> 
     </div>
     <br class="clear">
@@ -69,7 +69,7 @@
           <div id="fileSize"></div>
           <div id="fileType"></div>
           <div id="progressNumber"></div>
-          <button type="submit" onclick="uploadFile()" class="btn submit">Submit Song</button>
+          <button type="submit" onclick="uploadFile();" class="btn submit">Submit Song</button>
         </div>
       </form>     
         <hr>

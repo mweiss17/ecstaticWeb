@@ -53,6 +53,22 @@ mixpanel.identify();
   ga('create', 'UA-48932505-1', 'auto');
   ga('send', 'pageview');
 
+{% if request.user.id %}
+  currentUserId = "{{request.user.id}}";
+  mixpanel.identify(currentUserId);
+  console.log("currentUserId="+currentUserId);
+  mixpanel.register_once({"user.id":currentUserId});
+{% else %}
+  currentUserId = null;
+{% endif %}
+
+{% if request.user.email %}
+  currentUserEmail = "{{request.user.email}}";
+  mixpanel.register_once({"user.email": currentUserEmail});
+{% else %}
+  currentUserEmail = null;
+{% endif %}
+
 </script>
 </head>
 

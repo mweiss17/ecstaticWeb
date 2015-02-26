@@ -58,6 +58,7 @@ function tryToJump() {
 	//Clear the interval if the it's within 5 seconds, and the player is playing
 	else if(!mAudioPlayer.paused){
 		clearInterval(tryToJumpInterval);
+		mixpanel.track("user synced the mix");
 	}
 }
 

@@ -20,7 +20,7 @@
     <span class="profile-item">Zipcode: </span> {{currentUserProfile.zipcode}}<br>
     <span class="profile-item">Role: </span> {{currentUserProfile.role}}<br>
     <span class="profile-item">Dancefloor Superpower: </span> {{currentUserProfile.dancefloorSuperpower}} <br>
-    <button class="btn" type="button" onclick="editprofile();">Edit Profile</button>
+    <button class="btn" type="button" onclick="editprofile(); mixpanel.track('edited profile');">Edit Profile</button>
      <br>
     <br>
     <br>
@@ -51,6 +51,7 @@
   {% endif %}
 
 <script>
+mixpanel.track('viewed profile');
 function editprofile(){
     document.getElementsByName("editprofile")[0].style.display = 'block';
     document.getElementsByName("profile")[0].style.display = 'none';

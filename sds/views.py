@@ -41,7 +41,7 @@ def common(context):
 
 def checkIfNuitBlanche(PATH):
     if "NuitBlanche" in PATH:
-        mp.track("NuitBlancheVisit",{"person":"person"})
+        mp.track("NuitBlancheVisit")
     return
 
 
@@ -231,7 +231,6 @@ def createprofile(request):
         uf = UserCreateForm(request.POST, request.FILES)
         upf = UserProfileForm(request.POST, request.FILES)
         pf = photoUploadForm(request.POST, request.FILES)
-        #mp_id = request.POST['mp_id']
         context.update({'uf': uf, 'upf':upf, 'pf':pf})
         profile_CSS(uf, upf)
 
@@ -257,11 +256,18 @@ def createprofile(request):
                     subscribeToMailchimp(email)
                 userObj.backend = 'django.contrib.auth.backends.ModelBackend'
                 auth.login(request, userObj)
-                """mp.people_set(mp_id, {
-                    '$first_name'    : userObj.first_name,
-                    '$last_name'     : userObj.last_name,
-                    '$email'         : email,
-                })"""
+                people_dict = {'$username' : userObj.username, '$create' : datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p"), '$email' : email, 'city' : "none",}
+                if userProfileObj.city:
+                    people_dict['city'] = userProfileObj.city.cityName
+                if userObj.first_name:
+                    people_dict['$first_name'] = userObj.first_name
+                if userObj.last_name:
+                    people_dict['$last_name'] = userObj.last_name
+                print >> sys.stderr, userProfileObj.mixpanel_distinct_id
+                
+                mp.alias(userObj.pk, userProfileObj.mixpanel_distinct_id)
+                mp.people_set(userObj.pk, people_dict)
+
                 return render(request, 'register_success.html', context)
         return render(request, 'createprofile.html', context)
 
@@ -294,6 +300,8 @@ def profile_CSS(uf, upf):
     upf.fields['dancefloorSuperpower'].widget.attrs['placeholder'] = "Dancefloor Superpower"
     upf.fields['city'].widget.attrs['placeholder'] = "What city do you live closest to?"
     upf.fields['zipcode'].widget.attrs['placeholder'] = "zipcode"
+    upf.fields['mixpanel_distinct_id'].widget.attrs['id'] = "mixpanel_distinct_id"
+    upf.fields['mixpanel_distinct_id'].widget.attrs['class'] = "hidden"
     return
 
 def register_confirm(request, activation_key):

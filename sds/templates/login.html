@@ -19,10 +19,10 @@
     {% endif %}
 
     <br>
-    <input type="submit" class="btn" value="login" />
-      <a href="/createprofile.html" class="btn">Sign up! It's Free!</a>
+    <input onclick="mixpanel.track('clicked login');" type="submit" class="btn" value="login" />
+      <a onclick="mixpanel.track('clicked create profile');" href="/createprofile.html" class="btn">Sign up!</a>
     </br>
-  <a href="/auth/forgotpassword.html">Forgot Username/Password</a> 
+  <a onclick="mixpanel.track('clicked forgot password');" href="/auth/forgotpassword.html">Forgot Password</a> 
     </br>
 
   </form>

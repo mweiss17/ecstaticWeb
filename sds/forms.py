@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 class UserProfileForm(ModelForm):
     newsletter = forms.BooleanField(initial=True, required=False)
+    mixpanel_distinct_id = forms.CharField(required=False, max_length=100)
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         self.fields["role"].choices = [("", "Select your Role"),] + list(self.fields["role"].choices)[1:] 
@@ -14,7 +15,7 @@ class UserProfileForm(ModelForm):
     class Meta:
         model = UserProfile 
         exclude = ['user', 'activation_key', 'key_expires', 'profilePic', 'discosAttended']
-        fields = ['role', 'dancefloorSuperpower', 'city', 'zipcode', 'newsletter']
+        fields = ['role', 'dancefloorSuperpower', 'city', 'zipcode', 'newsletter', 'mixpanel_distinct_id']
 
 class MusicForm(ModelForm):
     def __init__(self, *args, **kwargs):

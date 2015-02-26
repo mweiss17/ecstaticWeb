@@ -5,7 +5,7 @@
 <!--This is the right code for non-mobile, you hacked it off for halloween, uncomment it when halloween is over
 and come up with an actual fix-->
 <!--god fucking damn it. Still haven't fixed this piece of shit hack, this code takes you to the city page, which we're just forgetting about now. We want people caring about the COMMUNITY damn it. Not using the other code to just get to events...-->
-<div class="col-sm-3 col-md-2 sidebar">
+<!--div class="col-sm-3 col-md-2 sidebar">
   <ul class="nav">
     <li><a href="#">FIND YOUR CITY</a></li>
     {% for city in cities %}
@@ -13,20 +13,20 @@ and come up with an actual fix-->
     {% endfor %}
     <li><a href="/organize.html">Add your City </a></li>
   </ul>
-</div>
+</div-->
 
 <!--this is a hack to get you to the events fuck-->
-<!--div class="col-sm-3 col-md-2 sidebar">
+<div class="col-sm-3 col-md-2 sidebar">
   <ul class="nav">
     <li><a href="#">FIND YOUR CITY</a></li>
 
         {% for event in upcomingEvents %}               
                 {% if event.globalEvent %}
-                    <li> <a href="/future.html?id={{event.id}}"> {{event.eventCity}}</a> </li>
+                    <li> <a onclick="mixpanel.track('city click');" href="/future.html?id={{event.id}}"> {{event.eventCity}}</a> </li>
                 {% endif%}
  {% endfor %}</h3>
    </ul>
-</div-->
+</div>
 
 
 
@@ -37,7 +37,7 @@ and come up with an actual fix-->
       <div class="overlay">
       <div class="main-title">We are turning the World </br>
         into a dancefloor.
-        <h3 class="yellow"> <a href="#video"> <span class="glyphicon glyphicon-play-circle"></span> <a href="#whatissds"> Watch us get weird in public</a> </h3>
+        <h3 class="yellow"> <a onclick="mixpanel.track('watch whatissds');" href="#whatissds"> <span class="glyphicon glyphicon-play-circle"></span> </a><a onclick="mixpanel.track('watch whatissds');" href="#whatissds"> Watch us get weird in public</a> </h3>
       </div>
     </li>
     <li><img src="/static/img/NuitBlacheHomeImage.jpg" />
@@ -61,10 +61,7 @@ and come up with an actual fix-->
     <li><img src="/static/img/tedxconcordia_talk.jpg" />
       <div class="overlay">
       <div id="tedxtalk" class="main-title">Watch the TEDxTalk</br>
-        <h3 class="yellow"> <a href="#tedxtalk"> <span class="glyphicon glyphicon-play-circle"></span> <a href="#tedxtalk"> How do we carry the music festival forward?</a> </h3>
-          <script type="text/javascript">
-            mixpanel.track_links("#tedxtalk a", "watch tedxtalk");
-          </script>
+        <h3 class="yellow"> <a onclick="mixpanel.track('watch tedxtalk');" href="#tedxtalk"> <span class="glyphicon glyphicon-play-circle"></span> </a><a onclick="mixpanel.track('watch tedxtalk');" href="#tedxtalk"> How do we carry the music festival forward?</a> </h3>
       </div>
     </li>
   </ul>

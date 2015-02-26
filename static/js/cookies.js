@@ -1,6 +1,7 @@
 
 function record_stream() {
 	record();
+	mixpanel.track("clicked stream");
 	delete_cookie("method");
 	delete_cookie("eventID");
 	window.location.href = "/stream.html?id="+eventID;
@@ -8,6 +9,7 @@ function record_stream() {
 
 function record_download() {
 	record();
+	mixpanel.track("clicked download");
 	delete_cookie("method");
 	delete_cookie("eventID");
 	window.location.href = "https://s3.amazonaws.com/silentdiscosquad/"+eventMix;
