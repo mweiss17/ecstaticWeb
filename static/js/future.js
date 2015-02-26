@@ -1,16 +1,5 @@
 var xmlhttp = new XMLHttpRequest();
 
-function record(){
-	//Hit the server's view that checks whether this account has already "attended" this event
-	try{
-		xmlhttp.open("GET","/recordEventAttendees.html/?eventID="+eventID,true);
-		xmlhttp.send();
-	}
-	catch(err){
-		console.log( err );
-	}
-}
-
 function startCountdown() {
 	var str = new Date(Number(music_start_time));
 	var adj = new Date((str.getTime() + 14400)*1000);
@@ -27,11 +16,9 @@ window.onload = function() {
 	startCountdown();
 	if (get_cookie("method") == "stream"){
 		document.getElementById("stream").click(); 
-		record();
 	}
 	else if (get_cookie("method") == "download"){
 		document.getElementById("download").click(); 
-		record();
 	}
 }
 

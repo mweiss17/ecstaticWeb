@@ -70,10 +70,6 @@ class Events(models.Model):
     def __unicode__(self):
         return self.title
 
-class EventAttendees(models.Model):
-    event = models.ForeignKey(Events, blank=True, null=True)
-    attendee = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
-
 class UserProfile(models.Model):
     #Roles
     ORGANIZER = 'Organizer'

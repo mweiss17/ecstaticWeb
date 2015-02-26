@@ -1,6 +1,5 @@
 
 function record_stream() {
-	record();
 	mixpanel.track("clicked stream");
 	delete_cookie("method");
 	delete_cookie("eventID");
@@ -8,7 +7,6 @@ function record_stream() {
 }
 
 function record_download() {
-	record();
 	mixpanel.track("clicked download");
 	delete_cookie("method");
 	delete_cookie("eventID");

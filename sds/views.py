@@ -516,21 +516,6 @@ def subscribeToMailchimp(email):
     except:
         pass
 
-def recordEventAttendees(request):
-    #check if they have already attended this event
-    event = Events.objects.get(id=request.GET['eventID'])
-    currentUser = request.user
-    
-    #if they have attended the event, do nothing
-    try:
-        attended = EventAttendees.objects.get(event=event, attendee=currentUser)
-    
-    #if they haven't attended the event (they are not represented in the table) then add them
-    except Exception as e:
-        print >> sys.stderr, '%s (%s)' % (e.message, type(e))
-        ea = EventAttendees(event=event, attendee=currentUser)
-        ea.save()
-
 def add_email_to_mailing_list(request):
     if request.POST['email']:
         email_address = request.POST['email']
@@ -541,7 +526,6 @@ def add_email_to_mailing_list(request):
         return HttpResponseRedirect('/?email_added=failure')
 
 def handler404(request):
-    response = render_to_response('404.html', {},
-                                  context_instance=RequestContext(request))
+    response = render_to_response('404.html', {}, context_instance=RequestContext(request))
     response.status_code = 404
     return response
