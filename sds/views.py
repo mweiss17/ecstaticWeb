@@ -475,40 +475,6 @@ def logout(request):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def mixMailSignup(request):
-    #newsletter
-    if request.method == 'POST' and 'newsletter' in request.POST and 'email' in request.POST:
-        newsletter = request.POST['newsletter']
-        email = request.POST['email']
-        if newsletter is not None and newsletter != '':
-            if email is not None and email != '':
-                subscribeToMailchimp(request.POST['email'])
-    #Survey     
-    if request.method == 'POST' and 'survey' in request.POST and 'email' in request.POST:
-        survey = request.POST['survey']
-        email = request.POST['email']
-        eventPKID = request.POST['id']
-        #print >> sys.stderr, request.POST['id']
-        if survey is not None and survey != '':
-            if email is not None and email != '':
-                s = surveySignups(email=email, event=Events.objects.get(pk=eventPKID), mixAccess="download")
-                if 'mixAccess' in request.POST:
-                    if request.POST['mixAccess'] is not None and request.POST['mixAccess'] != "":
-                        s = surveySignups(email=email, event=Events.objects.get(pk=eventPKID), mixAccess=request.POST['mixAccess'])
-                s.save()
-                text_content = "Hello Dancer,"
-                text_content += "\n\nThank you for offering to participate in our survey. Please take 5-10 minutes to fill it out here: https://jfe.qualtrics.com/form/SV_01G8vvjtNXN6Xt3."
-                text_content += "There will also be a 2 minute survey sent immediately following the next disco, and a follow-up survey next week. Thanks for your help!"
-                text_content += "\n\nMuch love from the SDS Team ~:D"
-               # send_mail('Silent Disco Squad Survey', text_content, 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
-
-
-    if request.method == 'POST' and 'download' in request.POST:
-        download = request.POST['download']
-        if download is not None and download != '':
-            return HttpResponseRedirect('https://s3.amazonaws.com/silentdiscosquad/'+download)
-    return HttpResponseRedirect('/stream.html/?id='+request.POST['id'])       
-
 def subscribeToMailchimp(email):
     try:
         list = utils.get_connection().get_list_by_id(MAILCHIMP_LIST_ID)
