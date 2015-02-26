@@ -482,15 +482,6 @@ def subscribeToMailchimp(email):
     except:
         pass
 
-def add_email_to_mailing_list(request):
-    if request.POST['email']:
-        email_address = request.POST['email']
-        list = utils.get_connection().get_list_by_id(MAILCHIMP_LIST_ID)
-        list.subscribe(email_address, {'EMAIL': email_address})
-        return HttpResponseRedirect('/?email_added=success')
-    else:
-        return HttpResponseRedirect('/?email_added=failure')
-
 def handler404(request):
     response = render_to_response('404.html', {}, context_instance=RequestContext(request))
     response.status_code = 404
