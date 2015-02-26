@@ -385,31 +385,6 @@ def mission(request):
     context = {}
     return render(request, 'mission.html', context)
 
-def become(request):
-    context = {}
-    return render(request, 'index_join_become.html', context)
-
-def form(request):
-    template = loader.get_template('form.html')
-    context = {}
-    return render(request, 'form.html', context)
-
-def userauth(request):
-    context={'user' : request.user, 'pw' : request.user.is_authenticated()}
-    return render(request, 'userauth.html/', context)
-
-def participate(request):
-    context = {}
-    return render(request, 'index_join_participate.html', context)
-
-def jointhesquad(request):
-    context = {}
-    return render(request, 'index_jointhesquad.html', context)
-
-def whatissds(request):
-    context = {}
-    return render(request, 'index_whatissds.html', context)
-
 def stream(request):
     cities = city.objects.filter()
     event = Events.objects.filter(id=request.GET['id'])
