@@ -55,7 +55,7 @@
           {{ form.email }}<br>
         {% else %}
         <div class="input-group">
-          <input type="text" class="submit-track" name="email" value={{request.user.email}} hidden><br>
+          <input type="text" class="submit-track" name="email" id="email" value="{{user.email}}" hidden><br>
           {% endif %}
           {{ form.song_name_or_link }}<br>
           {{ form.intention }}<br><br>

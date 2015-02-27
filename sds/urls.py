@@ -28,5 +28,4 @@ urlpatterns = patterns('',
     url(r'^register_success.html/$', views.register_success, name='register_success'),
     url(r'^stream.html/$', views.stream, name='stream'),
     url(r'^weblog/', include('zinnia.urls')),
-    url(r'^blog.html/', views.blog),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
