@@ -15,6 +15,7 @@ AUTH_PROFILE_MODULE = 'sds.UserProfile'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     #zinia context processors
+    'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.i18n',
     'zinnia.context_processors.version',  # Optionl
     'django.contrib.messages.context_processors.messages',
@@ -116,7 +117,7 @@ STATICFILES_FINDERS = (
 
 AUTH_USER_MODEL = 'myauth.User'
 
-ZINNIA_SPAM_CHECKER_BACKENDS = ('zinnia_akismet.akismet',)
+ZINNIA_SPAM_CHECKER_BACKENDS = ('zinnia_akismet.akismet', 'zinnia.spam_checker.backends.automattic', 'zinnia.spam_checker.backends.typepad','zinnia.spam_checker.backends.all_is_spam',)
 AKISMET_API_KEY = '197e10c1c2ca'
 
 DEV_DATABASE={

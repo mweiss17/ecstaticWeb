@@ -108,7 +108,6 @@ def profileupdate(request):
 
     if uf.is_valid():
         userObj = uf.save()
-        print >> sys.stderr, userObj
         if pf.is_valid():                 
             photoObj = pf.save(commit=False)
             photoObj.user = userObj
@@ -407,6 +406,10 @@ def appindex(request):
     })
     return HttpResponse(data, mimetype='application/json')
         
+def blog(request):
+    context = {}
+    return render(request, 'blog.html', context)
+
 def logout(request):
     auth.logout(request)
     context = {}
