@@ -19,6 +19,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'zinnia.context_processors.version',  # Optionl
     'django.contrib.messages.context_processors.messages',
+    'sds.views.common_context',
 )
 
 FIXTURE_DIRS = (
@@ -89,13 +90,13 @@ WSGI_APPLICATION = 'sds.wsgi.application'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Montreal'
+
+USE_TZ = True
 
 USE_I18N = True
 
 USE_L10N = True
-
-USE_TZ = False
 
 TEMPLATE_DIRS = ( "/home/ec2-user/sds/templates",)
 TEMPLATE_LOADERS = (

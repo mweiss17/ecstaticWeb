@@ -23,120 +23,37 @@ from myauth.forms import *
 from django.contrib.auth import login
 import logging, json, pprint, datetime, time, hashlib, random,sys,mixpanel
 mp = mixpanel.Mixpanel(PROJECT_TOKEN)
+#print >> sys.stderr, mySubString
 
 def calculateCurrentTime():
     now = datetime.datetime.utcnow()
     now = time.mktime(now.timetuple()) 
-    now = now - 4 * 3600
     return now
 
-def common(context):
+def create_login_form():
     loginform = LoginForm()
     loginform.fields['login'].widget.attrs['class'] = "submit-track user-login"
     loginform.fields['login'].widget.attrs['placeholder'] = "Disco-Name"
     loginform.fields['password'].widget.attrs['class'] = "submit-track user-login"
     loginform.fields['password'].widget.attrs['placeholder'] = "Password"
-    context.update({'loginform':loginform, 'PROJECT_TOKEN':PROJECT_TOKEN})
-    return
+    return loginform
 
-def checkIfNuitBlanche(PATH):
-    if "NuitBlanche" in PATH:
-        mp.track("NuitBlancheVisit")
-    return
-
+def common_context(request):
+    context = {}
+    context.update({'cities':city.objects.filter()})
+    context.update({'loginform':create_login_form()})
+    context.update({'PROJECT_TOKEN':PROJECT_TOKEN})
+    context.update({'upcomingEvents':Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*3))})
+    return context
 
 def index(request):
-    checkIfNuitBlanche(request.path)
-    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
-    datetimeNow = datetime.datetime.now()
-    TimeZone = datetime.timedelta(seconds=3600*7) #adjustment for EST (4 hrs) + 
-                                                  #adjustment for inprogress events (3 hours)
-    cities = city.objects.filter()
-    previousEvents = Events.objects.filter(arrive_start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
-    upcomingGlobalEvent = globalEvent.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
-    email_added = ""
-    try:
-        email_added = request.GET['email_added']
-    except Exception, e:
-        pass
-    try:
-        upcomingGlobalEvent = upcomingGlobalEvent[0]
-    except Exception, e:
-        pass
-
-    template = loader.get_template('index.html')
-    context = RequestContext(request, {})
-    common(context)
-    context.update({'index':True, 'cities':cities, 'upcomingGlobalEvent': upcomingGlobalEvent, 'email_added': email_added, "upcomingEvents":upcomingEvents})
-
-    resp = HttpResponse(template.render(context))
-    resp.set_cookie('visited', True)
-    return resp
-
-
-## Want to modify this such that if you get a GET request with a username, you load THAT user, but you 
-## don't allow the other user to modify their shiz.
-def profile(request):
-    context = {}
-    common(context)
-    cities = city.objects.filter()
-    username = request.GET.get('username', '')
-    if username != '':
-        currentUserProfile = UserProfile.objects.get(user=User.objects.get(username=username))
-        context.update({"myprofile":False})
-    else:
-        currentUserProfile = UserProfile.objects.get(user=request.user)
-        context.update({"myprofile":True})
-
-    context.update({'cities':cities, 'currentUserProfile':currentUserProfile})
-
-    pf = photoUploadForm(instance=currentUserProfile.profilePic)
-    uf = profile_update_form(instance=currentUserProfile.user)
-    upf = UserProfileForm(instance=currentUserProfile)
-    context.update({"uf" : uf, "upf" : upf, "pf":pf})
-    return render(request, 'profile.html', context)
-
-def profileupdate(request):
-    context = {}
-    context.update({"myprofile":True})
-    common(context)
-    cities = city.objects.filter()
-    pf = photoUploadForm(request.POST, request.FILES, instance=request.user.profile.profilePic)
-    uf = profile_update_form(data=request.POST, instance=request.user)
-    upf = UserProfileForm(request.POST, request.FILES, instance=request.user.profile)
-    context.update({'uf':uf, 'upf':upf, 'pf':pf})
-
-    if uf.is_valid():
-        userObj = uf.save()
-        if pf.is_valid():                 
-            photoObj = pf.save(commit=False)
-            photoObj.user = userObj
-            photoObj.save()
-        if upf.is_valid() and not pf.is_valid():
-            userProfileObj = upf.save(commit=False)
-            userProfileObj.user = userObj
-            userProfileObj.save()
-        elif upf.is_valid():
-            userProfileObj = upf.save(commit=False)
-            userProfileObj.user = userObj
-            userProfileObj.profilePic = photoObj
-            userProfileObj.save()
-    context.update({"uf" : uf, "upf" : upf, "pf":pf, 'currentUserProfile':UserProfile.objects.get(user=request.user)})
-    return render(request, 'profile.html', context)
-
+    return render(request, 'index.html', {})
 
 def about(request):
-    context = {}
-    common(context)
-    cities = city.objects.filter()
-    context.update({"cities":cities})
-    return render(request, 'about.html', context)
+    return render(request, 'about.html', {})
 
 def organize(request):
-    cities = city.objects.filter()
-    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
     context = {}
-    common(context)
     if request.method == 'POST':
         ef = eventForm(request.POST)
         pf = photoUploadForm(request.POST, request.FILES)
@@ -152,7 +69,6 @@ def organize(request):
             eventObject = ef.save(commit=False)
             s = eventObject.google_map_link
             mySubString=s[s.find("\"")+1:s.find("\"")]
-            #print >> sys.stderr, mySubString
             eventObject.google_map_link = mySubString
             eventObject.eventPic = photoObj
             eventObject.organizer = request.user
@@ -207,113 +123,25 @@ def organize(request):
 
         cf.fields['cityName'].widget.attrs['placeholder'] = 'My City\'s Name'
 
-        context.update({"upcomingEvents":upcomingEvents, "ef":ef, "pf":pf, "cf":cf, "cpf":cpf,'um':um, "cities":cities})
+        context.update({"upcomingEvents":upcomingEvents, "ef":ef, "pf":pf, "cf":cf, "cpf":cpf,'um':um})
         return render(request, 'organize.html', context)
 
 def event_creation_success(request):
-    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7))
-    context = {"upcomingEvents":upcomingEvents}
-    return render(request, 'event_creation_success.html', context)
-
-def createprofile(request):
-    context = {}
-    common(context)
-    if request.method == 'POST':
-        uf = UserCreateForm(request.POST, request.FILES)
-        upf = UserProfileForm(request.POST, request.FILES)
-        pf = photoUploadForm(request.POST, request.FILES)
-        context.update({'uf': uf, 'upf':upf, 'pf':pf})
-        profile_CSS(uf, upf)
-
-        if uf.is_valid():
-            userObj = uf.save()
-
-            if upf.is_valid():
-                userProfileObj = upf.save(commit=False)
-                userProfileObj.user = userObj
-            if pf.is_valid():                 
-                photoObj = pf.save(commit=False)
-                photoObj.user = userObj
-                photoObj.save()
-                context.update({'pf':photoObj})
-                userProfileObj.profilePic = photoObj
-                email = uf.cleaned_data['email']
-                salt = hashlib.sha1(str(random.random())).hexdigest()[:5]            
-                userProfileObj.save()
-                context.update({'upf': userProfileObj})
-                if upf.cleaned_data['newsletter']:
-                    subscribeToMailchimp(email)
-                userObj.backend = 'django.contrib.auth.backends.ModelBackend'
-                auth.login(request, userObj)
-                people_dict = {'$username' : userObj.username, '$create' : datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p"), '$email' : email, 'city' : "none",}
-                if userProfileObj.city:
-                    people_dict['city'] = userProfileObj.city.cityName
-                if userObj.first_name:
-                    people_dict['$first_name'] = userObj.first_name
-                if userObj.last_name:
-                    people_dict['$last_name'] = userObj.last_name
-                print >> sys.stderr, userProfileObj.mixpanel_distinct_id
-                
-                mp.alias(userObj.pk, userProfileObj.mixpanel_distinct_id)
-                mp.people_set(userObj.pk, people_dict)
-
-                return render(request, 'register_success.html', context)
-        return render(request, 'createprofile.html', context)
-
-    else:
-        pf = photoUploadForm()
-        uf = UserCreateForm()
-        upf = UserProfileForm()
-        profile_CSS(uf, upf)
-        context.update({"uf" : uf, "upf" : upf, "pf":pf})
-        return render(request, 'createprofile.html', context)
-
-def profile_CSS(uf, upf):
-    uf.fields['first_name'].widget.attrs['class'] = "formstyle"
-    uf.fields['last_name'].widget.attrs['class'] = "formstyle"
-    uf.fields['username'].widget.attrs['class'] = "formstyle"
-    uf.fields['email'].widget.attrs['class'] = "formstyle"
-    uf.fields['password1'].widget.attrs['class'] = "formstyle"
-    uf.fields['password2'].widget.attrs['class'] = "formstyle"
-    uf.fields['first_name'].widget.attrs['placeholder'] = "First Name"
-    uf.fields['last_name'].widget.attrs['placeholder'] = "Last Name"
-    uf.fields['username'].widget.attrs['placeholder'] = "Disco Name"
-    uf.fields['email'].widget.attrs['placeholder'] = "E-mail"
-    uf.fields['password1'].widget.attrs['placeholder'] = "Password"
-    uf.fields['password2'].widget.attrs['placeholder'] = "Password (repeat)"
-    upf.fields['role'].widget.attrs['class'] = "formstyle"
-    upf.fields['dancefloorSuperpower'].widget.attrs['class'] = "formstyle"
-    upf.fields['city'].widget.attrs['class'] = "formstyle"
-    upf.fields['zipcode'].widget.attrs['class'] = "formstyle"
-    upf.fields['role'].widget.attrs['placeholder'] = "Role"
-    upf.fields['dancefloorSuperpower'].widget.attrs['placeholder'] = "Dancefloor Superpower"
-    upf.fields['city'].widget.attrs['placeholder'] = "What city do you live closest to?"
-    upf.fields['zipcode'].widget.attrs['placeholder'] = "zipcode"
-    upf.fields['mixpanel_distinct_id'].widget.attrs['id'] = "mixpanel_distinct_id"
-    upf.fields['mixpanel_distinct_id'].widget.attrs['class'] = "hidden"
-    return
+    return render(request, 'event_creation_success.html', {})
 
 def register_success(request):
     return render_to_response('register_success.html')
 
-def future(request):
-    context = {}
-    common(context)
-    cities = city.objects.filter()
-    event = Events.objects.get(id=request.GET['id'])
-    organizer = UserProfile.objects.get(user=event.organizer)
-    if request.method == 'POST':
-        form = MusicForm(request.POST, request.FILES)
-        uploadedSong = " "
-        songName = request.POST['song_name_or_link']
+def process_song_submission(request):
+    form = MusicForm(request.POST, request.FILES)
+    send_mail('Dancetrack Received', "We got your track! Thanks for your contribution to the Dancemix \nWith Love," +"\nThe SDS Team", 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
+    send_mail("Received Track from: "+ request.POST['email'], "songname: "+ request.POST['song_name_or_link'] + " intention: "+ request.POST['intention'],'contact@silentdiscosquad.com', ['david@silentdiscosquad.com'], fail_silently=False)       
+    if form.is_valid():
+        message = "Thanks for submitting your song!"
+        form.save()
+    return form
 
-        send_mail('Dancetrack Received', "We got your track! Thanks for your contribution to the Dancemix \nWith Love," +"\nThe SDS Team", 'us@silentdiscosquad.com', [request.POST["email"]], fail_silently=False)            
-        send_mail("Received Track from: "+ request.POST['email'], "songname: "+ songName + " intention: "+ request.POST['intention'],'contact@silentdiscosquad.com', ['david@silentdiscosquad.com'], fail_silently=False)       
-        if form.is_valid():
-            message = "Thanks for submitting your song!"
-            form.save()
-    else:
-        form = MusicForm()
+def format_song_upload_form(form):
     form.fields['uploadedSong'].widget.attrs['id'] = "fileToUpload"
     form.fields['uploadedSong'].widget.attrs['label'] = "Upload Song"
     form.fields['uploadedSong'].widget.attrs['onchange'] = "fileSelected()"
@@ -325,32 +153,32 @@ def future(request):
     form.fields['intention'].widget.attrs['placeholder'] = "Intention"
 
 
-    context.update({"form":form, "event":event, "organizer":organizer, "cities":cities})
+def future(request):
+    context = {}
+    event = Events.objects.get(id=request.GET['id'])
+    organizer = UserProfile.objects.get(user=event.organizer)
+    context.update({'event' : event})
+    context.update({"organizer":organizer})
+    if request.method == 'POST':
+        form = process_song_submission(request)
+    else:
+        form = MusicForm()
+    context.update({"form":form})
+    format_song_upload_form(form)
     return render(request, 'future.html', context)
 
 def citypage_city(request):
     context = {}
-    common(context)
-    eventCity=str(request.GET['city'])
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*7), eventCity=city.objects.get(cityName=str(request.GET['city'])), active=True)
     community = UserProfile.objects.filter(city=city.objects.get(cityName=str(request.GET['city']))).exclude(profilePic__photoFile="")
-    cities = city.objects.filter()
-    context.update({"upcomingEvents":upcomingEvents, "community":community, "cities":cities, "eventCity":eventCity})
+    context.update({"upcomingEvents":upcomingEvents, "community":community, "eventCity":str(request.GET['city'])})
     return render(request, 'citypage_city.html', context)
 
-
 def contact(request):
-    cities = city.objects.filter()
-    context = {"cities":cities}
-    common(context)
-
+    context = {}
     if request.method == 'POST':
             send_mail("From: "+request.POST['email']+" "+request.POST['subject'], request.POST['message'], "contact@silentdiscosquad.com" , ['martin@silentdiscosquad.com', 'david@silentdiscosquad.com'])
     return render(request, 'contact.html', context)
-
-def mission(request):
-    context = {}
-    return render(request, 'mission.html', context)
 
 def stream(request):
     cities = city.objects.filter()
@@ -377,12 +205,11 @@ def handle_uploaded_file(f):
             destination.write(chunk)
 
 def appindex(request):
-    datetimeNow = datetime.datetime.now()
     TimeZone = datetime.timedelta(seconds=3600*7) #adjustment for EST (4 hrs) + 
                                                   #adjustment for inprogress events (3 hours)
-    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
+    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-TimeZone)
     previousEvents = Events.objects.filter(arrive_start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
-    upcomingGlobalEvent = globalEvent.objects.filter(arrive_start_time__gte=datetimeNow-TimeZone)
+    upcomingGlobalEvent = globalEvent.objects.filter(arrive_start_time__gte=datetime.datetime.now()-TimeZone)
 
     future = 'False'
     etaList = []
