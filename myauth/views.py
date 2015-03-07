@@ -13,9 +13,9 @@ from django.contrib import messages
 from django.contrib import auth
 from django.conf import settings
 from sds.settings import *
-import logging, json, pprint, datetime, time, hashlib,random,sys,socket
-
-
+from mailchimp import utils
+import logging, json, pprint, datetime, time, hashlib,random,sys,socket, mixpanel
+mp = mixpanel.Mixpanel(PROJECT_TOKEN)
 
 def addloginform(context):
     loginform = LoginForm()
@@ -164,6 +164,7 @@ def createprofile(request):
         upf = UserProfileForm()
         profile_CSS(uf, upf)
         context.update({"uf" : uf, "upf" : upf, "pf":pf})
+        context.update({"createprofile":True})
         return render(request, 'createprofile.html', context)
 
 def profile_CSS(uf, upf):
@@ -190,3 +191,12 @@ def profile_CSS(uf, upf):
     upf.fields['mixpanel_distinct_id'].widget.attrs['id'] = "mixpanel_distinct_id"
     upf.fields['mixpanel_distinct_id'].widget.attrs['class'] = "hidden"
     return
+
+def subscribeToMailchimp(email):
+    try:
+        list = utils.get_connection().get_list_by_id(MAILCHIMP_LIST_ID)
+        list.subscribe(email, {'EMAIL': email})
+    except:
+        pass
+
+

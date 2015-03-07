@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'sds.wsgi.application'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/Montreal'
+TIME_ZONE = 'US/Eastern'
 
 USE_TZ = True
 

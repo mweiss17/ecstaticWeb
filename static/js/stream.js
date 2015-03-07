@@ -1,37 +1,34 @@
-var xmlhttp = new XMLHttpRequest();
-var lastSyncSleepRecovery = 0;
-var syncIntervalSleepRecovery = 30000; 
+var lastSync = 0;
 var mAudioPlayer = document.getElementsByTagName("audio")[0];
 var tryToJumpInterval;
 var updateProgressInterval;
-setInterval(incrementPlaytime, 1000);
-setInterval(showRemaining, 1000);
+setInterval(incrementClock, 1000); //Increment the countdown clock 
+setInterval(checkIfPhoneSlept, 5000); //check every 5 seconds whether a minute has passed since last sync
 
-/**** Recovers after phone is closed, makes 1 ajax request every 30 seconds.*****
-***** Checks if phone was closed every 5 seconds. 							****/
-function updateLastSyncSleepRecovery() {
-  lastSyncSleepRecovery = new Date().getTime(); //set last sync to be now
-  sync();
+function checkIfPhoneSlept() {
+  var now = new Date().getTime();
+  if ((now - lastSync) > 30000 ) {
+	  lastSync = new Date().getTime(); //record the time when we synced 
+	  sync();
+  }
 }
 
-setInterval(function() {
-  var now = new Date().getTime();
-  if ((now - lastSyncSleepRecovery) > syncIntervalSleepRecovery ) {
-    updateLastSyncSleepRecovery();
-  }
-}, 5000); //check every 5 seconds whether a minute has passed since last sync
-
-
-function incrementPlaytime(){
-	playtime = playtime + 1;
+function incrementClock(){
+	eta = eta + 1;
+	showClock();
+	if(eta > 0){
+		updateProgress(); //update the progress bar's UI if the mix is playing
+	}
 }
 
 function sync(){
 	try{
+		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.onreadystatechange=function(){
 			if (xmlhttp.readyState==4 && xmlhttp.status==200){
 				console.log(xmlhttp);
-				playtime = Number(xmlhttp.responseText);
+				eta = Number(xmlhttp.responseText);
+				console.log(eta);
 			}
 		}
 		xmlhttp.open("GET","/stream.html/?id="+eventID+"&async=2",true);
@@ -43,16 +40,22 @@ function sync(){
 }
 
 function playMix() {
-	this.mAudioPlayer.play();
-	this.mAudioPlayer.pause();
-	tryToJumpInterval = setInterval(tryToJump, 5000);
-	updateProgressInterval = setInterval(updateProgress, 1000);
+	//the first time we click the play button, the player is stopped, so we want to toggle the player and sync it REALLY quick
+	if(mAudioPlayer.paused){
+		this.mAudioPlayer.play();
+		this.mAudioPlayer.pause();
+		tryToJumpInterval = setInterval(tryToJump, 200);
+	}
+	//if we're trying to 'resync' 
+	else{
+		tryToJumpInterval = setInterval(tryToJump, 1000);
+	}
 }
 
 function tryToJump() {
 	//Try to jump if the current time is more than 5 seconds off playtime
-	if(Math.abs(mAudioPlayer.currentTime - playtime) > 5){
-		mAudioPlayer.currentTime = playtime;
+	if(Math.abs(mAudioPlayer.currentTime - eta) > 1){
+		mAudioPlayer.currentTime = eta;
 		this.mAudioPlayer.play();
 	}
 	//Clear the interval if the it's within 5 seconds, and the player is playing
@@ -65,23 +68,23 @@ function tryToJump() {
 
 
 //Update the countdown clock, handle making the play button appear.
-function showRemaining() {
-	if(playtime >= 0){
+function showClock() {
+	if(eta >= 0){
 		makePlayButtonVisible();
 	}
-	if(playtime >= 0){
-		var hours = Math.floor(( playtime/ 3600) % 24);
-		var minutes = Math.floor(( playtime / 60) % 60);
-		var seconds = Math.floor( playtime % 60);
+	if(eta >= 0){
+		var hours = Math.floor(( eta / 3600) % 24);
+		var minutes = Math.floor(( eta / 60) % 60);
+		var seconds = Math.floor( eta % 60);
 		document.getElementById("countdown").innerHTML = hours + 'h ';
 		document.getElementById("countdown").innerHTML += minutes + 'm ';
 		document.getElementById("countdown").innerHTML += seconds + 's';
 	}
-	if(playtime <= 0){
-		var days = Math.floor( -playtime / 86400);
-		var hours = Math.floor(( -playtime / 3600) % 24);
-		var minutes = Math.floor(( -playtime / 60) % 60);
-		var seconds = Math.floor( -playtime % 60);
+	if(eta <= 0){
+		var days = Math.floor( -eta / 86400);
+		var hours = Math.floor(( -eta / 3600) % 24);
+		var minutes = Math.floor(( -eta / 60) % 60);
+		var seconds = Math.floor( -eta % 60);
 		document.getElementById("countdown").innerHTML = days + 'd ';
 		document.getElementById("countdown").innerHTML += hours + 'h ';
 		document.getElementById("countdown").innerHTML += minutes + 'm ';

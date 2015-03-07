@@ -16,19 +16,14 @@ from django.conf import settings
 from settings import *
 from django.contrib import auth
 from django.core.context_processors import csrf
-from mailchimp import utils
 from django.contrib.auth.forms import *
 from django.contrib import messages
 from myauth.forms import *
 from django.contrib.auth import login
-import logging, json, pprint, datetime, time, hashlib, random,sys,mixpanel
-mp = mixpanel.Mixpanel(PROJECT_TOKEN)
+from django.utils import timezone
+import logging, json, pprint, datetime, time, hashlib, random,sys, pytz
 #print >> sys.stderr, mySubString
 
-def calculateCurrentTime():
-    now = datetime.datetime.utcnow()
-    now = time.mktime(now.timetuple()) 
-    return now
 
 def create_login_form():
     loginform = LoginForm()
@@ -47,7 +42,7 @@ def common_context(request):
     return context
 
 def index(request):
-    return render(request, 'index.html', {})
+    return render(request, 'index.html', {"index":True})#need the footer imports on the homepage, but no actual footer
 
 def about(request):
     return render(request, 'about.html', {})
@@ -123,7 +118,7 @@ def organize(request):
 
         cf.fields['cityName'].widget.attrs['placeholder'] = 'My City\'s Name'
 
-        context.update({"upcomingEvents":upcomingEvents, "ef":ef, "pf":pf, "cf":cf, "cpf":cpf,'um':um})
+        context.update({"ef":ef, "pf":pf, "cf":cf, "cpf":cpf,'um':um})
         return render(request, 'organize.html', context)
 
 def event_creation_success(request):
@@ -156,6 +151,7 @@ def format_song_upload_form(form):
 def future(request):
     context = {}
     event = Events.objects.get(id=request.GET['id'])
+    print >> sys.stderr, event.arrive_start_time
     organizer = UserProfile.objects.get(user=event.organizer)
     context.update({'event' : event})
     context.update({"organizer":organizer})
@@ -181,15 +177,13 @@ def contact(request):
     return render(request, 'contact.html', context)
 
 def stream(request):
-    cities = city.objects.filter()
-    event = Events.objects.filter(id=request.GET['id'])
-    event = event[0]
-
-    eventstart = event.music_start_time
-    eventstart = time.mktime(eventstart.timetuple())
-    eta = eventstart - calculateCurrentTime()
-    eta = -eta
-    context = {'event': event, 'eta': eta, "cities":cities}
+    event = Events.objects.get(id=request.GET['id'])
+    eventstart = time.mktime(event.music_start_time.timetuple())
+    print >> sys.stderr, eventstart
+    now = datetime.datetime.utcnow()
+    now = time.mktime(now.timetuple()) 
+    eta = now - eventstart
+    context = {'event': event, 'eta': eta}
     try:
         if(request.GET['async']):
             return HttpResponse(eta)
@@ -205,22 +199,11 @@ def handle_uploaded_file(f):
             destination.write(chunk)
 
 def appindex(request):
-    TimeZone = datetime.timedelta(seconds=3600*7) #adjustment for EST (4 hrs) + 
-                                                  #adjustment for inprogress events (3 hours)
-    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-TimeZone)
-    previousEvents = Events.objects.filter(arrive_start_time__lte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
-    upcomingGlobalEvent = globalEvent.objects.filter(arrive_start_time__gte=datetime.datetime.now()-TimeZone)
-
-    future = 'False'
-    etaList = []
-    upcomingEventsList = []
+    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*4))
 
     some_data_to_dump = []
     for event in upcomingEvents:
-        eventstart = event.music_start_time
-        eventstart = time.mktime(eventstart.timetuple())
-        etaList.append(eventstart-calculateCurrentTime())
-        upcomingEventsList.append(event.id)
+        eventstart = time.mktime(event.music_start_time.timetuple())
         if event.eventMix:
             some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.eventCity.cityName, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent, 'latitude':event.latitude, 'longitude':event.longitude, 'songTitle':event.eventMix.uploadedSong.url})
         else:
@@ -228,25 +211,14 @@ def appindex(request):
 
     data = json.dumps(some_data_to_dump)
 
-    context = RequestContext(request, {
-        'future': future, 'upcomingEvents': upcomingEvents, 'etaList': etaList, 'upcomingEventsList': upcomingEventsList, 'previousEvents': previousEvents
-    })
     return HttpResponse(data, mimetype='application/json')
         
 def logout(request):
     auth.logout(request)
     context = {}
-    if "profile.html" in request.META.get('HTTP_REFERER'):
+    if "profile" in request.META.get('HTTP_REFERER'):
         return HttpResponseRedirect('/')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
-def subscribeToMailchimp(email):
-    try:
-        list = utils.get_connection().get_list_by_id(MAILCHIMP_LIST_ID)
-        list.subscribe(email, {'EMAIL': email})
-    except:
-        pass
 
 def handler404(request):
     response = render_to_response('404.html', {}, context_instance=RequestContext(request))

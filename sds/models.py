@@ -12,6 +12,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from sds.perm import perm
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
+from django.utils import timezone
 from datetime import datetime, date, time
 
 
@@ -102,7 +103,7 @@ User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 class surveySignups(models.Model):
     email = models.CharField(max_length=255)
     event = models.ForeignKey(Events)
-    surveySignupDate = models.DateTimeField("signupDate", auto_now=True, default=datetime.now)
+    surveySignupDate = models.DateTimeField("signupDate", auto_now=True, default=timezone.now())
     mixAccess = models.CharField(max_length=50, default=":/")
 
     def __unicode__(self):

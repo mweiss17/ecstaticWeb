@@ -2,7 +2,7 @@ var xmlhttp = new XMLHttpRequest();
 
 function startCountdown() {
 	var str = new Date(Number(music_start_time));
-	var adj = new Date((str.getTime() + 14400)*1000);
+	var adj = new Date((str.getTime())*1000);
 	new Countdown({
 	  selector: '.countdown',
 	  msgPattern: "{days} days, {hours} hours, {minutes} minutes, and {seconds} seconds till Disco!",

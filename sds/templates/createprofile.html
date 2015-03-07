@@ -182,13 +182,9 @@
 <hr>
 {{upf.mixpanel_distinct_id}}
 <script>
-    mixpanel.init('Project Token', {'loaded':function() {
-        var distinct_id = mixpanel.get_distinct_id();
-        document.getElementById('mixpanel_distinct_id').value = distinct_id;}
-    });
 </script>
    <br><br>
-  <button type="submit" onclick="mixpanel.track('submitted account');" class="btn submit">Create your profile</button>
+  <button type="submit" onclick="mixpanel.track('submitted account');document.getElementById('mixpanel_distinct_id').value = distinct_id;" class="btn submit">Create your profile</button>
 </form>
 
 </div>
