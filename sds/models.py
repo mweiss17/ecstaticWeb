@@ -42,6 +42,7 @@ class Music(models.Model):
         return self.song_name_or_link+ " : " + self.email + " : " + str(self.musicUploadDate)
 
 class globalEvent(models.Model):
+    homepageTagline = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     eventPic = models.ForeignKey(Photos, related_name="globalEventEventPic")
     eventMix = models.ForeignKey(Music, blank=True, null=True, related_name="globalEventEventMix")

@@ -42,7 +42,13 @@ def common_context(request):
     return context
 
 def index(request):
-    return render(request, 'index.html', {"index":True})#need the footer imports on the homepage, but no actual footer
+    upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*3))
+    homepageTagline = "More Events Coming Soon!"
+    for event in upcomingEvents:
+        if event.globalEvent:
+            if event.globalEvent.tagline:
+                homepageTagline = event.globalEvent.tagline
+    return render(request, 'index.html', {"index":True, "homepageTagline":homepageTagline})#need the footer imports on the homepage, but no actual footer
 
 def about(request):
     return render(request, 'about.html', {})
