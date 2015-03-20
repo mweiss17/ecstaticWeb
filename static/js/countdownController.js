@@ -8,7 +8,8 @@ function startCountdown(){
     selector: '.countdown',
     msgPattern: "DISCO BEGINS IN {days} D, {hours} H, {minutes} M, and {seconds} S",
     dateStart: new Date(), //milliseconds since epoch,
-    dateEnd: new Date(Number(str.concat('000'))) /*seconds since epoch*/
+    dateEnd: new Date(Number(str.concat('000'))), /*seconds since epoch*/
+    msgAfter: "MSGAFTER"
   });
   console.log(new Date(Number(str.concat('000'))))
 }

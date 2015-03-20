@@ -122,40 +122,36 @@ def createprofile(request):
         pf = photoUploadForm(request.POST, request.FILES)
         context.update({'uf': uf, 'upf':upf, 'pf':pf})
         profile_CSS(uf, upf)
-
-        if uf.is_valid():
+        if uf.is_valid() and upf.is_valid() and pf.is_valid():
             userObj = uf.save()
+            userProfileObj = upf.save(commit=False)
+            userProfileObj.user = userObj
+            photoObj = pf.save(commit=False)
+            photoObj.user = userObj
+            photoObj.save()
+            context.update({'pf':photoObj})
+            userProfileObj.profilePic = photoObj
+            email = uf.cleaned_data['email']
+            salt = hashlib.sha1(str(random.random())).hexdigest()[:5]            
+            userProfileObj.save()
+            context.update({'upf': userProfileObj})
+            if upf.cleaned_data['newsletter']:
+                subscribeToMailchimp(email)
+            userObj.backend = 'django.contrib.auth.backends.ModelBackend'
+            auth.login(request, userObj)
+            people_dict = {'$username' : userObj.username, '$create' : datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p"), '$email' : email, 'city' : "none",}
+            if userProfileObj.city:
+                people_dict['city'] = userProfileObj.city.cityName
+            if userObj.first_name:
+                people_dict['$first_name'] = userObj.first_name
+            if userObj.last_name:
+                people_dict['$last_name'] = userObj.last_name
+            print >> sys.stderr, userProfileObj.mixpanel_distinct_id
+            
+            mp.alias(userObj.pk, userProfileObj.mixpanel_distinct_id)
+            mp.people_set(userObj.pk, people_dict)
 
-            if upf.is_valid():
-                userProfileObj = upf.save(commit=False)
-                userProfileObj.user = userObj
-            if pf.is_valid():                 
-                photoObj = pf.save(commit=False)
-                photoObj.user = userObj
-                photoObj.save()
-                context.update({'pf':photoObj})
-                userProfileObj.profilePic = photoObj
-                email = uf.cleaned_data['email']
-                salt = hashlib.sha1(str(random.random())).hexdigest()[:5]            
-                userProfileObj.save()
-                context.update({'upf': userProfileObj})
-                if upf.cleaned_data['newsletter']:
-                    subscribeToMailchimp(email)
-                userObj.backend = 'django.contrib.auth.backends.ModelBackend'
-                auth.login(request, userObj)
-                people_dict = {'$username' : userObj.username, '$create' : datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p"), '$email' : email, 'city' : "none",}
-                if userProfileObj.city:
-                    people_dict['city'] = userProfileObj.city.cityName
-                if userObj.first_name:
-                    people_dict['$first_name'] = userObj.first_name
-                if userObj.last_name:
-                    people_dict['$last_name'] = userObj.last_name
-                print >> sys.stderr, userProfileObj.mixpanel_distinct_id
-                
-                mp.alias(userObj.pk, userProfileObj.mixpanel_distinct_id)
-                mp.people_set(userObj.pk, people_dict)
-
-                return render(request, 'register_success.html', context)
+            return render(request, 'register_success.html', context)
         return render(request, 'createprofile.html', context)
 
     else:

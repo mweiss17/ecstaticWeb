@@ -45,9 +45,12 @@ def index(request):
     upcomingEvents = Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*3))
     homepageTagline = "More Events Coming Soon!"
     for event in upcomingEvents:
-        if event.globalEvent:
-            if event.globalEvent.tagline:
-                homepageTagline = event.globalEvent.tagline
+        try:
+            if event.globalEvent:
+                if event.globalEvent.homepageTagline:
+                    homepageTagline = event.globalEvent.homepageTagline
+        except Exception as e:
+            print >> sys.stderr, e
     return render(request, 'index.html', {"index":True, "homepageTagline":homepageTagline})#need the footer imports on the homepage, but no actual footer
 
 def about(request):
@@ -186,7 +189,7 @@ def stream(request):
     event = Events.objects.get(id=request.GET['id'])
     eventstart = time.mktime(event.music_start_time.timetuple())
     print >> sys.stderr, eventstart
-    now = datetime.datetime.utcnow()
+    now = datetime.datetime.utcnow() + datetime.timedelta(seconds=3600)
     now = time.mktime(now.timetuple()) 
     eta = now - eventstart
     context = {'event': event, 'eta': eta}
