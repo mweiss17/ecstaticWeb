@@ -29,10 +29,12 @@
             {% if homepageTagline %}
               {{ homepageTagline }}
             {% endif %}
-            <h2>{{upcomingEvents.0.title}}<br>{{upcomingEvents.0.arrive_start_time}}</h2>
             <h3 class="yellow"> 
               {% for event in upcomingEvents %}               
                 {% if forloop.first %}
+                  {% if event.globalEvent %}
+                    <h2>{{event.title}} <br> {{event.arrive_start_time}}</h2>
+                  {% endif%}
                   <div class="row"> 
                 {% endif %}
                 {% if event.globalEvent %}
