@@ -24,7 +24,6 @@ from django.utils import timezone
 import logging, json, pprint, datetime, time, hashlib, random,sys, pytz
 #print >> sys.stderr, mySubString
 
-
 def create_login_form():
     loginform = LoginForm()
     loginform.fields['login'].widget.attrs['class'] = "submit-track user-login"

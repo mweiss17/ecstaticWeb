@@ -89,7 +89,7 @@ class UserProfile(models.Model):
     role = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
 
     #Other Fields
-    city = models.ForeignKey("city")
+    city = models.ForeignKey("city", blank=True, null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='profile')
     profilePic = models.ForeignKey(Photos, blank=True, null=True)
     signupDate = models.DateTimeField("signupDate", auto_now=True)
