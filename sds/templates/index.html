@@ -5,9 +5,7 @@
       <ul class="nav">
         <li><a href="#">FIND YOUR CITY</a></li>
         {% for event in upcomingEvents %}               
-          {% if event.globalEvent %}
             <li> <a onclick="mixpanel.track('city click');" href="/future.html?id={{event.id}}"> {{event.eventCity}}</a> </li>
-          {% endif%}
         {% endfor %}
       </ul>
     </div>
