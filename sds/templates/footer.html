@@ -75,19 +75,23 @@
   currentUser = null;
 {% endif %}
 
+{% if FB_APP_ID %}
+  FB_APP_ID = "{{FB_APP_ID}}";
+{% endif %}
+
 {% if event.id %}
-  eventID = "{{event.id}}"
+  eventID = "{{event.id}}";
 {% else %}
   eventID = null;
 {% endif %}
 
 {% if event.eventMix.uploadedSong %}
-  eventMix = "{{event.eventMix.uploadedSong}}"
+  eventMix = "{{event.eventMix.uploadedSong}}";
 {% else %}
   eventMix = null;
 {% endif %}
 {% if event.music_start_time %} 
-  music_start_time = '{{ event.music_start_time|date:"U" }}'
+  music_start_time = '{{ event.music_start_time|date:"U" }}';
   console.log(music_start_time);
 {% endif %}
 

@@ -17,6 +17,11 @@
         <p class="error">{{ message }}</li>
       {% endfor %}
     {% endif %}
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState(true);">
+</fb:login-button>
+
+<div id="status">
+</div>
 
     <br>
     <input onclick="mixpanel.track('clicked login');" type="submit" class="btn" value="login" />
