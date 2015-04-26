@@ -1,6 +1,5 @@
 from django.db import models
-import re
-import uuid
+import re, uuid, sys
 from django.core import validators
 from django.utils import timezone
 from django.core.mail import send_mail
@@ -25,8 +24,7 @@ class UserManager(BaseUserManager):
 		return user
 
 	def create_user(self, username, email=None, password=None, **extra_fields):
-		return self._create_user(username, email, password, False, False,
-		**extra_fields)
+		return self._create_user(username, email, password, False, False, **extra_fields)
 
 	def create_superuser(self, username, email, password, **extra_fields):
 		user=self._create_user(username, email, password, True, True,
@@ -47,10 +45,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 	is_active = models.BooleanField(_('active'), default=True,
 		help_text=_('Designates whether this user should be treated as active. Unselect this instead of deleting accounts.'))
 	date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+	objects =  UserManager()
 
 	USERNAME_FIELD = 'username'
 	REQUIRED_FIELDS = ['email',]
-	objects = UserManager()
 	class Meta:
 		verbose_name = _('user')
 		verbose_name_plural = _('users')
@@ -60,6 +58,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 		return full_name.strip()
 
 	def get_short_name(self):
+		return self.first_name
+
+	def get_profile(self):
 		return self.first_name
 
 	def email_user(self, subject, message, from_email=None):
