@@ -34,9 +34,11 @@ def create_login_form():
 
 def common_context(request):
     context = {}
+    context.update({'request': request, 'user': request.user})
     context.update({'cities':city.objects.filter()})
     context.update({'loginform':create_login_form()})
     context.update({'PROJECT_TOKEN':PROJECT_TOKEN})
+    context.update({'SOCIAL_AUTH_FACEBOOK_KEY':SOCIAL_AUTH_FACEBOOK_KEY})
     context.update({'upcomingEvents':Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*3))})
     return context
 

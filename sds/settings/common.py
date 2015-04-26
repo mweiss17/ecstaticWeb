@@ -8,6 +8,7 @@ import json
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SOUTH_TESTS_MIGRATE = False
+LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_AUTHENTICATION_METHOD = ("username_email")
 ACCOUNT_EMAIL_REQUIRED = (True)
@@ -17,6 +18,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     #zinia context processors
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.i18n',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
     'zinnia.context_processors.version',  # Optionl
     'django.contrib.messages.context_processors.messages',
     'sds.views.common_context',
@@ -26,8 +29,13 @@ FIXTURE_DIRS = (
    'sds/fixtures/sds_testdata.json',
 )
 
+SOUTH_MIGRATION_MODULES = {
+    'default': 'social.apps.django_app.default.south_migrations'
+}
+
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
+    'social.backends.facebook.FacebookOAuth2',
 )
 ACCOUNT_ACTIVATION_DAYS=7
 EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
@@ -62,6 +70,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'social.apps.django_app.default',
     'storages',
     'sds',
     'south',
@@ -82,6 +91,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'myauth.middleware.MySocialAuthExceptionMiddleware'
 )
 
 ROOT_URLCONF = 'urls'
@@ -120,6 +130,20 @@ AUTH_USER_MODEL = 'myauth.User'
 
 ZINNIA_SPAM_CHECKER_BACKENDS = ('zinnia_akismet.akismet', 'zinnia.spam_checker.backends.automattic', 'zinnia.spam_checker.backends.typepad','zinnia.spam_checker.backends.all_is_spam',)
 AKISMET_API_KEY = '197e10c1c2ca'
+
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.social_auth.associate_by_email',  # <--- enable this one
+    'social.pipeline.user.create_user',
+    'myauth.socialpipeline.save_profile',  # <--- set the path to the function
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details'
+)
 
 DEV_DATABASE={
     "default": {

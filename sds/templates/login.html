@@ -20,6 +20,8 @@
 
     <br>
     <input onclick="mixpanel.track('clicked login');" type="submit" class="btn" value="login" />
+     <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a>
+
       <a onclick="mixpanel.track('clicked create profile');" href="/auth/createprofile.html" class="btn">Sign up!</a>
     </br>
   <a onclick="mixpanel.track('clicked forgot password');" href="/auth/forgotpassword.html">Forgot Password</a> 
