@@ -3,5 +3,6 @@ sds/config.json
 media/
 *.pyc
 sds.log
-sds/migrations/*.pyc
+sds/migrations/*
+myauth/migrations/*
 sds/settings/__init__.py
