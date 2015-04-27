@@ -1,12 +1,13 @@
 from django.db import models
-import re, uuid, sys
-from django.core import validators
 from django.utils import timezone
+from django.core import validators
 from django.core.mail import send_mail
+from django.conf import settings
 from django.utils.http import urlquote
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django import forms
+import re, uuid, sys
 
 class UserManager(BaseUserManager):
 
@@ -65,4 +66,33 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 	def email_user(self, subject, message, from_email=None):
 		send_mail(subject, message, from_email, [self.email])
+
+class UserProfile(models.Model):
+    #Role
+    ORGANIZER = 'Organizer'
+    DJ = 'DJ'
+    VIDEOGRAPHER = 'Videographer'
+    PHOTOGRAPHER = 'Photographer'
+    DANCER = 'Dancer'
+    ORGANIZERCHOICES = (
+        (ORGANIZER, 'Organizer'),
+        (DJ, 'DJ'),
+        (VIDEOGRAPHER, 'Videographer'),
+        (PHOTOGRAPHER, 'Photographer'),
+        (DANCER, 'Dancer'),
+    )
+    role = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
+
+    #Other Fields
+    city = models.ForeignKey("sds.city", blank=True, null=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='profile')
+    profilePic = models.ForeignKey("sds.Photos", blank=True, null=True)
+    signupDate = models.DateTimeField("signupDate", auto_now=True)
+    dancefloorSuperpower = models.CharField(max_length=2048, blank=True, null=True)
+    zipcode = models.CharField(max_length=10, default=00000, blank=True, null=True)
+    newsletter = models.BooleanField()
+    mixpanel_distinct_id = models.CharField(max_length=100, blank=True, null=True)
+    def __unicode__(self):
+        return self.user.username
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
