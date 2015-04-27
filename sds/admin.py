@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.contrib import admin
 from sds.models import *
+from myauth.models import *
 
 class PhotosAdmin(admin.ModelAdmin):
 	list_display = ('user', 'photoFile')

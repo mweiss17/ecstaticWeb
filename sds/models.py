@@ -14,8 +14,7 @@ from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 from django.utils import timezone
 from datetime import datetime, date, time
-
-
+import sys
 
 
 class Photos(models.Model):
@@ -71,35 +70,6 @@ class Events(models.Model):
 
     def __unicode__(self):
         return self.title
-
-class UserProfile(models.Model):
-    #Roles
-    ORGANIZER = 'Organizer'
-    DJ = 'DJ'
-    VIDEOGRAPHER = 'Videographer'
-    PHOTOGRAPHER = 'Photographer'
-    DANCER = 'Dancer'
-    ORGANIZERCHOICES = (
-        (ORGANIZER, 'Organizer'),
-        (DJ, 'DJ'),
-        (VIDEOGRAPHER, 'Videographer'),
-        (PHOTOGRAPHER, 'Photographer'),
-        (DANCER, 'Dancer'),
-    )
-    role = models.CharField(max_length=255, choices=ORGANIZERCHOICES, blank=True, null=True)
-
-    #Other Fields
-    city = models.ForeignKey("city", blank=True, null=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='profile')
-    profilePic = models.ForeignKey(Photos, blank=True, null=True)
-    signupDate = models.DateTimeField("signupDate", auto_now=True)
-    dancefloorSuperpower = models.CharField(max_length=2048, blank=True, null=True)
-    zipcode = models.CharField(max_length=10, default=00000, blank=True, null=True)
-    newsletter = models.BooleanField()
-    mixpanel_distinct_id = models.CharField(max_length=100, blank=True, null=True)
-    def __unicode__(self):
-        return self.user.username
-User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
 class surveySignups(models.Model):
     email = models.CharField(max_length=255)
