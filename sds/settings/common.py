@@ -12,15 +12,20 @@ LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_AUTHENTICATION_METHOD = ("username_email")
 ACCOUNT_EMAIL_REQUIRED = (True)
-AUTH_PROFILE_MODULE = 'sds.UserProfile'
+AUTH_PROFILE_MODULE = 'myauth.UserProfile'
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = [
+    'email',
+    'user_friends',
+    'public_profile',
+]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    #zinia context processors
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.i18n',
     'social.apps.django_app.context_processors.backends',
     'social.apps.django_app.context_processors.login_redirect',
-    'zinnia.context_processors.version',  # Optionl
+    'zinnia.context_processors.version', 
     'django.contrib.messages.context_processors.messages',
     'sds.views.common_context',
 )
@@ -91,7 +96,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'myauth.middleware.MySocialAuthExceptionMiddleware'
 )
 
 ROOT_URLCONF = 'urls'
@@ -139,10 +143,10 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.get_username',
     'social.pipeline.social_auth.associate_by_email',  # <--- enable this one
     'social.pipeline.user.create_user',
-    'myauth.socialpipeline.save_profile',  # <--- set the path to the function
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details'
+    'social.pipeline.user.user_details',
+    'myauth.socialpipeline.save_profile',  # <--- set the path to the function
 )
 
 DEV_DATABASE={

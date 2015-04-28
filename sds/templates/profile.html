@@ -64,32 +64,32 @@ function editprofile(){
   <form  method="post" action="/auth/profileupdate/" enctype="multipart/form-data">
     {% csrf_token %} <br>
     <br>
-    <div class="col-sm-3"> Profile Picture (100x100 pixels): </div>
-    <div class="col-sm-9"> {{pf.photoFile}} </div>
-    
+    <div class="col-sm-3"> Username: </div>
+    <div class="col-sm-9"> {{uf.username}} {{uf.username.errors}}{{uf.errors}}</div>
+
+    <div class="col-sm-3"> City: </div>
+    <div class="col-sm-9"> {{upf.city}} </div>
+        
     <div class="col-sm-3"> First Name: </div>
     <div class="col-sm-9"> {{uf.first_name}} {{uf.first_name.errors}} </div>
     
-    <div class="col-sm-3"> Last Name:
-      <div hidden> Username: {{uf.username}} {{uf.username.errors}} <br>
-        <br>
-        Email: {{uf.email}} {{uf.email.errors}} <br>
-        <br>
-      </div>
-    </div> 
+    <div class="col-sm-3"> Last Name:</div> 
     <div class="col-sm-9"> {{uf.last_name}} {{uf.last_name.errors}} </div>
-    
+
     <div class="col-sm-3"> Dancefloor Superpower: </div>
     <div class="col-sm-9"> {{upf.dancefloorSuperpower}} </div>
     
     <div class="col-sm-3"> Zipcode: </div>
     <div class="col-sm-9"> {{upf.zipcode}} </div>
 
-    <div class="col-sm-3"> City: </div>
-    <div class="col-sm-9"> {{upf.city}} </div>
-    
     <div class="col-sm-3"> Role: </div>
     <div class="col-sm-9"> {{upf.role}} 
+
+    <div class="col-sm-3"> Profile Picture (100x100 pixels): </div>
+    <div class="col-sm-9"> {{pf.photoFile}} </div>
+
+    <div hidden> Email: {{uf.email}} {{uf.email.errors}}</div>
+    
     <br class="clear">
     <button type="submit" class="btn submit">Save Changes</button>
     </div>
