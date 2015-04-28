@@ -78,6 +78,9 @@
 {% if SOCIAL_AUTH_FACEBOOK_KEY %}
   SOCIAL_AUTH_FACEBOOK_KEY = "{{SOCIAL_AUTH_FACEBOOK_KEY}}";
 {% endif %}
+{% if FB_APP_ID %}
+  FB_APP_ID = "{{FB_APP_ID}}";
+{% endif %}
 
 {% if event.id %}
   eventID = "{{event.id}}";
