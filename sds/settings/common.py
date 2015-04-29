@@ -146,7 +146,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details',
-    'myauth.socialpipeline.save_profile',  # <--- set the path to the function
+    'myauth.socialpipeline.save_profile',
 )
 
 DEV_DATABASE={
