@@ -14,18 +14,16 @@
     </div>
     {% if messages %}
       {% for message in messages %}
-        <p class="error">{{ message }}</li>
+        <p class="error">{{ message }}
       {% endfor %}
     {% endif %}
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState(true);">
-</fb:login-button>
 
 <div id="status">
 </div>
 
     <br>
     <input onclick="mixpanel.track('clicked login');" type="submit" class="btn" value="login" />
-     <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a>
+     <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}?id={{event.id}}"><img width="150px" src="http://www.oficinadanet.com.br/imagens/post/11326/login_1.png"></a>
 
       <a onclick="mixpanel.track('clicked create profile');" href="/auth/createprofile.html" class="btn">Sign up!</a>
     </br>
@@ -35,7 +33,3 @@
   </form>
 
 {% endblock %}
-
-
-
-
