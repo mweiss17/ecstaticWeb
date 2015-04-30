@@ -8,7 +8,34 @@ from django.core.files.storage import default_storage
 import facebook, sys
 #mp = Mixpanel(PROJECT_TOKEN)
  
-def save_profile_picture(graph, facebook_profile, userprofile, user):
+
+#this is the method that is called in the pipeline. It calls some helper methods below
+#mainly all it does is query the FB api and create a new userprofile filled with goodies (like prof pic!) 
+def save_profile(backend, user, response, *args, **kwargs):
+    if backend.name == 'facebook':
+        if not userprofile_exists(user): #if there is no user profile, then populate it from Facebook
+            profile_pic = get_profile_picture_from_facebook(user)
+            try:
+                photo_obj = Photos.objects.create(photoFile=profile_pic, user=user)
+                photo_obj.save()
+                userprofile = UserProfile.objects.create(user=user, profilePic=photo_obj, newsletter=False)
+                userprofile.save()
+            except photo_obj.DoesNotExist:
+                print >> sys.stderr, "photo does not exist"
+        else:
+            print >> sys.stderr, "userprofile already exists"
+            #mp.track(user.id,'succesful account creation');
+            #print >> sys.stderr, profile.dancefloorSuperpower
+
+#uses the FB api to get the social profile for a given user
+def get_facebook_profile(user):
+    social_user = user.social_auth.filter(provider='facebook',).first()
+    graph = facebook.GraphAPI(social_user.extra_data['access_token'])
+    return graph.get_object("me")
+
+#Get Profile Picture, and return the file
+def get_profile_picture_from_facebook(user):
+    facebook_profile = get_facebook_profile(user)
     url = 'http://graph.facebook.com/{0}/picture'.format(facebook_profile['id'])
     try:
         response = request('GET', url, params={'type': 'large'})
@@ -16,33 +43,17 @@ def save_profile_picture(graph, facebook_profile, userprofile, user):
     except HTTPError:
         pass
     else:
-        photo_file = default_storage.open('{0}_social.jpg'.format(user.username), 'r+w')
+        f = default_storage.open('{0}_social.jpg'.format(user.username), 'r+w')
+        photo_file = File(f)
         photo_file.write(response.content)
-        photo_obj = Photos.objects.create(photoFile=photo_file, user=user)
-        photo_obj.save()
-        print >> sys.stderr, photo_obj
-        userprofile.profilePic = photo_obj
-        userprofile.save()
-        print >> sys.stderr, "save"
+        return photo_file
+    return None
 
-
-def save_profile(backend, user, response, *args, **kwargs):
+# A method to check whether the user profile exists already, or if we have to create it
+def userprofile_exists(user):
     try:
-        profile_to_check = UserProfile.objects.get(user=user)
+        profile = UserProfile.objects.get(user=user)
+        return True
     except UserProfile.DoesNotExist:
-        profile_to_check = None
-    if backend.name == 'facebook':
-        print >> sys.stderr, "1"
-        if profile_to_check is None: #then populate it from Facebook
-            social_user = user.social_auth.filter(
-                provider='facebook',
-            ).first()
-            graph = facebook.GraphAPI(social_user.extra_data['access_token'])
-            facebook_profile = graph.get_object("me")
-            userprofile = UserProfile.objects.create(user=user, newsletter=False)
-            save_profile_picture(graph, facebook_profile, userprofile, user)
-            print >> sys.stderr, "2"
-        else:
-            profile = user.get_profile()
-            #mp.track(user.id,'succesful account creation');
-            #print >> sys.stderr, profile.dancefloorSuperpower
+        return False
+
