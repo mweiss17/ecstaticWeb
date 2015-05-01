@@ -16,7 +16,7 @@
       <span class="location"> {{ event.arrive_start_time}} </br>
       {{ event.location}} </br>
       </span> <a href="{{event.fbEvent}}">
-      <div class="btn small facebook" onclick="mixpanel.track('clicked facebook');"><i class="fa fa-facebook fa-lg"></i> Join the Facebook Event</div>
+      <div class="btn small facebook"><i class="fa fa-facebook fa-lg"></i> Join the Facebook Event</div>
       </a> 
     </div>
     <br class="clear">
@@ -35,7 +35,7 @@
       <a class="btn streamOrDownload" disabled href="#login">Stream The Mix</button>
       <a class="btn streamOrDownload" disabled href="#login" >Download Mix!</a>
       Mix is unfinished!
-    {%endif%}
+    {% endif %}
     </div>
   </div>
 </div>
