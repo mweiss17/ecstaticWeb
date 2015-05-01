@@ -3,8 +3,8 @@ from mixpanel import Mixpanel
 from myauth.models import *
 from sds.models import *
 from requests import request, HTTPError
-from django.core.files import File
 from django.core.files.storage import default_storage
+from django.core.files import File
 import facebook, sys
 #mp = Mixpanel(PROJECT_TOKEN)
  
@@ -16,12 +16,13 @@ def save_profile(backend, user, response, *args, **kwargs):
         if not userprofile_exists(user): #if there is no user profile, then populate it from Facebook
             profile_pic = get_profile_picture_from_facebook(user)
             try:
-                photo_obj = Photos.objects.create(photoFile=profile_pic, user=user)
+                photo_obj = Photos.objects.create(user=user)
+                photo_obj.photoFile = "Photos/%Y/%m/%d/{0}_social.jpg".format(user.username)
                 photo_obj.save()
                 userprofile = UserProfile.objects.create(user=user, profilePic=photo_obj, newsletter=False)
                 userprofile.save()
-            except photo_obj.DoesNotExist:
-                print >> sys.stderr, "photo does not exist"
+            except Exception as e:
+                print >> sys.stderr, '%s (%s)' % (e.message, type(e))
         else:
             print >> sys.stderr, "userprofile already exists"
             #mp.track(user.id,'succesful account creation');
@@ -43,10 +44,9 @@ def get_profile_picture_from_facebook(user):
     except HTTPError:
         pass
     else:
-        f = default_storage.open('{0}_social.jpg'.format(user.username), 'r+w')
-        photo_file = File(f)
-        photo_file.write(response.content)
-        return photo_file
+        f = default_storage.open('Photos/%Y/%m/%d/{0}_social.jpg'.format(user.username), 'w')
+        f.write(response.content)
+        f.close()
     return None
 
 # A method to check whether the user profile exists already, or if we have to create it
