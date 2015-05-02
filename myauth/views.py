@@ -63,7 +63,7 @@ def loginView(request):
 		if user.check_password(password):
 			user.backend = 'django.contrib.auth.backends.ModelBackend'
 			auth.login(request, user)
-			context.update({'successful_login': True})
+			messages.success(request, user.email)
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'), context)
 	messages.error(request, 'Incorrect username or password, try again.')
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER')+"#login", context)
@@ -147,7 +147,7 @@ def createprofile(request):
 				people_dict['$first_name'] = userObj.first_name
 			if userObj.last_name:
 				people_dict['$last_name'] = userObj.last_name            
-			mp.alias(userObj.pk, userProfileObj.mixpanel_distinct_id)
+			#mp.alias(userObj.pk, userProfileObj.mixpanel_distinct_id)
 			mp.people_set(userObj.pk, people_dict)
 
 			return render(request, 'register_success.html', context)

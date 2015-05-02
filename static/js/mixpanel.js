@@ -5,7 +5,3 @@ for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElemen
       distinct_id = mixpanel.get_distinct_id();
       }
   });
-
-{% if successful_login %}
-  mixpanel.identify("{{request.user.id}}")
-{% endif %}

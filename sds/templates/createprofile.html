@@ -184,7 +184,7 @@
 <script>
 </script>
    <br><br>
-  <button type="submit" onclick="mixpanel.track('submitted account');document.getElementById('mixpanel_distinct_id').value = distinct_id;" class="btn submit">Create your profile</button>
+  <button type="submit" onclick="mixpanel.track('submitted account'); console.log(document.getElementById('id_email').value)console.log(distinct_id); mixpanel.alias(document.getElementById('id_email').value, distinct_id);" class="btn submit">Create your profile</button>
 </form>
 
 </div>

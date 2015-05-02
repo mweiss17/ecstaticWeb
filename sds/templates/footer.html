@@ -69,6 +69,18 @@
 
 <!--Variables that are accessible in javascript-->
 <script>
+
+//After login we are redirected, so context variables don't work. We use the Django messages framework (Django.contrib.messages)
+//to send the user's email as a message tagged "success". Then we identify our newly logged in user to mixpanel.
+{% if messages %}
+  {% for message in messages %}
+    {% if message.tags == "success" %} 
+     mixpanel.identify("{{message}}");
+     console.log("identified as {{message}}");
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
 {% if request.user %}
   currentUser = "{{request.user}}";
 {% else %}
