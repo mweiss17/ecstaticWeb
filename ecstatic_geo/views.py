@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.contrib.gis.geos import Point
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.measure import D
@@ -12,7 +13,6 @@ from sds.settings import *
 
 #(Void) post_location((Point)my_location, (int) user_id)
 def post_location(request):
-	context = {}
 	#Post the location to the DB
 	point = Point(float(request.GET['my_location_lat']), float(request.GET['my_location_lon']))
 	user = User.objects.get(id=request.GET['user_id'])
@@ -20,20 +20,24 @@ def post_location(request):
 	loc.save()
 
 	#Delete old location, Cache the new location
-	cache.delete(user.id)
 	cache.set(user.id,loc.point)
-	return render(request, 'post_location.html', context)
+	return HttpResponse("")
 
 
 #(Point) get_most_recent_location((int)user_id)
 def get_most_recent_location(request):
-	context = {}
-	print >> sys.stderr, cache.keys(request.GET['user_id'])
+	#user = User.objects.get(id=request.GET['user_id'])
+	#loc = location.objects.using("ecstatic_geo").filter(user=user).latest()
+	
+	#get it from the cache
+	if cache.get(request.GET['user_id']) != None:
+		return HttpResponse(cache.get(request.GET['user_id']))
+	else:
+		print >> sys.stderr, "get_most_recent_location cache error, reading from DB"
+		user = User.objects.get(id=request.GET['user_id'])
+		loc = location.objects.using("ecstatic_geo").filter(user=user).latest()
+		return HttpResponse(loc)
 
-	user = User.objects.get(id=request.GET['user_id'])
-	loc = location.objects.using("ecstatic_geo").filter(user=user).latest()
-	context.update({"loc" : loc.point})
-	return render(request, 'get_most_recent_location.html', context)
 
 #(List<user_id, point>) get_nearest_users((int) number_to_get, (int) user_id)
 def get_nearest_users(request):
@@ -44,8 +48,8 @@ def get_nearest_users(request):
 	    point__distance_lte=(loc.point, D(mi=10000))
 	).distance(loc.point).order_by('distance')
 	context.update({"points":points})
-	return render(request, 'get_nearest_users.html', context)
+	return HttpResponse(context)
 
 
 def repopulate_cache():
-	return
+	returnHttpResponse("oops")
