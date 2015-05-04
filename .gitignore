@@ -5,4 +5,5 @@ media/
 sds.log
 sds/migrations/*
 myauth/migrations/*
+ecstatic_geo/*
 sds/settings/__init__.py

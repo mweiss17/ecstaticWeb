@@ -75,6 +75,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.gis',
     'social.apps.django_app.default',
     'storages',
     'sds',
@@ -87,6 +88,7 @@ INSTALLED_APPS = (
     'mptt',
     'zinnia',
     'myauth',
+    'ecstatic_geo',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -149,9 +151,26 @@ SOCIAL_AUTH_PIPELINE = (
     'myauth.socialpipeline.save_profile',
 )
 
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': '/var/run/redis/redis.sock',
+    },
+}
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
 DEV_DATABASE={
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "newdb",
+        "USER": "martin",
+        "PASSWORD": "dancefloor04",
+        "HOST": "dev.cdadlb7rfieo.us-east-1.rds.amazonaws.com",
+        "PORT": "5432"
+    },
+    "ecstatic_geo": {
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": "newdb",
         "USER": "martin",
         "PASSWORD": "dancefloor04",
@@ -168,6 +187,14 @@ PREPROD_DATABASE={
         "PASSWORD": "dancefloor04",
         "HOST": "preprod.cdadlb7rfieo.us-east-1.rds.amazonaws.com",
         "PORT": "5432"
+    },
+    "ecstatic_geo": {
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "NAME": "newdb",
+        "USER": "martin",
+        "PASSWORD": "dancefloor04",
+        "HOST": "dev.cdadlb7rfieo.us-east-1.rds.amazonaws.com",
+        "PORT": "5432"
     }
 }
 
@@ -178,6 +205,14 @@ PRODUCTION_DATABASE={
         "USER": "martin",
         "PASSWORD": "dancefloor04",
         "HOST": "sdslivefeb2.cdadlb7rfieo.us-east-1.rds.amazonaws.com",
+        "PORT": "5432"
+    },
+    "ecstatic_geo": {
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "NAME": "newdb",
+        "USER": "martin",
+        "PASSWORD": "dancefloor04",
+        "HOST": "dev.cdadlb7rfieo.us-east-1.rds.amazonaws.com",
         "PORT": "5432"
     }
 }

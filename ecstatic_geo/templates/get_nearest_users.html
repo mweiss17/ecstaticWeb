@@ -1,0 +1,5 @@
+<ul>
+    {% for point in points %}
+    <li>{{ point.name }} is {{ point.distance.mi|floatformat }} miles away</li>
+    {% endfor %}
+</ul>

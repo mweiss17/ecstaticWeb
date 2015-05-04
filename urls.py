@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
-from myauth import views
+from ecstatic_geo import urls
 from myauth import urls
 from sds import urls
 from django.contrib import admin
@@ -10,6 +10,7 @@ from django.contrib.auth import *
 
 urlpatterns = patterns('',
 	url(r'^', include('sds.urls')),
+	url(r'^geo/', include('ecstatic_geo.urls')),
 	url(r'^auth/', include('myauth.urls')),
     (r'^accounts/password/reset/done/$', 'django.contrib.auth.views.password_reset_done'),
     (r'^accounts/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm',
