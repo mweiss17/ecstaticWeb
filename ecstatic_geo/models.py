@@ -1,5 +1,6 @@
 from django.contrib.gis.db import models
 from django.conf import settings
+import json
 
 class location(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -10,4 +11,4 @@ class location(models.Model):
 		get_latest_by = "timestamp"
 
     def __unicode__(self):
-        return self.user.username
+        return json.dumps({"user":self.user.username, "point_lat":self.point.x, "point_lon":self.point.y, "timestamp":self.timestamp.isoformat()})
