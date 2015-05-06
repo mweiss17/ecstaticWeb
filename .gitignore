@@ -6,4 +6,5 @@ sds.log
 sds/migrations/*
 myauth/migrations/*
 ecstatic_geo/*
+node_ecstatic/node_modules/*
 sds/settings/__init__.py
