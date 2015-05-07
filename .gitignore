@@ -7,4 +7,5 @@ sds/migrations/*
 myauth/migrations/*
 ecstatic_geo/*
 node_ecstatic/node_modules/*
+node_ecstatic/coverage
 sds/settings/__init__.py

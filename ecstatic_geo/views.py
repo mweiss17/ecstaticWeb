@@ -10,82 +10,69 @@ from django.conf import settings
 from sds.settings import *
 import json
 
-#(Void) post_location((Point)my_location, (int) user_id)
+#(Void) post_location((Point)my_location, (string) username)
 def post_location(request):
 	#DATABASE
 	point = Point(float(request.GET['my_location_lat']), float(request.GET['my_location_lon']))
-	user = User.objects.get(id=request.GET['user_id'])
+	user = User.objects.get(username=request.GET['username'])
 	loc = location.objects.using("ecstatic_geo").create(user=user, point=point)
 	loc.save()
 
 	#CACHE
-	cache.set(user.id,loc)
+	cache.set(user.username, loc, timeout=0)
 	return HttpResponse("")
 
 
-#(Point) get_most_recent_location((int)user_id)
+#(Point) get_most_recent_location((string)username)
 def get_most_recent_location(request):
 
 	#CACHE
-	if cache.get(request.GET['user_id']) != None:
-		user = User.objects.get(id=request.GET['user_id'])
-		loc = cache.get(request.GET['user_id'])
-		return HttpResponse(json.dumps({"user":user.username, "point_lat":loc.point.x, "point_lon":loc.point.y, "timestamp":loc.timestamp.isoformat()}))
+	if cache.get(request.GET['username']) != None:
+		user = User.objects.get(username=request.GET['username'])
+		loc = cache.get(request.GET['username'])
+		return HttpResponse(json.dumps({"username":user.username, "point_lat":loc.point.x, "point_lon":loc.point.y, "timestamp":loc.timestamp.isoformat()}))
 
 	#DATABASE
 	else:
 		print >> sys.stderr, "get_most_recent_location cache error, reading from DB"
-		user = User.objects.get(id=request.GET['user_id'])
+		user = User.objects.get(username=request.GET['username'])
 		loc = location.objects.using("ecstatic_geo").filter(user=user).latest()
 		return HttpResponse(loc)
 
 
-#(List<user_id, point>) get_nearest_users((int) number_to_get, (int) user_id)
+#(List<username, point>) get_nearest_users((int) number_to_get, (int) username)
 
 def get_nearest_users(request):
 	#set some variables
-	user = User.objects.get(id=request.GET['user_id'])
+	user = User.objects.get(username=request.GET['username'])
  	my_location = location.objects.using("ecstatic_geo").filter(user=user).latest()
  	my_point = my_location.point
-	number_of_users = request.GET['number_of_users']
 	radius_in_miles = 10000
 	current_locations = []
 	valid_locations = []
 	users = User.objects.all()
 
-	#CACHE:
-	#get all current locations
-	"""for user in users:
-		try:
-			if cache.get(user.id) is not None:
-				current_locations.append(cache.get(user.id))
-		except Exception as e:
-		    print >> sys.stderr, '%s (%s)' % (e.message, type(e))
-	print >> sys.stderr, current_locations
-
-	#check if current_location is near my_point
-	for l in current_locations:
-		if my_point.distance(l.point) < radius_in_miles:
-			valid_locations.append(l)
-
-	if valid_locations:
-		return HttpResponse([valid_locations])
-"""
-	#DATABASE: Database gets tried if there are no valid locations 
-	#get all current locations
 	for user in users:
 		try:
 			current_locations.append(location.objects.using("ecstatic_geo").filter(user=user).latest())
 		except Exception as e:
-		    print >> sys.stderr, '%s (%s)' % (e.message, type(e))
-	
+			pass
+
 	#check if current_location is near my_point
 	for l in current_locations:
+		d = my_point.distance(l.point)
 		if my_point.distance(l.point) < radius_in_miles:
-			valid_locations.append(l)
-	return HttpResponse(valid_locations)
+			room_number = cache.get(l.user.username+":room")
+			j = json.dumps({"distance":d, "user":l.user.username, "room_number":room_number})
+			valid_locations.append(j)
+	str1 = ', '.join(valid_locations)
+	str2 = '{"locations":['+ str1 + ']}'
+
+	return HttpResponse(str2)
 
 #(int) get_distance_in_miles((Point) my_location, (Point) their_location)
+
+
 
 #For each user, put that users most recent location into the cache
 def repopulate_cache(): 
