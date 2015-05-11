@@ -224,6 +224,14 @@ def appindex(request):
 
     return HttpResponse(data, mimetype='application/json')
         
+def mixes(request):
+    some_data_to_dump = []
+    mixes = mix.objects.all()
+    for m in mixes:
+        some_data_to_dump.append({'url': m.url, 'name': m.name, 'image':m.image, 'duration': m.duration})
+    data = json.dumps(some_data_to_dump)
+    return HttpResponse(data, mimetype='application/json')
+
 def logout(request):
     auth.logout(request)
     context = {}

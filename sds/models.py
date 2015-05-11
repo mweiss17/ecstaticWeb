@@ -29,6 +29,14 @@ class Photos(models.Model):
         else:
             return unicode("/static/img/default_profile_pic.jpg")
 
+class mix(models.Model):
+    url = models.URLField()
+    name = models.CharField(max_length=1024)
+    image = models.URLField()
+    duration = models.IntegerField()
+    def __unicode__(self):
+        return unicode(self.url)
+
 class Music(models.Model):
     uploadedSong = models.FileField(upload_to='uploadedSongs/%Y/%m/%d', default='uploadedSongs', blank=True)
     email = models.CharField(max_length=255)

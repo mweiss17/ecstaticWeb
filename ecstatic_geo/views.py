@@ -9,18 +9,21 @@ from myauth.models import *
 from django.conf import settings
 from sds.settings import *
 import json
+from math import radians, cos, sin, asin, sqrt
+
 
 #(Void) post_location((Point)my_location, (string) username)
 def post_location(request):
 	#DATABASE
-	point = Point(float(request.GET['my_location_lat']), float(request.GET['my_location_lon']))
-	user = User.objects.get(username=request.GET['username'])
+	print >> sys.stderr, request.POST['my_location_lat']
+	point = Point(float(request.POST['my_location_lat']), float(request.POST['my_location_lon']))
+	user = User.objects.get(username=request.POST['username'])
 	loc = location.objects.using("ecstatic_geo").create(user=user, point=point)
 	loc.save()
 
 	#CACHE
 	cache.set(user.username, loc, timeout=0)
-	return HttpResponse("")
+	return HttpResponse("location_received")
 
 
 #(Point) get_most_recent_location((string)username)
@@ -60,17 +63,32 @@ def get_nearest_users(request):
 
 	#check if current_location is near my_point
 	for l in current_locations:
-		d = my_point.distance(l.point)
-		if my_point.distance(l.point) < radius_in_miles:
-			room_number = cache.get(l.user.username+":room")
-			j = json.dumps({"distance":d, "user":l.user.username, "room_number":room_number})
-			valid_locations.append(j)
+		d = haversine(my_point.y, my_point.x, l.point.y, l.point.x)
+		room_number = cache.get(l.user.username+":room")
+		j = json.dumps({"distance":d, "user":l.user.username, "room_number":room_number})
+		valid_locations.append(j)
 	str1 = ', '.join(valid_locations)
 	str2 = '{"locations":['+ str1 + ']}'
-
+	
 	return HttpResponse(str2)
 
-#(int) get_distance_in_miles((Point) my_location, (Point) their_location)
+
+
+#(int) get_distance_in_kilometers((Point) my_location, (Point) their_location)
+def haversine(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance between two points 
+    on the earth (specified in decimal degrees)
+    """
+    # convert decimal degrees to radians 
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+    # haversine formula 
+    dlon = lon2 - lon1 
+    dlat = lat2 - lat1 
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a)) 
+    km = 6367 * c
+    return km
 
 
 

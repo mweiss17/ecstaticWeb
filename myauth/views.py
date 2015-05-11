@@ -68,6 +68,22 @@ def loginView(request):
 	messages.error(request, 'Incorrect username or password, try again.')
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER')+"#login", context)
 
+def loginViewiOS(request):
+	User = get_user_model()
+	name = request.POST['username']
+	#print >> sys.stderr, name
+	password = request.POST['password']
+	print >> sys.stderr, password
+	users = User.objects.filter(Q(username=name)|Q(email=name))
+	context = {}
+	for user in users:
+		if user.check_password(password):
+			user.backend = 'django.contrib.auth.backends.ModelBackend'
+			auth.login(request, user)
+			messages.success(request, user.email)
+			return HttpResponse("successful_login")
+	return HttpResponse("unsuccesful_login")
+
 	## Want to modify this such that if you get a GET request with a username, you load THAT user, but you 
 ## don't allow the other user to modify their shiz.
 def profile(request):

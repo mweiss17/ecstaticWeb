@@ -8,6 +8,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = patterns('',
     url(r'^loginView/$', views.loginView, name='loginView'),
+    url(r'^loginViewiOS/$', views.loginViewiOS, name='loginViewiOS'),
     url(r'^forgotpassword.html/$', views.forgotpassword, name='forgotpassword'),
     url(r'^profile.html/$', views.profile, name='profile'),
     url(r'^createprofile.html/$', views.createprofile, name='createprofile'),

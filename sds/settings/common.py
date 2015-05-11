@@ -10,6 +10,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SOUTH_TESTS_MIGRATE = False
 LOGIN_REDIRECT_URL = '/'
 
+SOUTH_AUTO_FREEZE_APP = True
+
 ACCOUNT_AUTHENTICATION_METHOD = ("username_email")
 ACCOUNT_EMAIL_REQUIRED = (True)
 AUTH_PROFILE_MODULE = 'myauth.UserProfile'

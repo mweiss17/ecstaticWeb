@@ -77,29 +77,51 @@ io.sockets.on('connection', function (socket) {
                 });
                 room_counter = 0;
             }
-            client.hmset(':1:room:'+room_counter, "room_name", data.room_name, "room_number", room_counter, "number_of_users", 1);    //create a new hashmap with the room number
-            client.set(":1:"+data.username+":room", room_counter);        //create a key-value for the username (mweiss17) to the room_id
+            var params = JSON.parse(data);
+            client.hmset(':1:room:'+room_counter, "room_name", params.room_name, "room_number", room_counter, "number_of_users", 1, function (err, val){
+
+            });    //create a new hashmap with the room number
+            client.set(":1:"+params.username+":room", room_counter);        //create a key-value for the username (mweiss17) to the room_id
             client.incr('room_counter');         //increment the number of rooms 
 
             // emit room_info 
-            client.hgetall('room:'+room_counter, function(err, room_info){
+            client.hgetall(':1:room:'+room_counter, function(err, room_info){
                 socket.emit('create_room', room_info);
             });
 
             // set list_of_users
-            client.hmset('list_of_users:'+room_counter, "username", data.username);
+           //client.hmset('list_of_users:'+room_counter, "username", data.username);
 
             // set playlist
-            //client.hmset('playlist:'+room_counter, "");
+            //client.hmset(':1:room:'+room_counter+':playlist, "");
 
             // set player
-            client.hmset('player:'+room_counter, 'is_playing', false, 'playertime', 0);
+            //client.hmset('player:'+room_counter, 'is_playing', false, 'playertime', 0);
         });
     });
+    
+    function get_room_name(location, callback){
+        client.hgetall(':1:room:'+location.room_number, function (err, room_info) {
+            try{
+                location.room_name = room_info.room_name;
+                location.number_of_users = room_info.number_of_users;
+                callback(null, location);
+            }
+            catch(err){
+                .log(.log("caught error, room_info="+room_info);
+            }
+        });
+    }    
+
     //Joins an existing room
     socket.on('get_rooms_around_me', function (data) {
+        console.log("get_rooms_around_me_data="+data);
+        var params = JSON.parse(data);
+        console.log("params="+params);
+        console.log("username="+params.username);
+
         //get distances to each room
-        request('http://54.173.157.204/geo/get_nearest_users/?username=mykul&number_of_users=10', function (error, response, body) {
+        request('http://54.173.157.204/geo/get_nearest_users/?username='+params.username, function (error, response, body) {
             var jsonLocations = JSON.parse(body);
             console.log(jsonLocations);
             async.map(jsonLocations.locations, get_room_name, function(err, result){
@@ -114,14 +136,14 @@ io.sockets.on('connection', function (socket) {
         //get image link of each room
         //get list of users
     });
+    socket.on('subscribe_to_playlist', function (data) {
+        
+    });
 
-function get_room_name(location, callback){
-    client.hgetall(':1:room:'+location.room_number, 
-        function(err, room_info){
-            location.room_name = room_info.room_name;
-            location.number_of_users = room_info.number_of_users;
-            callback(null, location);
-        });
-    }    
+    socket.on('add_song', function (data) {
+        console.log(data);
+        console.log("params="+params);
+        console.log("username="+params.media_item);
+        client.lpush(':1:room:'+room_counter+':playlist', "media_item":data.media_item);
+    });
 });
-

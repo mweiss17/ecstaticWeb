@@ -19,6 +19,9 @@ class EventsAdmin(admin.ModelAdmin):
 class UserProfileAdmin(admin.ModelAdmin):
 	list_display = ('user', 'profilePic', 'signupDate', 'newsletter')
 
+class mixAdmin(admin.ModelAdmin):
+	list_display = ('url', 'name', 'image', 'duration')
+
 #I'm not letting users upload music from the backend while it will have the incorrect MIME type
 class MusicAdmin(admin.ModelAdmin):
 	list_display = ('uploadedSong', 'event', 'song_name_or_link', 'email', 'intention')
@@ -34,6 +37,7 @@ class globalEventAdmin(admin.ModelAdmin):
 class cityAdmin(admin.ModelAdmin):
 	list_display = ('cityName', 'cityImage',)
 
+admin.site.register(mix, mixAdmin)
 admin.site.register(city, cityAdmin)
 admin.site.register(globalEvent, globalEventAdmin)
 admin.site.register(Music, MusicAdmin)
