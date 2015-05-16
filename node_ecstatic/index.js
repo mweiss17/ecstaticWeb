@@ -68,6 +68,13 @@ io.sockets.on('connection', function (socket) {
         });
     });
 
+    socket.on('leave_room', function (data) {
+        client.get(data.user_id, function(err, room_number) {
+            //add yourself to the users list
+            client.hmset('list_of_users:'+room_number, 'username', data.username);
+        });
+    });
+
     //creates a new room
     socket.on('create_room', function (data) {
         client.get('room_counter', function(err, room_counter) {
@@ -108,7 +115,7 @@ io.sockets.on('connection', function (socket) {
                 callback(null, location);
             }
             catch(err){
-                .log(.log("caught error, room_info="+room_info);
+                console.log("caught error, room_info="+room_info);
             }
         });
     }    
@@ -136,14 +143,42 @@ io.sockets.on('connection', function (socket) {
         //get image link of each room
         //get list of users
     });
+
+
     socket.on('subscribe_to_playlist', function (data) {
-        
+
     });
 
-    socket.on('add_song', function (data) {
-        console.log(data);
-        console.log("params="+params);
-        console.log("username="+params.media_item);
-        client.lpush(':1:room:'+room_counter+':playlist', "media_item":data.media_item);
+    socket.on('push_song', function (data) {
+        console.log("data="+data);
+        client.get(data.username, function(err, room_number) {
+            client.lpush(':1:room:'+room_number+':playlist', data);
+        });
+    });
+
+    socket.on('pop_song', function (data) {
+        console.log("data="+data);
+        console.log("pop");
+        client.get(data.username, function(err, room_number) {
+            client.rpop(':1:room:'+room_number+':playlist', function(err, track) {
+                socket.emit("pop_song", track);
+            });
+        });
+    });
+
+    socket.on('remove_song', function (data) {
+        console.log("data="+data);
+        client.get(data.username, function(err, room_number) {
+            client.lrem(':1:room:'+room_number+':playlist', "1", data);
+        });
+    });
+
+    socket.on('move_song', function (data) {
+        console.log("data="+data);
+        client.get(data.username, function(err, room_number) {
+            client.linsert(':1:room:'+room_number+':playlist', "BEFORE", data.before, data.to_insert, function(err, val) {
+                client.lrem(':1:room:'+room_number+':playlist', "1", data);
+            });
+        });
     });
 });
