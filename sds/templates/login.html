@@ -23,8 +23,7 @@
 
     <br>
     <input onclick="mixpanel.track('clicked login');" type="submit" class="btn" value="login" />
-     <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}?id={{event.id}}"><img width="150px" src="http://www.oficinadanet.com.br/imagens/post/11326/login_1.png"></a>
-
+     <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}?id={{event.id}}"><img width="300px" src="http://www.oficinadanet.com.br/imagens/post/11326/login_1.png"></a>
       <a href="/auth/createprofile.html" class="btn">Sign up!</a>
     </br>
   <a onclick="mixpanel.track('clicked forgot password');" href="/auth/forgotpassword.html">Forgot Password</a> 

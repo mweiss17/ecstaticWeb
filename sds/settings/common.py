@@ -173,14 +173,6 @@ CACHES = {
 
 DEV_DATABASE={
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "newdb",
-        "USER": "martin",
-        "PASSWORD": "dancefloor04",
-        "HOST": "dev.cdadlb7rfieo.us-east-1.rds.amazonaws.com",
-        "PORT": "5432"
-    },
-    "ecstatic_geo": {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": "newdb",
         "USER": "martin",
@@ -192,38 +184,22 @@ DEV_DATABASE={
 
 PREPROD_DATABASE={
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "newdb",
-        "USER": "martin",
-        "PASSWORD": "dancefloor04",
-        "HOST": "preprod.cdadlb7rfieo.us-east-1.rds.amazonaws.com",
-        "PORT": "5432"
-    },
-    "ecstatic_geo": {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": "newdb",
         "USER": "martin",
         "PASSWORD": "dancefloor04",
-        "HOST": "dev.cdadlb7rfieo.us-east-1.rds.amazonaws.com",
+        "HOST": "preprod.cdadlb7rfieo.us-east-1.rds.amazonaws.com",
         "PORT": "5432"
     }
 }
 
 PRODUCTION_DATABASE={
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "newdb",
-        "USER": "martin",
-        "PASSWORD": "dancefloor04",
-        "HOST": "sdslivefeb2.cdadlb7rfieo.us-east-1.rds.amazonaws.com",
-        "PORT": "5432"
-    },
-    "ecstatic_geo": {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": "newdb",
         "USER": "martin",
         "PASSWORD": "dancefloor04",
-        "HOST": "dev.cdadlb7rfieo.us-east-1.rds.amazonaws.com",
+        "HOST": "sdslivefeb2.cdadlb7rfieo.us-east-1.rds.amazonaws.com",
         "PORT": "5432"
     }
 }
