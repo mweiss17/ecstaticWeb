@@ -18,7 +18,7 @@ def post_location(request):
 	print >> sys.stderr, request.POST['my_location_lat']
 	point = Point(float(request.POST['my_location_lat']), float(request.POST['my_location_lon']))
 	user = User.objects.get(username=request.POST['username'])
-	loc = location.objects.using("ecstatic_geo").create(user=user, point=point)
+	loc = location.objects.create(user=user, point=point)
 	loc.save()
 
 	#CACHE
@@ -39,7 +39,7 @@ def get_most_recent_location(request):
 	else:
 		print >> sys.stderr, "get_most_recent_location cache error, reading from DB"
 		user = User.objects.get(username=request.GET['username'])
-		loc = location.objects.using("ecstatic_geo").filter(user=user).latest()
+		loc = location.objects.filter(user=user).latest()
 		return HttpResponse(loc)
 
 
@@ -48,7 +48,7 @@ def get_most_recent_location(request):
 def get_nearest_users(request):
 	#set some variables
 	user = User.objects.get(username=request.GET['username'])
- 	my_location = location.objects.using("ecstatic_geo").filter(user=user).latest()
+ 	my_location = location.objects.filter(user=user).latest()
  	my_point = my_location.point
 	radius_in_miles = 10000
 	current_locations = []
@@ -57,7 +57,7 @@ def get_nearest_users(request):
 
 	for user in users:
 		try:
-			current_locations.append(location.objects.using("ecstatic_geo").filter(user=user).latest())
+			current_locations.append(location.objects.filter(user=user).latest())
 		except Exception as e:
 			pass
 
@@ -98,7 +98,7 @@ def repopulate_cache():
 	most_recent_location = []
 	for user in users:
 		try:
-			cache.set(user.id, location.objects.using("ecstatic_geo").filter(user=user).latest())
+			cache.set(user.id, location.objects.filter(user=user).latest())
 		except Exception as e:
 		    print >> sys.stderr, '%s (%s)' % (e.message, type(e))
 	return HttpResponse("")
