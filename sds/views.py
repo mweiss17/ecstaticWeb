@@ -40,7 +40,7 @@ def common_context(request):
     context.update({'PROJECT_TOKEN':PROJECT_TOKEN})
     context.update({'SOCIAL_AUTH_FACEBOOK_KEY':SOCIAL_AUTH_FACEBOOK_KEY})
     context.update({'FB_APP_ID':FB_APP_ID})
-    context.update({'upcomingEvents':Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*3))})
+    context.update({'upcomingEvents':Events.objects.filter(arrive_start_time__gte=datetime.datetime.now()-datetime.timedelta(seconds=3600*3),active=True)})
     return context
 
 def index(request):
