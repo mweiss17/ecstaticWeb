@@ -4,28 +4,38 @@ from sds.models import *
 from requests import request, HTTPError
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
-import facebook, sys, mixpanel
- 
+import facebook, sys, mixpanel, datetime
+mp = mixpanel.Mixpanel(PROJECT_TOKEN)
 
 #this is the method that is called in the pipeline. It calls some helper methods below
 #mainly all it does is query the FB api and create a new userprofile filled with goodies (like prof pic!) 
-def save_profile(backend, user, response, *args, **kwargs):
-    mp = mixpanel.Mixpanel(PROJECT_TOKEN)
+def save_profile(strategy, backend, user, response, *args, **kwargs):
     if backend.name == 'facebook':
         if not userprofile_exists(user): #if there is no user profile, then populate it from Facebook
             profile_pic = get_profile_picture_from_facebook(user)
             try:
                 photo_obj = Photos.objects.create(photoFile=profile_pic, user=user)
                 photo_obj.save()
-                userprofile = UserProfile.objects.create(user=user, profilePic=photo_obj, newsletter=False)
+                userprofile = UserProfile.objects.create(user=user, profilePic=photo_obj, mixpanel_distinct_id=strategy.session_get('distinct_id'), newsletter=False)
                 userprofile.save()
+                
+                #MIXPANEL people tracking and event tracking. Must be same as in myauth views create_profile 
+                people_dict = {'$username' : userprofile.user.username, '$create' : datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p"), '$email' : userprofile.user.email, 'city' : "none",}
+                if userprofile.city:
+                    people_dict['city'] = userprofile.city.cityName
+                if userprofile.user.first_name:
+                    people_dict['$first_name'] = userprofile.user.first_name
+                if userprofile.user.last_name:
+                    people_dict['$last_name'] = userprofile.user.last_name     
+                mp.track(userprofile.user.id,'signup');
+                mp.track(userprofile.user.id,'login');
+                mp.alias(userprofile.user.id, userprofile.mixpanel_distinct_id)
+                mp.people_set(userprofile.user.id, people_dict)
+
             except Exception as e:
                 print >> sys.stderr, '%s (%s)' % (e.message, type(e))
         else:
             print >> sys.stderr, "userprofile already exists"
-            #mp.track(user.id,'succesful account creation');
-            #mp.alias(userObj.pk, userProfileObj.mixpanel_distinct_id)
-            #print >> sys.stderr, profile.dancefloorSuperpower
 
 #uses the FB api to get the social profile for a given user
 def get_facebook_profile(user):
@@ -46,9 +56,6 @@ def get_profile_picture_from_facebook(user):
         pass
     else:
         file_content = ContentFile(response.content)
-        #f = default_storage.open('{0}_social.jpg'.format(user.username), 'r+')
-        #f.write(response.content)
-        #f.close()
         return file_content
     return None
 
@@ -57,6 +64,7 @@ def userprofile_exists(user):
     try:
         profile = UserProfile.objects.get(user=user)
         print >> sys.stderr, "profile exists!!!"
+        mp.track(user.id,'login');
         return True
     except UserProfile.DoesNotExist:
         print >> sys.stderr, "profile doesn't exists!!!"

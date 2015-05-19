@@ -156,15 +156,19 @@ def createprofile(request):
 				subscribeToMailchimp(email)
 			userObj.backend = 'django.contrib.auth.backends.ModelBackend'
 			auth.login(request, userObj)
+
+			#MIXPANEL people tracking and event tracking. Must be same as in socialpipeline 
 			people_dict = {'$username' : userObj.username, '$create' : datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p"), '$email' : email, 'city' : "none",}
 			if userProfileObj.city:
 				people_dict['city'] = userProfileObj.city.cityName
 			if userObj.first_name:
 				people_dict['$first_name'] = userObj.first_name
 			if userObj.last_name:
-				people_dict['$last_name'] = userObj.last_name            
-			#mp.alias(userObj.pk, userProfileObj.mixpanel_distinct_id)
-			mp.people_set(userObj.pk, people_dict)
+				people_dict['$last_name'] = userObj.last_name   
+			mp.alias(userObj.id, userProfileObj.mixpanel_distinct_id)
+			mp.people_set(userObj.id, people_dict)  
+			mp.track(userProfileObj.user.id,'signup');       
+			mp.track(userProfileObj.user.id,'login');       
 
 			return render(request, 'register_success.html', context)
 		return render(request, 'createprofile.html', context)

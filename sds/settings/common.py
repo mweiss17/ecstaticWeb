@@ -22,6 +22,7 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = [
     'public_profile',
 ]
 
+
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.i18n',
@@ -154,6 +155,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.user_details',
     'myauth.socialpipeline.save_profile',
 )
+SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ('distinct_id', ) 
 
 CACHES = {
     "default": {
