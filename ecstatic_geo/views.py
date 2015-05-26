@@ -15,9 +15,9 @@ from math import radians, cos, sin, asin, sqrt
 #(Void) post_location((Point)my_location, (string) username)
 def post_location(request):
 	#DATABASE
-	print >> sys.stderr, request.POST['my_location_lat']
-	point = Point(float(request.POST['my_location_lat']), float(request.POST['my_location_lon']))
-	user = User.objects.get(username=request.POST['username'])
+	print >> sys.stderr, request.GET['my_location_lat']
+	point = Point(float(request.GET['my_location_lat']), float(request.GET['my_location_lon']))
+	user = User.objects.get(username=request.GET['username'])
 	loc = location.objects.create(user=user, point=point)
 	loc.save()
 

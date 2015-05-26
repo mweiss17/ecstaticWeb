@@ -2,7 +2,7 @@
 'use strict';
 
 // Declare variables used
-var app, base_url, client, express, hbs, io, port, rtg, subscribe, room_counter,request, async;
+var app, base_url, client, express, hbs, io, port, rtg, subscribe, room_counter,request, async, Promise;
 
 // Define values
 request = require('request');
@@ -12,6 +12,7 @@ port = process.env.PORT || 8888;
 base_url = process.env.BASE_URL || 'http://localhost:8888';
 hbs = require('hbs');
 async = require('async');
+Promise = require('promise');
 // Set up connection to Redis
 /* istanbul ignore if */
 if (process.env.REDISTOGO_URL) {
@@ -24,6 +25,8 @@ if (process.env.REDISTOGO_URL) {
     client = require('redis').createClient();
     subscribe = require('redis').createClient();
 }
+var proximity = require('geo-proximity').initialize(client);
+
 
 // Set up templating
 app.set('views', __dirname + '/views');
@@ -75,6 +78,17 @@ io.sockets.on('connection', function (socket) {
         });
     });
 
+    socket.on('post_location', function (data) {
+        var params = JSON.parse(data);
+        proximity.addLocation(params.lat, params.lon, params.username,  function(err, reply){
+            if(err) console.error(err);
+            else {
+                socket.emit('return_post_location');
+                console.log('added location:', reply);
+            }
+        });
+    });
+
     //creates a new room
     socket.on('create_room', function (data) {
         client.get('room_counter', function(err, room_counter) {
@@ -88,97 +102,109 @@ io.sockets.on('connection', function (socket) {
             client.hmset(':1:room:'+room_counter, "room_name", params.room_name, "room_number", room_counter, "number_of_users", 1, function (err, val){
 
             });    //create a new hashmap with the room number
-            client.set(":1:"+params.username+":room", room_counter);        //create a key-value for the username (mweiss17) to the room_id
+            //create a key-value for the username (mweiss17) to the room_id
+            client.set(":1:"+params.username+":room", room_counter);       
             client.incr('room_counter');         //increment the number of rooms 
 
             // emit room_info 
             client.hgetall(':1:room:'+room_counter, function(err, room_info){
-                socket.emit('create_room', room_info);
+                socket.emit('return_create_room', room_info);
             });
+            //post location
+            //post_location(data.params("username"), data.params("lat"), data.params("lon"));
 
-            // set list_of_users
-           //client.hmset('list_of_users:'+room_counter, "username", data.username);
+            //set list_of_users
+            //client.hmset('list_of_users:'+room_counter, "username", data.username);
 
-            // set playlist
+            //set playlist
             //client.hmset(':1:room:'+room_counter+':playlist, "");
 
-            // set player
+            //set player
             //client.hmset('player:'+room_counter, 'is_playing', false, 'playertime', 0);
         });
     });
     
-    function get_room_name(location, callback){
-        client.hgetall(':1:room:'+location.room_number, function (err, room_info) {
-            try{
-                location.room_name = room_info.room_name;
-                location.number_of_users = room_info.number_of_users;
-                callback(null, location);
-            }
-            catch(err){
-                console.log("caught error, room_info="+room_info);
-            }
-        });
-    }    
 
     //Joins an existing room
     socket.on('get_rooms_around_me', function (data) {
-        console.log("get_rooms_around_me_data="+data);
         var params = JSON.parse(data);
-        console.log("params="+params);
-        console.log("username="+params.username);
-
-        //get distances to each room
-        request('http://54.173.157.204/geo/get_nearest_users/?username='+params.username, function (error, response, body) {
-            var jsonLocations = JSON.parse(body);
-            console.log(jsonLocations);
-            async.map(jsonLocations.locations, get_room_name, function(err, result){
-                    if(!err){
-                        socket.emit('get_rooms_around_me', jsonLocations);
-                    }
+        proximity.location(params.username, function(err, location){
+            console.log(location);
+            proximity.nearby(location.latitude, params.longitude, 100000000, function(err, people){
+                if(err) console.error(err);
+                else {
+                    async.map(people, get_room_for_user, function(err, result){
+                        if(!err){
+                            async.map(result, get_room_info, function(err, result){
+                                socket.emit("return_get_rooms_around_me", JSON.stringify(result));
+                            });
+                        }
+                    });
                 }
-            );
-        });
-
-        //get name of each room
-        //get image link of each room
-        //get list of users
-    });
-
-
-    socket.on('subscribe_to_playlist', function (data) {
-
-    });
-
-    socket.on('push_song', function (data) {
-        console.log("data="+data);
-        client.get(data.username, function(err, room_number) {
-            client.lpush(':1:room:'+room_number+':playlist', data);
-        });
-    });
-
-    socket.on('pop_song', function (data) {
-        console.log("data="+data);
-        console.log("pop");
-        client.get(data.username, function(err, room_number) {
-            client.rpop(':1:room:'+room_number+':playlist', function(err, track) {
-                socket.emit("pop_song", track);
             });
         });
     });
 
-    socket.on('remove_song', function (data) {
-        console.log("data="+data);
-        client.get(data.username, function(err, room_number) {
-            client.lrem(':1:room:'+room_number+':playlist', "1", data);
-        });
-    });
-
-    socket.on('move_song', function (data) {
-        console.log("data="+data);
-        client.get(data.username, function(err, room_number) {
-            client.linsert(':1:room:'+room_number+':playlist', "BEFORE", data.before, data.to_insert, function(err, val) {
-                client.lrem(':1:room:'+room_number+':playlist', "1", data);
+    //Joins an existing room
+    /*socket.on('get_rooms_around_me', function (data) {
+        var params = JSON.parse(data);
+        proximity.location(params.username, function(err, location){
+            console.log(location);
+            proximity.nearby(location.latitude, params.longitude, 100000000, function(err, people){
+                if(err) console.error(err);
+                else {
+                    get_room_for_users(people).done(function(results){
+                        async.map(results, get_room_info, function(err, result){
+                            socket.emit("return_get_rooms_around_me", JSON.stringify(result));
+                        });
+                    }, function(err){
+                        console.log("fuck");
+                    });
+                }
             });
         });
-    });
+    });*/
 });
+
+
+/*function get_room_for_users(usernames){
+    return Promise.all(usernames.map(get_room_for_user));
+}
+
+function get_room_for_user(username){
+    client.get(":1:"+username+":room", function(err, room_number) {
+        try{
+            console.log("room_number="+room_number);
+            return room_number;
+        }
+        catch(err){
+            console.log("caught error, room_number="+room_number);
+        }
+    });
+}*/
+
+
+function get_room_for_user(username, callback){
+    client.get(":1:"+username+":room", function(err, room_number) {
+        try{
+            callback(null, room_number);
+        }
+        catch(err){
+            console.log("caught error, room_number="+room_number);
+        }
+    });
+}
+
+function get_room_info(room_number, callback){
+    client.hgetall(':1:room:'+room_number, function (err, room_info) {
+        try{
+            callback(null, room_info);
+        }
+        catch(err){
+            console.log("caught error, room_info="+room_info);
+        }
+    });
+}    
+
+
+

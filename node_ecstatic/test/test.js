@@ -4,6 +4,7 @@
 
 // Declare the variables used
 var expect = require('chai').expect,
+    assert = require('chai').assert,
     request = require('request'),
     server = require('../index'),
     redis = require('redis'),
@@ -33,31 +34,59 @@ describe('server', function () {
 });
 
 describe('rooms api', function () {
+
     // Beforehand, start the server
     before(function (done) {
-        socket.emit('create_room', { username: "mweiss10", room_name:"test_room_name222" });
-        socket.emit('create_room', { username: "mykul", room_name:"test_room_name" });
-        request('http://54.173.157.204/geo/post_location/?username=mweiss10&my_location_lat=90.0&my_location_lon=30.0');
-        request('http://54.173.157.204/geo/post_location/?username=mykul&my_location_lat=70.0&my_location_lon=30.0');
+        //socket.emit('create_room', { username: "mweiss10", room_name:"test_room_name222" });
+        //socket.emit('create_room', { username: "mykul", room_name:"test_room_name" });
+        //request('http://54.173.157.204/geo/post_location/?username=mweiss10&my_location_lat=90.0&my_location_lon=30.0');
+        //request('http://54.173.157.204/geo/post_location/?username=mykul&my_location_lat=70.0&my_location_lon=30.0');
         done();
     });
 
+    describe('post_loction', function () {
+
+        it("should post two users locations", function (done) {
+            var returned_twice = false;
+            socket.emit('post_location', JSON.stringify({username: "mweiss10", lat: 30, lon: 40.0}));
+            socket.emit('post_location', JSON.stringify({username: "mykul", lat: 40, lon: 50}));
+            socket.on('return_post_location', function (data) {
+                if(returned_twice){
+                done();
+                }
+                else{
+                    returned_twice = true;
+                }
+            });
+        });
+    });
+
+    describe('create_room', function () {
+        it("should create a room for one person", function(done) {
+            socket.emit('create_room', JSON.stringify({username: "mweiss10", room_name: "testy_room"}));
+            socket.on('return_create_room', function (data) {
+                console.log(data);
+                done();
+            });
+        });
+    }); 
+
     describe('get_rooms_around_me', function () {
 
-        it("should get the rooms around me", function (done) {
-            socket.emit('get_rooms_around_me');
+        it("should get one room", function (done) {
+
+            socket.emit('get_rooms_around_me', JSON.stringify({username: "mykul"}));
 
             // Handle the message being received
-            socket.on('get_rooms_around_me', function (data) {
-                var username = data.locations[0].user;
-                expect(username).to.equal('mweiss10');
+            socket.on('return_get_rooms_around_me', function (data) {
+                assert.include(data, "testy_room");
                 done();
             });
         });
     });
 
 
-    describe('get_playlist', function () {
+    /*describe('get_playlist', function () {
 
         it("should get a playlist with two songs", function (done) {
             //add two songs
@@ -102,7 +131,7 @@ describe('rooms api', function () {
                 done();
             });
         });
-    });
+    });*/
 
 
     

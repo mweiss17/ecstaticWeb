@@ -15,11 +15,9 @@ def deploy_live():
     with fab.settings(warn_only=True):
         with fab.cd('/home/ec2-user/sds/deployment_scripts/'):
             fab.run('python deploy.py')
-            fab.run("find . -name '*.pyc' -print0|xargs -0 rm", capture=False)
 
 def prepare_deploy(branch_name):
     with fab.settings(warn_only=True):
-        fab.local("find . -name '*.pyc' -print0|xargs -0 rm", capture=False)
         fab.local('python manage.py schemamigration sds --auto')
         fab.local('python manage.py migrate sds')
         fab.local('python manage.py schemamigration myauth --auto')
@@ -38,7 +36,6 @@ def migrate_database():
 def deploy():
     with fab.settings(warn_only=True):
         with fab.cd('/home/ec2-user/sds'):
-            fab.local("find . -name '*.pyc' -print0|xargs -0 rm", capture=False)
             fab.local('git push')
             fab.run('git pull')
             fab.run('python manage.py schemamigration sds --auto')
