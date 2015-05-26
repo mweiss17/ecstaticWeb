@@ -2,7 +2,7 @@
 'use strict';
 
 // Declare variables used
-var app, base_url, client, express, hbs, io, port, rtg, subscribe, room_counter,request, async, Promise;
+var app, base_url, client, express, hbs, io, port, rtg, room_counter,request, async, Promise, thenredis, proximity;
 
 // Define values
 request = require('request');
@@ -13,19 +13,9 @@ base_url = process.env.BASE_URL || 'http://localhost:8888';
 hbs = require('hbs');
 async = require('async');
 Promise = require('promise');
-// Set up connection to Redis
-/* istanbul ignore if */
-if (process.env.REDISTOGO_URL) {
-    rtg  = require("url").parse(process.env.REDISTOGO_URL);
-    client = require("redis").createClient(rtg.port, rtg.hostname);
-    subscribe = require("redis").createClient(rtg.port, rtg.hostname);
-    client.auth(rtg.auth.split(":")[1]);
-    subscribe.auth(rtg.auth.split(":")[1]);
-} else {
-    client = require('redis').createClient();
-    subscribe = require('redis').createClient();
-}
-var proximity = require('geo-proximity').initialize(client);
+client = require('redis').createClient();
+thenredis = require('then-redis').createClient();
+proximity = require('geo-proximity').initialize(client);
 
 
 // Set up templating
@@ -56,25 +46,23 @@ console.log("Listening on port " + port);
 io.sockets.on('connection', function (socket) {
 
     //Joins an existing room
-    socket.on('get_room_for_user', function (data) {
-        client.get(data.username, function(err, room_number) {
-            //add yourself to the users list
-            client.hmset('list_of_users:'+room_number, 'username', data.username);
-        });
+    socket.on('join_room', function (data) {
+        var params = JSON.parse(data);
+        client.lpush('list_of_users:'+params.room_number, params.username);
+        socket.emit("return_join_room");
     });
 
-    //Joins an existing room
-    socket.on('join_room', function (data) {
-        client.get(data.user_id, function(err, room_number) {
-            //add yourself to the users list
-            client.hmset('list_of_users:'+room_number, 'username', data.username);
+    socket.on('get_user_list', function (data) {
+        var params = JSON.parse(data);
+        client.lrange('list_of_users:'+params.room_number, 0, -1, function(err, users){
+            console.log(users);
+            socket.emit("return_get_user_list", users);
         });
     });
 
     socket.on('leave_room', function (data) {
         client.get(data.user_id, function(err, room_number) {
-            //add yourself to the users list
-            client.hmset('list_of_users:'+room_number, 'username', data.username);
+            client.lrem('list_of_users:'+room_number, 1, data.username);
         });
     });
 
@@ -113,8 +101,7 @@ io.sockets.on('connection', function (socket) {
             //post location
             //post_location(data.params("username"), data.params("lat"), data.params("lon"));
 
-            //set list_of_users
-            //client.hmset('list_of_users:'+room_counter, "username", data.username);
+            client.lpush('list_of_users:'+room_counter, params.username);
 
             //set playlist
             //client.hmset(':1:room:'+room_counter+':playlist, "");
@@ -129,13 +116,13 @@ io.sockets.on('connection', function (socket) {
     socket.on('get_rooms_around_me', function (data) {
         var params = JSON.parse(data);
         proximity.location(params.username, function(err, location){
-            console.log(location);
             proximity.nearby(location.latitude, params.longitude, 100000000, function(err, people){
                 if(err) console.error(err);
                 else {
                     async.map(people, get_room_for_user, function(err, result){
                         if(!err){
                             async.map(result, get_room_info, function(err, result){
+                                console.log("get_rooms_around_me_returns="+JSON.stringify(result));
                                 socket.emit("return_get_rooms_around_me", JSON.stringify(result));
                             });
                         }
@@ -144,45 +131,7 @@ io.sockets.on('connection', function (socket) {
             });
         });
     });
-
-    //Joins an existing room
-    /*socket.on('get_rooms_around_me', function (data) {
-        var params = JSON.parse(data);
-        proximity.location(params.username, function(err, location){
-            console.log(location);
-            proximity.nearby(location.latitude, params.longitude, 100000000, function(err, people){
-                if(err) console.error(err);
-                else {
-                    get_room_for_users(people).done(function(results){
-                        async.map(results, get_room_info, function(err, result){
-                            socket.emit("return_get_rooms_around_me", JSON.stringify(result));
-                        });
-                    }, function(err){
-                        console.log("fuck");
-                    });
-                }
-            });
-        });
-    });*/
 });
-
-
-/*function get_room_for_users(usernames){
-    return Promise.all(usernames.map(get_room_for_user));
-}
-
-function get_room_for_user(username){
-    client.get(":1:"+username+":room", function(err, room_number) {
-        try{
-            console.log("room_number="+room_number);
-            return room_number;
-        }
-        catch(err){
-            console.log("caught error, room_number="+room_number);
-        }
-    });
-}*/
-
 
 function get_room_for_user(username, callback){
     client.get(":1:"+username+":room", function(err, room_number) {

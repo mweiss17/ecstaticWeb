@@ -72,14 +72,29 @@ describe('rooms api', function () {
     }); 
 
     describe('get_rooms_around_me', function () {
-
         it("should get one room", function (done) {
-
             socket.emit('get_rooms_around_me', JSON.stringify({username: "mykul"}));
-
-            // Handle the message being received
             socket.on('return_get_rooms_around_me', function (data) {
                 assert.include(data, "testy_room");
+                done();
+            });
+        });
+    });
+
+    describe('join_room', function () {
+        it("should put two users in one room", function (done) {
+            socket.emit('join_room', JSON.stringify({username: "mykul", room_number:0}));
+            socket.on('return_join_room', function (data) {
+                done();
+            });
+        });
+    });
+
+    describe('get_list_of_users', function () {
+        it("should get two users in one room", function (done) {
+            socket.emit('get_user_list', JSON.stringify({room_number:0}));
+            socket.on('return_get_user_list', function (data) {
+                expect(data.length).to.equal(2);
                 done();
             });
         });
