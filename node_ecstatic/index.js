@@ -2,7 +2,7 @@
 'use strict';
 
 // Declare variables used
-var app, base_url, client, express, hbs, io, port, rtg, room_counter,request, async, Promise, thenredis, proximity;
+var app, base_url, client, express, hbs, io, port, rtg, room_counter,request, async, proximity, subscriber, publisher;
 
 // Define values
 request = require('request');
@@ -12,9 +12,9 @@ port = process.env.PORT || 8888;
 base_url = process.env.BASE_URL || 'http://localhost:8888';
 hbs = require('hbs');
 async = require('async');
-Promise = require('promise');
 client = require('redis').createClient();
-thenredis = require('then-redis').createClient();
+subscriber = require('redis').createClient();
+publisher = require('redis').createClient();
 proximity = require('geo-proximity').initialize(client);
 
 
@@ -44,12 +44,29 @@ console.log("Listening on port " + port);
 
 // Handle new messages
 io.sockets.on('connection', function (socket) {
+    subscriber.subscribe('rooms');
+    subscriber.on("message", function(channel, message){
+        var parsed_message = JSON.parse(message);
+        if ((channel === 'rooms') && (parsed_message.msg_type === 'join')){ 
+            socket.emit("realtime_join_room", message);
+        }
+        if ((channel === 'rooms') && (parsed_message.msg_type === 'leave')){ 
+            socket.emit("realtime_leave_room", message);
+        }
+    });
 
     //Joins an existing room
     socket.on('join_room', function (data) {
         var params = JSON.parse(data);
         client.lpush('list_of_users:'+params.room_number, params.username);
-        socket.emit("return_join_room");
+        publisher.publish("rooms", JSON.stringify({"msg":params.username, "msg_type":"join"}));
+    });
+
+    //leaves an existing room
+    socket.on('leave_room', function (data) {
+        var params = JSON.parse(data);
+        client.lrem('list_of_users:'+params.room_number, 1, params.username);
+        publisher.publish("rooms", JSON.stringify({"msg":params.username, "msg_type":"leave"}));
     });
 
     socket.on('get_user_list', function (data) {
@@ -60,19 +77,12 @@ io.sockets.on('connection', function (socket) {
         });
     });
 
-    socket.on('leave_room', function (data) {
-        client.get(data.user_id, function(err, room_number) {
-            client.lrem('list_of_users:'+room_number, 1, data.username);
-        });
-    });
-
     socket.on('post_location', function (data) {
         var params = JSON.parse(data);
         proximity.addLocation(params.lat, params.lon, params.username,  function(err, reply){
             if(err) console.error(err);
             else {
                 socket.emit('return_post_location');
-                console.log('added location:', reply);
             }
         });
     });
@@ -102,7 +112,6 @@ io.sockets.on('connection', function (socket) {
             //post_location(data.params("username"), data.params("lat"), data.params("lon"));
 
             client.lpush('list_of_users:'+room_counter, params.username);
-
             //set playlist
             //client.hmset(':1:room:'+room_counter+':playlist, "");
 
@@ -116,7 +125,9 @@ io.sockets.on('connection', function (socket) {
     socket.on('get_rooms_around_me', function (data) {
         var params = JSON.parse(data);
         proximity.location(params.username, function(err, location){
-            proximity.nearby(location.latitude, params.longitude, 100000000, function(err, people){
+            console.log(JSON.stringify(location));
+            proximity.nearby(location.latitude, params.longitude, 10000000000, function(err, people){
+                console.log("people="+JSON.stringify(people));
                 if(err) console.error(err);
                 else {
                     async.map(people, get_room_for_user, function(err, result){

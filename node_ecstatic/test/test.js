@@ -37,19 +37,19 @@ describe('rooms api', function () {
 
     // Beforehand, start the server
     before(function (done) {
-        //socket.emit('create_room', { username: "mweiss10", room_name:"test_room_name222" });
-        //socket.emit('create_room', { username: "mykul", room_name:"test_room_name" });
-        //request('http://54.173.157.204/geo/post_location/?username=mweiss10&my_location_lat=90.0&my_location_lon=30.0');
-        //request('http://54.173.157.204/geo/post_location/?username=mykul&my_location_lat=70.0&my_location_lon=30.0');
+        socket.on('list_of_users', function(err, data){
+            console.log("asdfasdfasdfasfdas");
+            console.log(data);
+        });
         done();
     });
 
-    describe('post_loction', function () {
+    describe('post_location', function () {
 
         it("should post two users locations", function (done) {
             var returned_twice = false;
-            socket.emit('post_location', JSON.stringify({username: "mweiss10", lat: 30, lon: 40.0}));
-            socket.emit('post_location', JSON.stringify({username: "mykul", lat: 40, lon: 50}));
+            socket.emit('post_location', JSON.stringify({username: "mweiss10", lat: 30.0, lon: 40.0}));
+            socket.emit('post_location', JSON.stringify({username: "mykul", lat: 40.0, lon: 50.0}));
             socket.on('return_post_location', function (data) {
                 if(returned_twice){
                 done();
@@ -65,7 +65,6 @@ describe('rooms api', function () {
         it("should create a room for one person", function(done) {
             socket.emit('create_room', JSON.stringify({username: "mweiss10", room_name: "testy_room"}));
             socket.on('return_create_room', function (data) {
-                console.log(data);
                 done();
             });
         });
@@ -84,7 +83,8 @@ describe('rooms api', function () {
     describe('join_room', function () {
         it("should put two users in one room", function (done) {
             socket.emit('join_room', JSON.stringify({username: "mykul", room_number:0}));
-            socket.on('return_join_room', function (data) {
+            socket.on('realtime_join_room', function (data) {
+                console.log(data);
                 done();
             });
         });
@@ -95,6 +95,15 @@ describe('rooms api', function () {
             socket.emit('get_user_list', JSON.stringify({room_number:0}));
             socket.on('return_get_user_list', function (data) {
                 expect(data.length).to.equal(2);
+                done();
+            });
+        });
+    });
+
+    describe('leave_room', function () {
+        it("should remove one user from room", function (done) {
+            socket.emit('leave_room', JSON.stringify({username: "mykul", room_number:0}));
+            socket.on('realtime_leave_room', function (data) {
                 done();
             });
         });
