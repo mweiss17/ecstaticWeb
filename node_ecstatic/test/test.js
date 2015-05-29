@@ -35,15 +35,6 @@ describe('server', function () {
 
 describe('rooms api', function () {
 
-    // Beforehand, start the server
-    before(function (done) {
-        socket.on('list_of_users', function(err, data){
-            console.log("asdfasdfasdfasfdas");
-            console.log(data);
-        });
-        done();
-    });
-
     describe('post_location', function () {
 
         it("should post two users locations", function (done) {
@@ -70,11 +61,19 @@ describe('rooms api', function () {
         });
     }); 
 
+    describe('send_text_chatlog', function() {
+        it("should store a message in the chatlog", function (done) {
+            socket.emit('send_text', JSON.stringify({room_number:0, message:"anyone there?"}));
+            done();
+        });
+    });
+
+
     describe('get_rooms_around_me', function () {
         it("should get one room", function (done) {
             socket.emit('get_rooms_around_me', JSON.stringify({username: "mykul"}));
             socket.on('return_get_rooms_around_me', function (data) {
-                assert.include(data, "testy_room");
+                assert.include(data.rooms[0].room_name, "testy_room");
                 done();
             });
         });
@@ -83,9 +82,22 @@ describe('rooms api', function () {
     describe('join_room', function () {
         it("should put two users in one room", function (done) {
             socket.emit('join_room', JSON.stringify({username: "mykul", room_number:0}));
+            var returned_twice = false;
             socket.on('realtime_join_room', function (data) {
-                console.log(data);
-                done();
+                if(returned_twice){
+                    done();
+                }
+                else{
+                    returned_twice = true;
+                }
+            });
+            socket.on('return_join_room', function (data) {
+                if(returned_twice){
+                    done();
+                }
+                else{
+                    returned_twice = true;
+                }
             });
         });
     });
@@ -100,6 +112,42 @@ describe('rooms api', function () {
         });
     });
 
+    describe('add_song', function () {
+        it("should add a song to the playlist", function (done) {
+            socket.emit('add_song', JSON.stringify({room_number:0, duration:120, artwork_url:"https:test1", stream_url:"https:test1", song_name:'snow', artist:'Red Hot Chili Peppers', username:'mykul'}));
+            socket.on("realtime_add_song", function (data) {
+                done();
+            });
+        });
+    });
+
+    describe('get_playlist', function () {
+        it("should get a playlist with no songs", function (done) {
+            socket.emit('get_playlist', JSON.stringify({room_number:0}));
+            socket.on("return_get_playlist", function (data) {
+                done();
+            });
+        });
+    });
+
+    describe('remove_song', function () {
+        it("should remove a song from the playlist", function (done) {
+            socket.emit('remove_song', JSON.stringify({room_number:0, duration:120, artwork_url:"https:test1", stream_url:"https:test1", song_name:'snow', artist:'Red Hot Chili Peppers', username:'mykul'}));
+            socket.on("realtime_remove_song", function (data) {
+                done();
+            });
+        });
+    });
+
+    describe('send_text', function() {
+        it("should send a realtime message to both users", function (done) {
+            socket.emit('send_text', JSON.stringify({room_number:0, message:"yo does this chat work?"}));
+            socket.on('realtime_send_text', function (data) {
+                done();
+            });
+        });
+    });
+
     describe('leave_room', function () {
         it("should remove one user from room", function (done) {
             socket.emit('leave_room', JSON.stringify({username: "mykul", room_number:0}));
@@ -109,55 +157,16 @@ describe('rooms api', function () {
         });
     });
 
-
-    /*describe('get_playlist', function () {
-
-        it("should get a playlist with two songs", function (done) {
-            //add two songs
-            socket.emit('push_song', 1, JSON.stringify({duration:120, artwork_url:"https:test1", stream_url:"https:test1", song_name:'snow', artist:'Red Hot Chili Peppers', user:'mykul'}));
-            socket.emit('push_song', 1, JSON.stringify({duration:140, artwork_url:"https:test2", stream_url:"https:test2", song_name:'creep', artist:'Radiohead', user:'mweiss10'}));
-            
-            //create songs to use as keys (and insert the second) 
-            var before = JSON.stringify({duration:120, artwork_url:"https:test1", stream_url:"https:test1", song_name:'snow', artist:'Red Hot Chili Peppers', user:'mykul'});
-            var song_to_insert = JSON.stringify({duration:180, artwork_url:"https:test3", stream_url:"https:test3", song_name:'testtrack', artist:'jibbly', user:'other'});
-            var song_to_remove = JSON.stringify({duration:140, artwork_url:"https:test2", stream_url:"https:test2", song_name:'creep', artist:'Radiohead', user:'mweiss10'});
-
-            //insert one song before another
-            socket.emit('insert_song', {room_number:1, before:before, song_to_insert:song_to_insert});
-
-            //remove the other song
-            socket.emit('remove_song', {room_number:1, song_to_remove:song_to_remove});
-
-            //grab the playlist
-            socket.emit('get_playlist', {room_number:1});
-
-            // Handle the message being received
-            socket.on('get_playlist', function (data) {
-                var first_song = JSON.parse(data[0]);
-                var second_song = JSON.parse(data[1]);
-                expect(first_song.duration).to.equal(180);
-                expect(second_song.duration).to.equal(120);
+    describe('check_unsubscribed', function () {
+        it("should unsubscribe to room updates after leaving the room", function (done) {
+            socket.emit('add_song', JSON.stringify({room_number:0, duration:120, artwork_url:"https:test1", stream_url:"https:test1", song_name:'snow', artist:'Red Hot Chili Peppers', username:'test'}));
+            socket.on('realtime_add_song', function (data) {
+                console.log("ERROR did not unsubscribe");
                 done();
             });
+            done();
         });
     });
-
-
-    describe("playlist_update", function(){
-        it("should get an update", function (done) {
-            //subscribe
-            socket.emit("subscribe_to_playlist", {room_number:1});
-            //publish
-            socket.emit("publish_to_playlist", {room_number:1, message:"do a thing"});
-            //check update
-            socket.on(":1:room:1:playlist_channel", function (data){
-                expect(data).to.include("do a thing");
-                done();
-            });
-        });
-    });*/
-
-
     
     // Afterwards, stop the server and empty the database
     after(function (done) {

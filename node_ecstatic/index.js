@@ -44,14 +44,25 @@ console.log("Listening on port " + port);
 
 // Handle new messages
 io.sockets.on('connection', function (socket) {
-    subscriber.subscribe('rooms');
     subscriber.on("message", function(channel, message){
         var parsed_message = JSON.parse(message);
-        if ((channel === 'rooms') && (parsed_message.msg_type === 'join')){ 
+        if (parsed_message.msg_type === 'join'){ 
             socket.emit("realtime_join_room", message);
         }
-        if ((channel === 'rooms') && (parsed_message.msg_type === 'leave')){ 
+        if (parsed_message.msg_type === 'leave'){ 
             socket.emit("realtime_leave_room", message);
+        }
+        if (parsed_message.msg_type === 'add_song'){ 
+            socket.emit("realtime_add_song", message);
+        }
+        if (parsed_message.msg_type === 'remove_song'){ 
+            socket.emit("realtime_remove_song", message);
+        }
+        if (parsed_message.msg_type === 'create_room'){ 
+            socket.emit("realtime_create_room", message);
+        }
+        if (parsed_message.msg_type === 'send_text'){ 
+            socket.emit("realtime_send_text", message);
         }
     });
 
@@ -59,28 +70,34 @@ io.sockets.on('connection', function (socket) {
     socket.on('join_room', function (data) {
         var params = JSON.parse(data);
         client.lpush('list_of_users:'+params.room_number, params.username);
-        publisher.publish("rooms", JSON.stringify({"msg":params.username, "msg_type":"join"}));
+        publisher.publish(params.room_number, JSON.stringify({"msg":params.username, "msg_type":"join"}));
+        subscriber.subscribe(params.room_number);
+        client.lrange(':1:room:'+params.room_number+':chat', 0, -1, function(err, chatlog){
+            socket.emit("return_join_room", chatlog);
+        });
     });
 
     //leaves an existing room
     socket.on('leave_room', function (data) {
         var params = JSON.parse(data);
         client.lrem('list_of_users:'+params.room_number, 1, params.username);
-        publisher.publish("rooms", JSON.stringify({"msg":params.username, "msg_type":"leave"}));
+        publisher.publish(params.room_number, JSON.stringify({"msg":params.username, "msg_type":"leave"}));
+        subscriber.unsubscribe(params.room_number);
     });
 
     socket.on('get_user_list', function (data) {
         var params = JSON.parse(data);
         client.lrange('list_of_users:'+params.room_number, 0, -1, function(err, users){
-            console.log(users);
             socket.emit("return_get_user_list", users);
         });
     });
 
     socket.on('post_location', function (data) {
         var params = JSON.parse(data);
-        proximity.addLocation(params.lat, params.lon, params.username,  function(err, reply){
-            if(err) console.error(err);
+        proximity.addLocation(params.latitude, params.longitude, params.username,  function(err, reply){
+            if(err) {
+                console.error("post_location_err="+err);
+            }
             else {
                 socket.emit('return_post_location');
             }
@@ -97,7 +114,7 @@ io.sockets.on('connection', function (socket) {
                 room_counter = 0;
             }
             var params = JSON.parse(data);
-            client.hmset(':1:room:'+room_counter, "room_name", params.room_name, "room_number", room_counter, "number_of_users", 1, function (err, val){
+            client.hmset(':1:room:'+room_counter, "host_username", params.username, "room_name", params.room_name, "room_number", room_counter, "number_of_users", 1, function (err, val){
 
             });    //create a new hashmap with the room number
             //create a key-value for the username (mweiss17) to the room_id
@@ -106,12 +123,14 @@ io.sockets.on('connection', function (socket) {
 
             // emit room_info 
             client.hgetall(':1:room:'+room_counter, function(err, room_info){
-                socket.emit('return_create_room', room_info);
+                socket.emit('return_create_room', {"room_info":room_info});
+                publisher.publish("ecstatic", JSON.stringify({"msg":room_info, "msg_type":"create_room"}));
             });
             //post location
             //post_location(data.params("username"), data.params("lat"), data.params("lon"));
 
             client.lpush('list_of_users:'+room_counter, params.username);
+            subscriber.subscribe(room_counter);
             //set playlist
             //client.hmset(':1:room:'+room_counter+':playlist, "");
 
@@ -125,16 +144,14 @@ io.sockets.on('connection', function (socket) {
     socket.on('get_rooms_around_me', function (data) {
         var params = JSON.parse(data);
         proximity.location(params.username, function(err, location){
-            console.log(JSON.stringify(location));
             proximity.nearby(location.latitude, params.longitude, 10000000000, function(err, people){
-                console.log("people="+JSON.stringify(people));
                 if(err) console.error(err);
                 else {
                     async.map(people, get_room_for_user, function(err, result){
                         if(!err){
                             async.map(result, get_room_info, function(err, result){
-                                console.log("get_rooms_around_me_returns="+JSON.stringify(result));
-                                socket.emit("return_get_rooms_around_me", JSON.stringify(result));
+                                socket.emit("return_get_rooms_around_me", {"rooms":result});
+                                subscriber.subscribe("ecstatic");
                             });
                         }
                     });
@@ -142,6 +159,44 @@ io.sockets.on('connection', function (socket) {
             });
         });
     });
+
+    //PLAYER / PLAYLIST
+    socket.on('add_song', function (data) {
+        var params = JSON.parse(data);
+        publisher.publish(params.room_number, JSON.stringify({"msg":{"song":params}, "msg_type":"add_song"}));
+        client.lpush(':1:room:'+params.room_number+':playlist', data);
+    });
+
+    socket.on('remove_song', function (data) {
+        var params = JSON.parse(data);
+        publisher.publish(params.room_number, JSON.stringify({"msg":params, "msg_type":"remove_song"}));
+        client.lrem(':1:room:'+params.room_number+':playlist', 1, data);
+    });
+
+    socket.on('send_text', function (data) {
+        var params = JSON.parse(data);
+        publisher.publish(params.room_number, JSON.stringify({"msg":params, "msg_type":"send_text"}));
+        client.lpush(':1:room:'+params.room_number+':chat', data);
+    });
+
+//not done
+    socket.on('move_song', function (data) {
+        client.get(data.username, function(err, room_number) {
+            client.linsert(':1:room:'+room_number+':playlist', "BEFORE", data.before, data.to_insert, function(err, val) {
+                client.lrem(':1:room:'+room_number+':playlist', "1", data);
+            });
+        });
+    });
+
+//not done
+    socket.on('get_playlist', function (data) {
+        var params = JSON.parse(data);
+        client.lrange(':1:room:'+params.room_number+':playlist', 0, -1, function(err, data) {
+            socket.emit("return_get_playlist", {"playlist":data});
+        });
+    });
+
+
 });
 
 function get_room_for_user(username, callback){
@@ -161,7 +216,7 @@ function get_room_info(room_number, callback){
             callback(null, room_info);
         }
         catch(err){
-            console.log("caught error, room_info="+room_info);
+            console.log("err="+err);
         }
     });
 }    
