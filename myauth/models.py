@@ -12,11 +12,19 @@ import re, uuid, sys
 class UserManager(BaseUserManager):
 
 	def _create_user(self, username, email, password, is_staff, is_superuser, **extra_fields):
+		print >> sys.stderr, "_create_user"
 		now = timezone.now()
 		if not username:
 			raise ValueError(_('The given username must be set'))
 		email = self.normalize_email(email)
-		user = self.model(username=username, email=email,
+		try:
+			f = forms.EmailField()
+			validated_email = f.clean(email)
+			if email and User.objects.filter(email=validated_email).exclude(username=username).count():
+				raise forms.ValidationError(u'Email addresses must be unique.')
+		except Exception as e:
+			raise e
+		user = self.model(username=username, email=validated_email,
 			is_staff=is_staff, is_active=True,
 			is_superuser=is_superuser, last_login=now,
 			date_joined=now, **extra_fields)
@@ -25,6 +33,7 @@ class UserManager(BaseUserManager):
 		return user
 
 	def create_user(self, username, email=None, password=None, **extra_fields):
+		print >> sys.stderr, "create_user"
 		return self._create_user(username, email, password, False, False, **extra_fields)
 
 	def create_superuser(self, username, email, password, **extra_fields):
@@ -33,6 +42,9 @@ class UserManager(BaseUserManager):
 		user.is_active=True
 		user.save(using=self._db)
 		return user
+
+
+
 
 class User(AbstractBaseUser, PermissionsMixin):
 	username = models.CharField(_('username'), max_length=30, unique=True,

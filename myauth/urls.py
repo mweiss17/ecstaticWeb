@@ -12,5 +12,6 @@ urlpatterns = patterns('',
     url(r'^forgotpassword.html/$', views.forgotpassword, name='forgotpassword'),
     url(r'^profile.html/$', views.profile, name='profile'),
     url(r'^createprofile.html/$', views.createprofile, name='createprofile'),
+    url(r'^createprofileiOS/$', views.createprofileiOS, name='createprofileiOS'),
     url(r'^profileupdate/$', views.profileupdate, name='profileupdate'),    
 )

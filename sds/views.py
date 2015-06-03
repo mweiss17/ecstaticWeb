@@ -216,9 +216,9 @@ def appindex(request):
     for event in upcomingEvents:
         eventstart = time.mktime(event.music_start_time.timetuple())
         if event.eventMix:
-            some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.eventCity.cityName, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent, 'latitude':event.latitude, 'longitude':event.longitude, 'songTitle':event.eventMix.uploadedSong.url})
+            some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.eventCity.cityName, 'host_username':event.organizer.username, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent, 'latitude':event.latitude, 'longitude':event.longitude, 'songTitle':event.eventMix.uploadedSong.url})
         else:
-            some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.eventCity.cityName, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent, 'latitude':event.latitude, 'longitude':event.longitude, 'songTitle':"No Mix Uploaded!"})
+            some_data_to_dump.append({'id': event.id, 'title': event.title, 'start':eventstart, 'city': event.eventCity.cityName, 'host_username':event.organizer.username, 'location':event.location, 'map':event.google_map_link, 'fbevent':event.fbEvent, 'latitude':event.latitude, 'longitude':event.longitude, 'songTitle':"No Mix Uploaded!"})
 
     data = json.dumps(some_data_to_dump)
 

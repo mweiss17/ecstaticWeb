@@ -71,9 +71,7 @@ def loginView(request):
 def loginViewiOS(request):
 	User = get_user_model()
 	name = request.POST['username']
-	#print >> sys.stderr, name
 	password = request.POST['password']
-	print >> sys.stderr, password
 	users = User.objects.filter(Q(username=name)|Q(email=name))
 	context = {}
 	for user in users:
@@ -130,6 +128,24 @@ def profileupdate(request):
 	context.update({"uf" : uf, "upf" : upf, "pf":pf, 'currentUserProfile':UserProfile.objects.get(user=request.user)})
 	return render(request, 'profile.html', context)
 
+def createprofileiOS(request):
+	context = {}
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		email = request.POST['email']
+		mixpanel_distinct_id = request.POST['mixpanel_distinct_id']
+		try:
+			User = get_user_model()
+			user = User.objects.create_user(username=username, password=password, email=email)
+			userprofile = UserProfile.objects.create(newsletter=True, user=user,mixpanel_distinct_id=mixpanel_distinct_id)
+			subscribeToMailchimp(email)
+			user.backend = 'django.contrib.auth.backends.ModelBackend'
+			auth.login(request, user)
+		except Exception as e:
+			return HttpResponse(e)
+		return HttpResponse(True)
+	return HttpResponse(False)
 
 def createprofile(request):
 	context = {}
