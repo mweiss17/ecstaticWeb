@@ -2,9 +2,10 @@
 'use strict';
 
 // Declare variables used
-var app, base_url, client, express, hbs, io, port, rtg, room_counter,request, async, proximity, subscriber, publisher;
+var app, base_url, client, express, hbs, io, port, rtg, room_counter,request, async, proximity, subscriber, publisher, util;
 
 // Define values
+util = require('util');
 request = require('request');
 express = require('express');
 app = express();
@@ -87,7 +88,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('join_room', function (data) {
         var params = JSON.parse(data);
         client.lrange('list_of_users:'+params.room_number, 0, -1, function(err, users){
-            //join event
+            //join event (this is broken too)
             if(users.length === 0){
                 client.hmset(':1:room:'+params.room_number, "host_username", params.host_username, "room_name", params.room_name, "room_number", params.room_number, "number_of_users", 1, function (err, val){
 
@@ -100,7 +101,8 @@ io.sockets.on('connection', function (socket) {
 
                 client.lpush('list_of_users:'+params.room_number, params.username);
                 subscriber.subscribe(params.room_number);
-                client.hmset('player:'+params.room_number, 'is_playing', false, 'playertime', 0);
+                //holy shit this is broken
+//                client.set('player:'+room_counter, params.player_state);
             }
             //join room
             else{
@@ -176,7 +178,8 @@ io.sockets.on('connection', function (socket) {
             //Form of data params.player_state = {'is_playing': false, 'playing_song_index':3, 'elapsed': 44}
             //set player
             params.player_state.timestamp = new Date().getTime();
-            client.set('player:'+room_counter, params.player_state);
+            var player_state = JSON.stringify(params.player_state);
+            client.set('player:'+room_counter, player_state);
         });
     });
     
@@ -244,9 +247,19 @@ io.sockets.on('connection', function (socket) {
     socket.on('get_player_status', function (data) {
         var params = JSON.parse(data);
         client.get('player:'+params.room_number, function(err, data){
-            socket.emit("return_get_player_status", data);
+            console.log( {"player_state":JSON.parse(data), "current_time": new Date().getTime()});
+            socket.emit("return_get_player_status", {"player_state":JSON.parse(data), "current_time": new Date().getTime()});
         });
     });
+
+    socket.on('update_player_state', function (data) {
+        var params = JSON.parse(data);
+        params.player_state.timestamp = new Date().getTime();
+        var player_state = JSON.stringify(params.player_state);
+        client.set('player:'+params.room_number, player_state);
+    });
+
+
 
     socket.on('player', function (data) {
         var params = JSON.parse(data);
