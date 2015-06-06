@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 fabfile.py*
 sds/config.json
 media/
@@ -9,3 +10,8 @@ ecstatic_geo/*
 node_ecstatic/node_modules/*
 node_ecstatic/coverage
 sds/settings/__init__.py
+=======
+bin/
+lib/
+local/
+>>>>>>> 148021d944c83168be58b30494e2f1f622d5d885
