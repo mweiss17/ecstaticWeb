@@ -75,9 +75,13 @@ WSGI_APPLICATION = 'ecstatic.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "newdb",
+        "USER": "martin",
+        "PASSWORD": "dancefloor04",
+        "HOST": "ecstaticweb.cdadlb7rfieo.us-east-1.rds.amazonaws.com",
+        "PORT": "5432"
     }
 }
 
