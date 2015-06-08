@@ -12,7 +12,7 @@ var expect = require('chai').expect,
     client;
 client = redis.createClient();
 
-var socket = io.connect('http://localhost:8888', {
+var socket = io.connect('http://localhost:80', {
     'reconnection delay' : 0,
     'reopen delay' : 0,
     'force new connection' : true
@@ -23,7 +23,7 @@ describe('server', function () {
     // Test the index route
     describe('Test the index route', function () {
         it('should return a page with the title Babblr', function (done) {
-            request.get({ url: 'http://localhost:8888/' }, function (error, response, body) {
+            request.get({ url: 'http://localhost:80/' }, function (error, response, body) {
                 expect(body).to.include('Babblr');
                 expect(response.statusCode).to.equal(200);
                 expect(response.headers['content-type']).to.equal('text/html; charset=utf-8');

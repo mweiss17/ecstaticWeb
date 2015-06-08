@@ -9,8 +9,8 @@ util = require('util');
 request = require('request');
 express = require('express');
 app = express();
-port = process.env.PORT || 8888;
-base_url = process.env.BASE_URL || 'http://localhost:8888';
+port = process.env.PORT || 80;
+base_url = process.env.BASE_URL || 'http://localhost:80';
 hbs = require('hbs');
 async = require('async');
 client = require('redis').createClient();
@@ -46,8 +46,8 @@ console.log("Listening on port " + port);
 // Handle new messages
 io.sockets.on('connection', function (socket) {
     subscriber.on("message", function(channel, message){
+        console.log(subscriber);
         var parsed_message = JSON.parse(message);
-        console.log(message);
         switch(parsed_message.msg_type) {
             case 'join':
                 socket.emit("join", parsed_message.msg);
@@ -68,6 +68,7 @@ io.sockets.on('connection', function (socket) {
                 socket.emit("create_room", parsed_message.msg);
                 break;
             case 'send_text':
+                console.log("sendtext="+message+", channel="+channel);
                 socket.emit("send_text", parsed_message.msg);
                 break;
             case 'play':
@@ -101,6 +102,7 @@ io.sockets.on('connection', function (socket) {
 
                 client.lpush('list_of_users:'+params.room_number, params.username);
                 subscriber.subscribe(params.room_number);
+                console.log("if subscribed room="+params.room_number);
                 //holy shit this is broken
 //                client.set('player:'+room_counter, params.player_state);
             }
@@ -109,6 +111,7 @@ io.sockets.on('connection', function (socket) {
                 client.lpush('list_of_users:'+params.room_number, params.username);
                 publisher.publish(params.room_number, JSON.stringify({"msg":params.username, "msg_type":"join"}));
                 subscriber.subscribe(params.room_number);
+                console.log("else subscribed room="+params.room_number);
                 client.lrange(':1:room:'+params.room_number+':chat', 0, -1, function(err, chatlog){
                     socket.emit("return_join_room", chatlog);
                 });
@@ -174,6 +177,7 @@ io.sockets.on('connection', function (socket) {
 
             client.lpush('list_of_users:'+room_counter, params.username);
             subscriber.subscribe(room_counter);
+            console.log("create subscribed room="+room_counter);
 
             //Form of data params.player_state = {'is_playing': false, 'playing_song_index':3, 'elapsed': 44}
             //set player
@@ -187,19 +191,17 @@ io.sockets.on('connection', function (socket) {
     //Joins an existing room
     socket.on('get_rooms_around_me', function (data) {
         var params = JSON.parse(data);
+        console.log("get rooms around me="+data);
         proximity.location(params.username, function(err, location){
-            proximity.nearby(location.latitude, params.longitude, 10000000000, function(err, people){
-                if(err) console.error(err);
-                else {
-                    async.map(people, get_room_for_user, function(err, result){
-                        if(!err){
-                            async.map(result, get_room_info, function(err, result){
-                                socket.emit("return_get_rooms_around_me", {"rooms":result});
-                                subscriber.subscribe("ecstatic");
-                            });
-                        }
-                    });
-                }
+            proximity.nearby(location.latitude, location.longitude, 10000000000, function(err, people){
+                async.map(people, get_room_for_user, function(err, result){
+                    if(!err){
+                        console.log("people="+people);
+                        async.map(result, get_room_info, function(err, result){
+                            socket.emit("return_get_rooms_around_me", {"rooms":result});
+                        });
+                    }
+                });
             });
         });
     });
@@ -207,6 +209,7 @@ io.sockets.on('connection', function (socket) {
     //CHAT
     socket.on('send_text', function (data) {
         var params = JSON.parse(data);
+        console.log("send_text");
         publisher.publish(params.room_number, JSON.stringify({"msg":params, "msg_type":"send_text"}));
         client.lpush(':1:room:'+params.room_number+':chat', data);
     });
