@@ -6,6 +6,7 @@ app.controller('mainController',['$scope', '$http', function($scope, $http) {
     $http.get('/api/todos')
         .success(function(data) {
             $scope.todos = data;
+            
             console.log(data);
         })
         .error(function(data) {

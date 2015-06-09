@@ -1,9 +1,21 @@
 
-
+var rooms;
 var socket = io('http://ecstatic.fm:8080/');
-socket.on('news', function (data) {
-console.log(data);
-socket.emit('my other event', { my: 'data' });
+console.log({ username: 'anonymous squid' });
+socket.emit('post_location', JSON.stringify({latitude:1.0, longitude:1.0, username: 'anonymous squid'}))
+
+socket.on('return_post_location', function (data) {
+	console.log("location returned");
+	socket.emit('get_rooms_around_me', JSON.stringify({ username: 'anonymous squid' }));    
+});
+socket.on('return_get_rooms_around_me', function (data) {
+	rooms = data.rooms;
+	console.log("data.rooms="+data.rooms);
+	for (var i = 0; i < rooms.length ; i++) {
+		if(rooms[i].room_info.room_name === "International Startup Fest"){
+			console.log("yep");
+		}
+	}
 });
 
 
