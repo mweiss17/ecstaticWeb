@@ -22,22 +22,22 @@ app.use(express.static('static'));
 //initialize event variable on server startup
 request('http://54.173.157.204/appindex/', function (error, response, body) {
   if (!error && response.statusCode == 200) {
-    events = body;  
+  	events = JSON.parse(body);
+    for(var e in events) {
+    	console.log(e);
+    }
   }
 });
 
-
-
-
-
 app.get('/', function (req, res) {
-	console.log(events);
-  	res.render('index', { events:events, message: 'Hello there!'});
+  	res.render('index');
 });
 
-//app.get('/', function(req, res) {
-  //res.send('Hello word');
-//});
+app.get('/api/todos', function(req, res) {
+    // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+    console.log("yoyoyo");
+    res.json(events); // return all todos in JSON format
+});
 
 app.get('/something', function(req, res) {
   res.send('Hei, this is something!!!');

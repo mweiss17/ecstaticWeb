@@ -12,7 +12,10 @@ html(ng-app="ecstatic")
 		.section
 			.row
 				.small-2.large-2.columns 
-				h1= events 
+				div(ng-controller="mainController as main")
+					p(ng-bind="test") {{main.test}}
+					div(ng-repeat="todo in todos")
+						p {{todo.city}}
 				.small-8.large-8.columns
 					.block
 					img('logo.png')
