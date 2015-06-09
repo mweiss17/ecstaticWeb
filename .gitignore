@@ -2,3 +2,17 @@
 /.sass-cache/*
 *.DS_Store
 /stylesheets/*
+fabfile.py*
+sds/config.json
+media/
+*.pyc
+sds.log
+sds/migrations/*
+myauth/migrations/*
+ecstatic_geo/*
+node_modules/*
+coverage
+sds/settings/__init__.py
+bin/
+lib/
+local/
