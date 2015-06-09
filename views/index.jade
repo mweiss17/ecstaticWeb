@@ -6,12 +6,13 @@ html(ng-app="ecstatic")
 		script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js')
 		script(src='js/socket.io-client/socket.io.js')
 		script(src='js/ecstaticSocketsClient.js')
+		script(src='js/app.js')
 
 	body
 		.section
 			.row
-				.small-2.large-2.columns
-					{{title}}
+				.small-2.large-2.columns 
+				h1= events 
 				.small-8.large-8.columns
 					.block
 					img('logo.png')

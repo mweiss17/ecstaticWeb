@@ -32,7 +32,7 @@ request('http://54.173.157.204/appindex/', function (error, response, body) {
 
 app.get('/', function (req, res) {
 	console.log(events);
-  	res.render('index', { title: 'Hey', message: 'Hello there!'});
+  	res.render('index', { events:events, message: 'Hello there!'});
 });
 
 //app.get('/', function(req, res) {
