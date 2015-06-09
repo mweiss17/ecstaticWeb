@@ -16,7 +16,6 @@ app.set('views', __dirname + '/views');
 app.set('view engine', "jade"); // your engine, you can use html, jade, ejs, vash, etc
 app.set('port', process.env.PORT || 80); // set up the port to be production or 80.
 app.use(express.static('static'));
-console.log("__dirname="+__dirname);
 //app.set('env', process.env.NODE_ENV || 'development'); 
 
 
