@@ -1,18 +1,17 @@
 doctype html
-html(lang="en")
+html(ng-app="ecstatic")
 	head
 		title= Ecstatic
 		link(rel='stylesheet', href='stylesheets/app.css')
 		script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js')
 		script(src='js/socket.io-client/socket.io.js')
 		script(src='js/ecstaticSocketsClient.js')
-		script(src='js/djangoAPI.js')
 
 	body
 		.section
 			.row
 				.small-2.large-2.columns
-					
+					{{title}}
 				.small-8.large-8.columns
 					.block
 					img('logo.png')
