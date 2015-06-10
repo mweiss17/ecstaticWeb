@@ -1,0 +1,79 @@
+doctype html
+html(ng-app='ecstatic')
+	head
+		title= Ecstatic
+		script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js')
+		script(src='http://d2v52k3cl9vedd.cloudfront.net/plangular/3.1.0/plangular.min.js')
+		script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+		script(src='http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js')
+		script(src='http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js')
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/animation.gsap.js')
+		script(src='http://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min.js')
+		link(rel='stylesheet', href='stylesheets/app.css')
+		link(rel='stylesheet', href='stylesheets/ecstatic.css')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Raleway:600,300,200', type='text/css')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato:400,100', type='text/css')
+		script(src='js/app.js')
+		script(src='js/scrollz.js')
+		script(src='js/plangular.js')
+
+	body
+		#container
+			#cover.section
+				img.logo(src='images/lgo-255x255.png')
+				h4 Next up
+				h1 International Startup Festival Radio
+				span: img('icn-clock.png')
+				.row
+					.small-4.columns
+						p
+					.small-4.columns
+						ul.small-block-grid-3
+							li: ul.countdown
+									li.n 421
+									li.w hours
+							li: ul.countdown
+									li.n 12
+									li.w minutes
+							li: ul.countdown
+									li.n 42
+									li.w seconds
+					.small-4.columns
+						p
+				
+
+			#player.section
+				.row
+					.small-12.large-7.columns
+						img(src='images/img-cover-holder-417-280.png')
+						h3 Deepcast vol 34
+						h5 by Mark Macleod from Freshbooks
+						.left
+							p 0:00
+						.right
+							p 9:99
+						.progress
+							span.meter
+
+					.small-12.large-5.columns
+						table
+							tbody
+								tr
+									td: img(src='images/img-empty-avatar-58x58.png')
+									td 1
+									td Deepcast vol 34
+									td Mark Macleod from Freshbooks
+									td 0:00
+								tr
+									td: img(src='images/img-empty-avatar-58x58.png')
+									td 2
+									td Deepcast vol 34
+									td Mark Macleod from Freshbooks
+									td 0:00
+								tr
+									td: img(src='images/img-empty-avatar-58x58.png')
+									td 3
+									td Deepcast vol 34
+									td Mark Macleod from Freshbooks
+									td 0:00
+			
