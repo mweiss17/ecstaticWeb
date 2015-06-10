@@ -46,24 +46,12 @@ html(ng-app="ecstatic")
 				.small-5.large-5.columns
 					table
 						tbody
-							tr
+							tr(ng-repeat="song in playlist") 
 								td img
 								td #
-								td Deepcast vol 34
-								td Mark Macleod from Freshbooks
-								td 0:00
-							tr
-								td img
-								td #
-								td Deepcast vol 34
-								td Mark Macleod from Freshbooks
-								td 0:00
-							tr
-								td img
-								td #
-								td Deepcast vol 34
-								td Mark Macleod from Freshbooks
-								td 0:00
+								td {{song.title}}
+								td {{song.author}}
+								td {{song.duration}}
 								
 
 

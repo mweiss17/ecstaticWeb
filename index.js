@@ -34,7 +34,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/api/upcomingEvents', function(req, res) {
-    res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: /*June 14th, 6 AM*/1434448800000, playlist: [{title:"test1", link:"http://soundcloud.com/asdf"}, {title:"test2", link:"http://soundcloud.com/fdas"}], userlist: ["anonymous squid", "anonymous monkey"]}); 
+    res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: /*June 14th, 6 AM*/1434448800000, playlist: [{title:"Deepcast vol 34", author:"Mark Macleod from Freshbooks", link:"https://soundcloud.com/djmarkmacleod/deepcast-vol-34-dj-mark", duration:3090}, {title:"the Magician", author:"Max Liese", link:"https://soundcloud.com/maxliesemusic/the-magician-sunlight-feat-years-years-max-liese-cover", duration:300}], userlist: ["anonymous squid", "anonymous monkey"]}); 
 });
 
 app.get('/something', function(req, res) {

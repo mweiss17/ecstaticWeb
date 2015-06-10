@@ -6,6 +6,7 @@ app.controller('mainController',['$scope', '$http', function($scope, $http) {
     $http.get('/api/upcomingEvents')
         .success(function(data) {
             $scope.upcomingEvents = data;
+            $scope.playlist = data.playlist;
             display_countdown(data.start_time);
             console.log(data);
         })
