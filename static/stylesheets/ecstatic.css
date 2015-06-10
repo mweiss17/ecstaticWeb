@@ -1,0 +1,54 @@
+.test {
+  background-color: blue;
+  border: 1px red solid; }
+
+html,
+body,
+h1,
+h2,
+h3,
+h4 {
+  color: white;
+  font-family: "Raleway", sans-serif;
+  font-weight: 200; }
+
+.thin-lato, #cover h4, ul.countdown li {
+  font-family: "Lato", sans-serif;
+  text-transform: uppercase;
+  font-weight: 100; }
+
+.gradient, #cover {
+  background: #c14e9e;
+  background: -moz-radial-gradient(bottom left, ellipse cover, #c14e9e 0%, #f19438 100%);
+  background: -webkit-gradient(radial, bottom left, 0px, center center, 100%, color-stop(0%, #c14e9e), color-stop(100%, #f19438));
+  background: -webkit-radial-gradient(bottom left, ellipse cover, #c14e9e 0%, #f19438 100%);
+  background: -o-radial-gradient(bottom left, ellipse cover, #c14e9e 0%, #f19438 100%);
+  background: -ms-radial-gradient(bottom left, ellipse cover, #c14e9e 0%, #f19438 100%);
+  background: radial-gradient(ellipse at bottom left, #c14e9e 0%, #f19438 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c14e9e', endColorstr='#f19438',GradientType=1 ); }
+
+.section {
+  height: 100vh;
+  padding: 1em; }
+
+#cover {
+  text-align: center;
+  white-space: nowrap;
+  background-color: #eee;
+  padding-top: 2em; }
+
+.logo {
+  margin: 3em; }
+
+ul.countdown {
+  list-style: none; }
+  ul.countdown li {
+    text-align: center; }
+
+li.n {
+  font-size: 3em; }
+
+li.w {
+  font-size: 1em; }
+
+/*# sourceMappingURL=ecstatic.css.map */
