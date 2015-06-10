@@ -1,28 +1,41 @@
 doctype html
-html(lang="en")
+html(ng-app="ecstatic")
 	head
 		title= Ecstatic
 		link(rel='stylesheet', href='stylesheets/app.css')
-	body
+		script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js')
+		script(src='js/socket.io-client/socket.io.js')
+		script(src='js/ecstaticSocketsClient.js')
+		script(src='js/app.js')
+		script(src='js/countdown.js')
+		script(src='bower_components/angular/angular.min.js')
+		script(src='bower_components/angular-sanitize/angular-sanitize.min.js')
+		script(src='bower_components/videogular/videogular.js')
+		script(src='bower_components/videogular-controls/vg-controls.js')
+		script(src='bower_components/videogular-overlay-play/vg-overlay-play.js')
+		script(src='bower_components/videogular-poster/vg-poster.js')
+		script(src='bower_components/videogular-angulartics/vg-analytics.js')
+		script(src='bower_components/videogular-buffering/vg-buffering.js')
+	body(ng-controller="mainController as main")
 		.section
 			.row
-				.small-2.large-2.columns
-					
+				.small-2.large-2.columns 
 				.small-8.large-8.columns
 					.block
 					img('logo.png')
 					h4.subtitle.big Next up
-					h1 International Startup Festival Radio
+					h1(ng-bind="upcomingEvents.title") {{main.upcomingEvents.title}} 
+					script.
+						function display_countdown(start_time){
+							countdown(start_time, function(ts){
+								document.getElementById('counter').innerHTML = ts.toHTML();
+
+							}, countdown.HOURS | countdown.MINUTES | countdown.SECONDS, 3);
+						}
 					span: img('icn-clock.png')
 					ul 
 						ul.inline-list
-							li 21
-							li 36
-							li 12
-						ul.subtitle
-							li.label hour
-							li.label minutes
-							li.label seconds
+							p#counter 
 				.small-2.large-2.columns
 		.section
 			.row
@@ -40,24 +53,12 @@ html(lang="en")
 				.small-5.large-5.columns
 					table
 						tbody
-							tr
+							tr(ng-repeat="song in playlist") 
 								td img
 								td #
-								td Deepcast vol 34
-								td Mark Macleod from Freshbooks
-								td 0:00
-							tr
-								td img
-								td #
-								td Deepcast vol 34
-								td Mark Macleod from Freshbooks
-								td 0:00
-							tr
-								td img
-								td #
-								td Deepcast vol 34
-								td Mark Macleod from Freshbooks
-								td 0:00
+								td {{song.title}}
+								td {{song.author}}
+								td {{song.duration}}
 								
 
 

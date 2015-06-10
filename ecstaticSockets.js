@@ -1,7 +1,7 @@
 var exports = module.exports = {};
 
 // Declare variables used
-var client, express, io, port, rtg, room_counter,request, async, proximity, publisher, util;
+var client, express, io, port, rtg, room_counter,request, async, proximity, publisher, util, mongoose;
 
 // Define values
 util = require('util');
@@ -11,6 +11,19 @@ async = require('async');
 client = require('redis').createClient();
 publisher = require('redis').createClient();
 proximity = require('geo-proximity').initialize(client);
+
+//MONGO STUFF
+mongoose = require('mongoose');
+mongoose.connect('mongodb://ecstatic:dancefloor04@ds045252.mongolab.com:45252/ecstatic');
+
+var Event = mongoose.model('Event', { host_username: String, title: String, start_time: Date, playlist: Array, userlist: Array });
+var startupFest = new Event({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: /*June 14th, 6 AM*/1434261600000, playlist: [{title:"test1", link:"http://soundcloud.com/asdf"}, {title:"test2", link:"http://soundcloud.com/fdas"}], userlist: ["anonymous squid", "anonymous monkey"]});
+
+startupFest.save(function (err) {
+  if (err) // ...
+  console.log('meow');
+});
+
 
 exports.setupEcstaticSockets = function(app){
     // Listen
@@ -262,8 +275,10 @@ exports.setupEcstaticSockets = function(app){
     });
 }
 function get_room_for_user(username, callback){
+    console.log("get_room_for_user"+username);
     client.get(":1:"+username+":room", function(err, room_number) {
         try{
+                console.log("get_room_for_user number"+room_number);
             callback(null, room_number);
         }
         catch(err){
