@@ -16,10 +16,10 @@ proximity = require('geo-proximity').initialize(client);
 mongoose = require('mongoose');
 mongoose.connect('mongodb://ecstatic:dancefloor04@ds045252.mongolab.com:45252/ecstatic');
 
-var Cat = mongoose.model('Event', { username: String });
-var kitty = new Cat({ username: 'Zildjian' });
+var Event = mongoose.model('Event', { host_username: String, title: String, start_time: Date, playlist: Array, userlist: Array });
+var startupFest = new Event({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: /*June 14th, 6 AM*/1434261600000, playlist: [{title:"test1", link:"http://soundcloud.com/asdf"}, {title:"test2", link:"http://soundcloud.com/fdas"}], userlist: ["anonymous squid", "anonymous monkey"]});
 
-kitty.save(function (err) {
+startupFest.save(function (err) {
   if (err) // ...
   console.log('meow');
 });
@@ -73,35 +73,6 @@ exports.setupEcstaticSockets = function(app){
                     console.log("problem in subscriber switch");
             }
         });
-
-        //HACK BACKEND, PORT TO MONGO
-        //hack to make sure there is a room in redis for international startup fest
-        client.hgetall(":1:room:"+100000, function (err, val){
-            console.log("val="+util.inspect(val));
-            if(val === undefined){
-                client.hmset(':1:room:'+100000, "host_username", "Internet Wizards", "room_name", "International Startup Fest", "room_number", 100000, function (err, val){
-
-                });    
-                //create a new hashmap with the room number
-                //create a key-value for the username (mweiss17) to the room_id
-                client.set(":1:"+"anonymous squid"+":room", 100000); 
-                
-                // emit room_info 
-                client.hgetall(':1:room:'+100000, function(err, room_info){
-                    socket.emit('return_startup_fest_exists', {"room_info":room_info});
-                });
-
-                client.lpush('list_of_users:100000', "anonymous squid");
-                subscriber.subscribe(100000);
-                console.log("create subscribed room="+100000);
-
-                //Form of data params.player_state = {'is_playing': false, 'playing_song_index':3, 'elapsed': 44}
-                //set player
-                //params.player_state.timestamp = new Date().getTime();
-                //client.set('player:'+100000, {'is_playing': false, 'playing_song_index':0, 'elapsed': 0});
-            }
-        });
-
 
         //Joins an existing room
         socket.on('join_room', function (data) {

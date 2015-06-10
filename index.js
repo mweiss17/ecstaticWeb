@@ -14,8 +14,8 @@ ecstaticSockets.setupEcstaticSockets(app);
 
 // Set up templating
 app.set('views', __dirname + '/views');
-app.set('view engine', "jade"); // your engine, you can use html, jade, ejs, vash, etc
-app.set('port', process.env.PORT || 80); // set up the port to be production or 80.
+app.set('view engine', "jade"); 
+app.set('port', process.env.PORT || 80); 
 app.use(express.static('static'));
 
 //SERVER STARTUP SHIT
@@ -33,10 +33,8 @@ app.get('/', function (req, res) {
   	res.render('index');
 });
 
-app.get('/api/todos', function(req, res) {
-    // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-    console.log("yoyoyo");
-    res.json(events); // return all todos in JSON format
+app.get('/api/upcomingEvents', function(req, res) {
+    res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: /*June 14th, 6 AM*/1434448800000, playlist: [{title:"test1", link:"http://soundcloud.com/asdf"}, {title:"test2", link:"http://soundcloud.com/fdas"}], userlist: ["anonymous squid", "anonymous monkey"]}); 
 });
 
 app.get('/something', function(req, res) {
