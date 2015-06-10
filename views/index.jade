@@ -1,8 +1,11 @@
 doctype html
-html(ng-app="ecstatic")
+html(ng-app='ecstatic')
 	head
 		title= Ecstatic
 		link(rel='stylesheet', href='stylesheets/app.css')
+		link(rel='stylesheet', href='stylesheets/ecstatic.css')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Raleway:600,300,200', type='text/css')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato:400,100', type='text/css')
 		script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js')
 		script(src='js/socket.io-client/socket.io.js')
 		script(src='js/ecstaticSocketsClient.js')
@@ -15,52 +18,60 @@ html(ng-app="ecstatic")
 		script(src='videogular-poster/vg-poster.js')
 		script(src='videogular-angulartics/vg-analytics.js')
 		script(src='videogular-buffering/vg-buffering.js')
+		script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+		script(src='http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js')
+		script(src='http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js')
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/animation.gsap.js')
+		script(src='http://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min.js')
+		script(src='js/app.js')
+		script(src='js/scrollz.js')
+		script(src='js/plangular.js')
+
 	body(ng-controller="mainController as main")
-		.section
-			.row
-				.small-2.large-2.columns 
-				.small-8.large-8.columns
-					.block
-					img('logo.png')
-					h4.subtitle.big Next up
-					h1(ng-bind="upcomingEvents.title") {{main.upcomingEvents.title}} 
-					script.
-						function display_countdown(start_time){
-							countdown(start_time, function(ts){
-								document.getElementById('counter').innerHTML = ts.toHTML();
+		#container
+			#cover.section
+				img.logo(src='images/lgo-255x255.png')
+				h4 Next up
+				h1(ng-bind="upcomingEvents.title") {{main.upcomingEvents.title}} 
+				span: img('icn-clock.png')
+				.row
+					.small-4.columns
+						p#counter 
+					.small-4.columns
+						ul.small-block-grid-3
+							li: ul.countdown
+									li.n 421
+									li.w hours
+							li: ul.countdown
+									li.n 12
+									li.w minutes
+							li: ul.countdown
+									li.n 42
+									li.w seconds
+					.small-4.columns
+						p
+				
 
-							}, countdown.HOURS | countdown.MINUTES | countdown.SECONDS, 3);
-						}
-					span: img('icn-clock.png')
-					ul 
-						ul.inline-list
-							p#counter 
-				.small-2.large-2.columns
-		.section
-			.row
-				.small-7.large-7.columns
-					img(src='images/img-cover-holder-417-280.png')
-					h3 Deepcast vol 34
-					h5 by Mark Macleod from Freshbooks
-					.left
-						p 0:00
-					.right
-						p 9:99
-					.progress
-						span.meter
+			#player.section
+				.row
+					.small-12.large-7.columns
+						img(src='images/img-cover-holder-417-280.png')
+						h3 Deepcast vol 34
+						h5 by Mark Macleod from Freshbooks
+						.left
+							p 0:00
+						.right
+							p 9:99
+						.progress
+							span.meter
 
-				.small-5.large-5.columns
-					table
-						tbody
-							tr(ng-repeat="song in playlist") 
-								td img
-								td #
-								td {{song.title}}
-								td {{song.author}}
-								td {{song.duration}}
-								
-
-
-//		
-		.sheet.cover
+					.small-12.large-5.columns
+						table
+							tbody
+								tr(ng-repeat="song in playlist") 
+									td: img(src='images/img-empty-avatar-58x58.png')
+									td #
+									td {{song.title}}
+									td {{song.author}}
+									td {{song.duration}}
 			

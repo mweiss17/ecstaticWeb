@@ -30,3 +30,10 @@ var app = angular.module('ecstatic',
             };
         }]
     );
+
+function display_countdown(start_time){
+	countdown(start_time, function(ts){
+		document.getElementById('counter').innerHTML = ts.toHTML();
+
+	}, countdown.HOURS | countdown.MINUTES | countdown.SECONDS, 3);
+}
