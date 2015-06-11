@@ -51,50 +51,38 @@ html(ng-app='ecstatic')
 						.small-4.columns
 							p 
 
-			#player.section
+			#player.section(plangular='https://soundcloud.com/virginie-montr-al/sets/automne-2013')
 				.row.fullWidth
 					#playing.small-12.large-7.columns
 						img(src='assets/images/img-cover-holder-417-280.png',class='cover-art')
-						h3 Deepcast vol 34
-						h5 by Mark Macleod from 
+						img(src='{{track.artwork_url}}')
+						h3 {{track.title}}
 
-						div(plangular='http://soundcloud.com/jxnblk/plangular')
-							
-							//track name and title
-							h3 {{track.user.username}} - {{track.title}} 
-
-							//link to that soundcloud track
-							a(ng-href='{{track.permalink_url}}') View on SoundCloud
-							
+						div
 							//play button
+							button(ng-click='previous()') Previous
 							button(ng-click='playPause()') Play
-
-							//duration and current time counter
-							small {{ currentTime | hhmmss }} | {{ duration | hhmmss }}
-
-							//progress bar
-							progress(ng-click="seek($event)", ng-value="currentTime / duration") {{ currentTime / duration }}
-							
-							//broken image (???)
-							img(ng-src= '{{track.artwork_url}}')
-
+							button(ng-click='next()') Next
 
 						.left
-							p 0:00
+							p {{ currentTime | hhmmss }}
 						.right
-							p 9:99
+							p {{ duration | hhmmss }}
 						.progress
-							span.meter
+							progress.meter(ng-click="seek($event)", ng-value="currentTime / duration") {{ currentTime / duration }}
+
+						//link to that soundcloud track
+						a(ng-href='{{track.permalink_url}}') View on SoundCloud
 
 					#playlist.large-5.columns
 						table
 							tbody
-								tr(ng-repeat="song in playlist") 
+								tr(ng-repeat="track in tracks") 
 									td: img(src='assets/images/img-empty-avatar-58x58.png')
 									td #
 									td: ul
-											li {{song.title}}
-											li {{song.author}}
-									td {{song.duration}} 
+											li {{track.title}}
+											li {{track.user.username}} 
+									td {{track.duration | hhmmss}} 
 
 			
