@@ -1,8 +1,8 @@
 var app = angular.module('ecstatic', 
 	[        
-	    //"ngSanitize",
-		//"com.2fdevs.videogular",
-        //"com.2fdevs.videogular.plugins.controls",
+		"ngSanitize",
+		"com.2fdevs.videogular",
+		"com.2fdevs.videogular.plugins.controls",
 	]
 )
 .controller('mainController',['$scope', '$http', function($scope, $http) {
@@ -17,12 +17,12 @@ var app = angular.module('ecstatic',
             console.log('Error: ' + data);
         });
 }])
-.controller('HomeCtrl',
-        ["$scope", function($scope) {
+.controller('videoController',
+        ["$scope", "$sce", function($scope, $sce) {
             this.config = {
                 sources: [
-              {src: $scope.trustAsResourceUrl("http://static.videogular.com/assets/audios/videogular.mp3"), type: "audio/mpeg"},
-              {src: $scope.trustAsResourceUrl("http://static.videogular.com/assets/audios/videogular.ogg"), type: "audio/ogg"}
+              {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/audios/videogular.mp3"), type: "audio/mpeg"},
+              {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/audios/videogular.ogg"), type: "audio/ogg"}
           ],
                 theme: {
           url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"

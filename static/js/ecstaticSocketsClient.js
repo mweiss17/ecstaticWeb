@@ -1,4 +1,4 @@
-
+/*
 var rooms;
 var socket = io('http://ecstatic.fm:8080/');
 console.log({ username: 'anonymous squid' });
@@ -17,7 +17,7 @@ socket.on('return_get_rooms_around_me', function (data) {
 		}
 	}
 });
-
+*/
 
 /*
 
