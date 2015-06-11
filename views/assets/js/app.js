@@ -21,8 +21,8 @@ var app = angular.module('ecstatic',
         ["$scope", "$sce", function($scope, $sce) {
             this.config = {
                 sources: [
-              {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/audios/videogular.mp3"), type: "audio/mpeg"},
-              {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/audios/videogular.ogg"), type: "audio/ogg"}
+              {src: $sce.trustAsResourceUrl("https://s3.amazonaws.com/silentdiscosquad/mix/Arctic+Jamboree+Final.mp3"), type: "audio/mp3"},
+              {src: $sce.trustAsResourceUrl("https://s3.amazonaws.com/silentdiscosquad/uploadedSongs/2015/06/05/100in1Day2015Mix.mp3"), type: "audio/mp3"}
           ],
                 theme: {
           url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
