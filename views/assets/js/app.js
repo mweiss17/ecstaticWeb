@@ -21,19 +21,6 @@ var app = angular.module('ecstatic',
             console.log('Error: ' + data);
         });
 }])
-.controller('videoController',
-        ["$scope", "$sce", function($scope, $sce) {
-            this.config = {
-                sources: [
-              {src: $sce.trustAsResourceUrl("https://s3.amazonaws.com/silentdiscosquad/mix/Arctic+Jamboree+Final.mp3"), type: "audio/mp3"},
-              {src: $sce.trustAsResourceUrl("https://s3.amazonaws.com/silentdiscosquad/uploadedSongs/2015/06/05/100in1Day2015Mix.mp3"), type: "audio/mp3"}
-          ],
-                theme: {
-          url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
-                }
-            };
-        }]
-    );
 
 function display_countdown(start_time){
 	countdown(start_time, function(ts){
