@@ -16,7 +16,7 @@ ecstaticSockets.setupEcstaticSockets(app);
 app.set('views', __dirname + '/views');
 app.set('view engine', "jade"); 
 app.set('port', process.env.PORT || 80); 
-app.use(express.static('static'));
+app.use(express.static('assets'));
 
 //SERVER STARTUP SHIT
 //initialize event variable on server startup

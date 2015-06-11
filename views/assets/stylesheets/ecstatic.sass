@@ -1,0 +1,138 @@
+// Toolbox
+
+.hidden
+	display: none
+
+.test
+	background-color: blue
+	border: 1px red solid
+
+.reg-raleway
+	color: white
+	font-family: 'Raleway', sans-serif
+	font-weight: 200
+
+.thin-lato
+	font-family: 'Lato', sans-serif
+	text-transform: uppercase
+	font-weight: 100
+
+.gradient
+	background: #c14e9e /* Old browsers */
+	background: -moz-radial-gradient(bottom left, ellipse cover,  #c14e9e 0%, #f19438 100%) /* FF3.6+ */
+	background: -webkit-gradient(radial, bottom left, 0px, top right, 100%, color-stop(0%,#c14e9e), color-stop(100%,#f19438)) /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(bottom left, ellipse cover,  #c14e9e 0%,#f19438 100%) /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(bottom left, ellipse cover,  #c14e9e 0%,#f19438 100%) /* Opera 12+ */
+	background: -ms-radial-gradient(bottom left, ellipse cover,  #c14e9e 0%,#f19438 100%) /* IE10+ */
+	background: radial-gradient(ellipse at bottom left,  #c14e9e 0%,#f19438 100%) /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c14e9e', endColorstr='#f19438',GradientType=1 ) /* IE6-9 fallback on horizontal gradient */
+
+.gradient-black
+	background: black
+	background: -moz-radial-gradient(bottom left, ellipse cover,  rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 100%) /* FF3.6+ */
+	background: -webkit-gradient(radial, bottom left, 0px, top right, 100%, color-stop(0%,rgba(0,0,0,1)), color-stop(100%,rgba(0,0,0,0.5))) /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(bottom left, ellipse cover,  rgba(0,0,0,1) 0%,rgba(0,0,0,0.5) 100%) /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(bottom left, ellipse cover,  rgba(0,0,0,1) 0%,rgba(0,0,0,0.5) 100%) /* Opera 12+ */
+	background: -ms-radial-gradient(bottom left, ellipse cover,  rgba(0,0,0,1) 0%,rgba(0,0,0,0.5) 100%) /* IE10+ */
+	background: radial-gradient(ellipse at bottom left,  rgba(0,0,0,1) 0%,rgba(0,0,0,0.5) 100%) /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#80000000',GradientType=1 ) /* IE6-9 fallback on horizontal gradient */
+
+
+// Setup
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+ul
+	@extend .reg-raleway
+	list-style: none
+	overflow-y: hidden
+
+
+// The App
+
+#container
+	text-align: center
+
+.section
+	@extend .gradient
+	height: 100vh
+
+.row
+	margin: auto
+	padding: 0
+
+.fullWidth
+	width: 100%
+	margin-left: auto
+	margin-right: auto
+	max-width: initial
+
+#cover 
+	text-align: center
+	white-space: nowrap
+	background-color: #eee
+	padding-top: 2em
+
+	h4
+		@extend .thin-lato
+
+.cover-art
+	padding: 4em 0 0
+
+#player
+	text-align: center
+
+#playing
+	padding: 0 4em 0 2em
+	h3, h5
+		padding: 0.2em 0 0
+
+
+#playlist
+	@extend .gradient-black
+	padding: 0.5em
+	margin: 0
+	height: 100vh
+	overflow-y: scroll
+
+	table
+		background: none
+		border: none
+		img
+			width: 32px
+
+		td
+			@extend .reg-raleway
+		tr
+			background: none
+
+
+.logo
+	padding: 3em
+
+ul.countdown
+
+	li
+		@extend .thin-lato
+		text-align: center
+
+li.n
+	font-size: 3em
+li.w
+	font-size: 1em
+
+.progress
+	margin: 0 4em 0 4em
+	height: 1em
+	border: none
+	background-color: white
+	padding: 0
+	.meter
+		width: 67%
+		background-color: #8A446F
