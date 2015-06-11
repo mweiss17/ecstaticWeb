@@ -6,6 +6,9 @@ var app = angular.module('ecstatic',
         "plangular"
 	]
 )
+.config(function(plangularConfigProvider){
+    plangularConfigProvider.clientId = '96c11abd04d7d34dc518d9f3ec10a2bc';
+})
 .controller('mainController',['$scope', '$http', function($scope, $http) {
     $http.get('/api/upcomingEvents')
         .success(function(data) {
