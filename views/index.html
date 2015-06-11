@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:400,100" type="text/css">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Raleway:600,300,200" type="text/css">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:400,100" type="text/css">
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/animation.gsap.js"></script>
+    <script src="http://d2v52k3cl9vedd.cloudfront.net/plangular/3.0.1/plangular.min.js"></script>
     <!-- internal imports-->
     <link rel="stylesheet" href="assets/stylesheets/app.css">
     <link rel="stylesheet" href="assets/stylesheets/player.css">
@@ -71,22 +72,9 @@
       <div class="row fullWidth">
         <div id="playing" class="small-12 large-7 columns"><img src="assets/images/img-cover-holder-417-280.png" class="cover-art">
           <h3>Deepcast vol 34</h3>
-          <h5>by Mark Macleod from Freshbooks</h5>
-          <div ng-controller="videoController as audio" class="videogular-container">
-            <videogular vg-theme="audio.config.theme.url" class="videogular-container audio">
-              <vg-media vg-src="audio.config.sources" vg-type="audio"></vg-media>
-              <vg-controls>
-                <vg-play-pause-button></vg-play-pause-button>
-                <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
-                <vg-scrub-bar>
-                  <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-                </vg-scrub-bar>
-                <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
-                <vg-volume>
-                  <vg-mute-button></vg-mute-button>
-                </vg-volume>
-              </vg-controls>
-            </videogular>
+          <h5>by Mark Macleod from </h5>
+          <div plangularApp="http://soundcloud.com/jxnblk/plangular">
+            <button ng-click="playPause()">Play</button>
           </div>
           <div class="left">
             <p>0:00</p>
