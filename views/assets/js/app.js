@@ -1,8 +1,6 @@
 var app = angular.module('ecstatic', 
 	[        
 		"ngSanitize",
-		"com.2fdevs.videogular",
-		"com.2fdevs.videogular.plugins.controls",
         "plangular"
 	]
 )

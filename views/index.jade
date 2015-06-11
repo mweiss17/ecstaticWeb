@@ -59,8 +59,25 @@ html(ng-app='ecstatic')
 						h5 by Mark Macleod from 
 
 						div(plangular='http://soundcloud.com/jxnblk/plangular')
+							
+							//track name and title
+							h3 {{track.user.username}} - {{track.title}} 
 
+							//link to that soundcloud track
+							a(ng-href='{{track.permalink_url}}') View on SoundCloud
+							
+							//play button
 							button(ng-click='playPause()') Play
+
+							//duration and current time counter
+							small {{ currentTime | hhmmss }} | {{ duration | hhmmss }}
+
+							//progress bar
+							progress(ng-click="seek($event)", ng-value="currentTime / duration") {{ currentTime / duration }}
+							
+							//broken image (???)
+							img(ng-src= '{{track.artwork_url}}')
+
 
 						.left
 							p 0:00
