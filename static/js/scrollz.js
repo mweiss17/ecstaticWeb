@@ -1,7 +1,7 @@
 $(function() {
   var controller = new ScrollMagic.Controller();
 
-  var blockTween = new TweenMax.to('#cover', 1.0, {
+  var blockTween = new TweenMax.to('#container', 1.0, {
     backgroundColor: 'red'
   });
 

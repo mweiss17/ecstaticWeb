@@ -2,49 +2,40 @@ doctype html
 html(ng-app='ecstatic')
 	head
 		title= Ecstatic
-		link(rel='stylesheet', href='stylesheets/app.css')
-		link(rel='stylesheet', href='stylesheets/player.css')
-		link(rel='stylesheet', href='stylesheets/ecstatic.css')
+		// external imports
 		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Raleway:600,300,200', type='text/css')
 		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato:400,100', type='text/css')
-		script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js')
-		script(src='js/socket.io-client/socket.io.js')
-		script(src='js/ecstaticSocketsClient.js')
-		script(src='js/app.js')
-		script(src='js/countdown.js')
-		script(src='angular-sanitize/angular-sanitize.min.js')
-		script(src='videogular/videogular.js')
-		script(src='videogular-controls/vg-controls.js')
-		script(src='videogular-overlay-play/vg-overlay-play.js')
-		script(src='videogular-poster/vg-poster.js')
-		script(src='videogular-angulartics/vg-analytics.js')
-		script(src='videogular-buffering/vg-buffering.js')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Raleway:600,300,200', type='text/css')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato:400,100', type='text/css')
+		script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js')
 		script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
 		script(src='http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js')
 		script(src='http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js')
 		script(src='http://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min.js')
 		script(src='https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/animation.gsap.js')
+
+		// internal imports
+		link(rel='stylesheet', href='stylesheets/app.css')
+		link(rel='stylesheet', href='stylesheets/player.css')
+		link(rel='stylesheet', href='stylesheets/ecstatic.css')
+		script(src='js/socket.io-client/socket.io.js')
+		script(src='js/ecstaticSocketsClient.js')
 		script(src='js/app.js')
+		script(src='js/countdown.js')
 		script(src='js/scrollz.js')
+		script(src='bower_components/angular-sanitize/angular-sanitize.min.js')
+		script(src='bower_components/videogular/videogular.js')
+		script(src='bower_components/videogular-controls/vg-controls.js')
+		script(src='bower_components/videogular-overlay-play/vg-overlay-play.js')
+		script(src='bower_components/videogular-poster/vg-poster.js')
+		script(src='bower_components/videogular-angulartics/vg-analytics.js')
+		script(src='bower_components/videogular-buffering/vg-buffering.js')
 
 	body
-		div(ng-controller="videoController as audio").videogular-container
-			videogular(vg-theme="audio.config.theme.url").videogular-container.audio
-				vg-media(vg-src="audio.config.sources", vg-type="audio")
-				vg-controls
-					vg-play-pause-button
-					vg-time-display {{ currentTime | date:'mm:ss' }}
-					vg-scrub-bar
-						vg-scrub-bar-current-time
-					vg-time-display {{ timeLeft | date:'mm:ss' }}
-					vg-volume
-						vg-mute-button
-
-
 		ng-controller="mainController as main"
 			#container
-				#cover.section
-					img.logo(src='images/lgo-255x255.png')
+				#cover.section.hidden
+					img.logo(src='lgo-255x255.png')
 					h4 Next up
 					h1(ng-bind="upcomingEvents.title") {{main.upcomingEvents.title}} 
 					span: img('icn-clock.png')
@@ -64,28 +55,41 @@ html(ng-app='ecstatic')
 										li.w seconds
 						.small-4.columns
 							p
-					
 
-				#player.section
-					.row
-						.small-12.large-7.columns
-							img(src='images/img-cover-holder-417-280.png')
-							h3 Deepcast vol 34
-							h5 by Mark Macleod from Freshbooks
-							.left
-								p 0:00
-							.right
-								p 9:99
-							.progress
-								span.meter
+			#player.section
+				.row.fullWidth
+					#playing.small-12.large-7.columns
+						img(src='images/img-cover-holder-417-280.png',class='cover-art')
+						h3 Deepcast vol 34
+						h5 by Mark Macleod from Freshbooks
+						div(ng-controller="videoController as audio").videogular-container
+							videogular(vg-theme="audio.config.theme.url").videogular-container.audio
+								vg-media(vg-src="audio.config.sources", vg-type="audio")
+								vg-controls
+									vg-play-pause-button
+									vg-time-display {{ currentTime | date:'mm:ss' }}
+									vg-scrub-bar
+										vg-scrub-bar-current-time
+									vg-time-display {{ timeLeft | date:'mm:ss' }}
+									vg-volume
+										vg-mute-button
 
-						.small-12.large-5.columns
-							table
-								tbody
-									tr(ng-repeat="song in playlist") 
-										td: img(src='images/img-empty-avatar-58x58.png')
-										td #
-										td {{song.title}}
-										td {{song.author}}
-										td {{song.duration}}
-	
+						.left
+							p 0:00
+						.right
+							p 9:99
+						.progress
+							span.meter
+
+					#playlist.large-5.columns
+						table
+							tbody
+								tr(ng-repeat="song in playlist") 
+									td: img(src='images/img-empty-avatar-58x58.png')
+									td #
+									td: ul
+											li {{song.title}}
+											li {{song.author}}
+									td {{song.duration}} 
+
+			
