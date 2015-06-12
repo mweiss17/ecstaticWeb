@@ -59,10 +59,10 @@ html(ng-app='ecstatic')
 						h3 {{track.title}}
 
 						div
-							//play button
 							button(ng-click='previous()') Previous
 							button(ng-click='playPause()') Play
-							button(ng-click='next()') Next
+							button(ng-click='next();') Next
+							button(ng-click='syncClick();') syncClick
 
 						.left
 							p {{ currentTime | hhmmss }}

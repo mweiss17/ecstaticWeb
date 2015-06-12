@@ -1,10 +1,14 @@
-/*
-var rooms;
+
+//var rooms;
 var socket = io('http://ecstatic.fm:8080/');
 console.log({ username: 'anonymous squid' });
-socket.emit('post_location', JSON.stringify({latitude:1.0, longitude:1.0, username: 'anonymous squid'}))
+//socket.emit('post_location', JSON.stringify({latitude:1.0, longitude:1.0, username: 'anonymous squid'}))
+socket.emit('get_server_time');
+socket.on('returned_get_server_time', function (data){
+    console.log("server time="+data);
+});
 
-socket.on('return_post_location', function (data) {
+/*socket.on('return_post_location', function (data) {
 	console.log("location returned");
 	socket.emit('get_rooms_around_me', JSON.stringify({ username: 'anonymous squid' }));    
 });
