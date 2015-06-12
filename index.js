@@ -2,13 +2,25 @@
 'use strict';
 
 // Declare variables used
-var ecstaticSockets, app, express, path, http, request, events;
+var ecstaticSockets, app, express, path, http, request, events, sc;
+sc = require("soundclouder");
 express = require('express');
 path = require('path');
 app = express();
 http = require('http');
 request = require('request');
 
+//set up soundcloud
+var sc_client_id="4cd54fa30dd13312d10dd24cc2bdcae4"
+var sc_client_secret="2f845ee306729bf01254031ea1eb9803"
+var sc_redirect_uri="http://ecstatic.fm/scRedirect";
+
+//SHIT THAT SHOULD BE IN A DATABASE
+var my_sc_api_url = "https://api.soundcloud.com/playlists/50801632.json?client_id=4cd54fa30dd13312d10dd24cc2bdcae4"
+//this is a fake now for testing
+var now = 1434123111000;
+
+//set up sockets
 ecstaticSockets = require("./ecstaticSockets.js");
 ecstaticSockets.setupEcstaticSockets(app);
 
@@ -29,23 +41,76 @@ request('http://54.173.157.204/appindex/', function (error, response, body) {
   }
 });
 
+
+//calculates the elapsed time since event start
+function calculateElapsedTime(eventStartTime){
+	var now = new Date().getTime();
+	console.log("  " + now + "  (now)");
+	console.log("- " + eventStartTime + "  (eventStartTime)");
+	var elapsed = now - eventStartTime;
+	console.log("_______________");
+	console.log("  "+elapsed + "       (elapsed)");
+	return elapsed;
+}
+
+//returns json {"index" : int, "elapsedTime" : (milli) int}
+function setupSyncJson(elapsed, json){
+	var needToSync = false;
+	var index = 0;
+	for(var i=0; i < json.tracks.length; i++) {
+		if(json.tracks[i].duration > elapsed){
+			needToSync = true;
+			index++;
+			break;
+		}
+		elapsed -= json.tracks[i].duration;
+	}
+
+	//Playlist is over
+	if(!needToSync){
+		return -1;
+	}
+	//Or elapsed will sync the client in the song
+	else{
+		return {"index" : index, "elapsedTime" : elapsed};
+	}
+}
+
+//returns json {"index" : int, "elapsedTime" : (milli) int}
+function calculatePlaylistSync(my_sc_api_url, now){
+	request(my_sc_api_url, function (error, response, body) {
+		//need to determine which song we're 
+		var elapsed = calculateElapsedTime(now);
+		var json = JSON.parse(body);
+
+		var toReturn = setupSyncJson(elapsed, json);
+		if(toReturn == -1){
+			console.log("should not sync yet");
+		}
+		else{
+			return toReturn;
+		}
+	});
+}
+
+//ROUTES
 app.get('/', function (req, res) {
   	res.render('index');
 });
-
 app.get('/api/upcomingEvents', function(req, res) {
-    res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: 1434123111000, playlist: [{title:"Deepcast vol 34", author:"Mark Macleod from Freshbooks", link:"https://soundcloud.com/djmarkmacleod/deepcast-vol-34-dj-mark", duration:3090}, {title:"the Magician", author:"Max Liese", link:"https://soundcloud.com/maxliesemusic/the-magician-sunlight-feat-years-years-max-liese-cover", duration:300}], userlist: ["anonymous squid", "anonymous monkey"]}); 
+	//actual event start time = 1434448800000
+    res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: 1434147196000, playlist:"https://soundcloud.com/silentdiscosquad/sets/silent-disco-squads-tamtams-mixes-2014"}); 
 });
 
-app.get('/something', function(req, res) {
-  res.send('Hei, this is something!!!');
+app.get('/api/sync', function(req, res) {
+	console.log(my_sc_api_url);
+	var returnedjson = calculatePlaylistSync(my_sc_api_url, now);
+    res.json(returnedjson); 
 });
+
 
 app.listen(app.get('port'), function(req, res) {
  console.log('Server listening at ' + app.get('port'));
 });
 
-
-
-// Serve static files
 
