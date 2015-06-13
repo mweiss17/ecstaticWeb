@@ -19,7 +19,7 @@ var socket = io.connect('http://localhost:8080', {
 }); 
 
 // Server tasks
-describe('server', function () {
+describe('SERVER', function () {
     // Test the index route
     describe('Test the index route', function () {
         it('should return a page with the title Ecstatic', function (done) {
@@ -33,7 +33,20 @@ describe('server', function () {
     });
 });
 
-describe('rooms api', function () {
+describe('SYNC TESTS', function () {
+    describe('calculateElapsedTime', function () {
+        //posts two locations
+        it("should calculate the elapsed", function (done) {
+            console.log("here");
+            request.get({ url: 'http://localhost:80/api/sync' }, function (error, response, body) {
+                console.log(body);
+                done();
+            });    
+        });
+    });
+});
+
+describe('ROOMS API', function () {
 
     describe('post_location', function () {
 

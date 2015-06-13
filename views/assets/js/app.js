@@ -21,7 +21,17 @@ var app = angular.module('ecstatic',
 
       $http.get('/api/sync')
       .success(function(data) {
-          console.log(data);
+          console.log("sync="+data);
+          var json = JSON.parse(data);
+          console.log(json.elapsedTime)
+          if(json.elapsedTime > 0){
+            console.log("need to sync");
+            $scope.elapsed = json.elapsedTime;
+            $scope.index = json.index;
+          }
+          else{
+            console.log("event hasn't started");
+          }
       })
       .error(function(data) {
           console.log('Error: ' + data);

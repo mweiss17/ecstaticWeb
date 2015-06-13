@@ -17,8 +17,6 @@ var sc_redirect_uri="http://ecstatic.fm/scRedirect";
 
 //SHIT THAT SHOULD BE IN A DATABASE
 var my_sc_api_url = "https://api.soundcloud.com/playlists/50801632.json?client_id=4cd54fa30dd13312d10dd24cc2bdcae4";
-//this is a fake now for testing
-var now = 1434151346000;
 
 //set up sockets
 ecstaticSockets = require("./views/assets/js/ecstaticSockets.js");
@@ -36,13 +34,14 @@ app.get('/', function (req, res) {
 });
 app.get('/api/upcomingEvents', function(req, res) {
 	//actual event start time = 1434448800000
-    res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: 1434147196000, playlist:"https://soundcloud.com/silentdiscosquad/sets/silent-disco-squads-tamtams-mixes-2014"}); 
+    res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: 1434448800000, playlist:"https://soundcloud.com/silentdiscosquad/sets/silent-disco-squads-tamtams-mixes-2014"}); 
 });
 
 app.get('/api/sync', function(req, res) {
 	console.log(my_sc_api_url);
-	var returnedjson = calculatePlaylistSync(my_sc_api_url, now);
-    res.json(returnedjson); 
+	var returnedjson = calculatePlaylistSync(my_sc_api_url, 1434448800000 /* Start time @ June 16th in milli*/, function (returnedjson){
+		res.json(JSON.stringify(returnedjson)); 
+	});
 });
 
 app.listen(app.get('port'), function(req, res) {
@@ -63,7 +62,11 @@ request('http://54.173.157.204/appindex/', function (error, response, body) {
 
 //calculates the elapsed time since event start
 function calculateElapsedTime(eventStartTime){
-	var now = new Date().getTime();
+	//calculates the actual elapsed time
+	//var now = new Date().getTime();
+
+	//used for testing
+	var now = 1434448810000;
 	console.log("  " + now + "  (now)");
 	console.log("- " + eventStartTime + "  (eventStartTime)");
 	var elapsed = now - eventStartTime;
@@ -81,7 +84,6 @@ function setupSyncJson(elapsed, json){
 		console.log("json.tracks[i].duration="+json.tracks[i].duration);
 		if(json.tracks[i].duration > elapsed/* || json.tracks[i].duration > elapsed + 43200000 12 hours in milli*/){
 			needToSync = true;
-			elapsed -= json.tracks[i].duration;
 			break;
 		}
 		index++;
@@ -94,23 +96,26 @@ function setupSyncJson(elapsed, json){
 	}
 	//Or elapsed will sync the client in the song
 	else{
-		return {"index" : index, "elapsedTime" : elapsed};
+		var json = {"index" : index, "elapsedTime" : elapsed}
+		console.log(json);
+		return json;
 	}
 }
 
 //returns json {"index" : int, "elapsedTime" : (milli) int}
-function calculatePlaylistSync(my_sc_api_url, now){
+function calculatePlaylistSync(my_sc_api_url, eventStartTime, callback){
 	request(my_sc_api_url, function (error, response, body) {
 		//need to determine which song we're 
-		var elapsed = calculateElapsedTime(now);
+		var elapsed = calculateElapsedTime(eventStartTime);
 		var json = JSON.parse(body);
-
-		var toReturn = setupSyncJson(elapsed, json);
-		if(toReturn == -1){
-			console.log("should not sync yet");
+		if(elapsed < 0){
+			console.log("event has not started");
+			callback(-1);
 		}
 		else{
-			return toReturn;
+			var returnedJson = setupSyncJson(elapsed, json);
+			console.log(returnedJson);
+			callback(returnedJson);
 		}
 	});
 }
