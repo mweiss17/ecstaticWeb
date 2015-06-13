@@ -28,7 +28,7 @@ html(ng-app='ecstatic')
 		script(src='assets/js/plangular/dist/plangular.js')
 
 	body(ng-controller='mainController as main')
-		div
+		div(plangular='https://soundcloud.com/silentdiscosquad/sets/silent-disco-squads-tamtams-mixes-2014')
 			#container
 				#cover.section
 					img.logo(src='lgo-255x255.png')
@@ -50,9 +50,10 @@ html(ng-app='ecstatic')
 										li.n 42
 										li.w seconds
 						.small-4.columns
-							p 
+							button(ng-click='seekSync(10000);') syncClick
 
-			#player.section(plangular='https://soundcloud.com/silentdiscosquad/sets/silent-disco-squads-tamtams-mixes-2014')
+
+			#player.section
 				.row.fullWidth
 					#playing.small-12.large-7.columns
 						img(src='assets/images/img-cover-holder-417-280.png',class='cover-art')
@@ -63,7 +64,6 @@ html(ng-app='ecstatic')
 							button(ng-click='previous()') Previous
 							button(ng-click='playPause()') Play
 							button(ng-click='next()') Next
-							button(ng-click='seekSync(10000)') syncClick
 
 						.left
 							p {{ currentTime | hhmmss }}
