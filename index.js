@@ -11,17 +11,17 @@ http = require('http');
 request = require('request');
 
 //set up soundcloud
-var sc_client_id="4cd54fa30dd13312d10dd24cc2bdcae4"
-var sc_client_secret="2f845ee306729bf01254031ea1eb9803"
+var sc_client_id="4cd54fa30dd13312d10dd24cc2bdcae4";
+var sc_client_secret="2f845ee306729bf01254031ea1eb9803";
 var sc_redirect_uri="http://ecstatic.fm/scRedirect";
 
 //SHIT THAT SHOULD BE IN A DATABASE
-var my_sc_api_url = "https://api.soundcloud.com/playlists/50801632.json?client_id=4cd54fa30dd13312d10dd24cc2bdcae4"
+var my_sc_api_url = "https://api.soundcloud.com/playlists/50801632.json?client_id=4cd54fa30dd13312d10dd24cc2bdcae4";
 //this is a fake now for testing
-var now = 1434123111000;
+var now = 1434151346000;
 
 //set up sockets
-ecstaticSockets = require("./ecstaticSockets.js");
+ecstaticSockets = require("./views/assets/js/ecstaticSockets.js");
 ecstaticSockets.setupEcstaticSockets(app);
 
 // Set up templating
@@ -29,6 +29,25 @@ app.set('views', __dirname + '/views');
 app.set('view engine', "jade"); 
 app.set('port', process.env.PORT || 80); 
 app.use(express.static('views'));
+
+//ROUTES
+app.get('/', function (req, res) {
+  	res.render('index');
+});
+app.get('/api/upcomingEvents', function(req, res) {
+	//actual event start time = 1434448800000
+    res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: 1434147196000, playlist:"https://soundcloud.com/silentdiscosquad/sets/silent-disco-squads-tamtams-mixes-2014"}); 
+});
+
+app.get('/api/sync', function(req, res) {
+	console.log(my_sc_api_url);
+	var returnedjson = calculatePlaylistSync(my_sc_api_url, now);
+    res.json(returnedjson); 
+});
+
+app.listen(app.get('port'), function(req, res) {
+ console.log('Server listening at ' + app.get('port'));
+});
 
 //SERVER STARTUP SHIT
 //initialize event variable on server startup
@@ -58,11 +77,14 @@ function setupSyncJson(elapsed, json){
 	var needToSync = false;
 	var index = 0;
 	for(var i=0; i < json.tracks.length; i++) {
-		if(json.tracks[i].duration > elapsed){
+		console.log("elapsed="+elapsed);
+		console.log("json.tracks[i].duration="+json.tracks[i].duration);
+		if(json.tracks[i].duration > elapsed/* || json.tracks[i].duration > elapsed + 43200000 12 hours in milli*/){
 			needToSync = true;
-			index++;
+			elapsed -= json.tracks[i].duration;
 			break;
 		}
+		index++;
 		elapsed -= json.tracks[i].duration;
 	}
 
@@ -93,24 +115,5 @@ function calculatePlaylistSync(my_sc_api_url, now){
 	});
 }
 
-//ROUTES
-app.get('/', function (req, res) {
-  	res.render('index');
-});
-app.get('/api/upcomingEvents', function(req, res) {
-	//actual event start time = 1434448800000
-    res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: 1434147196000, playlist:"https://soundcloud.com/silentdiscosquad/sets/silent-disco-squads-tamtams-mixes-2014"}); 
-});
-
-app.get('/api/sync', function(req, res) {
-	console.log(my_sc_api_url);
-	var returnedjson = calculatePlaylistSync(my_sc_api_url, now);
-    res.json(returnedjson); 
-});
-
-
-app.listen(app.get('port'), function(req, res) {
- console.log('Server listening at ' + app.get('port'));
-});
 
 
