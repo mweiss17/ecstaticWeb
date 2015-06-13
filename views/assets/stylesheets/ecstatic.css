@@ -112,9 +112,11 @@ ul {
 .logo {
   padding: 3em; }
 
-ul.countdown li {
-  text-align: center;
-  overflow: hidden; }
+ul.countdown {
+  text-align: center; }
+  ul.countdown li {
+    text-align: center;
+    overflow: hidden; }
 
 li.n {
   font-size: 3em; }
