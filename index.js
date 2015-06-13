@@ -30,18 +30,15 @@ app.use(express.static('views'));
 
 //ROUTES
 app.get('/', function (req, res) {
-  	res.render('index');
+	console.log(my_sc_api_url);
+	var returnedjson = calculatePlaylistSync(my_sc_api_url, 1434448800000 /* Start time @ June 16th in milli*/, function (returnedjson){
+		res.render('index', JSON.stringify(returnedjson));
+	});
+
 });
 app.get('/api/upcomingEvents', function(req, res) {
 	//actual event start time = 1434448800000
     res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: 1434448800000, playlist:"https://soundcloud.com/silentdiscosquad/sets/silent-disco-squads-tamtams-mixes-2014"}); 
-});
-
-app.get('/api/sync', function(req, res) {
-	console.log(my_sc_api_url);
-	var returnedjson = calculatePlaylistSync(my_sc_api_url, 1434448800000 /* Start time @ June 16th in milli*/, function (returnedjson){
-		res.json(JSON.stringify(returnedjson)); 
-	});
 });
 
 app.listen(app.get('port'), function(req, res) {

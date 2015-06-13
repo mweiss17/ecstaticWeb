@@ -50,6 +50,10 @@ html(ng-app='ecstatic')
 										li.n 42
 										li.w seconds
 						.small-4.columns
+							ng-if='elapsedTime > 0' 
+								{{ elapsedTime }}
+							ng-if='elapsedTime < 0'
+								{{ elapsedTime }}
 							button(ng-click='seekSync(10000);') syncClick
 
 
