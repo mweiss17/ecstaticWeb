@@ -29,7 +29,7 @@ html(ng-app='ecstatic')
 	body
 		div(ng-controller='mainController as main')
 			#container
-				#cover.section.hidden
+				#cover.section
 					img.logo(src='lgo-255x255.png')
 					h4 Next up
 					h1(ng-bind="upcomingEvents.title") {{main.upcomingEvents.title}} 
