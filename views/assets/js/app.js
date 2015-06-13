@@ -1,7 +1,8 @@
 var app = angular.module('ecstatic', 
 	[        
 		"ngSanitize",
-    "plangular"
+    "plangular",
+    "ngAnimate"
 	]
 )
 .config(function(plangularConfigProvider){
@@ -37,7 +38,6 @@ var app = angular.module('ecstatic',
       .error(function(data) {
           console.log('Error: ' + data);
       });
-
 
     $scope.syncClick = function(){
         console.log("hey");

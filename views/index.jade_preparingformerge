@@ -13,6 +13,7 @@ html(ng-app='ecstatic')
 		script(src='http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js')
 		script(src='http://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min.js')
 		script(src='https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/animation.gsap.js')
+		script(src='http://d2v52k3cl9vedd.cloudfront.net/plangular/3.0.1/plangular.min.js')
 
 		// internal imports
 		link(rel='stylesheet', href='assets/stylesheets/app.css')
@@ -24,36 +25,33 @@ html(ng-app='ecstatic')
 		script(src='assets/js/countdown.js')
 		script(src='assets/js/scrollz.js')
 		script(src='assets/bower_components/angular-sanitize/angular-sanitize.min.js')
-		script(src='assets/bower_components/angular-animate/angular-animate.js')
-		script(src='assets/js/plangular_ecstatic/dist/plangular.js')
 
-	body(ng-controller='mainController as main', ng-init='bool=true')
-		div(plangular='https://soundcloud.com/silentdiscosquad/sets/silent-disco-squads-tamtams-mixes-2014')
+	body
+		div(ng-controller='mainController as main')
 			#container
-				#cover.section(ng-if='bool', class='fade')
-					img.logo(src='assets/images/lgo-255x255.png')
+				#cover.section
+					img.logo(src='lgo-255x255.png')
 					h4 Next up
 					h1(ng-bind="upcomingEvents.title") {{main.upcomingEvents.title}} 
 					span: img('icn-clock.png')
 					.row
 						.small-4.columns
-							p#counter
+							p#counter 
 						.small-4.columns
 							ul.small-block-grid-3
 								li: ul.countdown
 										li.n 421
 										li.w hours
 								li: ul.countdown
-										li.n 21
+										li.n 12
 										li.w minutes
 								li: ul.countdown
 										li.n 42
 										li.w seconds
 						.small-4.columns
+							p 
 
-			button.testbutton(class="{{showButton}}", ng-click='seekSync(elapsedTimeJson);bool=false') Beam me up, Scotty!
-
-			#player.section
+			#player.section(plangular='https://soundcloud.com/virginie-montr-al/sets/automne-2013')
 				.row.fullWidth
 					#playing.small-12.large-7.columns
 						img(src='assets/images/img-cover-holder-417-280.png',class='cover-art')
@@ -61,6 +59,7 @@ html(ng-app='ecstatic')
 						h3 {{track.title}}
 
 						div
+							//play button
 							button(ng-click='previous()') Previous
 							button(ng-click='playPause()') Play
 							button(ng-click='next()') Next

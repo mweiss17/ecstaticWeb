@@ -75,13 +75,21 @@ ul {
   text-align: center;
   white-space: nowrap;
   background-color: #eee;
-  padding-top: 2em; }
+  padding-top: 2em;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 10; }
 
 .cover-art {
   padding: 4em 0 0; }
 
 #player {
-  text-align: center; }
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  z-index: 1; }
 
 #playing {
   padding: 0 4em 0 2em; }
@@ -104,8 +112,11 @@ ul {
 .logo {
   padding: 3em; }
 
-ul.countdown li {
+ul.countdown {
   text-align: center; }
+  ul.countdown li {
+    text-align: center;
+    overflow: hidden; }
 
 li.n {
   font-size: 3em; }
@@ -122,5 +133,24 @@ li.w {
   .progress .meter {
     width: 67%;
     background-color: #8A446F; }
+
+.fade.ng-enter {
+  background-color: orange; }
+
+.fade.ng-enter.ng-enter-active {
+  background-color: red; }
+
+.fade.ng-leave {
+  background-color: purple;
+  transition: 1s linear all; }
+
+.fade.ng-leave.ng-leave-active {
+  background-color: blue;
+  transform: translateY(-100vh); }
+
+.testbutton {
+  position: absolute;
+  bottom: 50px;
+  z-index: 100; }
 
 /*# sourceMappingURL=ecstatic.css.map */
