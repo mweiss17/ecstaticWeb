@@ -21,15 +21,16 @@ var app = angular.module('ecstatic',
 
       $http.get('/api/sync')
       .success(function(data) {
-          console.log("sync="+data);
+          var timeOfReturn = new Date().getTime();
           var json = JSON.parse(data);
-          console.log(json.elapsedTime)
           if(json.elapsedTime > 0){
             console.log("need to sync");
-            $scope.elapsed = json.elapsedTime;
-            $scope.index = json.index;
+            $scope.elapsedTimeJson = JSON.stringify({timeOfReturn : timeOfReturn, elapsedTime: json.elapsedTime});
+            $scope.syncObj = json;
+            //$scope.index = json.index;
           }
           else{
+            $scope.showButton = "hidden";
             console.log("event hasn't started");
           }
       })
@@ -42,7 +43,6 @@ var app = angular.module('ecstatic',
         console.log("hey");
     };
 }])
-
 
 function display_countdown(start_time){
     console.log("display counter start_time="+start_time);

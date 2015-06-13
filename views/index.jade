@@ -24,7 +24,6 @@ html(ng-app='ecstatic')
 		script(src='assets/js/countdown.js')
 		script(src='assets/js/scrollz.js')
 		script(src='assets/bower_components/angular-sanitize/angular-sanitize.min.js')
-		//script(src='assets/js/plangular_ecstatic/src/plangular.js')
 		script(src='assets/js/plangular_ecstatic/dist/plangular.js')
 
 	body(ng-controller='mainController as main')
@@ -50,11 +49,7 @@ html(ng-app='ecstatic')
 										li.n 42
 										li.w seconds
 						.small-4.columns
-							ng-if='elapsedTime > 0' 
-								{{ elapsedTime }}
-							ng-if='elapsedTime < 0'
-								{{ elapsedTime }}
-							button(ng-click='seekSync(10000);') syncClick
+							button(class="{{showButton}}", ng-click='seekSync(elapsedTimeJson); ') syncClick
 
 
 			#player.section
