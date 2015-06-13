@@ -12,19 +12,19 @@ var expect = require('chai').expect,
     client;
 client = redis.createClient();
 
-var socket = io.connect('http://localhost:80', {
+var socket = io.connect('http://localhost:8080', {
     'reconnection delay' : 0,
     'reopen delay' : 0,
     'force new connection' : true
 }); 
 
 // Server tasks
-describe('server', function () {
+describe('SERVER', function () {
     // Test the index route
     describe('Test the index route', function () {
-        it('should return a page with the title Babblr', function (done) {
+        it('should return a page with the title Ecstatic', function (done) {
             request.get({ url: 'http://localhost:80/' }, function (error, response, body) {
-                expect(body).to.include('Babblr');
+                expect(body).to.include('ecstatic');
                 expect(response.statusCode).to.equal(200);
                 expect(response.headers['content-type']).to.equal('text/html; charset=utf-8');
                 done();
@@ -33,7 +33,20 @@ describe('server', function () {
     });
 });
 
-describe('rooms api', function () {
+describe('SYNC TESTS', function () {
+    describe('calculateElapsedTime', function () {
+        //posts two locations
+        it("should calculate the elapsed", function (done) {
+            console.log("here");
+            request.get({ url: 'http://localhost:80/api/sync' }, function (error, response, body) {
+                console.log(body);
+                done();
+            });    
+        });
+    });
+});
+
+describe('ROOMS API', function () {
 
     describe('post_location', function () {
 

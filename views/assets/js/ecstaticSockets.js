@@ -13,16 +13,16 @@ publisher = require('redis').createClient();
 proximity = require('geo-proximity').initialize(client);
 
 //MONGO STUFF
-mongoose = require('mongoose');
+/*mongoose = require('mongoose');
 mongoose.connect('mongodb://ecstatic:dancefloor04@ds045252.mongolab.com:45252/ecstatic');
 
 var Event = mongoose.model('Event', { host_username: String, title: String, start_time: Date, playlist: Array, userlist: Array });
-var startupFest = new Event({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: /*June 14th, 6 AM*/1434261600000, playlist: [{title:"test1", link:"http://soundcloud.com/asdf"}, {title:"test2", link:"http://soundcloud.com/fdas"}], userlist: ["anonymous squid", "anonymous monkey"]});
+var startupFest = new Event({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: 1434261600000, playlist: [{title:"test1", link:"http://soundcloud.com/asdf"}, {title:"test2", link:"http://soundcloud.com/fdas"}], userlist: ["anonymous squid", "anonymous monkey"]});
 
 startupFest.save(function (err) {
   if (err) // ...
   console.log('meow');
-});
+});*/
 
 
 exports.setupEcstaticSockets = function(app){
