@@ -1,7 +1,8 @@
 var app = angular.module('ecstatic', 
 	[        
 		"ngSanitize",
-    "plangular"
+    "plangular",
+    "ngAnimate"
 	]
 )
 .config(function(plangularConfigProvider){
@@ -37,12 +38,10 @@ var app = angular.module('ecstatic',
           console.log('Error: ' + data);
       });
 
-
     $scope.syncClick = function(){
         console.log("hey");
     };
 }])
-
 
 function display_countdown(start_time){
     console.log("display counter start_time="+start_time);

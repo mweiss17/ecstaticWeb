@@ -24,38 +24,37 @@ html(ng-app='ecstatic')
 		script(src='assets/js/countdown.js')
 		script(src='assets/js/scrollz.js')
 		script(src='assets/bower_components/angular-sanitize/angular-sanitize.min.js')
+		script(src='assets/bower_components/angular-animate/angular-animate.js')
 		//script(src='assets/js/plangular_ecstatic/src/plangular.js')
 		script(src='assets/js/plangular_ecstatic/dist/plangular.js')
 
-	body(ng-controller='mainController as main')
+	body(ng-controller='mainController as main', ng-init='bool=true')
 		div(plangular='https://soundcloud.com/silentdiscosquad/sets/silent-disco-squads-tamtams-mixes-2014')
+
+
 			#container
-				#cover.section
-					img.logo(src='lgo-255x255.png')
+				#cover.section(ng-if='bool', class='fade')
+					img.logo(src='assets/images/lgo-255x255.png')
 					h4 Next up
 					h1(ng-bind="upcomingEvents.title") {{main.upcomingEvents.title}} 
 					span: img('icn-clock.png')
 					.row
 						.small-4.columns
-							p#counter 
+							p#counter
 						.small-4.columns
 							ul.small-block-grid-3
 								li: ul.countdown
 										li.n 421
 										li.w hours
 								li: ul.countdown
-										li.n 12
+										li.n 21
 										li.w minutes
 								li: ul.countdown
 										li.n 42
 										li.w seconds
 						.small-4.columns
-							ng-if='elapsedTime > 0' 
-								{{ elapsedTime }}
-							ng-if='elapsedTime < 0'
-								{{ elapsedTime }}
-							button(ng-click='seekSync(10000);') syncClick
 
+			button.testbutton(ng-click='bool=false') Beam me, Scotty!
 
 			#player.section
 				.row.fullWidth
