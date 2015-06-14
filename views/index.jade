@@ -27,7 +27,7 @@ html(ng-app='ecstatic')
 		.plangular(plangular='https://soundcloud.com/silentdiscosquad/sets/silent-disco-squads-tamtams-mixes-2014')
 
 			
-			#cover.section.dude(ng-hide='dude')
+			#cover.section.dude(ng-hide='bool')
 				img.logo(src='assets/images/lgo-255x255.png')
 				br
 				h4 Next up
@@ -52,8 +52,8 @@ html(ng-app='ecstatic')
 									i.fa.fa-times-circle(ng-show="userForm.email.$invalid && !userForm.email.$pristine", class="help-block") 
 								input.email(type="email" name="email" ng-model="user.email" placeholder="{{erroricon}} Enter your e-mail (optional)")
 								
-							button.dudebutton(ng-init='dude=false', class="{{showButton}}", ng-click='seekSync(); dude=true;', ng-hide='dude') Join
-							button.dudebutton.dudebutton2(ng-show='dude'): i.fa.fa-circle-o-notch.fa-spin-custom
+							button#showButton.dudebutton(ng-init='bool=false', class="{{showButton}}", ng-click='seekSync(); bool=true;', ng-hide='bool') Join
+							button#showButton.dudebutton.dudebutton2(ng-show='bool'): i.fa.fa-circle-o-notch.fa-spin-custom
 
 			#player.section
 				.row.fullWidth

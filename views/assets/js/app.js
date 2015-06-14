@@ -17,6 +17,11 @@ var app = angular.module('ecstatic',
           $scope.upcomingEvents = data;
           $scope.server_playlist = data.playlist;
             countdown(data.start_time, function(ts){
+              console.log(ts.value);
+              if(ts.value < 2000){
+                console.log("here");
+                document.getElementById('showButton').bool = true;
+              }
               document.getElementById('seconds').innerHTML = ts.seconds.toString();
               document.getElementById('minutes').innerHTML = ts.minutes.toString();
               document.getElementById('hours').innerHTML = ts.hours.toString();
