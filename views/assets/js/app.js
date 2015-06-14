@@ -5,7 +5,7 @@ var app = angular.module('ecstatic',
 	[        
 		"ngSanitize",
     "plangular",
-    "ngAnimate"
+    "ngAnimate",
 	]
 )
 .config(function(plangularConfigProvider){
@@ -17,14 +17,10 @@ var app = angular.module('ecstatic',
           $scope.upcomingEvents = data;
           $scope.server_playlist = data.playlist;
             countdown(data.start_time, function(ts){
-              console.log(ts);
-              console.log(ts.seconds);
-              $scope.seconds = ts.seconds;
-              $scope.minutes = ts.minutes;
-              $scope.hours = ts.hours;
-              console.log("ts.toString="+ts.value/1000);
+              document.getElementById('seconds').innerHTML = ts.seconds.toString();
+              document.getElementById('minutes').innerHTML = ts.minutes.toString();
+              document.getElementById('hours').innerHTML = ts.hours.toString();
             }, countdown.HOURS | countdown.MINUTES | countdown.SECONDS, 3);
-          console.log(data);
       })
       .error(function(data) {
           console.log('Error: ' + data);
@@ -55,7 +51,14 @@ var app = angular.module('ecstatic',
     $scope.syncClick = function(){
         console.log("hey");
     };
+}]);
 
+function display_countdown(start_time){
+    console.log("display counter start_time="+start_time);
+  countdown(start_time, function(ts){
+    //document.getElementById('counter').innerHTML = ts.toString();
+    console.log("ts.toString="+ts.value/1000);
+  }, countdown.HOURS | countdown.MINUTES | countdown.SECONDS, 3);
+}
 
-}])
 
