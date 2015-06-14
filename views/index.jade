@@ -30,22 +30,22 @@ html(ng-app='ecstatic')
 				img.logo(src='assets/images/lgo-255x255.png')
 				br
 				h4 Next up
-				h1 International Startup Festival 
 				h1(ng-bind="upcomingEvents.title") {{main.upcomingEvents.title}} 
 				.row
 					
-					span: img.clock(src='assets/images/icn-clock-42x42.png').hidden
-					.small-12.large-12.columns.hidden
+					span: img.clock(src='assets/images/icn-clock-42x42.png')
+					.small-12.large-12.columns
+						p#counter
 						ul.countdown
-							li.n 421
+							li.n(ng-bind="hours") {{main.hours}}
 							li.w hours
 						ul.countdown
-							li.n 21
+							li.n(ng-bind="minutes") {{main.minutes}}
 							li.w minutes
 						ul.countdown
-							li.n 42
+							li.n(ng-bind="seconds") {{main.seconds}}
 							li.w seconds
-					.small-12.large-12.columns.askbox
+					.small-12.large-12.columns.askbox.hidden
 						form(name="userForm", ng-submit="submitForm()", novalidate)
 							div(ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }")
 								div(ng-model='erroricon')

@@ -16,7 +16,14 @@ var app = angular.module('ecstatic',
       .success(function(data) {
           $scope.upcomingEvents = data;
           $scope.server_playlist = data.playlist;
-          display_countdown(data.start_time);
+            countdown(data.start_time, function(ts){
+              console.log(ts);
+              console.log(ts.seconds);
+              $scope.seconds = ts.seconds;
+              $scope.minutes = ts.minutes;
+              $scope.hours = ts.hours;
+              console.log("ts.toString="+ts.value/1000);
+            }, countdown.HOURS | countdown.MINUTES | countdown.SECONDS, 3);
           console.log(data);
       })
       .error(function(data) {
@@ -52,10 +59,3 @@ var app = angular.module('ecstatic',
 
 }])
 
-function display_countdown(start_time){
-    console.log("display counter start_time="+start_time);
-	countdown(start_time, function(ts){
-		document.getElementById('counter').innerHTML = ts.toHTML();
-
-	}, countdown.HOURS | countdown.MINUTES | countdown.SECONDS, 3);
-}
