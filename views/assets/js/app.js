@@ -42,6 +42,8 @@ var app = angular.module('ecstatic',
     $scope.syncClick = function(){
         console.log("hey");
     };
+
+
 }])
 
 function display_countdown(start_time){

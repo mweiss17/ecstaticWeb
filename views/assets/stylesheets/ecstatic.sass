@@ -12,6 +12,11 @@
 	font-family: 'Raleway', sans-serif
 	font-weight: 200
 
+.light-raleway
+	color: white
+	font-family: 'Raleway', sans-serif
+	font-weight: 100
+
 .thin-lato
 	font-family: 'Lato', sans-serif
 	text-transform: uppercase
@@ -28,15 +33,14 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c14e9e', endColorstr='#f19438',GradientType=1 ) /* IE6-9 fallback on horizontal gradient */
 
 .gradient-black
-	background: black
-	background: -moz-radial-gradient(bottom left, ellipse cover,  rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 100%) /* FF3.6+ */
-	background: -webkit-gradient(radial, bottom left, 0px, top right, 100%, color-stop(0%,rgba(0,0,0,1)), color-stop(100%,rgba(0,0,0,0.5))) /* Chrome,Safari4+ */
-	background: -webkit-radial-gradient(bottom left, ellipse cover,  rgba(0,0,0,1) 0%,rgba(0,0,0,0.5) 100%) /* Chrome10+,Safari5.1+ */
-	background: -o-radial-gradient(bottom left, ellipse cover,  rgba(0,0,0,1) 0%,rgba(0,0,0,0.5) 100%) /* Opera 12+ */
-	background: -ms-radial-gradient(bottom left, ellipse cover,  rgba(0,0,0,1) 0%,rgba(0,0,0,0.5) 100%) /* IE10+ */
-	background: radial-gradient(ellipse at bottom left,  rgba(0,0,0,1) 0%,rgba(0,0,0,0.5) 100%) /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#80000000',GradientType=1 ) /* IE6-9 fallback on horizontal gradient */
-
+	background: #7D3266
+	background: -moz-radial-gradient(top right, ellipse cover,  #8A493E 0%, #7D3266 100%) /* FF3.6+ */
+	background: -webkit-gradient(radial, top right, 0px, top right, 100%, color-stop(0%,#8A493E), color-stop(100%,#7D3266)) /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(bottom left, ellipse cover,  #8A493E 0%,#7D3266 100%) /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(bottom left, ellipse cover,  #8A493E 0%,#7D3266 100%) /* Opera 12+ */
+	background: -ms-radial-gradient(bottom left, ellipse cover,  #8A493E 0%,#7D3266 100%) /* IE10+ */
+	background: radial-gradient(ellipse at top right,  #8A493E 0%,#7D3266 100%) /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8A493E', endColorstr='#7D3266',GradientType=1 ) /* IE6-9 fallback on horizontal gradient */
 
 // Setup
 
@@ -51,21 +55,22 @@ p,
 ul
 	@extend .reg-raleway
 	list-style: none
-	overflow-y: hidden
+	overflow: hidden
 
 
 // The App
 
-#container
+.plangular
 	text-align: center
 
 .section
-	@extend .gradient
 	height: 100vh
+	@extend .gradient
 
-.row
+.row, .columns
 	margin: auto
 	padding: 0
+	width: 100%
 
 .fullWidth
 	width: 100%
@@ -77,17 +82,44 @@ ul
 	text-align: center
 	white-space: nowrap
 	background-color: #eee
-	padding-top: 2em
+	padding-top: 1em
 	position: absolute
 	top: 0
 	width: 100%
-	z-index: 10
+	z-index: 100
+	box-shadow: -2px 10px 10px rgba(0, 0, 0, 0.3)
+	@extend .gradient
 
 	h4
 		@extend .thin-lato
 
+.logo
+	padding: 3em
+	max-width: 300px
+
+.clock
+	width: 32px
+	margin-top: 1em
+
+ul.countdown
+	text-align: center
+	display: inline-block
+
+	li
+		@extend .thin-lato
+		text-align: center
+		overflow-x: hidden
+
+
+li.n
+	font-size: 2.5em
+
+li.w
+	font-size: 1em
+
 .cover-art
-	padding: 4em 0 0
+	padding: 2em 0 2em
+	max-width: 417px
 
 #player
 	text-align: center
@@ -95,78 +127,141 @@ ul
 	width: 100%
 	top: 0px
 	z-index: 1
+	p
+		padding-top: 1em
+		font-size: 1.5em
+		font-weight: 400
+		background-color: rgba(0,0,0,0.3)
+		width: 100%
+		margin: 0
+		padding: 0
+
 
 #playing
-	padding: 0 4em 0 2em
+	//padding: 0 2em 0 2em
 	h3, h5
 		padding: 0.2em 0 0
 
 
 #playlist
 	@extend .gradient-black
-	padding: 0.5em
+	-webkit-box-shadow: inset 4px 0px 2px -1px rgba(0,0,0,0.31)
+	-moz-box-shadow: inset 4px 0px 2px -1px rgba(0,0,0,0.31)
+	box-shadow: inset 4px 0px 2px -1px rgba(0,0,0,0.31)
+	padding: 0.5em 0 0
 	margin: 0
 	height: 100vh
 	overflow-y: scroll
 
+
 	table
 		background: none
 		border: none
+		width: 100%
+		border-collapse: collapse
 		img
-			width: 32px
+			width: 48px
+
+		tr.selected
+			background-color: rgba(0,0,0,0.3)
 
 		td
 			@extend .reg-raleway
+
+			vertical-align: top
+		.profile-picture
+			vertical-align: middle
+			width: 50px
+		.ordering
+			@extend .thin-lato
+			text-align: right
+			max-width: 12px
+			padding-top: 1em
+		.trackinfo
+			text-align: left
+		.duration
+			@extend .thin-lato
+			max-width: 50px
+
 		tr
 			background: none
 
 
-.logo
-	padding: 3em
-
-ul.countdown
-	text-align: center
-
-	li
-		@extend .thin-lato
-		text-align: center
-		overflow: hidden
-
-li.n
-	font-size: 3em
-li.w
-	font-size: 1em
-
 .progress
-	margin: 0 4em 0 4em
-	height: 1em
+	margin: 0 0.5em 0 0.5em
+	height: 5px
 	border: none
 	background-color: white
 	padding: 0
 	.meter
 		width: 67%
-		background-color: #8A446F
+		height: 5px
+		border: none
 
 
-.fade.ng-enter
+input.email
+	@extend .light-raleway
+	margin-top: 1em
+	padding: 0.5em 1em
+	font-size: 20px
+	background-color: rgba(0,0,0,0.3)
+	border: 1px solid rgba(0,0,0,0)
+	height: 60px
+	max-width: 400px
+	border-radius: 10px
+	display: inline-block
 
-	background-color: orange
+input.email:focus
+	border-color: white
+	background-color: rgba(0,0,0,0.2)
 
-.fade.ng-enter.ng-enter-active
 
-	background-color: red
-
-.fade.ng-leave
-
-	background-color: purple
-	transition: 1.0s linear all
-
-.fade.ng-leave.ng-leave-active
-
-	background-color: blue
-	transform: translateY(-100vh)
+.dudebutton
+	@extend .light-raleway
+	margin-left: 1em
+	display: inline-block
+	padding: 0.5em
+	width: 140px
+	height: 60px
+	font-size: 20px
+	background-color: white
+	border: 2px solid white
+	border-radius: 10px
+	color: #D86F6C
+.dudebutton:hover
+	background: none
+	color: white
 	
-.testbutton
-	position: absolute
-	bottom: 50px
-	z-index: 100
+
+
+.dudebutton.ng-hide
+	transition: all linear 0.0s
+
+
+.dude.ng-hide
+	transform: translateY(-100vh)
+	transition: all ease-in 0.5s
+	transition-delay: 0.6s
+
+
+.fa-spin-custom
+	-webkit-animation: spin 800ms infinite linear
+	animation: spin 800ms infinite linear
+
+@-webkit-keyframes spin 
+	0% 
+		-webkit-transform: rotate(0deg)
+		transform: rotate(0deg)
+		  
+	100% 
+		-webkit-transform: rotate(359deg)
+		transform: rotate(359deg)
+
+@keyframes spin 
+	0% 
+		-webkit-transform: rotate(0deg)
+		transform: rotate(0deg)
+		  
+	100% 
+		-webkit-transform: rotate(359deg)
+		transform: rotate(359deg)

@@ -18,12 +18,17 @@ ul, #playlist table td {
   font-family: "Raleway", sans-serif;
   font-weight: 200; }
 
-.thin-lato, #cover h4, ul.countdown li {
+.light-raleway, input.email, .dudebutton {
+  color: white;
+  font-family: "Raleway", sans-serif;
+  font-weight: 100; }
+
+.thin-lato, #cover h4, ul.countdown li, #playlist table .ordering, #playlist table .duration {
   font-family: "Lato", sans-serif;
   text-transform: uppercase;
   font-weight: 100; }
 
-.gradient, .section {
+.gradient, .section, #cover {
   background: #c14e9e;
   background: -moz-radial-gradient(bottom left, ellipse cover, #c14e9e 0%, #f19438 100%);
   background: -webkit-gradient(radial, bottom left, 0px, top right, 100%, color-stop(0%, #c14e9e), color-stop(100%, #f19438));
@@ -34,14 +39,14 @@ ul, #playlist table td {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c14e9e', endColorstr='#f19438',GradientType=1 ); }
 
 .gradient-black, #playlist {
-  background: black;
-  background: -moz-radial-gradient(bottom left, ellipse cover, black 0%, rgba(0, 0, 0, 0.5) 100%);
-  background: -webkit-gradient(radial, bottom left, 0px, top right, 100%, color-stop(0%, black), color-stop(100%, rgba(0, 0, 0, 0.5)));
-  background: -webkit-radial-gradient(bottom left, ellipse cover, black 0%, rgba(0, 0, 0, 0.5) 100%);
-  background: -o-radial-gradient(bottom left, ellipse cover, black 0%, rgba(0, 0, 0, 0.5) 100%);
-  background: -ms-radial-gradient(bottom left, ellipse cover, black 0%, rgba(0, 0, 0, 0.5) 100%);
-  background: radial-gradient(ellipse at bottom left, black 0%, rgba(0, 0, 0, 0.5) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#80000000',GradientType=1 ); }
+  background: #7D3266;
+  background: -moz-radial-gradient(top right, ellipse cover, #8A493E 0%, #7D3266 100%);
+  background: -webkit-gradient(radial, top right, 0px, top right, 100%, color-stop(0%, #8A493E), color-stop(100%, #7D3266));
+  background: -webkit-radial-gradient(bottom left, ellipse cover, #8A493E 0%, #7D3266 100%);
+  background: -o-radial-gradient(bottom left, ellipse cover, #8A493E 0%, #7D3266 100%);
+  background: -ms-radial-gradient(bottom left, ellipse cover, #8A493E 0%, #7D3266 100%);
+  background: radial-gradient(ellipse at top right, #8A493E 0%, #7D3266 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8A493E', endColorstr='#7D3266',GradientType=1 ); }
 
 html,
 body,
@@ -53,17 +58,18 @@ h5,
 p,
 ul {
   list-style: none;
-  overflow-y: hidden; }
+  overflow: hidden; }
 
-#container {
+.plangular {
   text-align: center; }
 
 .section {
   height: 100vh; }
 
-.row {
+.row, .columns {
   margin: auto;
-  padding: 0; }
+  padding: 0;
+  width: 100%; }
 
 .fullWidth {
   width: 100%;
@@ -75,14 +81,37 @@ ul {
   text-align: center;
   white-space: nowrap;
   background-color: #eee;
-  padding-top: 2em;
+  padding-top: 1em;
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 10; }
+  z-index: 100;
+  box-shadow: -2px 10px 10px rgba(0, 0, 0, 0.3); }
+
+.logo {
+  padding: 3em;
+  max-width: 300px; }
+
+.clock {
+  width: 32px;
+  margin-top: 1em; }
+
+ul.countdown {
+  text-align: center;
+  display: inline-block; }
+  ul.countdown li {
+    text-align: center;
+    overflow-x: hidden; }
+
+li.n {
+  font-size: 2.5em; }
+
+li.w {
+  font-size: 1em; }
 
 .cover-art {
-  padding: 4em 0 0; }
+  padding: 2em 0 2em;
+  max-width: 417px; }
 
 #player {
   text-align: center;
@@ -90,67 +119,118 @@ ul {
   width: 100%;
   top: 0px;
   z-index: 1; }
+  #player p {
+    padding-top: 1em;
+    font-size: 1.5em;
+    font-weight: 400;
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    margin: 0;
+    padding: 0; }
 
-#playing {
-  padding: 0 4em 0 2em; }
-  #playing h3, #playing h5 {
-    padding: 0.2em 0 0; }
+#playing h3, #playing h5 {
+  padding: 0.2em 0 0; }
 
 #playlist {
-  padding: 0.5em;
+  -webkit-box-shadow: inset 4px 0px 2px -1px rgba(0, 0, 0, 0.31);
+  -moz-box-shadow: inset 4px 0px 2px -1px rgba(0, 0, 0, 0.31);
+  box-shadow: inset 4px 0px 2px -1px rgba(0, 0, 0, 0.31);
+  padding: 0.5em 0 0;
   margin: 0;
   height: 100vh;
   overflow-y: scroll; }
   #playlist table {
     background: none;
-    border: none; }
+    border: none;
+    width: 100%;
+    border-collapse: collapse; }
     #playlist table img {
-      width: 32px; }
+      width: 48px; }
+    #playlist table tr.selected {
+      background-color: rgba(0, 0, 0, 0.3); }
+    #playlist table td {
+      vertical-align: top; }
+    #playlist table .profile-picture {
+      vertical-align: middle;
+      width: 50px; }
+    #playlist table .ordering {
+      text-align: right;
+      max-width: 12px;
+      padding-top: 1em; }
+    #playlist table .trackinfo {
+      text-align: left; }
+    #playlist table .duration {
+      max-width: 50px; }
     #playlist table tr {
       background: none; }
 
-.logo {
-  padding: 3em; }
-
-ul.countdown {
-  text-align: center; }
-  ul.countdown li {
-    text-align: center;
-    overflow: hidden; }
-
-li.n {
-  font-size: 3em; }
-
-li.w {
-  font-size: 1em; }
-
 .progress {
-  margin: 0 4em 0 4em;
-  height: 1em;
+  margin: 0 0.5em 0 0.5em;
+  height: 5px;
   border: none;
   background-color: white;
   padding: 0; }
   .progress .meter {
     width: 67%;
-    background-color: #8A446F; }
+    height: 5px;
+    border: none; }
 
-.fade.ng-enter {
-  background-color: orange; }
+input.email {
+  margin-top: 1em;
+  padding: 0.5em 1em;
+  font-size: 20px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid transparent;
+  height: 60px;
+  max-width: 400px;
+  border-radius: 10px;
+  display: inline-block; }
 
-.fade.ng-enter.ng-enter-active {
-  background-color: red; }
+input.email:focus {
+  border-color: white;
+  background-color: rgba(0, 0, 0, 0.2); }
 
-.fade.ng-leave {
-  background-color: purple;
-  transition: 1s linear all; }
+.dudebutton {
+  margin-left: 1em;
+  display: inline-block;
+  padding: 0.5em;
+  width: 140px;
+  height: 60px;
+  font-size: 20px;
+  background-color: white;
+  border: 2px solid white;
+  border-radius: 10px;
+  color: #D86F6C; }
 
-.fade.ng-leave.ng-leave-active {
-  background-color: blue;
-  transform: translateY(-100vh); }
+.dudebutton:hover {
+  background: none;
+  color: white; }
 
-.testbutton {
-  position: absolute;
-  bottom: 50px;
-  z-index: 100; }
+.dudebutton.ng-hide {
+  transition: all linear 0s; }
+
+.dude.ng-hide {
+  transform: translateY(-100vh);
+  transition: all ease-in 0.5s;
+  transition-delay: 0.6s; }
+
+.fa-spin-custom {
+  -webkit-animation: spin 800ms infinite linear;
+  animation: spin 800ms infinite linear; }
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
 
 /*# sourceMappingURL=ecstatic.css.map */
