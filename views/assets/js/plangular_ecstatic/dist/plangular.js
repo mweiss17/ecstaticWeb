@@ -533,16 +533,20 @@ plangular.directive('plangular', ['$timeout', 'plangularConfig', function($timeo
         }
       };
 
-      scope.seekSync = function(elapsedTimeJson) {
+      scope.seekSync = function() {
         console.log("seeksync+"+trackIndex);
-          scope.play(trackIndex);
+        scope.play(trackIndex);
       };
 
       player.audio.addEventListener("canplay", canPlayHandler, true);
 
       function canPlayHandler(e) {
-      console.log("canplay+");
-        player.audio.currentTime = elapsed/1000;
+        //console.log("timeOfReturn+"+timeOfReturn);
+        var adjust = new Date().getTime() - timeOfReturn;
+        console.log("adjust="+adjust);
+        var currentTime = (elapsed + adjust)/1000;
+        console.log("currentTime="+currentTime);
+        player.audio.currentTime = currentTime;
         player.audio.removeEventListener("canplay", canPlayHandler, true);
       }
 

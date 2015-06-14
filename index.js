@@ -16,7 +16,7 @@ var sc_client_secret="2f845ee306729bf01254031ea1eb9803";
 var sc_redirect_uri="http://ecstatic.fm/scRedirect";
 
 //SHIT THAT SHOULD BE IN A DATABASE
-var my_sc_api_url = "https://api.soundcloud.com/playlists/50801632.json?client_id=4cd54fa30dd13312d10dd24cc2bdcae4";
+var my_sc_api_url = "https://api.soundcloud.com/playlists/116100614.json?client_id=4cd54fa30dd13312d10dd24cc2bdcae4";
 
 //set up sockets
 ecstaticSockets = require("./views/assets/js/ecstaticSockets.js");
@@ -39,7 +39,7 @@ app.get('/api/upcomingEvents', function(req, res) {
 
 app.get('/api/sync', function(req, res) {
 	console.log(my_sc_api_url);
-	var returnedjson = calculatePlaylistSync(my_sc_api_url, 1434448800000 /* Start time @ June 16th in milli*/, function (returnedjson){
+	var returnedjson = calculatePlaylistSync(my_sc_api_url, 1434301232000/*1434448800000  Start time @ June 16th in milli*/, function (returnedjson){
 		res.json(JSON.stringify(returnedjson)); 
 	});
 });
@@ -63,10 +63,10 @@ request('http://54.173.157.204/appindex/', function (error, response, body) {
 //calculates the elapsed time since event start
 function calculateElapsedTime(eventStartTime){
 	//calculates the actual elapsed time
-	//var now = new Date().getTime();
+	var now = new Date().getTime();
 
 	//used for testing
-	var now = 1434448810000;
+	//var now = 1434448810000;
 	console.log("  " + now + "  (now)");
 	console.log("- " + eventStartTime + "  (eventStartTime)");
 	var elapsed = now - eventStartTime;

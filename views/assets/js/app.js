@@ -1,5 +1,6 @@
 var elapsed = 100;
 var trackIndex = 0;
+var timeOfReturn = 0;
 var app = angular.module('ecstatic', 
 	[        
 		"ngSanitize",
@@ -24,17 +25,17 @@ var app = angular.module('ecstatic',
 
       $http.get('/api/sync')
       .success(function(data) {
-          var timeOfReturn = new Date().getTime();
+          timeOfReturn = new Date().getTime();
           var json = JSON.parse(data);
           if(json.elapsedTime > 0){
             console.log("json.elapsedTime="+json.elapsedTime);
             elapsed = json.elapsedTime;
-
             //FOR GETTING THE ACTUAL TRACK INDEX
-            //trackIndex = json.trackIndex;
+            console.log("json.trackIndex="+json.trackIndex);
+            trackIndex = json.trackIndex;
 
             //FOR TESTING
-            trackIndex = 1;
+            //trackIndex = 1;
           }
           else{
             $scope.showButton = "hidden";
