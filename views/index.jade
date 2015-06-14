@@ -65,7 +65,7 @@ html(ng-app='ecstatic')
 							button(ng-click='next()') Next						
 						img(src='assets/images/img-cover-holder-417-280.png',class='cover-art')
 						//img(src='{{track.artwork_url}}')
-						h3 {{track.title}} Boogie Woogie
+						h3 {{track.title}}
 
 
 
@@ -85,21 +85,13 @@ html(ng-app='ecstatic')
 						
 						table
 							tbody
-								tr.selected
-									// (ng-repeat="(n)track in tracks") 
+								tr(ng-repeat="track in tracks") 
 									td.profile-picture: img(src='assets/images/img-empty-avatar-58x58.png')
-									td.ordering 1
+									td.ordering 
 									td.trackinfo.selected: ul
-											li {{track.title}} Boogie Woogie
-											li {{track.user.username}} St-John's Orchestra
+											li {{track.title}}
+											li {{track.user.username}}
 									td.duration {{track.duration | hhmmss}} 
-								tr
-									// (ng-repeat="track in tracks") 
-									td.profile-picture: img(src='assets/images/img-empty-avatar-58x58.png')
-									td.ordering 2
-									td.trackinfo.selected: ul
-											li {{track.title}} Funky Mama
-											li {{track.user.username}} Dave and the Funkies
-									td.duration {{track.duration | hhmmss}} 
+								
 
 			
