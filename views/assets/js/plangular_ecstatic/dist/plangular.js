@@ -538,18 +538,15 @@ plangular.directive('plangular', ['$timeout', 'plangularConfig', function($timeo
         scope.play(trackIndex);
       };
 
+      //canPlayHandler only fires once.
       player.audio.addEventListener("canplay", canPlayHandler, true);
-
       function canPlayHandler(e) {
-        //console.log("timeOfReturn+"+timeOfReturn);
         var adjust = new Date().getTime() - timeOfReturn;
-        console.log("adjust="+adjust);
         var currentTime = (elapsed + adjust)/1000;
-        console.log("currentTime="+currentTime);
         player.audio.currentTime = currentTime;
         player.audio.removeEventListener("canplay", canPlayHandler, true);
       }
-
+      
       player.audio.addEventListener('timeupdate', function() {
         if (!scope.$$phase && scope.track.src === player.audio.src) {
           $timeout(function() {

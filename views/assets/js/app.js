@@ -28,10 +28,9 @@ var app = angular.module('ecstatic',
           timeOfReturn = new Date().getTime();
           var json = JSON.parse(data);
           if(json.elapsedTime > 0){
-            console.log("json.elapsedTime="+json.elapsedTime);
             elapsed = json.elapsedTime;
+
             //FOR GETTING THE ACTUAL TRACK INDEX
-            console.log("json.trackIndex="+json.trackIndex);
             trackIndex = json.trackIndex;
 
             //FOR TESTING
