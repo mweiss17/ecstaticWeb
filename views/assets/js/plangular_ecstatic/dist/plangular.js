@@ -1,7 +1,7 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.plangular = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 console.log("asdf");
 var audio = require('./lib/audio');
-
+console.log(audio);
 module.exports = function() {
 
   this.playing = false;
@@ -10,11 +10,18 @@ module.exports = function() {
   //this.currentTime = audio.currentTime;
   //this.duration = audio.duration;
   
-  this.play = function(src) {
+  // this.play = function(src) {
+  //   if (src != audio.src) { audio.src = src; }
+  //   audio.play();
+  //   this.playing = src;
+  // }
+
+    this.play = function(src) {
     if (src != audio.src) { audio.src = src; }
     audio.play();
     this.playing = src;
   }
+
 
   this.pause = function() {
     audio.pause();
@@ -30,6 +37,7 @@ module.exports = function() {
   }
 
   this.seekSync = function(timeOfReturn, elapsedTime) {
+    console.log("seekSync");
     console.log(timeOfReturn);
     console.log(elapsedTime);
     if (!audio.readyState) return false;
@@ -518,6 +526,7 @@ plangular.directive('plangular', ['$timeout', 'plangularConfig', function($timeo
       };
 
       scope.next = function() {
+        console.log("next");
         if (scope.tracks.length < 1) { return false }
         if (scope.index < scope.tracks.length - 1) {
           scope.index++;
@@ -535,14 +544,23 @@ plangular.directive('plangular', ['$timeout', 'plangularConfig', function($timeo
 
       scope.seekSync = function(elapsedTimeJson) {
         var json = JSON.parse(elapsedTimeJson)
-        console.log("prev");
-        console.log("elapsedTimeJson="+JSON.stringify(elapsedTimeJson));
-        console.log("next");
-        console.log("elapsedTime="+ json.elapsedTime );
+        // console.log("prev");
+        // console.log("elapsedTimeJson="+JSON.stringify(elapsedTimeJson));
+        // console.log("next");
+        // console.log("elapsedTime="+ json.elapsedTime );
         //if (scope.track.src === player.audio.src) {
-          scope.player.seekSync(json.timeOfReturn, json.elapsedTime);
+          scope.next();
+          //scope.player.seekSync(json.timeOfReturn, json.elapsedTime);
        // }
       };
+
+      player.audio.addEventListener("canplay", function() {
+        console.log("canplay");
+        player.audio.currentTime = elapsed;
+      }, true);
+
+      player.audio.addEventListener("play", playHandler, true);
+
 
       player.audio.addEventListener('timeupdate', function() {
         if (!scope.$$phase && scope.track.src === player.audio.src) {
@@ -554,10 +572,21 @@ plangular.directive('plangular', ['$timeout', 'plangularConfig', function($timeo
       });
 
       player.audio.addEventListener('ended', function() {
+        console.log("ended");
         if (scope.track.src === player.audio.src) {
           scope.next();
         }
       });
+
+      function playHandler(e) {
+        $.getScript("assets/js/app.js", function(){
+          console.log("play");
+            //player.currentTime = elapsed;
+            //alert(elapsed);
+            //player.audio.pause();
+        });
+        player.audio.removeEventListener("play", playHandler, true);
+      }
 
     }
 

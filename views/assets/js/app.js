@@ -1,3 +1,5 @@
+var elapsed = 100;
+
 var app = angular.module('ecstatic', 
 	[        
 		"ngSanitize",
