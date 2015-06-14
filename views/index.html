@@ -48,7 +48,7 @@
                 <div ng-model="erroricon"><i ng-show="userForm.email.$invalid &amp;&amp; !userForm.email.$pristine" class="fa fa-times-circle help-block"> </i></div>
                 <input type="email" name="email" ng-model="user.email" placeholder="{{erroricon}} Enter your e-mail (optional)" class="email">
               </div>
-              <button ng-init="dude=false" ng-click="seekSync(elapsedTimeJson);dude=true;" ng-hide="dude" class="dudebutton">Join</button>
+              <button ng-init="dude=false" ng-click="seekSync(); dude=true;" ng-hide="dude" class="dudebutton {{showButton}}">Join</button>
               <button ng-show="dude" class="dudebutton dudebutton2"><i class="fa fa-circle-o-notch fa-spin-custom"></i></button>
             </form>
           </div>

@@ -52,7 +52,7 @@ html(ng-app='ecstatic')
 									i.fa.fa-times-circle(ng-show="userForm.email.$invalid && !userForm.email.$pristine", class="help-block") 
 								input.email(type="email" name="email" ng-model="user.email" placeholder="{{erroricon}} Enter your e-mail (optional)")
 								
-							button.dudebutton(ng-init='dude=false', ng-click='seekSync(elapsedTimeJson);dude=true;', ng-hide='dude') Join
+							button.dudebutton(ng-init='dude=false', class="{{showButton}}", ng-click='seekSync(); dude=true;', ng-hide='dude') Join
 							button.dudebutton.dudebutton2(ng-show='dude'): i.fa.fa-circle-o-notch.fa-spin-custom
 
 			#player.section
