@@ -78,7 +78,7 @@ function calculateElapsedTime(eventStartTime){
 //returns json {"index" : int, "elapsedTime" : (milli) int}
 function setupSyncJson(elapsed, json){
 	var needToSync = false;
-	var index = 0;
+	var trackIndex = 0;
 	for(var i=0; i < json.tracks.length; i++) {
 		console.log("elapsed="+elapsed);
 		console.log("json.tracks[i].duration="+json.tracks[i].duration);
@@ -86,7 +86,7 @@ function setupSyncJson(elapsed, json){
 			needToSync = true;
 			break;
 		}
-		index++;
+		trackIndex++;
 		elapsed -= json.tracks[i].duration;
 	}
 
@@ -96,7 +96,7 @@ function setupSyncJson(elapsed, json){
 	}
 	//Or elapsed will sync the client in the song
 	else{
-		var json = {"index" : index, "elapsedTime" : elapsed}
+		var json = {"trackIndex" : trackIndex, "elapsedTime" : elapsed}
 		console.log(json);
 		return json;
 	}

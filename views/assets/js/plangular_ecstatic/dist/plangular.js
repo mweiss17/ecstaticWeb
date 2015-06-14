@@ -36,15 +36,6 @@ module.exports = function() {
     }
   }
 
-  this.seekSync = function(timeOfReturn, elapsedTime) {
-    console.log("seekSync");
-    console.log(timeOfReturn);
-    console.log(elapsedTime);
-    if (!audio.readyState) return false;
-    console.log("seekSyn="+milli);
-    audio.currentTime = milli/1000;
-  }
-
   this.seek = function(e) {
     if (!audio.readyState) return false;
     var percent = e.offsetX / e.target.offsetWidth || (e.layerX - e.target.offsetLeft) / e.target.offsetWidth;
@@ -543,24 +534,17 @@ plangular.directive('plangular', ['$timeout', 'plangularConfig', function($timeo
       };
 
       scope.seekSync = function(elapsedTimeJson) {
-        var json = JSON.parse(elapsedTimeJson)
-        // console.log("prev");
-        // console.log("elapsedTimeJson="+JSON.stringify(elapsedTimeJson));
-        // console.log("next");
-        // console.log("elapsedTime="+ json.elapsedTime );
-        //if (scope.track.src === player.audio.src) {
-          scope.next();
-          //scope.player.seekSync(json.timeOfReturn, json.elapsedTime);
-       // }
+        console.log("seeksync+"+trackIndex);
+          scope.play(trackIndex);
       };
 
-      player.audio.addEventListener("canplay", function() {
-        console.log("canplay");
-        player.audio.currentTime = elapsed;
-      }, true);
+      player.audio.addEventListener("canplay", canPlayHandler, true);
 
-      player.audio.addEventListener("play", playHandler, true);
-
+      function canPlayHandler(e) {
+      console.log("canplay+");
+        player.audio.currentTime = elapsed/1000;
+        player.audio.removeEventListener("canplay", canPlayHandler, true);
+      }
 
       player.audio.addEventListener('timeupdate', function() {
         if (!scope.$$phase && scope.track.src === player.audio.src) {
@@ -578,15 +562,6 @@ plangular.directive('plangular', ['$timeout', 'plangularConfig', function($timeo
         }
       });
 
-      function playHandler(e) {
-        $.getScript("assets/js/app.js", function(){
-          console.log("play");
-            //player.currentTime = elapsed;
-            //alert(elapsed);
-            //player.audio.pause();
-        });
-        player.audio.removeEventListener("play", playHandler, true);
-      }
 
     }
 
