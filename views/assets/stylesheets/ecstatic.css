@@ -113,18 +113,21 @@ li.w {
   padding: 0.5em;
   background-color: rgba(0, 0, 0, 0.3);
   font-family: "Raleway";
-  font-size: 28px; }
+  font-size: 18px; }
 
 .cover-art {
-  padding: 2em 0 2em;
-  max-width: 417px; }
+  padding: 2em 0;
+  height: 33vh;
+  max-width:25vh;
+  height:auto; }
 
 #player {
   text-align: center;
   position: absolute;
   width: 100%;
   top: 0px;
-  z-index: 1; }
+  z-index: 1;
+  height: auto; }
   #player p {
     font-size: 1.5em;
     width: 100%;
@@ -168,13 +171,75 @@ li.w {
       background: none; }
 
 
-.playerprogressbar {
+/*.playerprogressbar {
   margin: 0 2em;
   height: 5px;
   width: 90%;
   border: none;
+  color: red;
   background-color: rgba(0, 0, 0, 0.3);
-  padding: 0; }
+  padding: 0; 
+}*/
+
+progress,          /* All HTML5 progress enabled browsers */
+progress[role]     /* polyfill */
+{
+
+    /* Turns off styling - not usually needed, but good to know. */
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    /* gets rid of default border in Firefox and Opera. */ 
+    border: none;
+
+    /* Needs to be in here for Safari polyfill so background images work as expected. */
+    background-size: auto;
+    
+    /* Dimensions */
+    width: 90%;
+    height: 5px;
+    
+}
+
+/* Polyfill */
+progress[role]:after {
+    background-image: none; /* removes default background from polyfill */
+}
+
+/* Ensure fallback text doesn't appear in polyfill */
+progress[role] strong {
+    display: none;
+}
+
+progress,                          /* Firefox  */ 
+progress[role][aria-valuenow] {    /* Polyfill */
+  background: rgba(0,0,0,0.3)!important; /* !important is needed by the polyfill */
+}
+
+/* Chrome */
+progress::-webkit-progress-bar {
+   background: rgba(0,0,0,0.3);
+}
+
+progress {
+   color: white;
+}
+
+/* Firefox */
+progress::-moz-progress-bar { 
+   background: white;    
+}
+
+/* Chrome */
+progress::-webkit-progress-value {
+   background: white;
+}
+
+/* Polyfill */
+progress[aria-valuenow]:before  {
+   background: white;
+}
 
 input.email {
   margin-top: 1em;

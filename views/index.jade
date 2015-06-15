@@ -35,9 +35,9 @@ html(ng-app='ecstatic')
 				h1(ng-bind="upcomingEvents.title") {{main.upcomingEvents.title}} 
 				.row
 					
-					span: img.clock(src='assets/images/icn-clock-42x42.png')
+					span: img.clock(src='assets/images/icn-clock-42x42.png', class="{{currentlyPlaying}}")
 
-					.small-12.large-12.columns
+					.small-12.large-12.columns(class="{{currentlyPlaying}}")
 						ul.countdown
 							li.n#hours {{main.hours}}
 							li.w hours
@@ -50,7 +50,7 @@ html(ng-app='ecstatic')
 					.small-12.large-12.columns.askbox
 						form(name="userForm", class="{{showButton}}", ng-submit="submitForm()", novalidate)
 							div(ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }")
-								div(ng-model='erroricon')
+								//div(ng-model='erroricon')
 									i.fa.fa-times-circle(ng-show="userForm.email.$invalid && !userForm.email.$pristine", class="help-block") 
 								input.email(type="email" name="email" ng-model="user.email" placeholder="{{erroricon}} Enter your e-mail (optional)")
 								
@@ -82,7 +82,6 @@ html(ng-app='ecstatic')
 						table
 							tbody
 								tr(ng-class='{selected: $index === trackIndex}', ng-repeat="track in tracks") 
-									td.profile-picture: img(src='assets/images/img-empty-avatar-58x58.png')
 									td.ordering 
 									td.trackinfo: ul
 											li {{track.title}}
