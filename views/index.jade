@@ -34,7 +34,7 @@ html(ng-app='ecstatic')
 				.row
 					
 					span: img.clock(src='assets/images/icn-clock-42x42.png')
-					.small-12.large-12.columns
+					#countdownctrl.small-12.large-12.columns(ng-controller='countdownCtrl')
 						p#counter
 						ul.countdown
 							li.n(ng-bind="hours") {{main.hours}}
@@ -58,28 +58,20 @@ html(ng-app='ecstatic')
 			#player.section
 				.row.fullWidth
 					#playing.small-12.medium-4.large-7.columns
-						p.roomtitle #startupfest
-						//div
-							button(ng-click='previous()') Previous
-							button(ng-click='playPause()') Play!
-							button(ng-click='next()') Next						
-						img(src='assets/images/img-cover-holder-417-280.png',class='cover-art')
-						//img(src='{{track.artwork_url}}')
+						div.roomtitle {{main.upcomingEvents.title}}					
+						img(src='{{track.artwork_url}}', class='cover-art')
 						h3 {{track.title}}
-
-
 
 						.left
 							p {{ currentTime | hhmmss }}
 						.right
 							p {{ duration | hhmmss }}
 						br
-						.progress
-							progress.meter(ng-click="seek($event)", ng-value="currentTime / duration") {{ currentTime / duration }}
+						br
+						.progress.secondary
+							.progress.meter(ng-click="seek($event)", ng-value="currentTime / duration") {{ currentTime / duration }}
 							
 						br
-						//link to that soundcloud track
-						//a(ng-href='{{track.permalink_url}}') View on SoundCloud
 
 					#playlist.medium-6.large-5.columns
 						
