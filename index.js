@@ -39,7 +39,7 @@ app.get('/api/upcomingEvents', function(req, res) {
 
 app.get('/api/sync', function(req, res) {
 	console.log(my_sc_api_url);
-	var returnedjson = calculatePlaylistSync(my_sc_api_url, /*1434301232000*/1434448800000 /*Start time @ June 16th in milli*/, function (returnedjson){
+	var returnedjson = calculatePlaylistSync(my_sc_api_url, 1434448800000 /*1434448800000 /*Start time @ June 16th in milli*/, function (returnedjson){
 		res.json(JSON.stringify(returnedjson)); 
 	});
 });
