@@ -18,7 +18,15 @@ var app = angular.module('ecstatic',
           $scope.server_playlist = data.playlist;
             countdown(data.start_time, function(ts){
               console.log("ts.value="+ts.value);
-              $scope.$apply() 
+              
+              //every second
+              if(!$scope.$$phase) {
+                console.log("$scope.trackIndex = trackIndex;"+trackIndex);
+                $scope.trackIndex = trackIndex;
+                $scope.$apply() 
+              }
+
+
               if(ts.value < -2000){
                 $scope.showButton = "hidden";
               }
@@ -48,6 +56,10 @@ var app = angular.module('ecstatic',
             //FOR GETTING THE ACTUAL TRACK INDEX
             trackIndex = json.trackIndex;
 
+            // updates the playlist's selected track
+            console.log("trackIndex="+trackIndex);
+            $scope.trackIndex = trackIndex;
+
             //FOR TESTING
             //trackIndex = 1;
           }
@@ -59,11 +71,20 @@ var app = angular.module('ecstatic',
           console.log('Error: ' + data);
       });
 
-    $scope.syncClick = function(){
-        console.log("hey");
-    };
+    $scope.update_selected_track = function(index){
+        $scope.trackIndex = index;
+        if(!$scope.$$phase) {
+          $scope.$apply() 
+        }
+    }
 }]);
 
+/*function update_selected_track(index){
+  $scope.trackIndex = index;
+  if(!$scope.$$phase) {
+    $scope.$apply() 
+  }
+}*/
 function display_countdown(start_time){
     console.log("display counter start_time="+start_time);
   countdown(start_time, function(ts){

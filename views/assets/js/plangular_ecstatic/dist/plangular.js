@@ -558,6 +558,8 @@ plangular.directive('plangular', ['$timeout', 'plangularConfig', function($timeo
 
       player.audio.addEventListener('ended', function() {
         console.log("ended");
+        console.log("scope.index="+scope.index);
+        trackIndex = scope.index+1;
         if (scope.track.src === player.audio.src) {
           scope.next();
         }

@@ -24,7 +24,7 @@ html(ng-app='ecstatic')
 		script(src='assets/js/plangular_ecstatic/dist/plangular.js')
 
 	body(ng-controller='mainController as main')
-		.plangular(plangular='https://soundcloud.com/silentdiscosquad/sets/silent-disco-squads-tamtams-mixes-2014')
+		.plangular(plangular=/*'https://soundcloud.com/silentdiscosquad/sets/silent-disco-squads-tamtams-mixes-2014'*/"https://soundcloud.com/rusko-3/sets/volume-2")
 
 			
 			#cover.section.dude(ng-hide='bool')
@@ -60,9 +60,9 @@ html(ng-app='ecstatic')
 			#player.section
 				.row.fullWidth
 					#playing.small-12.medium-4.large-7.columns
-						div.roomtitle {{main.upcomingEvents.title}}					
-						img(src='assets/images/img-cover-holder-417-280.png', class='cover-art')
-						//{{track.artwork_url}}
+						div.roomtitle(ng-bind="upcomingEvents.title") {{main.upcomingEvents.title}}					
+						img(src='{{ track.artwork_url.replace("-large", "-t300x300") }}', class='cover-art')
+						
 						h3 {{track.title}}
 
 						.left
@@ -71,8 +71,9 @@ html(ng-app='ecstatic')
 							p {{ duration | hhmmss }}
 						br
 						br
-						.progress.secondary
-							.progress.meter(ng-click="seek($event)", ng-value="currentTime / duration") {{ currentTime / duration }}
+						progress.playerprogressbar(ng-value="currentTime / duration || 0")
+							{{ currentTime / duration || 0}} 
+							.progress.meter(ng-value="currentTime / duration") {{ currentTime / duration }}
 							
 						br
 
@@ -80,13 +81,13 @@ html(ng-app='ecstatic')
 						
 						table
 							tbody
-								tr(ng-repeat="track in tracks") 
+								tr(ng-class='{selected: $index === trackIndex}', ng-repeat="track in tracks") 
 									td.profile-picture: img(src='assets/images/img-empty-avatar-58x58.png')
 									td.ordering 
-									td.trackinfo.selected: ul
+									td.trackinfo: ul
 											li {{track.title}}
 											li {{track.user.username}}
-									td.duration {{track.duration | hhmmss}} 
+									td.duration {{track.duration/1000 | hhmmss}} 
 								
 
 			
