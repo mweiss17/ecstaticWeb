@@ -30,7 +30,8 @@ html(ng-app='ecstatic')
 			#cover.section.dude(ng-hide='bool')
 				img.logo(src='assets/images/lgo-255x255.png')
 				br
-				h4 Next up
+				h4(class="{{currentlyPlaying}}") Next up
+				h4(class="{{showButton}}") Currently Playing
 				h1(ng-bind="upcomingEvents.title") {{main.upcomingEvents.title}} 
 				.row
 					
@@ -45,14 +46,14 @@ html(ng-app='ecstatic')
 						ul.countdown
 							li.n#seconds {{main.seconds}}
 							li.w seconds
-					.small-12.large-12.columns.askbox.hidden
-						form(name="userForm", ng-submit="submitForm()", novalidate)
+					.small-12.large-12.columns.askbox
+						form(name="userForm", class="{{showButton}}", ng-submit="submitForm()", novalidate)
 							div(ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }")
 								div(ng-model='erroricon')
 									i.fa.fa-times-circle(ng-show="userForm.email.$invalid && !userForm.email.$pristine", class="help-block") 
 								input.email(type="email" name="email" ng-model="user.email" placeholder="{{erroricon}} Enter your e-mail (optional)")
 								
-							button#showButton.dudebutton(ng-init='bool=false', class="{{showButton}}", ng-click='seekSync(); bool=true;', ng-hide='bool') Join
+							button#showButton.dudebutton(ng-init='bool=false', ng-click='seekSync(); bool=true;', ng-hide='bool') Tune in
 							button#showButton.dudebutton.dudebutton2(ng-show='bool'): i.fa.fa-circle-o-notch.fa-spin-custom
 
 			#player.section

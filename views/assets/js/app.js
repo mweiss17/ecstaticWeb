@@ -17,11 +17,18 @@ var app = angular.module('ecstatic',
           $scope.upcomingEvents = data;
           $scope.server_playlist = data.playlist;
             countdown(data.start_time, function(ts){
-              console.log(ts.value);
-              if(ts.value < 2000){
-                console.log("here");
-                document.getElementById('showButton').bool = true;
+              console.log("ts.value="+ts.value);
+              $scope.$apply() 
+              if(ts.value < -2000){
+                $scope.showButton = "hidden";
               }
+              else{
+                console.log("shown");
+                //not hidden
+                $scope.currentlyPlaying = "hidden";
+                $scope.showButton = "asdfasdfsdf";
+              }
+
               document.getElementById('seconds').innerHTML = ts.seconds.toString();
               document.getElementById('minutes').innerHTML = ts.minutes.toString();
               document.getElementById('hours').innerHTML = ts.hours.toString();
@@ -45,7 +52,6 @@ var app = angular.module('ecstatic',
             //trackIndex = 1;
           }
           else{
-            $scope.showButton = "hidden";
             console.log("event hasn't started");
           }
       })
