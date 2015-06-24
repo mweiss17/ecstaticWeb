@@ -47,6 +47,12 @@ app.get('/api/sync', function(req, res) {
 	});
 });
 
+app.get('/flush', function(req, res) {
+	ecstaticSockets.client.flushdb();
+	console.log("flushing redis database");
+	res.json({"succesful":true});
+});
+
 app.listen(app.get('port'), function(req, res) {
  console.log('Server listening at ' + app.get('port'));
 });
@@ -61,6 +67,7 @@ request('http://54.173.157.204/appindex/', function (error, response, body) {
     }
   }
 });
+
 
 
 //calculates the elapsed time since event start
