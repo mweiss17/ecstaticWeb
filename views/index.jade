@@ -1,66 +1,90 @@
 doctype html
-html(lang="en")
+html(ng-app='ecstatic')
 	head
 		title= Ecstatic
-		link(rel='stylesheet', href='stylesheets/app.css')
-	body
-		.section
-			.row
-				.small-2.large-2.columns
-					
-				.small-8.large-8.columns
-					.block
-					img('logo.png')
-					h4.subtitle.big Next up
-					h1 International Startup Festival Radio
-					span: img('icn-clock.png')
-					ul 
-						ul.inline-list
-							li 21
-							li 36
-							li 12
-						ul.subtitle
-							li.label hour
-							li.label minutes
-							li.label seconds
-				.small-2.large-2.columns
-		.section
-			.row
-				.small-7.large-7.columns
-					img(src='images/img-cover-holder-417-280.png')
-					h3 Deepcast vol 34
-					h5 by Mark Macleod from Freshbooks
-					.left
-						p 0:00
-					.right
-						p 9:99
-					.progress
-						span.meter
+		// external imports
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Raleway:400,200,100', type='text/css')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato:400,100', type='text/css')
+		script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js')
+		script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+		link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
 
-				.small-5.large-5.columns
-					table
-						tbody
-							tr
-								td img
-								td #
-								td Deepcast vol 34
-								td Mark Macleod from Freshbooks
-								td 0:00
-							tr
-								td img
-								td #
-								td Deepcast vol 34
-								td Mark Macleod from Freshbooks
-								td 0:00
-							tr
-								td img
-								td #
-								td Deepcast vol 34
-								td Mark Macleod from Freshbooks
-								td 0:00
+		// internal imports
+		link(rel='stylesheet', href='assets/stylesheets/app.css')
+		link(rel='stylesheet', href='assets/stylesheets/player.css')
+		link(rel='stylesheet', href='assets/stylesheets/ecstatic.css')
+		script(src='assets/bower_components/angular-sanitize/angular-sanitize.min.js')
+		script(src='assets/bower_components/angular-animate/angular-animate.js')
+		script(src='assets/js/libs/socket.io-client/socket.io.js')
+		script(src='assets/js/libs/countdown.js')
+		script(src='assets/js/libs/scrollz.js')
+		script(src='assets/js/ecstaticSocketsClient.js')
+		script(src='assets/js/app.js')
+		script(src='assets/js/plangular.js')
+
+	body(ng-controller='mainController as main')
+		.plangular(plangular='https://soundcloud.com/silentdiscosquad/sets/international-startup-fest')
+			
+			#cover.section.dude(ng-hide='bool')
+				img.logo(src='assets/images/lgo-255x255.png')
+				br
+				h4(class="{{currentlyPlaying}}") Next up
+				h4(class="{{showButton}}") Currently Playing
+				h1(ng-bind="upcomingEvents.title") {{main.upcomingEvents.title}} 
+				.row
+					
+					span: img.clock(src='assets/images/icn-clock-42x42.png', class="{{currentlyPlaying}}")
+
+					.small-12.large-12.columns(class="{{currentlyPlaying}}")
+						ul.countdown
+							li.n#hours {{main.hours}}
+							li.w hours
+						ul.countdown
+							li.n#minutes {{main.minutes}}
+							li.w minutes
+						ul.countdown
+							li.n#seconds {{main.seconds}}
+							li.w seconds
+					.small-12.large-12.columns.askbox
+						form(name="userForm", class="{{showButton}}", ng-submit="submitForm()", novalidate)
+							div(ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }")
+								//div(ng-model='erroricon')
+									i.fa.fa-times-circle(ng-show="userForm.email.$invalid && !userForm.email.$pristine", class="help-block") 
+								input.email(type="email" name="email" ng-model="user.email" placeholder="{{erroricon}} Enter your e-mail (optional)")
+								
+							button#showButton.dudebutton(ng-init='bool=false', ng-click='seekSync(); bool=true;', ng-hide='bool') Tune in
+							button#showButton.dudebutton.dudebutton2(ng-show='bool'): i.fa.fa-circle-o-notch.fa-spin-custom
+
+			#player.section
+				.row.fullWidth
+					#playing.small-12.medium-4.large-7.columns
+						div.roomtitle(ng-bind="upcomingEvents.title") {{main.upcomingEvents.title}}					
+						img(src='{{ track.artwork_url.replace("-large", "-t300x300") }}', class='cover-art')
+						
+						h3 {{track.title}}
+
+						.left
+							p {{ currentTime | hhmmss }}
+						.right
+							p {{ duration | hhmmss }}
+						br
+						br
+						progress.playerprogressbar(ng-value="currentTime / duration || 0")
+							{{ currentTime / duration || 0}} 
+							.progress.meter(ng-value="currentTime / duration") {{ currentTime / duration }}
+							
+						br
+
+					#playlist.medium-6.large-5.columns
+						
+						table
+							tbody
+								tr(ng-class='{selected: $index === trackIndex}', ng-repeat="track in tracks") 
+									td.ordering 
+									td.trackinfo: ul
+											li {{track.title}}
+											li {{track.user.username}}
+									td.duration {{track.duration/1000 | hhmmss}} 
 								
 
-
-//		
-		.sheet.cover
 			

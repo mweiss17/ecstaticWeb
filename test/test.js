@@ -12,28 +12,26 @@ var expect = require('chai').expect,
     client;
 client = redis.createClient();
 
-var socket = io.connect('http://localhost:80', {
+var socket = io.connect('http://localhost:8080', {
     'reconnection delay' : 0,
     'reopen delay' : 0,
     'force new connection' : true
 }); 
 
-// Server tasks
-describe('server', function () {
-    // Test the index route
-    describe('Test the index route', function () {
-        it('should return a page with the title Babblr', function (done) {
-            request.get({ url: 'http://localhost:80/' }, function (error, response, body) {
-                expect(body).to.include('Babblr');
-                expect(response.statusCode).to.equal(200);
-                expect(response.headers['content-type']).to.equal('text/html; charset=utf-8');
+describe('SYNC TESTS', function () {
+    describe('calculateElapsedTime', function () {
+        //posts two locations
+        it("should calculate the elapsed", function (done) {
+            console.log("here");
+            request.get({ url: 'http://localhost:80/api/sync' }, function (error, response, body) {
+                console.log(body);
                 done();
-            });
+            });    
         });
     });
 });
 
-describe('rooms api', function () {
+describe('ROOMS API', function () {
 
     describe('post_location', function () {
 
@@ -83,7 +81,7 @@ describe('rooms api', function () {
         });
     }); 
 
-    //preparing for the join_room test (should get this chatlog message) 
+    //prereturnring for the join_room test (should get this chatlog message) 
     describe('send_text_chatlog', function() {
         it("should store a message in the chatlog", function (done) {
             socket.emit('send_text', JSON.stringify({room_number:0, username:"mweiss10", message:"anyone there?"}));
@@ -95,7 +93,8 @@ describe('rooms api', function () {
         it("should get one room", function (done) {
             socket.emit('get_rooms_around_me', JSON.stringify({username: "mykul"}));
             socket.on('return_get_rooms_around_me', function (data) {
-                assert.include(data.rooms[0].room_name, "testy_room");
+                console.log("json.rooms"+data.rooms[0].room_info.room_name);
+                assert.include(data.rooms[0].room_info.room_name, "testy_room");
                 done();
             });
         });
@@ -191,9 +190,10 @@ describe('rooms api', function () {
     describe('player play', function () {
         it("should send a play message", function (done) {
             var count = 0;
-            socket.emit('player', JSON.stringify({room_number:0, username:"mweiss10", msg_type:"play", player_state:{'is_playing': true, 'playing_song_index':3, 'elapsed': 44}}));
-            socket.emit('player', JSON.stringify({room_number:0, username:"mweiss10", msg_type:"skip", player_state:{'is_playing': true, 'playing_song_index':4, 'elapsed': 0}}));
-            socket.emit('player', JSON.stringify({room_number:0, username:"mweiss10", msg_type:"back", player_state:{'is_playing': true, 'playing_song_index':3, 'elapsed': 0}}));
+            socket.emit('player', JSON.stringify({room_number:0, username:"mweiss10", msg_type:"play", player_state:{'is_playing': true, 'is_locked': false, 'playing_song_index':3, 'elapsed': 44}}));
+            socket.emit('player', JSON.stringify({room_number:0, username:"mweiss10", msg_type:"skip", player_state:{'is_playing': true, 'is_locked': false, 'playing_song_index':4, 'elapsed': 0}}));
+            socket.emit('player', JSON.stringify({room_number:0, username:"mweiss10", msg_type:"back", player_state:{'is_playing': true, 'is_locked': false, 'playing_song_index':3, 'elapsed': 0}}));
+            socket.emit('player', JSON.stringify({room_number:0, username:"mweiss10", msg_type:"lock", player_state:{'is_playing': true, 'is_locked': true, 'playing_song_index':3, 'elapsed': 0}}));
             socket.on('realtime_player', function (data) {
                 console.log(data.msg_type);
                 if(data.msg_type==="play"){
@@ -205,7 +205,10 @@ describe('rooms api', function () {
                 if(data.msg_type==="back"){
                     count++;
                 }
-                if (count == 3){
+                if(data.msg_type==="lock"){
+                    count++;
+                }
+                if (count == 4){
                     done();
                 }
             });
@@ -233,6 +236,17 @@ describe('rooms api', function () {
     });
 
     describe('check_unsubscribed', function () {
+        it("should unsubscribe to room updates after leaving the room", function (done) {
+            socket.emit('add_song', JSON.stringify({room_number:0, duration:120, artwork_url:"https:test1", stream_url:"https:test1", song_name:'snow', artist:'Red Hot Chili Peppers', username:'test'}));
+            socket.on('add_song', function (data) {
+                console.log("ERROR did not unsubscribe");
+                done();
+            });
+            done();
+        });
+    });
+    
+    describe('toggleLock', function () {
         it("should unsubscribe to room updates after leaving the room", function (done) {
             socket.emit('add_song', JSON.stringify({room_number:0, duration:120, artwork_url:"https:test1", stream_url:"https:test1", song_name:'snow', artist:'Red Hot Chili Peppers', username:'test'}));
             socket.on('add_song', function (data) {
