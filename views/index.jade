@@ -22,9 +22,11 @@ html(ng-app='ecstatic')
 		script(src='assets/js/app.js')
 		script(src='assets/js/plangular.js')
 
+	//THE APP
 	body(ng-controller='mainController as main')
 		.plangular(plangular='https://soundcloud.com/silentdiscosquad/sets/international-startup-fest')
 			
+			//LANDING PAGE
 			#cover.section.dude(ng-hide='bool')
 				img.logo(src='assets/images/lgo-255x255.png')
 				br
@@ -54,7 +56,8 @@ html(ng-app='ecstatic')
 								
 							button#showButton.dudebutton(ng-init='bool=false', ng-click='seekSync(); bool=true;', ng-hide='bool') Tune in
 							button#showButton.dudebutton.dudebutton2(ng-show='bool'): i.fa.fa-circle-o-notch.fa-spin-custom
-
+			
+			//THE PLAYER
 			#player.section
 				.row.fullWidth
 					#playing.small-12.medium-4.large-7.columns
@@ -75,6 +78,7 @@ html(ng-app='ecstatic')
 							
 						br
 
+					//THE PLAYLIST
 					#playlist.medium-6.large-5.columns
 						
 						table

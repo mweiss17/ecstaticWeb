@@ -26,7 +26,7 @@ ecstaticSockets.setupEcstaticSockets(app);
 // Set up templating
 app.set('views', __dirname + '/views');
 app.set('view engine', "jade"); 
-app.set('port', process.env.PORT || 80); 
+app.set('port', process.env.PORT || 3000); 
 app.use(express.static('views'));
 app.use(cors());
 
@@ -36,13 +36,13 @@ app.get('/', function (req, res) {
 });
 app.get('/api/upcomingEvents', function(req, res) {
 	//actual event start time = 1434448800000
-    res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: 1435178964000, playlist:"https://soundcloud.com/silentdiscosquad/sets/international-startup-fest"}); 
+    res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: 1435184721000, playlist:"https://soundcloud.com/silentdiscosquad/sets/international-startup-fest"}); 
 });
 
 
 app.get('/api/sync', function(req, res) {
 	console.log(my_sc_api_url);
-	var returnedjson = calculatePlaylistSync(my_sc_api_url, 1435178964000 /*1434448800000 /*Start time @ June 16th in milli*/, function (returnedjson){
+	var returnedjson = calculatePlaylistSync(my_sc_api_url, 1435184721000 /*1434448800000 /*Start time @ June 16th in milli*/, function (returnedjson){
 		res.json(JSON.stringify(returnedjson)); 
 	});
 });

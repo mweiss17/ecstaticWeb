@@ -5,6 +5,17 @@ File structure:
 ecstatic is the main folder for the app.
 in it, we have bower.son and package.json. not really sure what they do.
 We have gruntfile.js, which is necessary for running tests.
+We have the startup file in /etc/init/ecstatic.conf. I added some comments in there.
+
+Server Networking
+I rerouted port 80 to port 3000 because node does not like to bind to ports under 1024.
+This is done on server startup in /etc/rc.local. For more info on this, check : http://stackoverflow.com/questions/16573668/best-practices-when-running-node-js-with-port-80-ubuntu-linode
+
+How to Run the Server: sudo ecstatic start
+How to Stop the Server: sudo ecstatic stop
+Check the Logs @ : /var/log/ecstatic.sys.log
+Why the server stays up: a tool called "monit"
+The guide: http://howtonode.org/deploying-node-upstart-monit
 
 Writing and Running Tests:
 To run the test suit, use the command “grunt test” when in the ecstatic/test folder.

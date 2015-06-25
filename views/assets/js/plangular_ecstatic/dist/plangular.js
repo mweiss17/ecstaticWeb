@@ -1,3 +1,4 @@
+
 //....................../´¯/) 
 //....................,/¯../ 
 //.................../..../ 
@@ -8,11 +9,9 @@
 //..........''...\.......... _.·´ 
 //............\..............( 
 //..............\.............\...
-//////////////////////////////////
-//////////////////////////////////
-////////ECSTATIC COMMENTS!!!//////
-//////////////////////////////////
-//////////////////////////////////
+
+
+//ECSTATIC COMMENTS!!!///
 
 //Hey future reader!
 //Martin Weiss touched this file. He made it so that you can sync the player! 
@@ -514,7 +513,7 @@ plangular.directive('plangular', ['$timeout', 'plangularConfig', function($timeo
       }
 
       scope.play = function(i) {
-                console.log("      scope.play = function(i) {");
+        console.log("scope.play = function(i)");
         if (typeof i !== 'undefined' && scope.tracks.length) {
           scope.index = i;
           scope.track = scope.tracks[i];
@@ -571,28 +570,14 @@ plangular.directive('plangular', ['$timeout', 'plangularConfig', function($timeo
         var adjust = now - timeOfReturn;
         var currentTime = (elapsed + adjust)/1000;
         player.audio.currentTime = currentTime;
-        
+        player.audio.removeEventListener("canplay", canPlayHandler, true);
+
         //Logging
-
-        //Now - TimeOfReturn = Adjust
-        console.log("  " + now + "  (now)");
-        console.log("- " + timeOfReturn + "  (timeOfReturn)");
-        console.log("_______________");
-        console.log("  "+adjust + "       (adjust)");
-        console.log("");
-        console.log("  " + elapsed + "  (elapsed)");
-        console.log("+ " + adjust + "  (adjust)");
-        console.log("_______________");
-        console.log("  "+currentTime + "       (currentTime/1000)");
-
         console.log("plangular.js, canPlayHandler, now="+now)
         console.log("plangular.js, canPlayHandler, timeOfReturn="+timeOfReturn);
         console.log("plangular.js, canPlayHandler, adjust="+adjust);
         console.log("plangular.js, canPlayHandler, elapsed="+elapsed);
         console.log("plangular.js, canPlayHandler, currentTime="+currentTime+" =(elapsed + adjust)/1000");
-
-        player.audio.removeEventListener("canplay", canPlayHandler, true);
-
       }
       
       player.audio.addEventListener('timeupdate', function() {
