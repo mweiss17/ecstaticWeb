@@ -25,20 +25,21 @@ ecstaticSockets.setupEcstaticSockets(app);
 
 // Set up templating
 app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/squad/views');
 app.set('view engine', "jade"); 
 app.set('port', process.env.PORT || 3000); 
+app.use(express.static('squad/views'));
 app.use(express.static('views'));
 app.use(cors());
 
 //ROUTES
 app.get('/', function (req, res) {
-  	res.render('index');
+  	res.render('squad_index');
 });
 app.get('/api/upcomingEvents', function(req, res) {
 	//actual event start time = 1434448800000
     res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: 1435184721000, playlist:"https://soundcloud.com/silentdiscosquad/sets/international-startup-fest"}); 
 });
-
 
 app.get('/api/sync', function(req, res) {
 	console.log(my_sc_api_url);
@@ -55,6 +56,13 @@ app.get('/flush', function(req, res) {
 
 app.listen(app.get('port'), function(req, res) {
  console.log('Server listening at ' + app.get('port'));
+});
+
+
+//Landing page
+app.get('/api/upcomingEvents', function(req, res) {
+	//actual event start time = 1434448800000
+    res.json({ host_username: "Internet Wizards", title: "International Startup Fest", start_time: 1435184721000, playlist:"https://soundcloud.com/silentdiscosquad/sets/international-startup-fest"}); 
 });
 
 //SERVER STARTUP SHIT

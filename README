@@ -14,6 +14,7 @@ This is done on server startup in /etc/rc.local. For more info on this, check : 
 How to Run the Server: sudo ecstatic start
 How to Stop the Server: sudo ecstatic stop
 Check the Logs @ : /var/log/ecstatic.sys.log
+	The command is "tail -f /var/log/ecstatic.sys.log"
 Why the server stays up: a tool called "monit"
 The guide: http://howtonode.org/deploying-node-upstart-monit
 

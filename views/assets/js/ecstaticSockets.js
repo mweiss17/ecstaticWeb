@@ -11,7 +11,7 @@ async = require('async');
 client = require('redis').createClient();
 publisher = require('redis').createClient();
 proximity = require('geo-proximity').initialize(client);
-
+socket_number = 0;
 
 //make client avilable in index.js
 exports.client = client;
@@ -39,17 +39,25 @@ exports.setupEcstaticSockets = function(app){
 
         //need to create a new subscriber for each socket connection.
         subscriber = require('redis').createClient();
-
+        subscriber.on("unsubscribe", function(channel, count){
+            console.log("unsubscribed from channel="+channel+", count="+count);
+        });
+        subscriber.on("subscribe", function(channel, count){
+            console.log("subscribed to channel="+channel+", count="+count);
+        });
+        
         subscriber.on("message", function(channel, message){
-            console.log("message, publish message to channel="+channel+", message="+message);
+            console.log("channel="+channel+", message="+message);
             var parsed_message = JSON.parse(message);
             switch(parsed_message.msg_type) {
                 case 'join':
-                    console.log("join room hit");
                     socket.emit("join", parsed_message.msg);
                     break;
                 case 'leave_room':
                     socket.emit("leave_room", parsed_message.msg);
+                    break;
+                case 'new_owner':
+                    socket.emit("new_owner", {"msg_type":"new_owner", "msg":parsed_message.msg});
                     break;
                 case 'add_song':
                     console.log("add_song, channel="+channel);
@@ -86,7 +94,8 @@ exports.setupEcstaticSockets = function(app){
                     socket.emit("realtime_player", {"msg_type":"unlock", "username":parsed_message.username});
                     break;
                 default:
-                    console.log("problem in subscriber switch");
+                    console.log("parsed_message.msg_type="+parsed_message.msg_type);
+                    console.log("problem in subscriber switch, parsed_message="+parsed_message);
             }
         });
 
@@ -119,18 +128,19 @@ exports.setupEcstaticSockets = function(app){
                     console.log("join room, room_info = "+room_info);
                     console.log("join room, is_event = "+params.is_event);
                     //if the room doesn't exist, then create it
-                     if(room_info == null){
-                        console.log("join_room, create event room => calling create_room on params.room_number="+params.room_number+", media_item="+params.media_item);
-                        create_room(data, params.room_number, socket, params.is_event, params.media_item);
-                     }
+                    if(room_info == null){
+                       console.log("join_room, create event room => calling create_room on params.room_number="+params.room_number+", media_item="+params.media_item);
+                       create_room(data, params.room_number, socket, params.is_event, params.media_item);
+                    }
 
-                     //else join the room: tell people you joined the room, add yourself to the list of users, and subscribe to updates.
-                     else{
-                        console.log("join_room, room_number="+params.room_number);
-                        client.lpush('list_of_users:'+params.room_number, params.username);
-                        publisher.publish(params.room_number, JSON.stringify({"msg":params.username, "msg_type":"join"}));
-                        subscriber.subscribe(params.room_number);
-                     }
+                    //else join the room: tell people you joined the room, add yourself to the list of users, and subscribe to updates.
+                    else{
+                       console.log("join_room, room_number="+params.room_number);
+                       client.lpush('list_of_users:'+params.room_number, params.username);
+                       publisher.publish(params.room_number, JSON.stringify({"msg":params.username, "msg_type":"join"}));
+                       subscriber.subscribe(params.room_number);
+                    }
+                    client.set(":1:" + params.username+":room", params.room_number); 
                 });
             });
         });
@@ -144,38 +154,46 @@ exports.setupEcstaticSockets = function(app){
             console.log("leave_room, params.is_owner="+params.is_owner);
             console.log("leave_room, room_number="+params.room_number);
 
-            if(params.is_owner == "false"){
-                console.log("params.is_owner == false");
-            }
+            //remove yourself from the list_of_users, get the count of users
+            client.lrem('list_of_users:' + params.room_number, 1, params.username);
+            client.llen('list_of_users:' + params.room_number, function (err, user_count) {
+                console.log("leave_room, params.username="+params.username+", room_number_set_to="+0);
+                client.set(":1:" + params.username+":room", 0); 
 
-            client.lrem('list_of_users:'+params.room_number, 1, params.username);
-
-            client.llen('list_of_users:' + params.room_number, function (err, count) {
-                //if you're the host of the room, and there's no one left in the room, and you leave
-                if(count == 0 && params.is_owner == "true") {
+                //if you're the host of the room, and there's no one left in the room
+                if(user_count == 0 && params.is_owner == "true") {
                     //destroy the room
-                    console.log("count == 0 && params.is_owner");
-                    client.del(':1:room:'+params.room_number);    
-                    client.del('player:'+params.room_number);
+                    console.log("leave room, destroy room");
+                    client.del(':1:room:' + params.room_number);    
+                    client.del('player:' + params.room_number);
+                    subscriber.unsubscribe(params.room_number);
                 }
-
                 //if you're the host of the room, and there's someone left
-                else if(count != 0 && params.is_owner == "true") {
-                    //pick someone from the list to become host
-                    console.log("count != 0 && params.is_owner");
+                else if(user_count != 0 && params.is_owner == "true") {
+                    console.log("leave room, transfer ownership");
+                    client.lindex('list_of_users:' + params.room_number, 0, function (err, first_user){
+                        console.log("leave_room, new_owner="+first_user);
+                        client.get(':1:room:' + params.room_number, function (err, room_info_obj){
+                            room_info_obj = JSON.parse(room_info_obj);
+                            room_info_obj.host_username = first_user;
+                            room_info_obj.room_name = first_user;
+                            client.set(':1:room:'+params.room_number, JSON.stringify(room_info_obj));
+                        });
+                        publisher.publish(params.room_number, JSON.stringify({"msg_type":"new_owner", "msg":first_user}));
+                        
+                        //Need to do this AFTER assigning a new owner
+                        publisher.publish(params.room_number, JSON.stringify({"msg_type":"leave_room", "msg":params.username}));
+                        console.log("leave_room, room_number="+params.room_number);
+                        subscriber.unsubscribe(params.room_number);
+                    });
                 }
-
                 //if there are people in the room, and you're not the owner
                 else{
-
+                    console.log("leave room, leave room");
+                    publisher.publish(params.room_number, JSON.stringify({"msg_type":"leave_room", "msg":params.username}));
+                    subscriber.unsubscribe(params.room_number);
                 }
             });
-            publisher.publish(params.room_number, JSON.stringify({"msg":params.username, "msg_type":"leave_room"}));
-            subscriber.unsubscribe(params.room_number);
-        });
-
-        socket.on('subscribe_to_ecstatic', function (data) {
-            subscriber.subscribe('ecstatic');
         });
 
         socket.on('get_user_list', function (data) {
@@ -183,6 +201,11 @@ exports.setupEcstaticSockets = function(app){
             client.lrange('list_of_users:'+params.room_number, 0, -1, function(err, users){
                 socket.emit("return_get_user_list", users);
             });
+        });
+
+        socket.on('subscribe_to_ecstatic', function (data) {
+            console.log("subscribe_to_ecstatic");
+            subscriber.subscribe('ecstatic');
         });
 
         socket.on('post_location', function (data) {
@@ -223,7 +246,19 @@ exports.setupEcstaticSockets = function(app){
                                         active_rooms.push(result[x]);
                                     }
                                 }
-
+                                //remove duplicate rooms
+                                for(var y = 0; y < active_rooms.length; y++){
+                                    for(var z = 0; z < active_rooms.length; z++){
+                                        //don't remove a room if it is the same as itself
+                                        if(y==z){
+                                            continue;
+                                        }
+                                        //if the two rooms are the same, remove one
+                                        if(active_rooms[y] == active_rooms[z]){
+                                            active_rooms.splice(y, 1);
+                                        }
+                                    }
+                                }
 
                             //The clean array without a bunch of zeroes representing people not in rooms
                             console.log("get_rooms_around_me, active_rooms="+active_rooms);
@@ -258,6 +293,7 @@ exports.setupEcstaticSockets = function(app){
         //PLAYLIST
         socket.on('add_song', function (data) {
             var params = JSON.parse(data);
+            console.log("add_song, params.room_number="+params.room_number);
             publisher.publish(params.room_number, JSON.stringify({"msg":{"song":params}, "msg_type":"add_song"}));
             client.rpush(':1:room:'+params.room_number+':playlist', data);
         });
@@ -365,6 +401,7 @@ function create_room(data_obj, room_number, socket, is_event, media_item){
 
     //can get room_number for user
     client.set(":1:"+params.username+":room", room_number); 
+    
     //add yourself to the user list
     client.lpush('list_of_users:'+room_number, params.username, function(err) {});
 
