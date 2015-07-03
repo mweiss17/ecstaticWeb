@@ -37,15 +37,10 @@ exports.setupEcstaticSockets = function(app){
     // Handle new messages
     io.sockets.on('connection', function (socket) {
 
+
         //need to create a new subscriber for each socket connection.
-        subscriber = require('redis').createClient();
-        subscriber.on("unsubscribe", function(channel, count){
-            console.log("unsubscribed from channel="+channel+", count="+count);
-        });
-        subscriber.on("subscribe", function(channel, count){
-            console.log("subscribed to channel="+channel+", count="+count);
-        });
-        
+        //subscriber = require('redis').createClient();
+/*
         subscriber.on("message", function(channel, message){
             console.log("channel="+channel+", message="+message);
             var parsed_message = JSON.parse(message);
@@ -98,7 +93,7 @@ exports.setupEcstaticSockets = function(app){
                     console.log("problem in subscriber switch, parsed_message="+parsed_message);
             }
         });
-
+*/
         //creates a new room
         socket.on('create_room', function (data) {
             client.get('room_counter', function(err, room_counter) {
@@ -135,10 +130,12 @@ exports.setupEcstaticSockets = function(app){
 
                     //else join the room: tell people you joined the room, add yourself to the list of users, and subscribe to updates.
                     else{
-                       console.log("join_room, room_number="+params.room_number);
-                       client.lpush('list_of_users:'+params.room_number, params.username);
-                       publisher.publish(params.room_number, JSON.stringify({"msg":params.username, "msg_type":"join"}));
-                       subscriber.subscribe(params.room_number);
+                        console.log("join_room, room_number="+params.room_number);
+                        client.lpush('list_of_users:'+params.room_number, params.username);
+                        //subscriber.subscribe(params.room_number);
+                        socket.join(params.room_number);
+                        //publisher.publish(params.room_number, JSON.stringify({"msg":params.username, "msg_type":"join"}));
+                        socket.broadcast.to(params.room_number).emit("join", params.username);
                     }
                     client.set(":1:" + params.username+":room", params.room_number); 
                 });
@@ -166,7 +163,8 @@ exports.setupEcstaticSockets = function(app){
                     console.log("leave room, destroy room");
                     client.del(':1:room:' + params.room_number);    
                     client.del('player:' + params.room_number);
-                    subscriber.unsubscribe(params.room_number);
+                    //subscriber.unsubscribe(params.room_number);
+                    socket.leave(params.room_number);
                 }
                 //if you're the host of the room, and there's someone left
                 else if(user_count != 0 && params.is_owner == "true") {
@@ -179,19 +177,25 @@ exports.setupEcstaticSockets = function(app){
                             room_info_obj.room_name = first_user;
                             client.set(':1:room:'+params.room_number, JSON.stringify(room_info_obj));
                         });
-                        publisher.publish(params.room_number, JSON.stringify({"msg_type":"new_owner", "msg":first_user}));
+                        //publisher.publish(params.room_number, JSON.stringify({"msg_type":"new_owner", "msg":first_user}));
+                        socket.broadcast.to(params.room_number).emit("new_owner", {"msg":first_user});
                         
                         //Need to do this AFTER assigning a new owner
-                        publisher.publish(params.room_number, JSON.stringify({"msg_type":"leave_room", "msg":params.username}));
+                        //publisher.publish(params.room_number, JSON.stringify({"msg_type":"leave_room", "msg":params.username}));
+                        socket.broadcast.to(params.room_number).emit("leave_room", params.username);
+
                         console.log("leave_room, room_number="+params.room_number);
-                        subscriber.unsubscribe(params.room_number);
+                        //subscriber.unsubscribe(params.room_number);
+                        socket.leave(params.room_number);
                     });
                 }
                 //if there are people in the room, and you're not the owner
                 else{
                     console.log("leave room, leave room");
-                    publisher.publish(params.room_number, JSON.stringify({"msg_type":"leave_room", "msg":params.username}));
-                    subscriber.unsubscribe(params.room_number);
+                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"leave_room", "msg":params.username}));
+                    socket.broadcast.to(params.room_number).emit("leave_room", params.username);
+                    //subscriber.unsubscribe(params.room_number);
+                    socket.leave(params.room_number);
                 }
             });
         });
@@ -201,11 +205,6 @@ exports.setupEcstaticSockets = function(app){
             client.lrange('list_of_users:'+params.room_number, 0, -1, function(err, users){
                 socket.emit("return_get_user_list", users);
             });
-        });
-
-        socket.on('subscribe_to_ecstatic', function (data) {
-            console.log("subscribe_to_ecstatic");
-            subscriber.subscribe('ecstatic');
         });
 
         socket.on('post_location', function (data) {
@@ -277,7 +276,9 @@ exports.setupEcstaticSockets = function(app){
             var params = JSON.parse(data);
             console.log("send_text");
             console.log("room_number="+params.room_number);
-            publisher.publish(params.room_number, JSON.stringify({"msg":params, "msg_type":"send_text"}));
+            //TESTED
+            //publisher.publish(params.room_number, JSON.stringify({"msg":params, "msg_type":"send_text"}));
+            socket.broadcast.to(params.room_number).emit("send_text", params);
             client.lpush(':1:room:'+params.room_number+':chat', data);
         });
 
@@ -294,13 +295,17 @@ exports.setupEcstaticSockets = function(app){
         socket.on('add_song', function (data) {
             var params = JSON.parse(data);
             console.log("add_song, params.room_number="+params.room_number);
-            publisher.publish(params.room_number, JSON.stringify({"msg":{"song":params}, "msg_type":"add_song"}));
+            //TESTED
+            //publisher.publish(params.room_number, JSON.stringify({"msg":{"song":params}, "msg_type":"add_song"}));
+            socket.broadcast.to(params.room_number).emit("add_song", params);
             client.rpush(':1:room:'+params.room_number+':playlist', data);
         });
 
         socket.on('remove_song', function (data) {
             var params = JSON.parse(data);
-            publisher.publish(params.room_number, JSON.stringify({"msg":params, "msg_type":"remove_song"}));
+            //TESTED
+            //publisher.publish(params.room_number, JSON.stringify({"msg":params, "msg_type":"remove_song"}));
+            socket.broadcast.to(params.room_number).emit("remove_song", params);
             client.lrem(':1:room:'+params.room_number+':playlist', 1, data);
         });
 
@@ -312,7 +317,9 @@ exports.setupEcstaticSockets = function(app){
             client.lindex(':1:room:'+params.room_number+':playlist', params.new_index, function(err, song_before){
                 client.lrem(':1:room:'+params.room_number+':playlist', 1, params.to_insert);
                 client.linsert(':1:room:'+params.room_number+':playlist', "BEFORE", song_before, params.to_insert, function(err, val) {});
-                publisher.publish(params.room_number, JSON.stringify({"msg":params, "msg_type":"move_song"}));
+                
+                //publisher.publish(params.room_number, JSON.stringify({"msg":params, "msg_type":"move_song"}));
+                socket.broadcast.to(params.room_number).emit("move_song", params);
             });
         });
 
@@ -351,25 +358,31 @@ exports.setupEcstaticSockets = function(app){
             switch(params.msg_type) {
                 case "play":
                     console.log("played");
-                    publisher.publish(params.room_number, JSON.stringify({"msg_type":"play", "username":params.username}));
+                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"play", "username":params.username}));
+                    socket.broadcast.to(params.room_number).emit("realtime_player", {"msg_type":"play"});
                     break;
                 case "pause":
                     console.log("paused");
-                    publisher.publish(params.room_number, JSON.stringify({"msg_type":"pause", "username":params.username}));
+                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"pause", "username":params.username}));
+                    socket.broadcast.to(params.room_number).emit("realtime_player", {"msg_type":"pause"});
                     break;
                 case "skip":
                     console.log("skipped");
-                    publisher.publish(params.room_number, JSON.stringify({"msg_type":"skip", "username":params.username}));
+                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"skip", "username":params.username}));
+                    socket.broadcast.to(params.room_number).emit("realtime_player", {"msg_type":"skip"});                    
                     break;
                 case "back":
                     console.log("back");
-                    publisher.publish(params.room_number, JSON.stringify({"msg_type":"back", "username":params.username}));
+                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"back", "username":params.username}));
+                    socket.broadcast.to(params.room_number).emit("realtime_player", {"msg_type":"back"});
                     break;
                 case "lock":
-                    publisher.publish(params.room_number, JSON.stringify({"msg_type":"lock", "username":params.username}));
+                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"lock", "username":params.username}));
+                    socket.broadcast.to(params.room_number).emit("realtime_player", {"msg_type":"lock"});
                     break;
                 case "unlock":
-                    publisher.publish(params.room_number, JSON.stringify({"msg_type":"unlock", "username":params.username}));
+                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"unlock", "username":params.username}));
+                    socket.broadcast.to(params.room_number).emit("realtime_player", {"msg_type":"unlock"});
                     break;
                 default:
                     console.log("something bad happened to player");
@@ -405,19 +418,18 @@ function create_room(data_obj, room_number, socket, is_event, media_item){
     //add yourself to the user list
     client.lpush('list_of_users:'+room_number, params.username, function(err) {});
 
-    //subscribe to the room
-    subscriber.subscribe(room_number);
+    //join the room
+    socket.join(room_number);
 
-    //notify client and other users of the new room 
+    //notify client of the new room 
     socket.emit('return_create_room', {"room_info":room_info_obj});
-    publisher.publish("ecstatic", JSON.stringify({"msg":room_info_obj, "msg_type":"create_room"}));
     console.log("create_room, is_event="+is_event);
     
     //initialize the player_state
     if(is_event){
         console.log("create_room, is_event="+is_event);
         client.rpush(':1:room:'+params.room_number+':playlist', media_item);
-        publisher.publish(params.room_number, JSON.stringify({"msg":{"song":media_item}, "msg_type":"add_song"}));
+        socket.broadcast.to(params.room_number).emit("add_song", media_item);
         var player_state = {'is_playing': 0, 'is_locked': 1, 'playing_song_index':0, 'elapsed': 0, 'timestamp': new Date().getTime()};
     }
     else{
