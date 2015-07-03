@@ -1,7 +1,7 @@
 var exports = module.exports = {};
 
 // Declare variables used
-var client, express, io, port, rtg, room_counter,request, async, proximity, publisher, subscriber, util, mongoose, socket;
+var client, express, io, port, rtg, room_counter,request, async, proximity, util, mongoose, socket;
 
 // Define values
 util = require('util');
@@ -9,7 +9,6 @@ request = require('request');
 port = process.env.PORT || 8080;
 async = require('async');
 client = require('redis').createClient();
-publisher = require('redis').createClient();
 proximity = require('geo-proximity').initialize(client);
 socket_number = 0;
 
@@ -38,62 +37,6 @@ exports.setupEcstaticSockets = function(app){
     io.sockets.on('connection', function (socket) {
 
 
-        //need to create a new subscriber for each socket connection.
-        //subscriber = require('redis').createClient();
-/*
-        subscriber.on("message", function(channel, message){
-            console.log("channel="+channel+", message="+message);
-            var parsed_message = JSON.parse(message);
-            switch(parsed_message.msg_type) {
-                case 'join':
-                    socket.emit("join", parsed_message.msg);
-                    break;
-                case 'leave_room':
-                    socket.emit("leave_room", parsed_message.msg);
-                    break;
-                case 'new_owner':
-                    socket.emit("new_owner", {"msg_type":"new_owner", "msg":parsed_message.msg});
-                    break;
-                case 'add_song':
-                    console.log("add_song, channel="+channel);
-                    socket.emit("add_song", parsed_message.msg.song);
-                    break;
-                case 'remove_song':
-                    socket.emit("remove_song", parsed_message.msg);
-                    break;
-                case 'move_song':
-                    socket.emit("move_song", parsed_message.msg);
-                    break;
-                case 'create_room':
-                    socket.emit("create_room", parsed_message.msg);
-                    break;
-                case 'send_text':
-                    socket.emit("send_text", parsed_message.msg);
-                    break;
-                case 'play':
-                    socket.emit("realtime_player", {"msg_type":"play", "username":parsed_message.username});
-                    break;
-                case 'pause':
-                    socket.emit("realtime_player", {"msg_type":"pause", "username":parsed_message.username});
-                    break;
-                case 'skip':
-                    socket.emit("realtime_player", {"msg_type":"skip", "username":parsed_message.username});
-                    break;
-                case 'back':
-                    socket.emit("realtime_player", {"msg_type":"back", "username":parsed_message.username});
-                    break;
-                case 'lock':
-                    socket.emit("realtime_player", {"msg_type":"lock", "username":parsed_message.username});
-                    break;
-                case 'lock':
-                    socket.emit("realtime_player", {"msg_type":"unlock", "username":parsed_message.username});
-                    break;
-                default:
-                    console.log("parsed_message.msg_type="+parsed_message.msg_type);
-                    console.log("problem in subscriber switch, parsed_message="+parsed_message);
-            }
-        });
-*/
         //creates a new room
         socket.on('create_room', function (data) {
             client.get('room_counter', function(err, room_counter) {
@@ -132,9 +75,7 @@ exports.setupEcstaticSockets = function(app){
                     else{
                         console.log("join_room, room_number="+params.room_number);
                         client.lpush('list_of_users:'+params.room_number, params.username);
-                        //subscriber.subscribe(params.room_number);
                         socket.join(params.room_number);
-                        //publisher.publish(params.room_number, JSON.stringify({"msg":params.username, "msg_type":"join"}));
                         socket.broadcast.to(params.room_number).emit("join", params.username);
                     }
                     client.set(":1:" + params.username+":room", params.room_number); 
@@ -163,7 +104,6 @@ exports.setupEcstaticSockets = function(app){
                     console.log("leave room, destroy room");
                     client.del(':1:room:' + params.room_number);    
                     client.del('player:' + params.room_number);
-                    //subscriber.unsubscribe(params.room_number);
                     socket.leave(params.room_number);
                 }
                 //if you're the host of the room, and there's someone left
@@ -177,24 +117,19 @@ exports.setupEcstaticSockets = function(app){
                             room_info_obj.room_name = first_user;
                             client.set(':1:room:'+params.room_number, JSON.stringify(room_info_obj));
                         });
-                        //publisher.publish(params.room_number, JSON.stringify({"msg_type":"new_owner", "msg":first_user}));
                         socket.broadcast.to(params.room_number).emit("new_owner", {"msg":first_user});
                         
                         //Need to do this AFTER assigning a new owner
-                        //publisher.publish(params.room_number, JSON.stringify({"msg_type":"leave_room", "msg":params.username}));
                         socket.broadcast.to(params.room_number).emit("leave_room", params.username);
 
                         console.log("leave_room, room_number="+params.room_number);
-                        //subscriber.unsubscribe(params.room_number);
                         socket.leave(params.room_number);
                     });
                 }
                 //if there are people in the room, and you're not the owner
                 else{
                     console.log("leave room, leave room");
-                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"leave_room", "msg":params.username}));
                     socket.broadcast.to(params.room_number).emit("leave_room", params.username);
-                    //subscriber.unsubscribe(params.room_number);
                     socket.leave(params.room_number);
                 }
             });
@@ -276,8 +211,6 @@ exports.setupEcstaticSockets = function(app){
             var params = JSON.parse(data);
             console.log("send_text");
             console.log("room_number="+params.room_number);
-            //TESTED
-            //publisher.publish(params.room_number, JSON.stringify({"msg":params, "msg_type":"send_text"}));
             socket.broadcast.to(params.room_number).emit("send_text", params);
             client.lpush(':1:room:'+params.room_number+':chat', data);
         });
@@ -295,16 +228,12 @@ exports.setupEcstaticSockets = function(app){
         socket.on('add_song', function (data) {
             var params = JSON.parse(data);
             console.log("add_song, params.room_number="+params.room_number);
-            //TESTED
-            //publisher.publish(params.room_number, JSON.stringify({"msg":{"song":params}, "msg_type":"add_song"}));
             socket.broadcast.to(params.room_number).emit("add_song", params);
             client.rpush(':1:room:'+params.room_number+':playlist', data);
         });
 
         socket.on('remove_song', function (data) {
             var params = JSON.parse(data);
-            //TESTED
-            //publisher.publish(params.room_number, JSON.stringify({"msg":params, "msg_type":"remove_song"}));
             socket.broadcast.to(params.room_number).emit("remove_song", params);
             client.lrem(':1:room:'+params.room_number+':playlist', 1, data);
         });
@@ -317,8 +246,6 @@ exports.setupEcstaticSockets = function(app){
             client.lindex(':1:room:'+params.room_number+':playlist', params.new_index, function(err, song_before){
                 client.lrem(':1:room:'+params.room_number+':playlist', 1, params.to_insert);
                 client.linsert(':1:room:'+params.room_number+':playlist', "BEFORE", song_before, params.to_insert, function(err, val) {});
-                
-                //publisher.publish(params.room_number, JSON.stringify({"msg":params, "msg_type":"move_song"}));
                 socket.broadcast.to(params.room_number).emit("move_song", params);
             });
         });
@@ -358,30 +285,24 @@ exports.setupEcstaticSockets = function(app){
             switch(params.msg_type) {
                 case "play":
                     console.log("played");
-                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"play", "username":params.username}));
                     socket.broadcast.to(params.room_number).emit("realtime_player", {"msg_type":"play"});
                     break;
                 case "pause":
                     console.log("paused");
-                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"pause", "username":params.username}));
                     socket.broadcast.to(params.room_number).emit("realtime_player", {"msg_type":"pause"});
                     break;
                 case "skip":
                     console.log("skipped");
-                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"skip", "username":params.username}));
                     socket.broadcast.to(params.room_number).emit("realtime_player", {"msg_type":"skip"});                    
                     break;
                 case "back":
                     console.log("back");
-                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"back", "username":params.username}));
                     socket.broadcast.to(params.room_number).emit("realtime_player", {"msg_type":"back"});
                     break;
                 case "lock":
-                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"lock", "username":params.username}));
                     socket.broadcast.to(params.room_number).emit("realtime_player", {"msg_type":"lock"});
                     break;
                 case "unlock":
-                    //publisher.publish(params.room_number, JSON.stringify({"msg_type":"unlock", "username":params.username}));
                     socket.broadcast.to(params.room_number).emit("realtime_player", {"msg_type":"unlock"});
                     break;
                 default:
