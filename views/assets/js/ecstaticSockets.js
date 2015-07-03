@@ -72,7 +72,7 @@ exports.setupEcstaticSockets = function(app){
                     console.log("join room, is_event = " + params.is_event);
                     //if the room doesn't exist, then create it
                     if(room_info == null){
-                       console.log("join_room, create event room => calling create_room on params.room_number="+params.room_number+", media_item="+params.media_item);
+                       console.log("join_room, create event room => calling create_room on params.room_number=" + params.room_number + ", media_item=" + params.media_item);
                        create_room(data, params.room_number, socket, params.is_event, params.media_item);
                     }
 
@@ -299,7 +299,7 @@ function leave_room(data, socket) {
                     room_info_obj = JSON.parse(room_info_obj);
                     room_info_obj.host_username = first_user;
                     room_info_obj.room_name = first_user;
-                    client.set(':1:room:'+params.room_number, JSON.stringify(room_info_obj));
+                    client.set(':1:room:' + params.room_number, JSON.stringify(room_info_obj));
                 });
                 socket.broadcast.to(params.room_number).emit("new_owner", {"msg":first_user});
                 
@@ -361,7 +361,7 @@ function create_room(data_obj, room_number, socket, is_event, media_item){
     //initialize the player_state
     if(is_event){
         console.log("create_room, is_event=" + is_event);
-        client.rpush(':1:room:'+params.room_number + ':playlist', media_item);
+        client.rpush(':1:room:' + params.room_number + ':playlist', media_item);
         socket.broadcast.to(params.room_number).emit("add_song", media_item);
         var player_state = {'is_playing': 0, 'is_locked': 1, 'playing_song_index':0, 'elapsed': 0, 'timestamp': new Date().getTime()};
     }
@@ -372,9 +372,9 @@ function create_room(data_obj, room_number, socket, is_event, media_item){
 }
 
 function get_room_for_user(username, callback){
-    client.get(":1:"+username+":room", function(err, room_number) {
-        console.log("get_room_for_user, room_number="+room_number);
-        console.log("get_room_for_user, username="+username);
+    client.get(":1:" + username + ":room", function(err, room_number) {
+        console.log("get_room_for_user, room_number=" + room_number);
+        console.log("get_room_for_user, username=" + username);
         if(room_number == null){
             console.log("get_room_for_user, PATH room_number=null");
             callback(null, 0);
@@ -397,9 +397,9 @@ function get_room_info(room_number, callback){
             return;
         }
 
-        client.lrange('list_of_users:'+room_number, 0, -1, function(err, users){
+        client.lrange('list_of_users:' + room_number, 0, -1, function(err, users){
             proximity.location(room_info_obj.host_username, function(err, host_location){
-                console.log("get_room_info, host_location="+JSON.stringify(host_location));
+                console.log("get_room_info, host_location=" + JSON.stringify(host_location));
                 callback(null, {"room_info":room_info_obj, "users":users,"host_location":host_location});
             });
         });
