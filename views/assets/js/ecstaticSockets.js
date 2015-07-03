@@ -38,7 +38,17 @@ exports.setupEcstaticSockets = function(app){
 
         socket.on('disconnect', function (data) {
             console.log('disconnected');
-            leave_room(data, socket)
+            client.get(socket.id, function (err, user_data){
+                console.log("disconnect, user_data=" + user_data);
+                if(user_data!=null){
+                    leave_room(user_data, socket);
+                }
+            });
+        });
+
+        socket.on('connect', function (data) {
+            console.log('connect, data='+data);
+            client.set(socket.id, data);
         });
 
 
@@ -66,10 +76,15 @@ exports.setupEcstaticSockets = function(app){
         socket.on('join_room', function (data) {
             console.log("Join_room");
             var params = JSON.parse(data);
+
+
             client.get(':1:room:' + params.room_number, function (err, room_info){
                 client.lrange('list_of_users:' + params.room_number, 0, -1, function(err, users){
+
+                    //LOGGING
                     console.log("join room, room_info = " + room_info);
                     console.log("join room, is_event = " + params.is_event);
+
                     //if the room doesn't exist, then create it
                     if(room_info == null){
                        console.log("join_room, create event room => calling create_room on params.room_number=" + params.room_number + ", media_item=" + params.media_item);
@@ -78,6 +93,7 @@ exports.setupEcstaticSockets = function(app){
 
                     //else join the room: tell people you joined the room, add yourself to the list of users, and subscribe to updates.
                     else{
+                        client.set(socket.id, JSON.stringify({"room_number":params.room_number, "username":params.username, "is_owner":false}));
                         console.log("join_room, room_number=" + params.room_number);
                         client.lpush('list_of_users:' + params.room_number, params.username);
                         socket.join(params.room_number);
@@ -283,7 +299,7 @@ function leave_room(data, socket) {
         client.set(":1:" + params.username + ":room", 0); 
 
         //if you're the host of the room, and there's no one left in the room
-        if(user_count == 0 && params.is_owner == "true") {
+        if(user_count == 0) {
             //destroy the room
             console.log("leave room, destroy room");
             client.del(':1:room:' + params.room_number);    
@@ -329,9 +345,23 @@ function update_player_state(params, client){
 
 function create_room(data_obj, room_number, socket, is_event, media_item){
     var params = JSON.parse(data_obj);
+    console.log("create_room, socket.id="+socket.id);
+    //determine if we are the host
+    client.get(socket.id, function (err, data) {
+        console.log("create_room, data = "+data);
+        var parsed_data = JSON.parse(data);
+        parsed_data.is_owner=false;
+        parsed_data.room_number = room_number;
 
-    //save user info to the socket
-    client.set(socket.id, {"room_number":room_number, "username":params.username, "is_owner":true});
+        //We store the actual username for the client upon login. We grab it based off the socket.id.
+        //Then we check it against the passed username, which if it's an event, is spoofed (it is the event host's username)
+        if(parsed_data.username == params.username){
+            parsed_data.is_owner=true;
+        }
+        
+        //set socket info to be used on disconnect
+        client.set(socket.id, JSON.stringify(parsed_data));
+    });
 
     //create the room info JSON
     var room_info_obj = {"host_username": params.username, "room_name": params.room_name, "room_number": room_number};
@@ -361,7 +391,10 @@ function create_room(data_obj, room_number, socket, is_event, media_item){
     //initialize the player_state
     if(is_event){
         console.log("create_room, is_event=" + is_event);
-        client.rpush(':1:room:' + params.room_number + ':playlist', media_item);
+        //if there is a song posted for this event, snag it from the client who is joining
+        if(media_item){
+            client.rpush(':1:room:' + params.room_number + ':playlist', media_item);
+        }
         socket.broadcast.to(params.room_number).emit("add_song", media_item);
         var player_state = {'is_playing': 0, 'is_locked': 1, 'playing_song_index':0, 'elapsed': 0, 'timestamp': new Date().getTime()};
     }
