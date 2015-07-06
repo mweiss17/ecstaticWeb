@@ -11,8 +11,8 @@ Server Networking
 I rerouted port 80 to port 3000 because node does not like to bind to ports under 1024.
 This is done on server startup in /etc/rc.local. For more info on this, check : http://stackoverflow.com/questions/16573668/best-practices-when-running-node-js-with-port-80-ubuntu-linode
 
-How to Run the Server: sudo ecstatic start
-How to Stop the Server: sudo ecstatic stop
+How to Run the Server: sudo start ecstatic
+How to Stop the Server: sudo stop ecstatic
 Check the Logs @ : /var/log/ecstatic.sys.log
 	The command is "tail -f /var/log/ecstatic.sys.log"
 Why the server stays up: a tool called "monit"
