@@ -17,6 +17,7 @@ Check the Logs @ : /var/log/ecstatic.sys.log
 	The command is "tail -f /var/log/ecstatic.sys.log"
 Why the server stays up: a tool called "monit"
 The guide: http://howtonode.org/deploying-node-upstart-monit
+How the proxy works:https://github.com/nodejitsu/node-http-proxy/tree/60ff181af9c22405d3822ce5955f178ab13de79d
 
 Writing and Running Tests:
 To run the test suit, use the command “grunt test” when in the ecstatic/test folder.
